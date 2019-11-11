@@ -1,0 +1,21 @@
+.DS_Store
+node_modules/
+*.icloud
+npm-debug.log
+.vscode/
+.idea/
+config/local.json
+var
+build/config.json
+core/build/config.json
+core/build/cache-version.json
+theme.js
+desktop.ini
+yarn-error.log
+package-lock.json
+cypress/videos
+cypress/screenshots
+*.iml
+
+#unit testing
+/test/unit/coverage

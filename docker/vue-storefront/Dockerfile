@@ -11,33 +11,6 @@ RUN apk add --no-cache --virtual .build-deps ca-certificates wget git \
   && yarn install --no-cache \
   && apk del .build-deps
 
-COPY shims.d.ts ./
-COPY tsconfig-build.json ./
-COPY tsconfig.json ./
-COPY lerna.json ./
-COPY cypress.json ./
-COPY .postcssrc ./
-COPY .env ./
-COPY .travis.yml ./
-COPY .eslintrc.js ./
-COPY .eslintignore ./
-COPY ecosystem.json ./
-COPY babel.config.js ./
+COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
 
-COPY ./config ./config
-COPY ./core ./core
-COPY ./src ./src
-COPY ./test ./test
-COPY ./packages ./packages
-COPY ./docker ./docker
-COPY ./kubernetes ./kubernetes
-
-EXPOSE 3000
-
-#RUN ["yarn", "build"]
-
-CMD ["yarn", "start-build"]
-
-#COPY docker/vue-storefront/vue-storefront.sh /usr/local/bin/
-#
-#CMD ["vue-storefront.sh"]
+CMD ["vue-storefront.sh"]

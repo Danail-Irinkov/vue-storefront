@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[148],{655:function(e){e.exports={mainBanners:[{title:"Office casual",subtitle:"Collection",image:"/assets/ban1.jpg",link:"/c/women-20"}],smallBanners:[{title:"Shine on",subtitle:"Accesories",image:"/assets/ban2.jpg",link:"/c/men-11"},{title:"Spring is coming",subtitle:"Hats",image:"/assets/ban3.jpg",link:"/c/gear-3"}],productBanners:[{title:"Spring is coming",subtitle:"Hats",image:"/assets/ban3.jpg",link:"/c/gear-3"}]}}}]);
+//# sourceMappingURL=vsf-head-img-promoted_offers-json.aa72533ad9019c533dd0.js.map
