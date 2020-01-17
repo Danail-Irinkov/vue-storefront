@@ -348,7 +348,6 @@ export default {
         .then((result) => {
           if (result.data.message_type === 'success') {
             this.procc_order_id = result.data.order_ids
-            this.ProCCOrderPayment()
           }
         }).catch(err => {
           Logger.error(err, 'Transaction was not Done!!')
@@ -358,6 +357,7 @@ export default {
             action1: { label: this.$t('OK') }
           })
         })
+      this.ProCCOrderPayment()
     },
     // Created function by shabbir for make payment
     ProCCOrderPayment () {
@@ -390,6 +390,7 @@ export default {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
           let newWin = window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
           if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+            this.$bus.$emit('notification-progress-stop');
             this.$store.dispatch('notification/spawnNotification', {
               type: 'error',
               message: this.$t('Please allow to open popup window'),
@@ -402,6 +403,7 @@ export default {
             message: this.$t('Something goes Wrong :(  Server could not respond'),
             action1: { label: this.$t('OK') }
           })
+          this.$bus.$emit('notification-progress-stop');
         }
       })
     },
