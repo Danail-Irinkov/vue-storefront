@@ -1,14 +1,20 @@
-import axios from 'axios'
-import jwt from 'jsonwebtoken'
-// import jwtPrivateKey from '../../config/jwt.jst'
-import config from 'config';
-import { isServer } from '@vue-storefront/core/helpers'
+// import axios from 'axios'
+// import jwt from 'jsonwebtoken'
+// // import jwtPrivateKey from '../../config/jwt.jst'
+// import config from 'config';
+// import { isServer } from '@vue-storefront/core/helpers'
+const axios = require('axios')
+const jwt = require('jsonwebtoken')
+// const jwtPrivateKey = require('../../config/jwt.jst')
+const config = require('config')
+// const { isServer } = require('@vue-storefront/core/helpers')
 
-export default (baseURL = '') => {
+module.exports = (baseURL = '') => {
+// export default (baseURL = '') => {
   baseURL = config.PROCC.URL + '/api/'
-  if (isServer) {
-    baseURL = config.PROCC.API + '/api/'
-  }
+  // if (isServer) {
+  //   baseURL = config.PROCC.API + '/api/'
+  // }
 
   // ------
   // STEP 1
@@ -54,25 +60,23 @@ export default (baseURL = '') => {
     }
   })
 
-  const addNewOrder = (orderData, brandId) => api.post('order/addNewOrder', orderData, getHeader(brandId))
-  const updateTransactionInOrder = (orderData, brandId) => api.post('order/updateTransactionInOrder', orderData, getHeader(brandId))
-  const mangoPayCheckIn = (data, brandId) => api.post('mangopay/VSFOrderPayment', data, getHeader(brandId))
-  const updateTransactionStatus = (data, brandId) => api.post('mangopay/updateTransactionStatusVSF', data, getHeader(brandId))
-  const getSizeChart = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
-  const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
-  const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
-  const getShippingMethodByBrand = (brand_ids) => api.post(`shipping-method/getShippingMethodByBrand`, {brand_ids})
+  // const addNewOrder = (orderData, brandId) => api.post('order/addNewOrder', orderData, getHeader(brandId))
+  // const updateTransactionInOrder = (orderData, brandId) => api.post('order/updateTransactionInOrder', orderData, getHeader(brandId))
+  // const mangoPayCheckIn = (data, brandId) => api.post('mangopay/VSFOrderPayment', data, getHeader(brandId))
+  // const updateTransactionStatus = (data, brandId) => api.post('mangopay/updateTransactionStatusVSF', data, getHeader(brandId))
+  // const getSizeChart = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
+  // const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
+  // const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
   const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
 
   return {
-    addNewOrder,
-    getProductDeliveryPolicy,
-    getSizeChart,
-    mangoPayCheckIn,
-    updateTransactionStatus,
-    updateVsfSyncStatus,
-    updateTransactionInOrder,
-    getShippingMethodByBrand,
+    // addNewOrder,
+    // getProductDeliveryPolicy,
+    // getSizeChart,
+    // mangoPayCheckIn,
+    // updateTransactionStatus,
+    // updateVsfSyncStatus,
+    // updateTransactionInOrder,
     getStoreData
   }
 }

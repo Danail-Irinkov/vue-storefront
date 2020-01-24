@@ -4,7 +4,9 @@ const apiStatus = require('./utils/api-status');
 const Store = require('data-store');
 const _ = require('lodash');
 const request = require('request');
-
+// const ProCCAPI = require('../../src/themes/default-procc/helpers/procc_api.js'); // NOT WORKING DUE TO ES6 syntax...
+const ProCCAPI = require('./procc_api_es5.js')();
+console.log('ProCCAPI.getStoreData', ProCCAPI.getStoreData)
 // !!!!! CORE MODULES AREN'T TRIGGERING HOT-RELOAD !!!!!
 
 let storefrontConfig;
@@ -70,10 +72,13 @@ module.exports = (config, app) => {
   app.post('/category-link', async (req, res) => {
     console.log('/category-link STARTED');
     let storeData;
+    console.log('storeData = req.body;', req.body)
     if (req.body.storefront_url && req.body.store_categories) { // DEPRECATED
       storeData = req.body;
-    } else if (req.body.storeCode) {
-      storeData = await getStoreData(config, req.body.storeCode)
+    } else if (req.body.storeCode && req.body.brand_id) {
+      const storeData_res = await ProCCAPI.getStoreData(req.body.storeCode, req.body.brand_id)
+      // console.log('storeData_res.data.storeData', storeData_res.data.storeData)
+      storeData = storeData_res.data.storeData
     } else {
       return apiStatus(res, 'Bad Data Input', 400);
     }
@@ -204,7 +209,9 @@ function getStoreData (config, storeCode) {
       console.log('GETTING URL: ', config.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode);
       // console.log('_resBody', _resBody)
       if (_err) reject(_err);
-      let obj = JSON.parse(_resBody);
+      let obj
+      if(_resBody)
+      obj = JSON.parse(_resBody);
       // console.log('getStoreData _resBody', obj)
       resolve(obj.storeData);
     })
