@@ -14,8 +14,8 @@ const getAvailableFiltersByProduct = (product: Product) => {
   }
 
   // Added by Dan to correct the sizes order after Update
-  if(filtersMap['size'] && filtersMap['size'][0] && filtersMap['size'][0].id){
-    filtersMap['size'] = filtersMap['size'].sort(function(a, b) { return (a.id > b.id ) ? 1 : -1});
+  if (filtersMap['size'] && filtersMap['size'][0] && filtersMap['size'][0].id) {
+    filtersMap['size'] = filtersMap['size'].sort((a, b) => { return (a.id > b.id) ? 1 : -1 });
   }
 
   return filtersMap

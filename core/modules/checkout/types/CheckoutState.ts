@@ -17,5 +17,5 @@ export default interface CheckoutState {
   isThankYouPage: boolean,
   modifiedAt: number,
   brandsDetails: any[],
-  selectedShippingMethod: any,
+  selectedShippingMethod: any
 }

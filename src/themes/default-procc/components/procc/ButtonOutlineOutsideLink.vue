@@ -15,9 +15,9 @@
 </template>
 
 <script>
-  import focusClean from 'theme/components/theme/directives/focusClean'
+import focusClean from 'theme/components/theme/directives/focusClean'
 
-  export default {
+export default {
   name: 'ButtonOutline',
   directives: { focusClean },
   props: {
@@ -31,15 +31,15 @@
       required: false
     }
   },
-    methods: {
-      openNewTabProCC() {
-        if (this.link && this.link.indexOf('https://') === 0) {
-          window.open(this.link, '_blank');
-        } else {
-          this.$router.push(this.localizedRoute(this.link))
-        }
+  methods: {
+    openNewTabProCC () {
+      if (this.link && this.link.indexOf('https://') === 0) {
+        window.open(this.link, '_blank');
+      } else {
+        this.$router.push(this.localizedRoute(this.link))
       }
     }
+  }
 }
 </script>
 

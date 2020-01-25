@@ -66,6 +66,7 @@ export default {
     this.$bus.$on('scrollCheckoutBottom', this.scrollCheckoutBottom) // Added by Dan
   },
   beforeDestroy () {
+    this.$bus.$off('offline-order-confirmation', this.onOrderConfirmation)
     this.$bus.$off('scrollCheckoutBottom', this.scrollCheckoutBottom) // Added by Dan
   },
   data () {
@@ -91,8 +92,8 @@ export default {
     scrollCheckoutBottom (position_compensation = 0) { // Added by Dan
       // Scrolling is not working, I think #viewport is not the main scrolling div, so which one is it ?
       // TODO: need this to be triggred when going trough the steps of the checkout so it is easier for the user
-      let container = this.$el.querySelector("#viewport")
-      if(container){
+      let container = this.$el.querySelector('#viewport')
+      if (container) {
         container.scrollTop = container.scrollHeight - position_compensation;
         console.log('TODO: need to fix scrolling #viewport to bottom at checkout steps')
       }
@@ -120,9 +121,6 @@ export default {
       this.$Progress.finish()
     })
     this.$bus.$on('offline-order-confirmation', this.onOrderConfirmation)
-  },
-  beforeDestroy () {
-    this.$bus.$off('offline-order-confirmation', this.onOrderConfirmation)
   },
   metaInfo: Head,
   components: {

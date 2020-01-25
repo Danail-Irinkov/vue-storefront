@@ -20,7 +20,7 @@ const totalsActions = {
 
     if (resultCode === 200) {
       const totals = result.totals || result
-      //Logger.info('Overriding server totals. ', 'cart', totals)()
+      // Logger.info('Overriding server totals. ', 'cart', totals)()
       const itemsAfterTotal = prepareShippingInfoForUpdateTotals(totals.items)
 
       for (let key of Object.keys(itemsAfterTotal)) {
@@ -56,7 +56,7 @@ const totalsActions = {
         selectedShippingMethod: rootGetters['checkout/getSelectedShippingMethod']
       })
 
-      //console.log('syncTotals shippingMethodsData' , shippingMethodsData)
+      // console.log('syncTotals shippingMethodsData' , shippingMethodsData)
       if (shippingMethodsData.country) {
         return dispatch('overrideServerTotals', {
           hasShippingInformation: shippingMethodsData.method_code || shippingMethodsData.carrier_code,

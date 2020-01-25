@@ -26,7 +26,7 @@ export const OrderReview = {
     })
   },
   methods: {
-    placeOrder() { // Edited by Dan to verify transaction has passed
+    placeOrder () { // Edited by Dan to verify transaction has passed
       if (this.getPersonalDetails.createAccount) {
         this.register()
       } else {

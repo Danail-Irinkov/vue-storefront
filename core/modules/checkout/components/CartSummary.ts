@@ -4,9 +4,9 @@ import find from 'lodash-es/find'
 export const CartSummary = {
   name: 'CartSummary',
   mixins: [Microcart],
-  data(){
-    return{
-      loadShippingMethod:false
+  data () {
+    return {
+      loadShippingMethod: false
     }
   },
   computed: {
@@ -17,40 +17,37 @@ export const CartSummary = {
       getBrandsDetails: 'checkout/getBrandsDetails',
       getDefaultShippingMethods: 'checkout/getDefaultShippingMethods',
       getSelectedShippingMethod: 'checkout/getSelectedShippingMethod'
-    }),
+    })
 
   },
   watch: {
     shippingMethods: {
       handler () {
-    //    this.checkDefaultShippingMethod()
+        //    this.checkDefaultShippingMethod()
       }
     }
   },
   methods: {
-    getBrandData(id){
-      if(this.getBrandsDetails) {
-        return find(this.getBrandsDetails, function (o) {
-          return o._id == id
+    getBrandData (id) {
+      if (this.getBrandsDetails) {
+        return find(this.getBrandsDetails, (o) => {
+          return o._id === id
         });
+      } else {
+        return {
+          name: '',
+          logo: {thumb: ''},
+          customer_support_email: ''
+        }
       }
-      else
-      return {
-        name: '',
-        logo: {thumb:''},
-        customer_support_email:''
-      }
-
     },
-    getDefaultShippingMethod(id){
-      if(this.getDefaultShippingMethods) {
-        let result =  find(this.getDefaultShippingMethods, function (o) {
-          return o.brand_id == id
+    getDefaultShippingMethod (id) {
+      if (this.getDefaultShippingMethods) {
+        let result = find(this.getDefaultShippingMethods, (o) => {
+          return o.brand_id === id
         });
-        return  result.default_shipping_method
-      }
-      else
-        return {}
+        return result.default_shipping_method
+      } else { return {} }
     },
     getShippingMethod () {
       for (let i = 0; i < this.shippingMethods.length; i++) {
@@ -66,12 +63,12 @@ export const CartSummary = {
         cost: ''
       }
     },
-    showShippingModel(brand_id){
+    showShippingModel (brand_id) {
       this.$nextTick(() => {
         this.loadShippingMethod = true
         this.$bus.$emit('modal-show', 'modal-shipping-method')
-         this.$forceUpdate()
-       })
-    },
+        this.$forceUpdate()
+      })
+    }
   }
 }

@@ -138,7 +138,7 @@
               @error="handleQuantityError"
             />
             <div class="row m0">
-<!--              // Edited by dan to fix issue with product variants SKUs-->
+              <!--              // Edited by dan to fix issue with product variants SKUs-->
               <add-to-cart
                 :product="ProCCCurrentProductVariant"
                 :disabled="isAddToCartDisabled"
@@ -198,34 +198,34 @@
             </div>
           </div>
         </tab>
-<!--        <tab name="Delivery">-->
-<!--          Third tab content-->
-<!--        </tab>-->
+        <!--        <tab name="Delivery">-->
+        <!--          Third tab content-->
+        <!--        </tab>-->
       </tabs>
     </section>
     <!--    <section class="container px15 pt50 pb35 cl-accent details">-->
     <!--      <h2 class="h3 m0 mb10 serif lh20 details-title">-->
-      <!--        {{ $t('Product details') }}-->
-      <!--      </h2>-->
+    <!--        {{ $t('Product details') }}-->
+    <!--      </h2>-->
     <!--      <div class="h4 details-wrapper" :class="{'details-wrapper&#45;&#45;open': detailsOpen}"      >-->
-      <!--        <div class="row between-md m0">-->
-      <!--          <div class="col-xs-12 col-sm-6">-->
+    <!--        <div class="row between-md m0">-->
+    <!--          <div class="col-xs-12 col-sm-6">-->
     <!--            <div class="lh30 h5" itemprop="description" v-html="getCurrentProduct.description"            />-->
-      <!--          </div>-->
-      <!--          <div class="col-xs-12 col-sm-5">-->
-      <!--            <ul class="attributes p0 pt5 m0">-->
-      <!--              <product-attribute-->
-      <!--                :key="attr.attribute_code"-->
+    <!--          </div>-->
+    <!--          <div class="col-xs-12 col-sm-5">-->
+    <!--            <ul class="attributes p0 pt5 m0">-->
+    <!--              <product-attribute-->
+    <!--                :key="attr.attribute_code"-->
     <!--                v-for="attr in getCustomAttributes"-->
     <!--                :product="getCurrentProduct"-->
-      <!--                :attribute="attr"-->
-      <!--                empty-placeholder="N/A"-->
-      <!--              />-->
-      <!--            </ul>-->
-      <!--          </div>-->
+    <!--                :attribute="attr"-->
+    <!--                empty-placeholder="N/A"-->
+    <!--              />-->
+    <!--            </ul>-->
+    <!--          </div>-->
     <!--          <div class="details-overlay" @click="showDetails"          />-->
-      <!--        </div>-->
-      <!--      </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
     <!--    </section>-->
     <lazy-hydrate when-idle>
       <reviews
@@ -237,9 +237,9 @@
     <lazy-hydrate when-idle>
       <related-products type="upsell" :heading="$t('We found other products you might like')" />
     </lazy-hydrate>
-<!--    <lazy-hydrate when-idle>-->
-<!--      <promoted-offers single-banner />-->
-<!--    </lazy-hydrate>-->
+    <!--    <lazy-hydrate when-idle>-->
+    <!--      <promoted-offers single-banner />-->
+    <!--    </lazy-hydrate>-->
     <lazy-hydrate when-idle>
       <related-products type="related" />
     </lazy-hydrate>
@@ -248,9 +248,9 @@
 </template>
 
 <script>
-import i18n from '@vue-storefront/i18n'
-import Product from '@vue-storefront/core/pages/Product'
-import VueOfflineMixin from 'vue-offline/mixin'
+// import i18n from '@vue-storefront/i18n'
+// import Product from '@vue-storefront/core/pages/Product'
+// import VueOfflineMixin from 'vue-offline/mixin'
 import config from 'config'
 import RelatedProducts from 'theme/components/core/blocks/Product/Related.vue'
 import Reviews from 'theme/components/core/blocks/Reviews/Reviews.vue'
@@ -259,17 +259,17 @@ import GenericSelector from 'theme/components/core/GenericSelector'
 import ColorSelector from 'theme/components/core/ColorSelector.vue'
 import SizeSelector from 'theme/components/core/SizeSelector.vue'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs.vue'
-import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
+// import ProductAttribute from 'theme/components/core/ProductAttribute.vue'
 import ProductQuantity from 'theme/components/core/ProductQuantity.vue'
 import ProductLinks from 'theme/components/core/ProductLinks.vue'
 import ProductCustomOptions from 'theme/components/core/ProductCustomOptions.vue'
 import ProductBundleOptions from 'theme/components/core/ProductBundleOptions.vue'
 import ProductGallery from 'theme/components/core/ProductGallery'
-import Spinner from 'theme/components/core/Spinner'
-import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
+// import Spinner from 'theme/components/core/Spinner'
+// import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 import focusClean from 'theme/components/theme/directives/focusClean'
 import WebShare from 'theme/components/theme/WebShare'
-import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
+// import BaseInputNumber from 'theme/components/core/blocks/Form/BaseInputNumber'
 import SizeGuide from 'theme/components/core/blocks/Product/SizeGuide'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import AddToCompare from 'theme/components/core/blocks/Compare/AddToCompare'
@@ -287,17 +287,16 @@ import { onlineHelper, isServer } from '@vue-storefront/core/helpers'
 import { catalogHooksExecutors } from '@vue-storefront/core/modules/catalog-next/hooks'
 
 // ProCC Imports
-import StoreBanners from 'theme/components/procc/StoreBanners/StoreBanners'
+// import StoreBanners from 'theme/components/procc/StoreBanners/StoreBanners'
 import _ from 'lodash'
 import currencyInfo from '../assets/js/currency_info.js'
 import {Tab, Tabs} from 'vue-tabs-component'
-import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
-import ProductTile from 'theme/components/core/ProductTile.vue'
+// import BaseSelect from 'theme/components/core/blocks/Form/BaseSelect'
+// import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+// import ProductTile from 'theme/components/core/ProductTile.vue'
 import SizeChartView from 'theme/components/procc/Product/SizeChartView.vue'
 import {minValue} from 'vuelidate/lib/validators'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
-
+// import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 export default {
   components: {
@@ -307,7 +306,7 @@ export default {
     Breadcrumbs,
     ColorSelector,
     GenericSelector,
-    ProductAttribute,
+    // ProductAttribute,
     ProductBundleOptions,
     ProductCustomOptions,
     ProductGallery,
@@ -318,12 +317,12 @@ export default {
     // ProCC IMPORTS
     Tabs,
     Tab,
-    BaseSelect,
-    ProductTile,
-    BaseInput,
-    StoreBanners,
+    // BaseSelect,
+    // ProductTile,
+    // BaseInput,
+    // StoreBanners,
     SizeChartView,
-    BaseInputNumber,
+    // BaseInputNumber,
     SizeSelector,
     WebShare,
     SizeGuide,
@@ -453,14 +452,14 @@ export default {
     }
   },
   methods: {
-    getDeliveryPolicy() {
+    getDeliveryPolicy () {
       this.ProCcAPI.getProductDeliveryPolicy().then((resp) => {
         this.delivery_policy = resp.data.delivery_policy;
         this.countries = resp.data.delivery_policy.countries;
         this.updateShippingCost()
       })
     },
-    updateShippingCost() {
+    updateShippingCost () {
       let couriers = this.delivery_policy.courier;
       let country = this.selected_country;
       let quantity = parseInt(this.getCurrentProduct.qty);
@@ -483,7 +482,7 @@ export default {
         shippingCostDifference
       }
     },
-    openSizeGuide() {
+    openSizeGuide () {
       this.$bus.$emit('modal-show', 'modal-sizeguide')
     },
     showDetails (event) {
@@ -515,10 +514,7 @@ export default {
       )
       this.size_has_been_selected = true // Added by Dan
       // this.getQuantity()
-      this.getQuantity(variant) //Edited by dan to allow for querying the variant of the SKU
-    },
-    openSizeGuide () {
-      this.$bus.$emit('modal-show', 'modal-sizeguide')
+      this.getQuantity(variant) // Edited by dan to allow for querying the variant of the SKU
     },
     isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
@@ -528,14 +524,14 @@ export default {
     async getQuantity (variant = null) {
       // Edited By dan 30-12-2019
       let product = {...this.getCurrentProduct}
-      if(variant && variant.label){
-        if(product.sku && product.sku.indexOf('-'+variant.label) === -1){
-          product.sku =  product.sku + '-' + variant.label // adjusting from parentSKU to size variant sku
+      if (variant && variant.label) {
+        if (product.sku && product.sku.indexOf('-' + variant.label) === -1) {
+          product.sku = product.sku + '-' + variant.label // adjusting from parentSKU to size variant sku
         }
         product.qty = 1
-          this.ProCCCurrentProductVariant = product
+        this.ProCCCurrentProductVariant = product
 
-          // EventBus.$emit('product-after-priceupdate', product)
+        // EventBus.$emit('product-after-priceupdate', product)
       }
       // Edited By dan 30-12-2019 - END
 
@@ -545,7 +541,7 @@ export default {
         const res = await this.$store.dispatch('stock/check', {
           // product: this.getCurrentProduct,
           product: product, // Edited by dan
-          qty: this.ProCCCurrentProductVariant.qty  // Edited by dan
+          qty: this.ProCCCurrentProductVariant.qty // Edited by dan
         })
         this.maxQuantity = res.qty
       } finally {
@@ -581,7 +577,7 @@ export default {
         minValue: minValue(1)
       }
     }
-  },
+  }
 }
 </script>
 

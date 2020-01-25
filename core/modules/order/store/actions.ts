@@ -57,25 +57,25 @@ const actions: ActionTree<OrderState, RootState> = {
       mp_transaction: order.mp_transaction,
       order_ids: order.order_ids
     }
-    return await ProCcApi().updateTransactionInOrder(update_data, order.store_brand).then((task) => {
-      dispatch('enqueueOrder', { newOrder: order })
-      commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation:{orderNumber:order.order_no} })
-      orderHooksExecutors.afterPlaceOrder({ order, task:order.order_ids })
-      EventBus.$emit('order-after-placed', { order, confirmation: order.order_ids })
+    return ProCcApi().updateTransactionInOrder(update_data, order.store_brand)
+      .then((task) => {
+        dispatch('enqueueOrder', { newOrder: order })
+        commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: {orderNumber: order.order_no} })
+        orderHooksExecutors.afterPlaceOrder({ order, task: order.order_ids })
+        EventBus.$emit('order-after-placed', { order, confirmation: order.order_ids })
 
-      EventBus.$emit('notification-progress-stop')
-      return {resultCode:200}
+        EventBus.$emit('notification-progress-stop')
+        return {resultCode: 200}
+      }).catch((error) => {
+        commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
 
-    }).catch((error)=>{
-      commit(types.ORDER_REMOVE_SESSION_ORDER_HASH, currentOrderHash)
+        Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(error), 'orders')()
+        dispatch('notification/spawnNotification', notifications.internalValidationError(), { root: true })
+        dispatch('enqueueOrder', { newOrder: order })
+        EventBus.$emit('notification-progress-stop')
 
-      Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(error), 'orders')()
-      dispatch('notification/spawnNotification', notifications.internalValidationError(), { root: true })
-      dispatch('enqueueOrder', { newOrder: order })
-      EventBus.$emit('notification-progress-stop')
-
-      throw new Error('Unhandled place order request error')
-    })
+        throw new Error('Unhandled place order request error')
+      })
   },
   handlePlacingOrderFailed ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { newOrder, transmited: false }

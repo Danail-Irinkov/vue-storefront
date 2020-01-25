@@ -1,9 +1,9 @@
 <template>
   <div id="home">
-    <head-image :isDefaultStore="isDefaultStore"/>
+    <head-image :is-default-store="isDefaultStore" />
     <store-banners v-if="!isDefaultStore" />
 
-<!--    <promoted-offers />-->
+    <!--    <promoted-offers />-->
 
     <section class="container pb60 px15" v-if="!isDefaultStore">
       <!--      // ProCC section-->
@@ -15,27 +15,27 @@
         </header>
       </div>
       <ProCCTileLinks />
-<!--      <div class="row center-xs">-->
-<!--        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">-->
-<!--          <product-listing columns="4" :products="getEverythingNewCollection" />-->
-<!--        </lazy-hydrate>-->
-<!--        <product-listing v-else columns="4" :products="getEverythingNewCollection" />-->
-<!--      </div>-->
+      <!--      <div class="row center-xs">-->
+      <!--        <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">-->
+      <!--          <product-listing columns="4" :products="getEverythingNewCollection" />-->
+      <!--        </lazy-hydrate>-->
+      <!--        <product-listing v-else columns="4" :products="getEverythingNewCollection" />-->
+      <!--      </div>-->
     </section>
 
-<!--    <section v-if="isOnline" class="container pb60 px15">-->
-<!--      <div class="row center-xs">-->
-<!--        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">-->
-<!--          <h2 class="align-center cl-accent">-->
-<!--            {{ $t('Get inspired') }}-->
-<!--          </h2>-->
-<!--        </header>-->
-<!--      </div>-->
-<!--      <tile-links />-->
-<!--    </section>-->
-<!--    <Onboard />-->
+    <!--    <section v-if="isOnline" class="container pb60 px15">-->
+    <!--      <div class="row center-xs">-->
+    <!--        <header class="col-md-12" :class="{ pt40: getEverythingNewCollection && getEverythingNewCollection.length }">-->
+    <!--          <h2 class="align-center cl-accent">-->
+    <!--            {{ $t('Get inspired') }}-->
+    <!--          </h2>-->
+    <!--        </header>-->
+    <!--      </div>-->
+    <!--      <tile-links />-->
+    <!--    </section>-->
+    <!--    <Onboard />-->
 
-<!--    // ProCC stores-->
+    <!--    // ProCC stores-->
     <available-stores v-if="isDefaultStore" />
   </div>
 </template>
@@ -43,17 +43,17 @@
 <script>
 // query constructor
 import { isServer, onlineHelper } from '@vue-storefront/core/helpers'
-import LazyHydrate from 'vue-lazy-hydration'
+// import LazyHydrate from 'vue-lazy-hydration'
 
 // Core pages
 import Home from '@vue-storefront/core/pages/Home'
 // Theme core components
-import ProductListing from 'theme/components/core/ProductListing'
+// import ProductListing from 'theme/components/core/ProductListing'
 import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
 // Theme local components
-import Onboard from 'theme/components/theme/blocks/Home/Onboard'
+// import Onboard from 'theme/components/theme/blocks/Home/Onboard'
 // import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
-import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
+// import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import {Logger} from '@vue-storefront/core/lib/logger'
 import {mapGetters} from 'vuex'
 import config from 'config'
@@ -76,12 +76,12 @@ export default {
     HeadImage,
     availableStores,
     StoreBanners,
-    ProCCTileLinks,
-    Onboard,
-    ProductListing,
+    ProCCTileLinks
+    // Onboard,
+    // ProductListing,
     // PromotedOffers,
-    TileLinks,
-    LazyHydrate
+    // TileLinks,
+    // LazyHydrate
   },
   computed: {
     ...mapGetters('user', ['isLoggedIn']),
@@ -129,7 +129,7 @@ export default {
 
     await Promise.all([
       store.dispatch('homepage/fetchNewCollection'),
-      store.dispatch('promoted/updateHeadImage'),
+      store.dispatch('promoted/updateHeadImage')
       // store.dispatch('promoted/updatePromotedOffers') // Disabled by Dan 29.12.2019, not using promoted offers yet
     ])
   },

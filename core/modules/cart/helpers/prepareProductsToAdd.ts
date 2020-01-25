@@ -2,11 +2,8 @@ import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 import productChecksum from './productChecksum'
 import optimizeProduct from './optimizeProduct'
 
-const readAssociated = product =>{
-  if (product.product_links)
-   return product.product_links.filter(p => p.link_type === 'associated').map(p => p.product)
-   else
-   return product
+const readAssociated = product => {
+  if (product.product_links) { return product.product_links.filter(p => p.link_type === 'associated').map(p => p.product) } else { return product }
 }
 const isDefined = product => typeof product !== 'undefined' || product !== null
 

@@ -1,21 +1,22 @@
 <template>
   <div class="w-100">
-<!--    // Edited by Dan 02-01-2020-->
+    <!--    // Edited by Dan 02-01-2020-->
     <div class="brdr-cl-primary py5 px20" style="">
       <h3 class="order-sum cl-accent summary-title">
         {{ $t('Cart Items') }}
       </h3>
       <div class="store-info" v-if="products && products[0].procc_brand_id">
         <img :src="getBrandData(products[0].procc_brand_id).logo.thumb" alt="" class="brand-img">
-        <p>{{getBrandData(products[0].procc_brand_id).name}}</p>
+        <p>{{ getBrandData(products[0].procc_brand_id).name }}</p>
         <div class="store-contact text brand-contact">
-          <a class="btn normal-icon-btn" :href ="'mailto:'+getBrandData(products[0].procc_brand_id).customer_support_email">
+          <a class="btn normal-icon-btn" :href="'mailto:'+getBrandData(products[0].procc_brand_id).customer_support_email">
             <i class="material-icons" data-v-0ac1abd3="">mail_outline</i>
           </a>
         </div>
         <div class="store-contact text shipping-method">
-          {{getSelectedShippingMethod[products[0].procc_brand_id].name}} | {{getSelectedShippingMethod[products[0].procc_brand_id].cost | price}}
-          <button class="btn normal-icon-btn"> <i class="material-icons" data-v-0ac1abd3="" @click="showShippingModel()">local_shipping</i>
+          {{ getSelectedShippingMethod[products[0].procc_brand_id].name }} | {{ getSelectedShippingMethod[products[0].procc_brand_id].cost | price }}
+          <button class="btn normal-icon-btn">
+            <i class="material-icons" data-v-0ac1abd3="" @click="showShippingModel()">local_shipping</i>
           </button>
         </div>
       </div>
@@ -44,7 +45,7 @@
         Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
       </p>
     </div>
-    <shipping-method  v-if="loadShippingMethod" :store-brand-id="products[0].procc_brand_id" :isActive="true" />
+    <shipping-method v-if="loadShippingMethod" :store-brand-id="products[0].procc_brand_id" :is-active="true" />
   </div>
 </template>
 

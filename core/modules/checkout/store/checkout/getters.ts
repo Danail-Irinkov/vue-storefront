@@ -30,7 +30,7 @@ const getters: GetterTree<CheckoutState, RootState> = {
   getBrandsDetails: state => state.brandsDetails,
   getSelectedShippingMethod: state => state.selectedShippingMethod,
   getDefaultShippingMethod: state => getDefaultShippingMethods(state.shippingMethods),
-  getDefaultShippingMethods: state => getDefaultShippingMethods(state.shippingMethods),
+  getDefaultShippingMethods: state => getDefaultShippingMethods(state.shippingMethods)
 }
 
 export default getters

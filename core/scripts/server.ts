@@ -8,7 +8,6 @@ const resolve = file => path.resolve(rootPath, file);
 const serverExtensions = glob.sync('src/modules/*/server.{ts,js}');
 const configProviders: Function[] = [];
 
-
 serverExtensions.map(serverModule => {
   const module = require(resolve(serverModule));
   if (module.configProvider && typeof module.configProvider === 'function') {
@@ -46,7 +45,6 @@ console.log('VSF config', config)
 const ProCC = require('./ProCCapi.js');
 ProCC(config, app);
 // Mount Procc APIs - END
-
 
 serverHooksExecutors.afterApplicationInitialized({app, config: config.server, isProd});
 

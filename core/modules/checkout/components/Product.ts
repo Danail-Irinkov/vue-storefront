@@ -28,7 +28,7 @@ export const Product = {
           type: 'warning',
           item: this.product,
           message: i18n.t('Are you sure you would like to remove this item from the shopping cart?'),
-          action2: { label: i18n.t('OK'), action: this.removeFromCart},
+          action2: { label: i18n.t('OK'), action: this.removeFromCart },
           action1: { label: i18n.t('Cancel'), action: 'close' },
           hasNoTimeout: true
         })
@@ -38,7 +38,7 @@ export const Product = {
     },
     removeFromCart () {
       this.$store.dispatch('cart/removeItem', { product: this.product })
-    },
+    }
   },
   beforeMount () {
     this.$bus.$on('cart-after-itemchanged', this.onProductChanged)

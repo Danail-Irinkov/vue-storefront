@@ -28,7 +28,6 @@
       </div>
     </div>
     <div class="row pl20 pr20 mt15" v-if="isActive">
-
       <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="row">
           <base-input
@@ -153,9 +152,7 @@
           <div
             class="col-12" style="text-align: center"
             v-if="!currentUser"
-          >
-
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -169,22 +166,21 @@
           {{ $t((isVirtualCart ? 'Continue to payment' : 'Continue to shipping')) }}
         </button-full>
         <div class="">
-
-<!--          // Moved by Dan to a bit above-->
-<!--          <div-->
-<!--            class="col-xs-12 col-md-5 center-xs end-md"-->
-<!--            v-if="!currentUser"-->
-<!--          >-->
-<!--            <p class="h4 cl-accent">-->
-<!--              {{ $t('or') }}-->
-<!--              <span-->
-<!--                class="link pointer"-->
-<!--                @click.prevent="gotoAccount"-->
-<!--              >-->
-<!--                {{ $t('login to your account') }}-->
-<!--              </span>-->
-<!--            </p>-->
-<!--          </div>-->
+          <!--          // Moved by Dan to a bit above-->
+          <!--          <div-->
+          <!--            class="col-xs-12 col-md-5 center-xs end-md"-->
+          <!--            v-if="!currentUser"-->
+          <!--          >-->
+          <!--            <p class="h4 cl-accent">-->
+          <!--              {{ $t('or') }}-->
+          <!--              <span-->
+          <!--                class="link pointer"-->
+          <!--                @click.prevent="gotoAccount"-->
+          <!--              >-->
+          <!--                {{ $t('login to your account') }}-->
+          <!--              </span>-->
+          <!--            </p>-->
+          <!--          </div>-->
         </div>
       </div>
       <div class="col-md-6">
@@ -194,8 +190,8 @@
             class="link pointer"
             @click.prevent="gotoAccount"
           >
-                {{ $t('login to your account') }}
-              </span>
+            {{ $t('login to your account') }}
+          </span>
         </p>
       </div>
     </div>

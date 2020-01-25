@@ -10,7 +10,7 @@
         </div>
         <div class="">
           <div class="" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
-<!--            // Edited By Dan-->
+            <!--            // Edited By Dan-->
             <h4 class="m0 mb5">
               {{ $t('Place the order') }}
             </h4>
@@ -26,8 +26,8 @@
 &nbsp;
           </div>
         </div>
-<!--        <div class="row mb15 mt20">-->
-<!--        // Edited by Dan, to compensate for disabled elements-->
+        <!--        <div class="row mb15 mt20">-->
+        <!--        // Edited by Dan, to compensate for disabled elements-->
         <div class="row mb15" style="margin-top: -50px;">
           <div class="col-sm-12">
             <p class="h4" v-show="!'Disabled by Dan'">
@@ -122,14 +122,14 @@ import { OrderModule } from '@vue-storefront/core/modules/order'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
 import { mapGetters } from 'vuex'
-import ProCCTransactionDone from 'theme/components/procc/ProCCTransactionDone.vue'
+// import ProCCTransactionDone from 'theme/components/procc/ProCCTransactionDone.vue'
 
 export default {
   components: {
     BaseCheckbox,
     ButtonFull,
     CartSummary,
-    ProCCTransactionDone,
+    // ProCCTransactionDone,
     Modal
   },
   data () {
@@ -170,7 +170,7 @@ export default {
         if (result.data.message_type === 'success') {
           // emit event for place order in megento by shabbir
           this.$bus.$emit('place-magento-order', {transactionId})
-        }else {
+        } else {
           this.$bus.$emit('notification-progress-stop');
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
@@ -179,7 +179,7 @@ export default {
           })
         }
       }).catch(err => {
-        Logger.error(err, 'Transaction was not Done!!')()
+        console.error(err, 'Transaction Failed!!')
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Transaction was not done!!!!'),
@@ -200,8 +200,8 @@ export default {
     },
     ProCCOrderPayment () {
       let amount
-      for (let segment of this.getTotals){
-        if(segment.code === 'grand_total'){
+      for (let segment of this.getTotals) {
+        if (segment.code === 'grand_total') {
           amount = segment.value
         }
       }

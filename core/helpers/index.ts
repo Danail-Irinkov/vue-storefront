@@ -23,8 +23,8 @@ export const processURLAddress = (url: string = '') => {
         url = url.replace(config.api.url, config.elasticsearch.host_backend)
       }
     }
-  }else{
-      //console.log('Client API url:', url)
+  } else {
+    // console.log('Client API url:', url)
   }
 
   if (url.startsWith('/')) return `${config.api.url}${url}`;

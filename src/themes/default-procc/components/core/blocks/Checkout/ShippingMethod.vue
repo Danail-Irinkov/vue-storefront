@@ -23,7 +23,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="method in shippingMethods[storeBrandId]">
+          <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="method in shippingMethods[storeBrandId]" :key="method._id">
             <td class="fs-medium lh25" :data-th="$t('Product Name')">
               <div>
                 <label class="radioStyled">
@@ -31,7 +31,8 @@
                     type="radio"
                     :value="method._id"
                     name="shipping-method"
-                    v-model="selectedShippingMethod[storeBrandId]">
+                    v-model="selectedShippingMethod[storeBrandId]"
+                  >
                   <span class="checkmark" />
                 </label>
               </div>
@@ -58,7 +59,8 @@
     <div class="row between-xs middle-xs mt40">
       <div class="col-xs-12">
         <button-full @click.native="saveShippingMethod"
-                     :disabled="shippingMethods.length <= 0">
+                     :disabled="shippingMethods.length <= 0"
+        >
           {{ $t('Apply') }}
         </button-full>
       </div>

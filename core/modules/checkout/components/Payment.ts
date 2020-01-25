@@ -243,7 +243,7 @@ export const Payment = {
       this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     },
-    placeOrder() { // Edited by Dan to verify transaction has passed
+    placeOrder () { // Edited by Dan to verify transaction has passed
       if (this.getPersonalDetails.createAccount) {
         this.register()
       } else {
@@ -297,6 +297,6 @@ export const Payment = {
         this.$bus.$emit('notification-progress-stop');
         Logger.error(err, 'checkout')()
       }
-    },
+    }
   }
 }

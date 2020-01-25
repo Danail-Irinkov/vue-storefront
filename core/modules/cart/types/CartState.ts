@@ -13,6 +13,6 @@ export default interface CartState {
   cartItems: any[],
   connectBypassCount: number,
   isAddingToCart: boolean,
-  shippingMethods:any,
-  selectedShippingMethod:any
+  shippingMethods: any,
+  selectedShippingMethod: any
 }

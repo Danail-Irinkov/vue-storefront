@@ -210,15 +210,14 @@ function getStoreData (config, storeCode) {
       // console.log('_resBody', _resBody)
       if (_err) reject(_err);
       let obj
-      if(_resBody)
-      obj = JSON.parse(_resBody);
+      if (_resBody) { obj = JSON.parse(_resBody); }
       // console.log('getStoreData _resBody', obj)
       resolve(obj.storeData);
     })
   });
 }
 
-function setCategoryBanner(config, storeData) {
+function setCategoryBanner (config, storeData) {
   let storeCode = storeData.storefront_url;
   const StoreBanners = new Store({path: path.resolve(config.themeDir + `/resource/banners/${storeCode}_store_banners.json`)});
   console.log('storefrontConfig themeDir', config.themeDir);

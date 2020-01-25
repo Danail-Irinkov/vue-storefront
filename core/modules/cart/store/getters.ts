@@ -4,7 +4,7 @@ import CartState from '../types/CartState'
 import RootState from '@vue-storefront/core/types/RootState'
 import AppliedCoupon from '../types/AppliedCoupon'
 import { onlineHelper, isServer, calcItemsHmac } from '@vue-storefront/core/helpers'
-import { calculateTotals,getProductByBrand } from '@vue-storefront/core/modules/cart/helpers'
+import { calculateTotals, getProductByBrand } from '@vue-storefront/core/modules/cart/helpers'
 import config from 'config'
 
 const getters: GetterTree<CartState, RootState> = {

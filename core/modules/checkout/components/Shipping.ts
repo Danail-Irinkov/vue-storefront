@@ -1,7 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
-import find from "lodash-es/find";
+import find from 'lodash-es/find';
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
@@ -26,7 +26,7 @@ export const Shipping = {
       countries: Countries,
       shipping: this.$store.state.checkout.shippingDetails,
       shipToMyAddress: false,
-      selectedShippingMethod:{},
+      selectedShippingMethod: {},
       myAddressDetails: {
         firstname: '',
         lastname: '',
@@ -77,7 +77,7 @@ export const Shipping = {
     },
     checkSelectedShippingMethod () {
       for (let brand_id in this.getSelectedShippingMethod) {
-        this.selectedShippingMethod[brand_id]=this.getSelectedShippingMethod[brand_id]._id
+        this.selectedShippingMethod[brand_id] = this.getSelectedShippingMethod[brand_id]._id
       }
     },
     saveShippingMethod () {

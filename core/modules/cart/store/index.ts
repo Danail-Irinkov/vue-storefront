@@ -20,8 +20,8 @@ export const cartStore: Module<CartState, any> = {
     cartServerLastTotalsSyncDate: 0,
     cartItems: [], // TODO: check if it's properly namespaced
     connectBypassCount: 0,
-    shippingMethods:{},
-    selectedShippingMethod:{},
+    shippingMethods: {},
+    selectedShippingMethod: {},
     isAddingToCart: false
   },
   getters,

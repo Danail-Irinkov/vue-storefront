@@ -4,17 +4,17 @@
       Size Guide
     </div>
     <div slot="content">
-<!--      <SizeGuideContent />-->
-<!--      // ProCC sizeChart-->
+      <!--      <SizeGuideContent />-->
+      <!--      // ProCC sizeChart-->
       <size-chart-view class="align-center" :product="getCurrentProduct" />
     </div>
   </modal>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'  // Updated by Dan
+import { mapState, mapGetters } from 'vuex' // Updated by Dan
 import Modal from 'theme/components/core/Modal'
-import SizeGuideContent from 'theme/components/theme/blocks/Static/Example'
+// import SizeGuideContent from 'theme/components/theme/blocks/Static/Example'
 
 import SizeChartView from 'theme/components/procc/Product/SizeChartView.vue' // By ProCC
 
@@ -30,8 +30,8 @@ export default {
   },
   components: {
     Modal,
-    SizeChartView, // By ProCC
-    SizeGuideContent
+    SizeChartView // By ProCC
+    // SizeGuideContent
   },
   methods: {
     close (e) {

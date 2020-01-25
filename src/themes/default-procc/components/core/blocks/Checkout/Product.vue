@@ -41,19 +41,28 @@
               <span v-if="!product.special_price" class="h4">{{ product.price_incl_tax * product.qty | price }}</span>
             </div>
           </div>
-
         </div>
         <div class="col-xs-12 col-md-3 col-sm-4 serif text-c-dt float-left">
           <div class="flex qty-fav-delete">
-            <button class="btn normal-icon-btn" ><i class="material-icons">favorite_border</i></button>
-            <button class="btn normal-icon-btn" ><i class="material-icons" @click="removeItem">delete</i></button>
+            <button class="btn normal-icon-btn">
+              <i class="material-icons">favorite_border</i>
+            </button>
+            <button class="btn normal-icon-btn">
+              <i class="material-icons" @click="removeItem">delete</i>
+            </button>
             <div class="qty-add-dlt">
-              <button class="btn" @click="updateQuantity(product.qty-1)"><i class="material-icons">remove</i></button>
-              <span>{{product.qty}}</span>
-              <button class="btn" @click="updateQuantity(product.qty+1)" ><i class="material-icons">add</i></button>
+              <button class="btn" @click="updateQuantity(product.qty-1)">
+                <i class="material-icons">remove</i>
+              </button>
+              <span>{{ product.qty }}</span>
+              <button class="btn" @click="updateQuantity(product.qty+1)">
+                <i class="material-icons">add</i>
+              </button>
             </div>
           </div>
-          <div class="static-available mt15">Limited quantity available</div>
+          <div class="static-available mt15">
+            Limited quantity available
+          </div>
         </div>
       </div>
     </div>

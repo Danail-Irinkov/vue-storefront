@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     scrollSidebarBottom () { // Added by Dan
-      if(this.$refs && this.$refs.sidebar){
+      if (this.$refs && this.$refs.sidebar) {
         this.$refs.sidebar.scrollTop = this.$refs.sidebar.scrollHeight;
       }
     },

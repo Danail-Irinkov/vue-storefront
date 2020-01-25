@@ -2,31 +2,31 @@
   <div id="checkout" ref="checkout">
     <div class="container">
       <div class="row" v-show="!isThankYouPage">
-<!--        // Edited By Dan-->
+        <!--        // Edited By Dan-->
         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 mt20" style="">
           <div class="box-left" v-for="(brand_product, brand_id) in productsInCartByBrand" :key="brand_id">
             <cart-summary :products="brand_product" />
           </div>
           <div class="box-left mt20">
-          <!--    // Edited by Dan 02-01-2020-->
-          <div class="checkout-title py5 px20">
-            <h3>
-              {{ $t('Checkout') }}
-            </h3>
-          </div>
-          <personal-details
-            class="line relative"
-            :is-active="activeSection.personalDetails"
-            :focused-field="focusedField"
-          />
-          <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart" />
-          <payment class="line relative" :is-active="activeSection.payment" />
+            <!--    // Edited by Dan 02-01-2020-->
+            <div class="checkout-title py5 px20">
+              <h3>
+                {{ $t('Checkout') }}
+              </h3>
+            </div>
+            <personal-details
+              class="line relative"
+              :is-active="activeSection.personalDetails"
+              :focused-field="focusedField"
+            />
+            <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart" />
+            <payment class="line relative" :is-active="activeSection.payment" />
 
-          <div id="custom-steps" />
+            <div id="custom-steps" />
           </div>
         </div>
-<!--        <div class="hidden-xs col-sm-5 bg-cl-secondary">-->
-<!--        // TODO: Need to make sure the cart summary shows in mobile version -> 'xs'-->
+        <!--        <div class="hidden-xs col-sm-5 bg-cl-secondary">-->
+        <!--        // TODO: Need to make sure the cart summary shows in mobile version -> 'xs'-->
         <div class="col-lg-4 col-md-12 col-sm-12 mt20" style="z-index: 2">
           <div class="box-right">
             <order-summary />
@@ -44,7 +44,7 @@ import Checkout from '@vue-storefront/core/pages/Checkout'
 import PersonalDetails from 'theme/components/core/blocks/Checkout/PersonalDetails'
 import Shipping from 'theme/components/core/blocks/Checkout/Shipping'
 import Payment from 'theme/components/core/blocks/Checkout/Payment'
-import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
+// import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import OrderSummary from 'theme/components/core/blocks/Checkout/OrderSummary'
 import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
@@ -57,7 +57,7 @@ export default {
     Shipping,
     Payment,
     OrderSummary,
-    OrderReview,
+    // OrderReview,
     CartSummary,
     ThankYouPage
   },

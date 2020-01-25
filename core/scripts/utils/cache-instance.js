@@ -14,7 +14,6 @@ if (config.server.useOutputCache) {
   }
   const redisConfig = Object.assign(config.redis, { keyPrefix: cacheKey })
 
-
   cache = new TagCache({
     redis: redisConfig,
     defaultTimeout: config.server.outputCacheDefaultTtl

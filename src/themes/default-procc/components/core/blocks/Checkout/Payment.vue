@@ -9,7 +9,7 @@
           {{ (isVirtualCart ? 2 : 3) }}
         </div>
         <div class="mb15">
-          <div  :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
+          <div :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h4 class="m0">
               {{ $t('Payment') }}
             </h4>
@@ -120,14 +120,14 @@
             @blur="$v.payment.city.$touch()"
             autocomplete="address-level2"
             :validations="[
-            {
-              condition: $v.payment.city.$error && !$v.payment.city.required,
-              text: $t('Field is required')
-            },
-            {
-              condition: $v.payment.city.$error && $v.payment.city.required,
-              text: $t('Please provide valid city name')
-            }
+              {
+                condition: $v.payment.city.$error && !$v.payment.city.required,
+                text: $t('Field is required')
+              },
+              {
+                condition: $v.payment.city.$error && $v.payment.city.required,
+                text: $t('Please provide valid city name')
+              }
             ]"
           />
 
@@ -451,7 +451,7 @@ export default {
         if (result.data.message_type === 'success') {
           // emit event for place order in megento by shabbir
           this.$bus.$emit('place-magento-order', {transactionId})
-        }else {
+        } else {
           this.$bus.$emit('notification-progress-stop');
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
@@ -470,13 +470,13 @@ export default {
     }
   },
   methods: {
-    onFailure(result) {
+    onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t(result.result),
         action1: {label: this.$t('OK')}
       })
-    },
+    }
   }
 }
 </script>

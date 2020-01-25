@@ -72,7 +72,9 @@
         <div class="col-xs">
           {{ segment.title }}
           <ul style="font-size: 14px" v-if="segment.value">
-            <li v-for="data in segment.value">{{data.name}} ({{ data.cost | price }})</li>
+            <li v-for="data in segment.value" :key="data.id">
+              {{ data.name }} ({{ data.cost | price }})
+            </li>
           </ul>
           <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
             <i class="material-icons cl-accent">
@@ -81,7 +83,7 @@
           </button>
         </div>
         <div class="col-xs align-right">
-          {{ segment.total || 0 | price}}
+          {{ segment.total || 0 | price }}
         </div>
       </div>
       <!--      <div class="row py20">-->
@@ -149,10 +151,10 @@ import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 
-import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+// import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
 import ButtonFull from 'theme/components/theme/ButtonFull'
-import ButtonOutline from 'theme/components/theme/ButtonOutline'
+// import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import Product from 'theme/components/core/blocks/Microcart/Product'
 import EditMode from './EditMode'
 import { InstantCheckoutModule } from 'src/modules/instant-checkout'
@@ -162,8 +164,8 @@ export default {
     Product,
     ClearCartButton,
     ButtonFull,
-    ButtonOutline,
-    BaseInput,
+    // ButtonOutline,
+    // BaseInput,
     InstantCheckout
   },
   mixins: [
