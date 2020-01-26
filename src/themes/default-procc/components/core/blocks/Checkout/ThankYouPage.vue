@@ -129,6 +129,8 @@ export default {
       }
     },
     sendFeedback () {
+      console.log('this.checkoutPersonalEmailAddress', this.checkoutPersonalEmailAddress)
+      console.log('this.mailerElements', this.mailerElements)
       this.sendEmail(
         {
           sourceAddress: this.checkoutPersonalEmailAddress,

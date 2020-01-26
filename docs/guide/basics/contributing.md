@@ -20,7 +20,7 @@ Always define the type of issue:
 - Bug report
 - Feature request
 
-While writing issues, please be as specific as possible. All requests regarding support with implementation or application setup should be sent to [contributors@vuestorefront.io](mailto:contributors@vuestorefront.io)
+While writing issues, please be as specific as possible. All requests regarding support with implementation or application setup should be sent to [support@procc.co](mailto:support@procc.co)
 
 If the issue is about some changes with a particular theme, please prefix the issue with the theme name (ex. `[default] change product tile background color`).
 
@@ -52,7 +52,7 @@ Here’s how to submit a pull request. **Pull requests that don't meet these req
 
 7. Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project. Make sure that your branch is passing the Travis CI build.
 
-8. If you have found a potential security vulnerability, please do not report it on the public issue tracker. Instead, send it to us at [contributors@vuestorefront.io](mailto:contributors@vuestorefront.io). We will work with you to verify and fix it as soon as possible.
+8. If you have found a potential security vulnerability, please do not report it on the public issue tracker. Instead, send it to us at [support@procc.co](mailto:support@procc.co). We will work with you to verify and fix it as soon as possible.
 
 
 ## New features

@@ -41,14 +41,19 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
   }
   return totalsArray
 }
-function getShippingCost (shippingMethod, cartItems) {
+function getShippingCost (shippingMethods, cartItems) {
   let total_shipping = []
   let method = null
   let cartItemByBrand = null
-  for (let brand_id in shippingMethod) {
-    method = shippingMethod[brand_id]
-    cartItemByBrand = filter(cartItems, (i) => { return i.procc_brand_id === brand_id })
-    total_shipping.push({name: method.name, cost: cartItemByBrand.length * method.cost})
+  for (let brand_id in shippingMethods) {
+    method = shippingMethods[brand_id]
+    console.log('shippingMethods', shippingMethods)
+    console.log('getShippingCost method', method)
+    console.log('getShippingCost brand_id', brand_id)
+    if(method){
+      cartItemByBrand = filter(cartItems, (product) => { return product.procc_brand_id === brand_id })
+      total_shipping.push({name: method.name, cost: cartItemByBrand.length * method.cost})
+    }
   }
   return total_shipping
 }

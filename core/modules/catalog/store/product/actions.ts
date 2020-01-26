@@ -570,6 +570,7 @@ const actions: ActionTree<ProductState, RootState> = {
       const originalProduct = context.getters.getOriginalProduct
 
       // check if passed variant is the same as original
+      console.log('setCurrent productVariant: ', productVariant)
       const productUpdated = Object.assign({}, originalProduct, productVariant)
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
       if (!config.products.gallery.mergeConfigurableChildren) {

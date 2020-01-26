@@ -416,7 +416,7 @@
       "send": "/api/ext/mail-service/send-email",
       "token": "/api/ext/mail-service/get-token"
     },
-    "contactAddress": "contributors@vuestorefront.io",
+    "contactAddress": "support@procc.co",
     "sendConfirmation": true
   },
   "theme": "@vue-storefront/theme-default",

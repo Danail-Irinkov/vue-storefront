@@ -21,7 +21,7 @@
           <p>
             <strong>
               If you want to use the solution or join our passionate PWA community - feel free to contact us via
-              <a href="mailto:contributors@vuestorefront.io" class="cl-success"> e-mail</a>
+              <a href="mailto:support@procc.co" class="cl-success"> e-mail</a>
               or
               <a href="https://vuestorefront.slack.com/" class="cl-success"> Slack</a>.
             </strong>

@@ -406,8 +406,8 @@ function _internalMapOptions (productOption) {
 }
 
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
-  console.log('populateProductConfigurationAsync product: ', product)
-  console.log('populateProductConfigurationAsync: ', selectedVariant)
+  // console.log('populateProductConfigurationAsync product: ', product)
+  console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant)
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
       console.log('populateProductConfigurationAsync option', option)
@@ -436,12 +436,17 @@ export function populateProductConfigurationAsync (context, { product, selectedV
           return (a.attribute_code === attribute_code)
         })
       } else {
+        console.log('selectedVariant 2222: ', selectedVariant)
         selectedOption = {
           attribute_code: attribute_code,
-          value: selectedVariant[attribute_code]
+          value: selectedVariant[attribute_code],
         }
+        if(attribute_code === 'size'){
+          selectedOption.label = selectedVariant.size_label // Added By Dan ProCC
+        }
+        console.log('selectedOption 2222: ', selectedOption)
       }
-      if (option.values && option.values.length) {
+      if (option.values && option.values.length && !selectedOption.label) { // Added label condition by Dan
         const selectedOptionMeta = option.values.find(ov => { return ov.value_index === selectedOption.value })
         if (selectedOptionMeta) {
           selectedOption.label = selectedOptionMeta.label ? selectedOptionMeta.label : selectedOptionMeta.default_label
@@ -449,11 +454,14 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         }
       }
 
+      console.log('selectedOption 3333: ', selectedOption)
       const confVal = {
         attribute_code: attribute_code,
         id: selectedOption.value,
         label: selectedOption.label ? selectedOption.label : /* if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
+      console.log('selectedOption: ', selectedOption)
+      console.log('confVal: ', confVal)
       context.state.current_configuration[attribute_code] = confVal
     }
     if (config.cart.setConfigurableProductOptions) {
@@ -470,28 +478,50 @@ export function populateProductConfigurationAsync (context, { product, selectedV
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
+  console.log('configureProductAsync product: ', product)
+  console.log('configureProductAsync configuration: ', configuration)
   // console.log('findConfigurableChildAsync product1', product)
   if (product === null) product = context.getters.getCurrentProduct
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
 
   // console.log('findConfigurableChildAsync product2', product)
   // console.log('findConfigurableChildAsync configuration', configuration)
+  console.log('findConfigurableChildAsync hasConfigurableChildren', hasConfigurableChildren)
+  const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0)
+  console.log('findConfigurableChildAsync hasConfigurableOptions', hasConfigurableOptions)
 
-  if (hasConfigurableChildren) {
+  if (hasConfigurableChildren || hasConfigurableOptions) {
     // handle custom_attributes for easier comparing in the future
-    product.configurable_children.forEach((child) => {
-      let customAttributesAsObject = {}
-      if (child.custom_attributes) {
-        child.custom_attributes.forEach((attr) => {
-          customAttributesAsObject[attr.attribute_code] = attr.value
-        })
-        // add values from custom_attributes in a different form
-        Object.assign(child, customAttributesAsObject)
-      }
-    })
+    if(hasConfigurableChildren){
+      product.configurable_children.forEach((child) => {
+        let customAttributesAsObject = {}
+        if (child.custom_attributes) {
+          child.custom_attributes.forEach((attr) => {
+            customAttributesAsObject[attr.attribute_code] = attr.value
+          })
+          // add values from custom_attributes in a different form
+          Object.assign(child, customAttributesAsObject)
+        }
+      })
+    }
     // find selected variant
     let desiredProductFound = false
-    let selectedVariant = findConfigurableChildAsync({ product, configuration, availabilityCheck: true })
+    // Edited By dan to allow for not synced simple products from M2 - ProCC
+    let selectedVariant
+    if(hasConfigurableChildren){
+      selectedVariant = findConfigurableChildAsync({ product, configuration, availabilityCheck: true })
+    }else{
+      selectedVariant = {...product}
+      if (configuration.size && configuration.size.id && configuration.size.label && configuration.size.label !== ' ') {
+        if (selectedVariant.sku && selectedVariant.sku.indexOf('-' + configuration.size.label) === -1) {
+          selectedVariant.sku = selectedVariant.parentSku + '-' + configuration.size.label // adjusting from parentSKU to size variant sku
+        }
+        selectedVariant.size = configuration.size.id
+        selectedVariant.size_label = configuration.size.label
+      }
+      console.log('selectedVariant !1111', selectedVariant)
+    }
+    // Edited By dan to allow for not synced simple products from M2 - ProCC - END
     if (!selectedVariant) {
       if (fallbackToDefaultWhenNoAvailable) {
         selectedVariant = findConfigurableChildAsync({ product, selectDefaultChildren: true, availabilityCheck: true }) // return first available child

@@ -76,7 +76,9 @@ export const Shipping = {
       this.shipToMyAddress = this.hasShippingDetails()
     },
     checkSelectedShippingMethod () {
+      console.log('this.getSelectedShippingMethod', this.getSelectedShippingMethod)
       for (let brand_id in this.getSelectedShippingMethod) {
+        if(this.getSelectedShippingMethod[brand_id] && this.getSelectedShippingMethod[brand_id]._id)
         this.selectedShippingMethod[brand_id] = this.getSelectedShippingMethod[brand_id]._id
       }
     },

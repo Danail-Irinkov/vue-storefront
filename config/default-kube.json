@@ -512,7 +512,7 @@
   "products": {
     "disablePersistentProductsCache": true,
     "useMagentoUrlKeys": true,
-    "setFirstVarianAsDefaultInURL": false,
+    "setFirstVarianAsDefaultInURL": true,
     "configurableChildrenStockPrefetchStatic": false,
     "configurableChildrenStockPrefetchDynamic": true,
     "configurableChildrenStockPrefetchStaticPrefetchCount": 8,
@@ -707,7 +707,7 @@
       "send": "https://store.procc.co/api/ext/mail-service/send-email",
       "token": "https://store.procc.co/api/ext/mail-service/get-token"
     },
-    "contactAddress": "contributors@vuestorefront.io",
+    "contactAddress": "support@procc.co",
     "sendConfirmation": true
   },
   "theme": "@vue-storefront/theme-default-procc",

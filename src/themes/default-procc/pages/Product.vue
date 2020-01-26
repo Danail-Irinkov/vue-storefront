@@ -87,6 +87,7 @@
                         class="mr10 mb10"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
                         :key="filter.id"
+                        ref="sizes"
                         :variant="filter"
                         :selected-filters="getSelectedFilters"
                         @change="changeFilter"
@@ -410,6 +411,7 @@ export default {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
     getSelectedFilters () {
+      console.log('getSelectedFiltersByProduct', getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration))
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isSimpleOrConfigurable () {
@@ -425,6 +427,8 @@ export default {
     await this.$store.dispatch('recently-viewed/addItem', this.getCurrentProduct)
     this.isCCStore = this.currentImage.is_cc_store
     let selected_filters = this.getSelectedFilters
+
+    if(selected_filters.size.id) // Added By dan, because missing size label
     this.changeFilter(selected_filters.size)
   },
   async asyncData ({ store, route }) {
@@ -524,12 +528,16 @@ export default {
     async getQuantity (variant = null) {
       // Edited By dan 30-12-2019
       let product = {...this.getCurrentProduct}
-      if (variant && variant.label) {
-        if (product.sku && product.sku.indexOf('-' + variant.label) === -1) {
-          product.sku = product.sku + '-' + variant.label // adjusting from parentSKU to size variant sku
+      console.log('stock/check getQuantity')
+      // console.log('stock/check product1', product)
+      // console.log('stock/check variant1', variant)
+      let selectedVariant = {...product}
+      if (variant && variant.label && variant.label !== ' ') {
+        if (selectedVariant.sku && selectedVariant.sku.indexOf('-' + variant.label) === -1) {
+          selectedVariant.sku = selectedVariant.parentSku + '-' + variant.label // adjusting from parentSKU to size variant sku
         }
-        product.qty = 1
-        this.ProCCCurrentProductVariant = product
+        // selectedVariant.qty = 1
+        this.ProCCCurrentProductVariant = selectedVariant
 
         // EventBus.$emit('product-after-priceupdate', product)
       }
@@ -537,13 +545,31 @@ export default {
 
       if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true
-      try {
-        const res = await this.$store.dispatch('stock/check', {
-          // product: this.getCurrentProduct,
-          product: product, // Edited by dan
-          qty: this.ProCCCurrentProductVariant.qty // Edited by dan
-        })
-        this.maxQuantity = res.qty
+
+      try {// Edited by dan to select first option for configurable products
+        if(product && product.configurable_options && product.configurable_options[0]
+          && product.configurable_options[0].values && product.configurable_options[0].values.length > 0
+          && product.sku === product.parentSku && product.type_id === 'configurable'){
+          console.log('stock/check product2', product)
+          // AutoSelect first Option ProCC
+          if(this.getProductOptions[0] && this.getProductOptions[0].attribute_code){
+            let variant = this.getAvailableFilters[this.getProductOptions[0].attribute_code][0]
+            if(variant){
+              console.log('stock/check variant2', variant)
+              this.isStockInfoLoading = false
+              return this.changeFilter(variant)
+            }
+          }
+        }else if(variant){
+          const res = await this.$store.dispatch('stock/check', {
+            // product: this.getCurrentProduct,
+            product: product, // Edited by dan
+            qty: this.ProCCCurrentProductVariant.qty // Edited by dan
+          })
+          console.log('stock/check res', res)
+
+          this.maxQuantity = res.qty
+        }
       } finally {
         this.isStockInfoLoading = false
       }

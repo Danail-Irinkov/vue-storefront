@@ -4,8 +4,10 @@
       <div class="row" v-show="!isThankYouPage">
         <!--        // Edited By Dan-->
         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 mt20" style="">
-          <div class="box-left" v-for="(brand_product, brand_id) in productsInCartByBrand" :key="brand_id">
-            <cart-summary :products="brand_product" />
+          <div class="box-left"
+               v-for="(brand_id, index) in getArrayBrandsOfCartProductsProCC()"
+               :key="index">
+            <cart-summary :brand_id="brand_id"/>
           </div>
           <div class="box-left mt20">
             <!--    // Edited by Dan 02-01-2020-->
@@ -66,6 +68,18 @@ export default {
     registerModule(OrderModule)
   },
   methods: {
+    getArrayBrandsOfCartProductsProCC () { // Added by Dan to split items by Brand
+      console.log('his.$store.state.cart.cartItems', this.$store.state.cart.cartItems)
+      let brands = []
+      for (let product of this.$store.state.cart.cartItems){
+        if(brands.indexOf(product.procc_brand_id) === -1){
+          brands.push(product.procc_brand_id)
+        }
+      }
+      console.log('getArrayBrandsOfCartProductsProCC.brands', brands)
+
+      return brands
+    },
     notifyEmptyCart () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',

@@ -11,7 +11,7 @@
         <div class="images">
           <div v-lazy:background-image="storeImage.logo" class="avatar border-gray" />
         </div>
-        <h4 class="title">
+        <h4 class="title" style="margin-top: 10px">
           {{ storeName }}
         </h4>
       </div>

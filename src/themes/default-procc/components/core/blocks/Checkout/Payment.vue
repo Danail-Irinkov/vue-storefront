@@ -11,7 +11,7 @@
         <div class="mb15">
           <div :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h4 class="m0">
-              {{ $t('Payment') }}
+              {{ $t('Payment') }} ({{ $t('Billing Address') }})
             </h4>
           </div>
           <div class="pr30">

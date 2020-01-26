@@ -595,7 +595,7 @@ At [`vue-storefront-api/config/default.json`](https://github.com/DivanteLtd/vue-
         "user": "vuestorefront",
         "pass": "vuestorefront.io"
       },
-      "targetAddressWhitelist": ["contributors@vuestorefront.io"],
+      "targetAddressWhitelist": ["support@procc.co"],
       "secretString": "__THIS_IS_SO_SECRET__"
     }
   },
@@ -1273,7 +1273,7 @@ At [`vue-storefront/config/default.json`](https://github.com/DivanteLtd/vue-stor
     "send": "http://localhost:8080/api/ext/mail-service/send-email",
     "token": "http://localhost:8080/api/ext/mail-service/get-token"
   },
-  "contactAddress": "contributors@vuestorefront.io",
+  "contactAddress": "support@procc.co",
   "sendConfirmation": true
 },
 "theme": "@vue-storefront/theme-default",

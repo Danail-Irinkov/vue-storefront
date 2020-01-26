@@ -11,7 +11,7 @@
         <div class="mb15">
           <div class="dt-float-l" :class="{ 'cl-bg-tertiary' : !isFilled && !isActive }">
             <h4 class="m0">
-              {{ $t('Shipping') }}
+              {{ $t('Shipping') }} {{ $t('Address') }}
             </h4>
           </div>
           <div class=" dt-float-r pl20">

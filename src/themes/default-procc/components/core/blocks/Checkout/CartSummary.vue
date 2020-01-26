@@ -1,26 +1,29 @@
 <template>
-  <div class="w-100">
+  <div class="w-100" style="padding: 10px 20px 10px 20px; margin-bottom: 10px">
     <!--    // Edited by Dan 02-01-2020-->
-    <div class="brdr-cl-primary py5 px20" style="">
-      <h3 class="order-sum cl-accent summary-title">
-        {{ $t('Cart Items') }}
-      </h3>
-      <div class="store-info" v-if="products && products[0].procc_brand_id">
-        <img :src="getBrandData(products[0].procc_brand_id).logo.thumb" alt="" class="brand-img">
-        <p>{{ getBrandData(products[0].procc_brand_id).name }}</p>
+    <div class="brdr-cl-primary py5 px20"
+         style="">
+<!--      // DISABLED BY DAN -> Not Needed as it is obvious-->
+<!--      <h3 class="order-sum cl-accent summary-title">-->
+<!--        {{ $t('Cart Items') }}-->
+<!--      </h3>-->
+      <div class="store-info" v-if="brand_id">
+        <img :src="getBrandData(brand_id).logo.thumb" alt="" class="brand-img">
+        <p>{{ getBrandData(brand_id).name }}</p>
         <div class="store-contact text brand-contact">
-          <a class="btn normal-icon-btn" :href="'mailto:'+getBrandData(products[0].procc_brand_id).customer_support_email">
+          <a class="btn normal-icon-btn" :href="'mailto:'+getBrandData(brand_id).customer_support_email">
             <i class="material-icons" data-v-0ac1abd3="">mail_outline</i>
           </a>
         </div>
-        <div class="store-contact text shipping-method">
-          {{ getSelectedShippingMethod[products[0].procc_brand_id].name }} | {{ getSelectedShippingMethod[products[0].procc_brand_id].cost | price }}
+        <div class="store-contact text shipping-method" v-if="getSelectedShippingMethod[brand_id]">
+          {{ getSelectedShippingMethod[brand_id].name }} | {{ getSelectedShippingMethod[brand_id].cost | price }}
           <button class="btn normal-icon-btn">
             <i class="material-icons" data-v-0ac1abd3="" @click="showShippingModel()">local_shipping</i>
           </button>
         </div>
       </div>
-      <product v-for="product in productsInCart" :key="product.sku" :product="product" />
+<!--      <product v-for="product in productsInCart" :key="product.sku" :product="product" />-->
+      <product v-for="product in productsInCartByBrandProCC(brand_id)" :key="product.sku" :product="product" />
     </div>
     <div class="py50 px25" v-show="false && 'TODO: need to edit the texts'">
       <h4 class="h3 m0">
@@ -45,7 +48,7 @@
         Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
       </p>
     </div>
-    <shipping-method v-if="loadShippingMethod" :store-brand-id="products[0].procc_brand_id" :is-active="true" />
+    <shipping-method v-if="loadShippingMethod" :store-brand-id="brand_id" :is-active="true" />
   </div>
 </template>
 
@@ -60,8 +63,9 @@ export default {
     ShippingMethod
   },
   props: {
-    products: {
-      type: Array
+    brand_id: {
+      type: String,
+      default: ''
     }
   },
   mixins: [CartSummary]

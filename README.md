@@ -48,7 +48,7 @@ PS: Check [StorefrontUI](https://github.com/DivanteLtd/storefront-ui/) - our UI 
         </a>
       </td>
       <td align="left" valign="top">
-        Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via contributors@vuestorefront.io. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunately won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
+        Try out our open demo and if you like it <strong>first give us some star on Github ★</strong> and then contact us on <a href="https://slack.vuestorefront.io">Slack</a> or via support@procc.co. <br /><br /> This demo site is connected to <a href="http://demo-magento2.vuestorefront.io">Magento 2.2</a> with shopping carts and users synchronization so You can make an order (which unfortunately won't be shipped ;P). <br /><br />If You like to see Magento 1 integration demo please <a href="https://vuestorefront.io">do contact us</a>.
       </td>
     </tr>
   </tbody>
@@ -237,7 +237,7 @@ Vue Storefront is platform agnostic which means it can be connected to virtually
 
 ## Contributing
 
-If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/DivanteLtd/vue-storefront/issues) or contact us directly via contributors@vuestorefront.io.
+If you like the idea behind Vue Storefront and want to become a contributor - do not hesitate and check our [list of the active issues](https://github.com/DivanteLtd/vue-storefront/issues) or contact us directly via support@procc.co.
 
 If you have discovered a 🐜 or have a feature suggestion, feel free to create an issue on Github.
 
@@ -263,7 +263,7 @@ This is how we will use the donations:
 - Infrastructure cost
 - Fees for money handling
 
-**If you would like to support us please just let us know: contributors@vuestorefront.io**
+**If you would like to support us please just let us know: support@procc.co**
 
 ## Partners
 
@@ -933,7 +933,7 @@ Vue Storefront is a Community effort brought to You by our great Core Team and s
 
 Partners are encouraged to support the project in various ways - mostly by contributing the source code, marketing activities, evangelizing and of course - implementing the production projects. We do support our partners by dedicated contact channels, workshops and by sharing the leads from merchants interested in implementations.
 
-If you like to become our Partner just let us know via contributors@vuestorefront.io.
+If you like to become our Partner just let us know via support@procc.co.
 
 ## The screenshots
 

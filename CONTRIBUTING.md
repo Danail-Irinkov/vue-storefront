@@ -24,7 +24,7 @@ Always define the type of issue:
 * Bug report
 * Feature request
 
-While writing issues, be as specific as possible. All requests regarding support with implementation or application setup should be sent to contributors@vuestorefront.io.
+While writing issues, be as specific as possible. All requests regarding support with implementation or application setup should be sent to support@procc.co.
 
 **Tag your issues properly**. If you found a bug, tag it with `bug` label. If you're requesting new feature, tag it with `feature request` label.
 
@@ -45,7 +45,7 @@ Here are some thoughts on how to use TypeScript features in Vue Storefront: [Typ
 5. If you are adding new feature provide documentation along with the PR. Also, add it to [upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)
 6. If you are removing/renaming something or changing its behavior also include it in [upgrade notes](https://github.com/DivanteLtd/vue-storefront/blob/master/doc/Upgrade%20notes.md)
 7. Test your changes! Run your changes against any existing tests and create new ones when needed. Make sure your changes don’t break the existing project. Make sure that your branch is passing Travis CI build.
-8. If you have found a potential security vulnerability, please DO NOT report it on the public issue tracker. Instead, send it to us at contributors@vuestorefront.io. We will work with you to verify and fix it as soon as possible.
+8. If you have found a potential security vulnerability, please DO NOT report it on the public issue tracker. Instead, send it to us at support@procc.co. We will work with you to verify and fix it as soon as possible.
 (https://github.com/DivanteLtd/vue-storefront/blob/master/README.md#documentation--table-of-contents))
 
 ## Acceptance Criteria

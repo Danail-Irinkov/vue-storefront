@@ -42,7 +42,7 @@
             </td>
             <td class="fs-medium lh25 align-right" :data-th="$t('Cost')">
               <span v-if="method.cost > 0">{{ method.cost | price }}</span>
-              <span v-else>{{ $t('Dynamic Calculate') }}</span>
+              <span v-else>{{ $t('Calculated') }}</span>
             </td>
             <td class="fs-medium lh25" :data-th="$t('tracking')">
               <i class="material-icons">

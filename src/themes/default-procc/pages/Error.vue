@@ -15,7 +15,7 @@
           </p>
           <p>
             {{ $t('If you need an assistance you can drop us a line on') }}
-            <a href="mailto:contributors@vuestorefront.io" class="cl-secondary no-underline">
+            <a href="mailto:support@procc.co" class="cl-secondary no-underline">
               {{ $t('a contact page') }}
             </a>
           </p>
