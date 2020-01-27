@@ -11,9 +11,9 @@ const config = require('config')
 
 module.exports = (baseURL = '') => {
 // export default (baseURL = '') => {
-  baseURL = config.PROCC.URL + '/api/'
+//   baseURL = config.PROCC.URL + '/api/'
   // if (isServer) {
-  //   baseURL = config.PROCC.API + '/api/'
+    baseURL = config.PROCC.API + '/api/'
   // }
 
   // ------
