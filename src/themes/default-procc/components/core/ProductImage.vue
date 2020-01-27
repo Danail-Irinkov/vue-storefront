@@ -130,4 +130,5 @@ export default {
       }
     }
   }
+  .product-image.product-image--width img {max-width: 100%;min-height: auto;}
 </style>

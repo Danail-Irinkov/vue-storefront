@@ -279,6 +279,15 @@ export default {
     flex: 100%;
     margin: 10px 0 0;
   }
+  @media screen and (min-width:576px) and (max-width: 767px){
+    .flex.qty-fav-delete {display: block;}
+    .flex.qty-fav-delete .qty-add-dlt {
+      display: block;
+      float: none;
+      width: 100%;
+      margin: 10px 0 !important;
+    }
+  }
   @media screen and (max-width: 767px){
     .qty-add-dlt {float: left;}
     .flex.qty-fav-delete .qty-add-dlt {
@@ -297,7 +306,7 @@ export default {
     .shipping-text{text-align: left !important;}
   }
 
-  @media (max-width: 350px) {
+  @media (max-width: 363px) {
     .material-icons {
       font-size: 18px;
     }

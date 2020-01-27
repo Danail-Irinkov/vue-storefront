@@ -277,6 +277,7 @@ export default {
           tr {
             @media (max-width: 767px) {
               position: relative;
+              display: table;
               &:first-child {
                 border: 0
               }
@@ -342,6 +343,7 @@ export default {
         float: right;
         @media (max-width: 991px) {
           padding: 10px !important;
+          float: left;
         }
         input {
           display: none;
@@ -368,4 +370,5 @@ export default {
       }
     }
   }
+
 </style>
