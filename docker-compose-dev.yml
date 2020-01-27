@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/vue-storefront/dev/Dockerfile
+    env_file: docker/vue-storefront/dev/default.env
     volumes:
       - .:/var/www
       - /var/www/node_modules

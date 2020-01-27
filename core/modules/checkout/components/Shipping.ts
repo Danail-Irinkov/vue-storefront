@@ -76,11 +76,12 @@ export const Shipping = {
       this.shipToMyAddress = this.hasShippingDetails()
     },
     checkSelectedShippingMethod () {
-      console.log('this.getSelectedShippingMethod', this.getSelectedShippingMethod)
+      console.log('this.getSelectedShippingMethod1', this.getSelectedShippingMethod)
       for (let brand_id in this.getSelectedShippingMethod) {
         if(this.getSelectedShippingMethod[brand_id] && this.getSelectedShippingMethod[brand_id]._id)
         this.selectedShippingMethod[brand_id] = this.getSelectedShippingMethod[brand_id]._id
       }
+      console.log('this.getSelectedShippingMethod2', this.getSelectedShippingMethod)
     },
     saveShippingMethod () {
       this.$bus.$emit('modal-hide', 'modal-shipping-method')
@@ -141,7 +142,10 @@ export const Shipping = {
       this.changeCountry()
     },
     getShippingMethod () {
+      console.log('this.shipping.shippingMethod', this.shipping.shippingMethod)
+      console.log('this.shippingMethods.length', this.shippingMethods.length)
       for (let i = 0; i < this.shippingMethods.length; i++) {
+        console.log('this.shippingMethods[i]._id', this.shippingMethods[i]._id)
         if (this.shippingMethods[i]._id === this.shipping.shippingMethod) {
           return {
             name: this.shippingMethods[i].name,

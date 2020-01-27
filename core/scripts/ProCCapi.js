@@ -97,6 +97,9 @@ module.exports = (config, app) => {
     console.log(products, 'setProductBanners DATA:', storeCode, imagesRootURL);
     setProductBanners(config, products, storeCode, imagesRootURL);
 
+    if(process.env.NODE_ENV === 'development'){
+      restartVueStorefrontDevDocker()
+    }
     apiStatus(res, 'Vue Storefront: /product-link Success', 200);
     // end set to product banners
   });
@@ -505,3 +508,8 @@ function testKebab () {
 }
 
 testKebab();
+
+function restartVueStorefrontDevDocker () {
+  console.log(' == RESTARTING Vuestorefront Docker Dev ==');
+  return exec('pm2', [ 'restart', '0' ], { shell: true });
+}

@@ -26,7 +26,7 @@ export default {
       order: {},
       personalDetails: {},
       shipping: {},
-      shippingMethod: {},
+      // shippingMethods: {}, // SLECTED?
       payment: {},
       orderReview: {},
       cartSummary: {},
@@ -117,6 +117,9 @@ export default {
     // this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
   },
   beforeDestroy () {
+    let test_order_data = this.prepareOrder()
+    console.log('test_order_data', test_order_data)
+
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
@@ -144,15 +147,17 @@ export default {
         this.$router.push(this.localizedRoute('/'))
       }
     },
-    async onAfterShippingMethodChanged (shippingMethod) {
+    async onAfterShippingMethodChanged (shippingMethods) {
       // await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
-      let selectedShippingMethod = {}
-      for (let brand_id in shippingMethod) {
-        selectedShippingMethod[brand_id] = find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethod[brand_id] })
+      let selectedshippingMethods = {}
+      for (let brand_id in shippingMethods) {
+        selectedshippingMethods[brand_id] = find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethods[brand_id] })
       }
-      await this.$store.dispatch('checkout/updateSelectedShippingMethod', selectedShippingMethod)
-      await this.$store.dispatch('cart/updateCartSelectedShippingMethod', selectedShippingMethod)
-      this.shippingMethod = selectedShippingMethod
+      console.log('onAfterShippingMethodChanged shippingMethods', shippingMethods)
+      console.log('onAfterShippingMethodChanged selectedshippingMethods', selectedshippingMethods)
+      await this.$store.dispatch('checkout/updateSelectedShippingMethod', selectedshippingMethods)
+      await this.$store.dispatch('cart/updateCartSelectedShippingMethod', selectedshippingMethods)
+      // this.shippingMethods = selectedshippingMethods
       this.$forceUpdate()
     },
     onBeforeShippingMethods (country) {
@@ -288,6 +293,8 @@ export default {
       return paymentMethod
     },
     prepareOrder () {
+      console.log('this.$store.state.cart.selectedShippingMethod', this.$store.state.cart.selectedShippingMethod)
+
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
