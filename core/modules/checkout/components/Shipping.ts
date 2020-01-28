@@ -26,7 +26,7 @@ export const Shipping = {
       countries: Countries,
       shipping: this.$store.state.checkout.shippingDetails,
       shipToMyAddress: false,
-      selectedShippingMethod: {},
+      selectedShippingMethods: {},
       myAddressDetails: {
         firstname: '',
         lastname: '',
@@ -45,7 +45,7 @@ export const Shipping = {
     }),
     ...mapGetters({
       shippingMethods: 'checkout/getShippingMethods',
-      getSelectedShippingMethod: 'checkout/getSelectedShippingMethod'
+      getSelectedShippingMethods: 'checkout/getSelectedShippingMethods'
     }),
     checkoutShippingDetails () {
       return this.$store.state.checkout.shippingDetails
@@ -76,16 +76,16 @@ export const Shipping = {
       this.shipToMyAddress = this.hasShippingDetails()
     },
     checkSelectedShippingMethod () {
-      console.log('this.getSelectedShippingMethod1', this.getSelectedShippingMethod)
-      for (let brand_id in this.getSelectedShippingMethod) {
-        if(this.getSelectedShippingMethod[brand_id] && this.getSelectedShippingMethod[brand_id]._id)
-        this.selectedShippingMethod[brand_id] = this.getSelectedShippingMethod[brand_id]._id
+      console.log('this.getSelectedShippingMethods1', this.getSelectedShippingMethods)
+      for (let brand_id in this.getSelectedShippingMethods) {
+        if(this.getSelectedShippingMethods[brand_id] && this.getSelectedShippingMethods[brand_id]._id)
+        this.selectedShippingMethods[brand_id] = this.getSelectedShippingMethods[brand_id]._id
       }
-      console.log('this.getSelectedShippingMethod2', this.getSelectedShippingMethod)
+      console.log('this.getSelectedShippingMethods2', this.getSelectedShippingMethods)
     },
-    saveShippingMethod () {
+    saveShippingMethod (brand_id) {
       this.$bus.$emit('modal-hide', 'modal-shipping-method')
-      this.$bus.$emit('checkout-after-shippingMethodChanged', this.selectedShippingMethod)
+      this.$bus.$emit('checkout-after-shippingMethodChanged', this.selectedShippingMethods)
     },
     onAfterShippingSet (receivedData) {
       this.shipping = receivedData

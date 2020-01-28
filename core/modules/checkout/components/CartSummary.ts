@@ -16,7 +16,7 @@ export const CartSummary = {
       shippingMethods: 'checkout/getShippingMethods',
       getBrandsDetails: 'checkout/getBrandsDetails',
       getDefaultShippingMethods: 'checkout/getDefaultShippingMethods',
-      getSelectedShippingMethod: 'checkout/getSelectedShippingMethod'
+      getSelectedShippingMethods: 'checkout/getSelectedShippingMethods'
     })
 
   },
@@ -64,11 +64,7 @@ export const CartSummary = {
       }
     },
     showShippingModel (brand_id) {
-      this.$nextTick(() => {
-        this.loadShippingMethod = true
-        this.$bus.$emit('modal-show', 'modal-shipping-method')
-        this.$forceUpdate()
-      })
+      this.$bus.$emit('show-shipping-method-modal', brand_id)
     }
   }
 }

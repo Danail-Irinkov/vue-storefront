@@ -15,6 +15,8 @@ export default {
     return {
       transactionId: '', // by ProCC
       stockCheckCompleted: false,
+      loadShippingMethod: false,
+      brandId: null,
       stockCheckOK: false,
       confirmation: null, // order confirmation from server
       activeSection: {
@@ -65,6 +67,7 @@ export default {
     this.$bus.$on('checkout-do-placeOrder', this.onDoPlaceOrder)
     this.$bus.$on('checkout-before-edit', this.onBeforeEdit)
     this.$bus.$on('order-after-placed', this.onAfterPlaceOrder)
+    this.$bus.$on('show-shipping-method-modal', this.showShippingMethodModal)
     this.$bus.$on('place-magento-order', this.PlaceMagentoOrder)
     this.$bus.$on('checkout-before-shippingMethods', this.onBeforeShippingMethods)
     this.$bus.$on('checkout-after-shippingMethodChanged', this.onAfterShippingMethodChanged)
@@ -155,8 +158,8 @@ export default {
       }
       console.log('onAfterShippingMethodChanged shippingMethods', shippingMethods)
       console.log('onAfterShippingMethodChanged selectedshippingMethods', selectedshippingMethods)
-      await this.$store.dispatch('checkout/updateSelectedShippingMethod', selectedshippingMethods)
-      await this.$store.dispatch('cart/updateCartSelectedShippingMethod', selectedshippingMethods)
+      await this.$store.dispatch('checkout/updateSelectedShippingMethods', selectedshippingMethods)
+      await this.$store.dispatch('cart/updateCartSelectedShippingMethods', selectedshippingMethods)
       // this.shippingMethods = selectedshippingMethods
       this.$forceUpdate()
     },
@@ -184,6 +187,12 @@ export default {
     },
     onAfterCartSummary (receivedData) {
       this.cartSummary = receivedData
+    },
+    // created function for show shipping method modal by brand id
+    showShippingMethodModal (brand_id) {
+      this.brandId = brand_id
+      this.loadShippingMethod = true
+      this.$bus.$emit('modal-show', 'modal-shipping-method')
     },
     onDoPlaceOrder (additionalPayload) {
       // add by shabbir for show spinner
@@ -293,7 +302,7 @@ export default {
       return paymentMethod
     },
     prepareOrder () {
-      console.log('this.$store.state.cart.selectedShippingMethod', this.$store.state.cart.selectedShippingMethod)
+      console.log('this.$store.state.cart.selectedShippingMethods', this.$store.state.cart.selectedShippingMethods)
 
       this.order = {
         user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
@@ -321,7 +330,7 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.$store.state.cart.selectedShippingMethod ? this.$store.state.cart.selectedShippingMethod : {},
+          shipping_method_code: this.$store.state.cart.selectedShippingMethods ? this.$store.state.cart.selectedShippingMethods : {},
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
@@ -360,6 +369,7 @@ export default {
         .then((result) => {
           if (result.data.message_type === 'success') {
             this.procc_order_ids = result.data.order_ids
+            this.ProCCOrderPayment()
           }
         }).catch(err => {
           Logger.error(err, 'Transaction was not Done!!')
@@ -370,7 +380,6 @@ export default {
             action1: { label: this.$t('OK') }
           })
         })
-      this.ProCCOrderPayment()
     },
     // Created function by shabbir for make payment
     ProCCOrderPayment () {

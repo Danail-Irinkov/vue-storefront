@@ -37,6 +37,7 @@
       </div>
     </div>
     <thank-you-page v-show="isThankYouPage" />
+    <shipping-method v-if="loadShippingMethod" :store-brand-id="brandId" :is-active="true" />
   </div>
 </template>
 
@@ -50,6 +51,7 @@ import Payment from 'theme/components/core/blocks/Checkout/Payment'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import OrderSummary from 'theme/components/core/blocks/Checkout/OrderSummary'
 import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
+import ShippingMethod from 'theme/components/core/blocks/Checkout/ShippingMethod'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { OrderModule } from '@vue-storefront/core/modules/order'
 
@@ -61,7 +63,8 @@ export default {
     OrderSummary,
     // OrderReview,
     CartSummary,
-    ThankYouPage
+    ThankYouPage,
+    ShippingMethod
   },
   mixins: [Checkout],
   beforeCreate () {

@@ -60,7 +60,7 @@ const mutations: MutationTree<CheckoutState> = {
     state.brandsDetails = Object.assign({}, state.brandsDetails, updateData)
   },
   [types.CHECKOUT_UPDATE_SELECTED_SHIPPING_METHOD] (state, updateData = {}) {
-    state.selectedShippingMethod = Object.assign({}, state.selectedShippingMethod, updateData)
+    state.selectedShippingMethods = Object.assign({}, state.selectedShippingMethods, updateData)
   }
 }
 

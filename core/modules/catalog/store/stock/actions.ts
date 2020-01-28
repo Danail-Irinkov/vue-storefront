@@ -6,6 +6,7 @@ import config from 'config'
 import { StockService } from '@vue-storefront/core/data-resolver'
 import { getStatus, getProductInfos } from '@vue-storefront/core/modules/catalog/helpers/stock'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 
 const actions: ActionTree<StockState, RootState> = {
   async queueCheck ({ dispatch }, { product }) {
@@ -13,19 +14,21 @@ const actions: ActionTree<StockState, RootState> = {
       qty: product.stock ? product.stock.qty : 0,
       status: getStatus(product, 'ok')
     }
-
     if (config.stock.synchronize) {
-      const task = await StockService.queueCheck(product.sku, 'cart/stockSync')
-
+      // call procc api for get quantity by shabbir
+      ProCcApi().checkProductQty({product_id: product.procc_product_id,sku:product.sku,size:product.size}, product.procc_brand_id).then((result)=>{
+        dispatch('cart/stockSync', result.data.product ,{ root: true })
+        Logger.debug(`Stock quantity checked for ${result.data.product.product_sku}, response time: ${result.data.product.transmited_at - result.data.product.created_at} ms`, 'stock')()
+      }).catch((error)=>{
+        console.error("error check qty",error)
+      })
       // @ts-ignore
-      Logger.debug(`Stock quantity checked for ${task.product_sku}, response time: ${task.transmited_at - task.created_at} ms`, 'stock')()
 
       return {
         ...checkStatus,
-        onlineCheckTaskId: task.task_id
+        onlineCheckTaskId: ''
       }
     }
-
     return {
       ...checkStatus,
       status: getStatus(product, 'volatile')
@@ -33,13 +36,22 @@ const actions: ActionTree<StockState, RootState> = {
   },
   async check (context, { product }) {
     if (config.stock.synchronize) {
-      const { result, task_id } = await StockService.check(product.sku)
-      console.log('StockService.check result', result)
-      return {
-        qty: result ? result.qty : 0,
-        status: getStatus(result, 'ok'),
-        onlineCheckTaskId: task_id
-      }
+      // call procc api for get quantity by shabbir
+      return ProCcApi().checkProductQty({product_id: product.procc_product_id,sku:product.sku,size:product.size},product.procc_brand_id).then((result)=>{
+        return {
+          qty: result.data.product ? parseInt(result.data.product.qty) : 0,
+          status: getStatus(result.data.product, 'ok'),
+          onlineCheckTaskId: ''
+        }
+
+      }).catch((error)=>{
+        console.error("error check qty",error)
+        return {
+          qty: 0,
+          status: getStatus({}, 'ok'),
+          onlineCheckTaskId: ''
+        }
+      })
     }
 
     return {

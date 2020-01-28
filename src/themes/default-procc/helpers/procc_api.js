@@ -63,6 +63,7 @@ export default (baseURL = '') => {
   const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
   const getShippingMethodByBrand = (brand_ids) => api.post(`shipping-method/getShippingMethodByBrand`, {brand_ids})
   const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
+  const checkProductQty = (data, brandId) => api.post(`product/checkProductQty`, data, getHeader(brandId))
 
   return {
     addNewOrder,
@@ -73,6 +74,7 @@ export default (baseURL = '') => {
     updateVsfSyncStatus,
     updateTransactionInOrder,
     getShippingMethodByBrand,
-    getStoreData
+    getStoreData,
+    checkProductQty
   }
 }

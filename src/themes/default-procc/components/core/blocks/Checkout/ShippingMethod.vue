@@ -1,5 +1,5 @@
 <template>
-  <modal name="modal-shipping-method" class="modal-shipping-method" :width="640">
+  <modal :name="'modal-shipping-method'" class="modal-shipping-method" :width="640">
     <p slot="header" class="p15 modal-header h4 serif weight-700 bg-cl-secondary m0">
       {{ $t('Shipping Methods') }}
     </p>
@@ -31,7 +31,7 @@
                     type="radio"
                     :value="method._id"
                     name="shipping-method"
-                    v-model="selectedShippingMethod[storeBrandId]"
+                    v-model="selectedShippingMethods[storeBrandId]"
                   >
                   <span class="checkmark" />
                 </label>
@@ -58,7 +58,7 @@
     </div>
     <div class="row between-xs middle-xs mt40">
       <div class="col-xs-12">
-        <button-full @click.native="saveShippingMethod"
+        <button-full @click.native="saveShippingMethod(storeBrandId)"
                      :disabled="shippingMethods.length <= 0"
         >
           {{ $t('Apply') }}
@@ -95,7 +95,7 @@ export default {
   },
   mixins: [ Shipping ],
   validations: {
-    selectedShippingMethod: {
+    selectedShippingMethods: {
       required
     }
   }

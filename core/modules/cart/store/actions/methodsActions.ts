@@ -25,15 +25,17 @@ const methodsActions = {
       commit(types.CART_UPD_PAYMENT, rootGetters['checkout/getDefaultPaymentMethod'])
     }
   },
-  async updateCartSelectedShippingMethod ({ commit }, updateData) {
+  // created method for update cart selected shipping methods
+  async updateCartSelectedShippingMethods ({ commit }, updateData) {
     commit(types.CART_UPD_SELECTED_SHIPPING_METHODS, updateData)
   },
+  // created method for set shipping method and selected shipping methods in checkout
   async setCheckoutShippingMethods ({ getters, rootGetters, commit }) {
     if ((!getters.getShippingMethods || isEmpty(getters.getShippingMethods))) {
       commit(types.CART_UPD_SHIPPING_METHODS, rootGetters['checkout/getShippingMethods'])
     }
-    if ((!getters.getSelectedShippingMethod || isEmpty(getters.getSelectedShippingMethod))) {
-      commit(types.CART_UPD_SELECTED_SHIPPING_METHODS, rootGetters['checkout/getSelectedShippingMethod'])
+    if ((!getters.getSelectedShippingMethods || isEmpty(getters.getSelectedShippingMethods))) {
+      commit(types.CART_UPD_SELECTED_SHIPPING_METHODS, rootGetters['checkout/getSelectedShippingMethods'])
     }
   },
   async syncPaymentMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
@@ -49,7 +51,7 @@ const methodsActions = {
           shippingMethods: rootGetters['checkout/getShippingMethods'],
           paymentMethods: rootGetters['checkout/getPaymentMethods'],
           paymentDetails: paymentDetails,
-          selectedShippingMethod: rootGetters['checkout/getSelectedShippingMethod']
+          selectedShippingMethods: rootGetters['checkout/getSelectedShippingMethods']
         })
 
         if (shippingMethodsData.country) {
@@ -82,9 +84,10 @@ const methodsActions = {
       await dispatch('checkout/updateBrandsDetails', brandsDetails, { root: true })
     }
   },
-  async updateSelectedShippingMethod ({ dispatch }, { selectedShippingMethod, commit }) {
-    if (selectedShippingMethod && !isEmpty(selectedShippingMethod)) {
-      await dispatch('checkout/updateSelectedShippingMethod', selectedShippingMethod, { root: true })
+  // created method for emit updateSelectedShippingMethods in checkout for update selected shipping methods
+  async updateSelectedShippingMethods ({ dispatch }, { selectedShippingMethods, commit }) {
+    if (selectedShippingMethods && !isEmpty(selectedShippingMethods)) {
+      await dispatch('checkout/updateSelectedShippingMethods', selectedShippingMethods, { root: true })
     }
   },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
@@ -117,7 +120,7 @@ const methodsActions = {
               default_shipping_methods[brand_id] = shipping_method_data
             }
             dispatch('updateShippingMethods', {shippingMethods: shipping_methods})
-            dispatch('updateSelectedShippingMethod', {selectedShippingMethod: default_shipping_methods})
+            dispatch('updateSelectedShippingMethods', {selectedShippingMethods: default_shipping_methods})
             dispatch('updateBrandsDetails', {brandsDetails: map(result.data.shipping_methods, (o) => { return o.brand; })})
             dispatch('setCheckoutShippingMethods')
           })

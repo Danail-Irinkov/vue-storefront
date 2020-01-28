@@ -15,10 +15,10 @@
             <i class="material-icons" data-v-0ac1abd3="">mail_outline</i>
           </a>
         </div>
-        <div class="store-contact text shipping-method" v-if="getSelectedShippingMethod[brand_id]">
-          {{ getSelectedShippingMethod[brand_id].name }} | {{ getSelectedShippingMethod[brand_id].cost | price }}
+        <div class="store-contact text shipping-method" v-if="getSelectedShippingMethods[brand_id]">
+          {{ getSelectedShippingMethods[brand_id].name }} | {{ getSelectedShippingMethods[brand_id].cost | price }}
           <button class="btn normal-icon-btn">
-            <i class="material-icons" data-v-0ac1abd3="" @click="showShippingModel()">local_shipping</i>
+            <i class="material-icons" data-v-0ac1abd3="" @click="showShippingModel(brand_id)">local_shipping</i>
           </button>
         </div>
       </div>
@@ -48,7 +48,6 @@
         Nullam sed tempor lorem. Vivamus volutpat eros id est semper accumsan.
       </p>
     </div>
-    <shipping-method v-if="loadShippingMethod" :store-brand-id="brand_id" :is-active="true" />
   </div>
 </template>
 
