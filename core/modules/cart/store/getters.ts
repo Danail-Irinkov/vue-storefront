@@ -26,7 +26,7 @@ const getters: GetterTree<CartState, RootState> = {
   isCartSyncEnabled: () => config.cart.synchronize && onlineHelper.isOnline && !isServer,
   getFirstShippingMethod: state => state.shipping instanceof Array ? state.shipping : state.shipping,
   getFirstPaymentMethod: state => state.payment instanceof Array ? state.payment[0] : state.payment,
-  getTotals: ({ cartItems, platformTotalSegments }, getters) => calculateTotals(getters.getSelectedShippingMethods, getters.getFirstPaymentMethod, cartItems),
+  getTotals: ({ cartItems, platformTotalSegments }, getters) => (platformTotalSegments && onlineHelper.isOnline) ? platformTotalSegments : calculateTotals(getters.getSelectedShippingMethods, getters.getFirstPaymentMethod, cartItems),
   getItemsTotalQuantity: ({ cartItems }) => config.cart.minicartCountType === 'items' ? cartItems.length : sumBy(cartItems, p => p.qty),
   getCoupon: ({ platformTotals }): AppliedCoupon | false =>
     !(platformTotals && platformTotals.hasOwnProperty('coupon_code')) ? false : { code: platformTotals.coupon_code, discount: platformTotals.discount_amount },
