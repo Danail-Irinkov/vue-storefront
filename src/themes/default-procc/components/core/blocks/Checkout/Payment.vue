@@ -39,7 +39,9 @@
           >
             {{ $t('Copy address data from shipping') }}
           </base-checkbox>
-
+        </div>
+        <!--modify condition for show address at copy shipping address unchecked by shabbir -->
+        <div class="row" v-if="!sendToShippingAddress">
           <base-checkbox
             v-if="hasBillingData()"
             class="col-xs-12 mb15"
@@ -258,23 +260,8 @@
         </div>
       </div>
     </div>
-    <div class="row" v-if="isActive">
-      <div class="hidden-xs col-sm-2 col-md-1" />
-      <div class="col-xs-12 col-sm-9 col-md-11">
-        <div class="row">
-          <div class="col-xs-12 col-md-8 px20 my30">
-            <button-full
-              @click.native="sendDataToCheckout"
-              data-testid="paymentSubmit"
-              :disabled="$v.payment.$invalid"
-            >
-              {{ $t('Confirm Details') }}
-            </button-full>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row pl20" v-if="!isActive && isFilled">
+    <!--modify condition for show address at copy shipping address checked  by shabbir -->
+    <div class="row pl20" v-if="sendToShippingAddress">
       <div class="hidden-xs col-sm-2 col-md-1" />
       <div class="col-xs-12 col-sm-9 col-md-11">
         <div class="row fs16 mb35">
@@ -308,6 +295,23 @@
                 <span class="checkmark" />
               </label>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     <!--modify code for show place order button after click-->
+    <div class="row" v-if="isActive || isFilled">
+      <div class="hidden-xs col-sm-2 col-md-1" />
+      <div class="col-xs-12 col-sm-9 col-md-11">
+        <div class="row">
+          <div class="col-xs-12 col-md-8 px20 my30">
+            <button-full
+              @click.native="sendDataToCheckout"
+              data-testid="paymentSubmit"
+              :disabled="$v.payment.$invalid"
+            >
+              {{ $t('Place Order') }}
+            </button-full>
           </div>
         </div>
       </div>
@@ -461,6 +465,7 @@ export default {
         }
       }).catch(err => {
         Logger.error(err, 'Transaction was not Done!!')()
+        this.$bus.$emit('notification-progress-stop');
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Transaction was not done!!!!'),

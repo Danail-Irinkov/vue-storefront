@@ -10,6 +10,8 @@ import keys from 'lodash-es/keys'
 import isEmpty from 'lodash-es/isEmpty'
 import map from 'lodash-es/map'
 import find from 'lodash-es/find';
+import defaults from 'lodash-es/defaults';
+
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -109,6 +111,7 @@ const methodsActions = {
 
       if (getters.getCartItemsByBrand && !isEmpty(getters.getCartItemsByBrand)) {
         const brand_ids = keys(getters.getCartItemsByBrand);
+        // added code for get shipping methods and set shipping methods and selected shipping method in vuex by shabbir
         await ProCcApi().getShippingMethodByBrand(brand_ids)
           .then((result) => {
             let default_shipping_methods = {}
@@ -120,7 +123,8 @@ const methodsActions = {
               default_shipping_methods[brand_id] = shipping_method_data
             }
             dispatch('updateShippingMethods', {shippingMethods: shipping_methods})
-            dispatch('updateSelectedShippingMethods', {selectedShippingMethods: default_shipping_methods})
+            let selected_shipping_methods = defaults(getters.getSelectedShippingMethods, default_shipping_methods);
+            dispatch('updateSelectedShippingMethods', {selectedShippingMethods: selected_shipping_methods})
             dispatch('updateBrandsDetails', {brandsDetails: map(result.data.shipping_methods, (o) => { return o.brand; })})
             dispatch('setCheckoutShippingMethods')
           })

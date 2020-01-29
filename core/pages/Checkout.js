@@ -208,10 +208,10 @@ export default {
         }, 400)
       }
     },
+    // Removed order review section active functionality by shabbir
     onAfterPaymentDetails (receivedData, validationResult) {
       this.payment = receivedData
       this.validationResults.payment = validationResult
-      this.activateSection('orderReview')
       this.savePaymentDetails()
     },
     onAfterShippingDetails (receivedData, validationResult) {

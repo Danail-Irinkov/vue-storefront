@@ -57,10 +57,11 @@ const actions: ActionTree<OrderState, RootState> = {
       mp_transaction: order.mp_transaction,
       order_ids: order.order_ids
     }
-    return ProCcApi().updateTransactionInOrder(update_data, order.store_brand)
+    // call API for update order status after payment successfully done
+    return ProCcApi().saveTransactionInOrder(update_data, order.store_brand)
       .then((task) => {
         dispatch('enqueueOrder', { newOrder: order })
-        commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: {orderNumber: order.order_no} })
+        commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: {orderData: task.data.orders} })
         orderHooksExecutors.afterPlaceOrder({ order, task: order.order_ids })
         EventBus.$emit('order-after-placed', { order, confirmation: order.order_ids })
 

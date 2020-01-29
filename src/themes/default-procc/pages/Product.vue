@@ -405,13 +405,9 @@ export default {
       }).sort((a, b) => { return a.attribute_id > b.attribute_id })
     },
     getAvailableFilters () {
-      console.log('getAvailableFilters getCurrentProduct SKU', this.getCurrentProduct.sku)
-      console.log('getAvailableFilters getCurrentProduct configurable_options', this.getCurrentProduct.configurable_options)
-      console.log('getAvailableFilters', getAvailableFiltersByProduct(this.getCurrentProduct))
       return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
     getSelectedFilters () {
-      console.log('getSelectedFiltersByProduct', getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration))
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isSimpleOrConfigurable () {
@@ -566,8 +562,6 @@ export default {
             product: product, // Edited by dan
             qty: this.ProCCCurrentProductVariant.qty // Edited by dan
           })
-          console.log('stock/check res', res)
-
           this.maxQuantity = res.qty
         }
       } finally {
