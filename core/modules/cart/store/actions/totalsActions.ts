@@ -53,7 +53,7 @@ const totalsActions = {
         shippingMethods: rootGetters['checkout/getShippingMethods'],
         paymentMethods: rootGetters['checkout/getPaymentMethods'],
         paymentDetails: rootGetters['checkout/getPaymentDetails'],
-        selectedShippingMethod: rootGetters['checkout/getSelectedShippingMethod']
+        selectedShippingMethods: rootGetters['checkout/getSelectedShippingMethods']
       })
 
       // console.log('syncTotals shippingMethodsData' , shippingMethodsData)

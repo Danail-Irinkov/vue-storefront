@@ -78,10 +78,12 @@ const actions: ActionTree<CheckoutState, RootState> = {
   async updatePaymentDetails ({ commit }, updateData) {
     commit(types.CHECKOUT_UPDATE_PAYMENT_DETAILS, updateData)
   },
+  // updateBrandsDetails created for update brands details by shabbir
   async updateBrandsDetails ({ commit }, updateData) {
     commit(types.CHECKOUT_UPDATE_BRANDS_DETAILS, updateData)
   },
-  async updateSelectedShippingMethod ({ commit }, updateData) {
+  // updateSelectedShippingMethods created for update selected shipping methods data by shabbir
+  async updateSelectedShippingMethods ({ commit }, updateData) {
     commit(types.CHECKOUT_UPDATE_SELECTED_SHIPPING_METHOD, updateData)
   }
 }

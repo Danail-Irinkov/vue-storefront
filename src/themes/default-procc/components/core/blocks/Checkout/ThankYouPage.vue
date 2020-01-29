@@ -20,8 +20,11 @@
               {{ $t('Your purchase') }}
             </h3>
             <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
-            <p v-if="OnlineOnly && lastOrderConfirmation.orderNumber" v-html="this.$t('The OrderNumber is {id}', { id: lastOrderConfirmation.orderNumber })" />
-
+            <div v-if="OnlineOnly && lastOrderConfirmation.orderData">
+              <p v-for="order in lastOrderConfirmation.orderData" :key="order._id">
+                <strong>{{ order.brand.name }}</strong> brand's order number is {{ order.order_no }}.
+              </p>
+            </div>
             <h4 v-if="OfflineOnly">
               {{ $t('You are offline') }}
             </h4>

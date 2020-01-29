@@ -14,5 +14,5 @@ export default interface CartState {
   connectBypassCount: number,
   isAddingToCart: boolean,
   shippingMethods: any,
-  selectedShippingMethod: any
+  selectedShippingMethods: any
 }

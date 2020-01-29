@@ -49,7 +49,7 @@ export const checkoutModule: Module<CheckoutState, RootState> = {
       paymentMethodAdditional: {}
     },
     brandsDetails: [],
-    selectedShippingMethod: {},
+    selectedShippingMethods: {},
     isThankYouPage: false,
     modifiedAt: 0
   },

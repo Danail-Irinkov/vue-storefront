@@ -55,7 +55,7 @@ export default (baseURL = '') => {
   })
 
   const addNewOrder = (orderData, brandId) => api.post('order/addNewOrder', orderData, getHeader(brandId))
-  const updateTransactionInOrder = (orderData, brandId) => api.post('order/updateTransactionInOrder', orderData, getHeader(brandId))
+  const saveTransactionInOrder = (orderData, brandId) => api.post('order/saveTransactionInOrder', orderData, getHeader(brandId))
   const mangoPayCheckIn = (data, brandId) => api.post('mangopay/VSFOrderPayment', data, getHeader(brandId))
   const updateTransactionStatus = (data, brandId) => api.post('mangopay/updateTransactionStatusVSF', data, getHeader(brandId))
   const getSizeChart = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
@@ -63,6 +63,7 @@ export default (baseURL = '') => {
   const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
   const getShippingMethodByBrand = (brand_ids) => api.post(`shipping-method/getShippingMethodByBrand`, {brand_ids})
   const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
+  const checkProductQty = (data, brandId) => api.post(`product/checkProductQty`, data, getHeader(brandId))
 
   return {
     addNewOrder,
@@ -71,8 +72,9 @@ export default (baseURL = '') => {
     mangoPayCheckIn,
     updateTransactionStatus,
     updateVsfSyncStatus,
-    updateTransactionInOrder,
+    saveTransactionInOrder,
     getShippingMethodByBrand,
-    getStoreData
+    getStoreData,
+    checkProductQty
   }
 }

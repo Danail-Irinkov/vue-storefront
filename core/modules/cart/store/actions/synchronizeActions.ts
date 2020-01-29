@@ -81,10 +81,8 @@ const synchronizeActions = {
     const product = { sku: stockTask.product_sku }
 
     const cartItem = await dispatch('getItem', { product })
-
-    if (!cartItem || stockTask.result.code === 'ENOTFOUND') return
-
-    if (!stockTask.result.is_in_stock) {
+    if (!cartItem) return
+    if (!stockTask.stock.is_in_stock || stockTask.stock.is_in_stock !='ok') {
       if (!config.stock.allowOutOfStockInCart && !config.cart.synchronize) {
         Logger.log('Removing product from cart' + stockTask.product_sku, 'stock')()
         commit(types.CART_DEL_ITEM, { product: { sku: stockTask.product_sku } }, { root: true })

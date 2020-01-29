@@ -180,6 +180,7 @@ export default {
         }
       }).catch(err => {
         console.error(err, 'Transaction Failed!!')
+        this.$bus.$emit('notification-progress-stop');
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
           message: this.$t('Transaction was not done!!!!'),

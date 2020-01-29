@@ -8,15 +8,47 @@ export const Product = {
       required: true
     }
   },
+  data(){
+    return{
+      isStockInfoLoading:false,
+      maxQuantity:0
+    }
+  },
   computed: {
     thumbnail () {
       return this.getThumbnail(this.product.image, 150, 150)
+    }
+  },
+  watch: {
+    product: {
+      async handler (product) {
+        if (product) {
+          const maxQuantity = await this.getQuantity()
+          this.maxQuantity = maxQuantity
+        }
+      },
+      immediate: true
     }
   },
   methods: {
     onProductChanged (event) {
       if (event.item.sku === this.product.sku) {
         this.$forceUpdate()
+      }
+    },
+    // for check max Quantity of product
+    async getQuantity (product) {
+      if (this.isStockInfoLoading) return // stock info is already loading
+      this.isStockInfoLoading = true
+      try {
+        const validProduct = product || this.product
+        const res = await this.$store.dispatch('stock/check', {
+          product: validProduct,
+          qty: this.productQty
+        })
+        return parseInt(res.qty)
+      } finally {
+        this.isStockInfoLoading = false
       }
     },
     updateQuantity (quantity) {

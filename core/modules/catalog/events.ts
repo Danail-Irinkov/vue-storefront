@@ -15,11 +15,9 @@ export const productAfterPriceupdate = async (product, store) => {
 }
 
 export const filterChangedProduct = async (filterOption, store, router) => {
-  console.log('filterChangedProduct filterOption: ', filterOption)
   EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: store.getters['product/getCurrentProductConfiguration'] })
   const prevOption = store.getters['product/getCurrentProductConfiguration'][filterOption.attribute_code]
   let changedConfig = Object.assign({}, store.getters['product/getCurrentProductConfiguration'], {[filterOption.attribute_code]: filterOption})
-  console.log('filterChangedProduct changedConfig: ', changedConfig)
   const selectedVariant = await store.dispatch('product/configure', {
     product: store.getters['product/getCurrentProduct'],
     configuration: changedConfig,
@@ -27,12 +25,9 @@ export const filterChangedProduct = async (filterOption, store, router) => {
     fallbackToDefaultWhenNoAvailable: false,
     setProductErorrs: true
   }, { root: true })
-  console.log('product/configure selectedVariant', selectedVariant)
   if (config.products.setFirstVarianAsDefaultInURL) {
     router.push({params: { childSku: selectedVariant.sku }})
   }
-  console.log('Setting PRODUCT_SET_CURRENT_CONFIGURATION selectedVariant', selectedVariant)
-  console.log('Setting PRODUCT_SET_CURRENT_CONFIGURATION prevOption', prevOption)
   if (!selectedVariant) {
     if (prevOption) {
       store.commit(prefixMutation(PRODUCT_SET_CURRENT_CONFIGURATION), Object.assign(

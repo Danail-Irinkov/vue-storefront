@@ -97,7 +97,7 @@ const mutations: MutationTree<CartState> = {
     state.shippingMethods = shippingMethods
   },
   [types.CART_UPD_SELECTED_SHIPPING_METHODS] (state, selectedShippingMethods) {
-    state.selectedShippingMethod = selectedShippingMethods
+    state.selectedShippingMethods = selectedShippingMethods
   }
 }
 

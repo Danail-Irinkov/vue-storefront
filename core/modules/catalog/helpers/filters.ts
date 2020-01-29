@@ -22,9 +22,7 @@ const getAvailableFiltersByProduct = (product: Product) => {
 }
 
 const getSelectedFiltersByProduct = (product: Product, configuration: ProductConfiguration) => {
-  console.log('getSelectedFiltersByProduct product')
   // console.log('GSFP product', product)
-  console.log('GSFP configuration', configuration)
   if (!configuration) {
     return null
   }

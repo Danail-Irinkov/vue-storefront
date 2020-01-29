@@ -48,7 +48,7 @@
       </router-link>
       {{ $t('to find something beautiful for You!') }}
     </div>
-    <ul v-if="productsInCart.length" class="bg-cl-primary m0 px40 pb40 products">
+    <ul v-if="productsInCart.length" class="bg-cl-primary m0 px40 pb40 products shopping-cart">
       <product v-for="product in productsInCart" :key="product.checksum || product.sku" :product="product" />
     </ul>
     <div v-if="productsInCart.length" class="summary px40 cl-accent serif">

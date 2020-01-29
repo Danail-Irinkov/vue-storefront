@@ -65,6 +65,13 @@ export const Payment = {
         this.useShippingAddress()
       }
     },
+    // created watch function for copy address from shipping address  by shabbir
+    isActive: {
+      handler (value) {
+        if(value)
+          this.sendToShippingAddress=true
+      }
+    },
     sendToBillingAddress: {
       handler () {
         this.useBillingAddress()
@@ -79,8 +86,7 @@ export const Payment = {
   methods: {
     sendDataToCheckout () {
       this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
-      this.isFilled = true
-      this.placeOrder()
+      this.placeOrder() // modify function for call place order function by shabbir
     },
     edit () {
       if (this.isFilled) {
@@ -243,6 +249,7 @@ export const Payment = {
       this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     },
+    // added function for place order by shabbir
     placeOrder () { // Edited by Dan to verify transaction has passed
       if (this.getPersonalDetails.createAccount) {
         this.register()
@@ -251,6 +258,7 @@ export const Payment = {
         this.$bus.$emit('checkout-do-placeOrder')
       }
     },
+    // added function for register customer by shabbir
     async register () {
       this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'));
 

@@ -478,17 +478,13 @@ export function populateProductConfigurationAsync (context, { product, selectedV
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
-  console.log('configureProductAsync product: ', product)
-  console.log('configureProductAsync configuration: ', configuration)
   // console.log('findConfigurableChildAsync product1', product)
   if (product === null) product = context.getters.getCurrentProduct
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
 
   // console.log('findConfigurableChildAsync product2', product)
   // console.log('findConfigurableChildAsync configuration', configuration)
-  console.log('findConfigurableChildAsync hasConfigurableChildren', hasConfigurableChildren)
-  const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0)
-  console.log('findConfigurableChildAsync hasConfigurableOptions', hasConfigurableOptions)
+    const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0)
 
   if (hasConfigurableChildren || hasConfigurableOptions) {
     // handle custom_attributes for easier comparing in the future
@@ -519,7 +515,6 @@ export function configureProductAsync (context, { product, configuration, select
         selectedVariant.size = configuration.size.id
         selectedVariant.size_label = configuration.size.label
       }
-      console.log('selectedVariant !1111', selectedVariant)
     }
     // Edited By dan to allow for not synced simple products from M2 - ProCC - END
     if (!selectedVariant) {
