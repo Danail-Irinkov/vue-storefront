@@ -13,7 +13,7 @@
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
-    >
+    ><strong v-if="showText">{{$t('Login / Registration')}}</strong>
       <i class="material-icons block">account_circle</i>
     </button>
 
@@ -44,6 +44,11 @@ export default {
   mixins: [AccountIcon],
   components: {
     'no-ssr': NoSSR
+  },
+  props: {
+    showText: {
+      default: false
+    }
   },
   data () {
     return {

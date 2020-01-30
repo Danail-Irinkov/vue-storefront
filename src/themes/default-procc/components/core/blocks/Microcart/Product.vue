@@ -17,7 +17,7 @@
     </div>
     <div class="col-xs pt15 flex pl35 flex-wrap">
       <div class="flex flex-nowrap details">
-        <div class="flex w-100 flex-wrap between-xs">
+        <div class="flex w-100 flex-wrap between-xs product-name-and-qty">
           <div>
             <router-link
               class="serif h4 name"
@@ -30,28 +30,28 @@
             <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
               {{ product.sku }}
             </div>
-            <div class="h6 cl-bg-tertiary pt5 options" v-if="isTotalsActive">
-              <div v-for="opt in product.totals.options" :key="opt.label">
-                <span class="opn">{{ opt.label }}: </span>
-                <span class="opv" v-html="opt.value" />
-              </div>
-            </div>
-            <div class="h6 cl-bg-tertiary pt5 options" v-else-if="!editMode && product.options">
+            <div class="h5 cl-bg-tertiary pt5 options" v-if="isTotalsActive">
               <div v-for="opt in product.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
                 <span class="opv" v-html="opt.value" />
               </div>
             </div>
-            <div class="h6 pt5 cl-error" v-if="hasProductErrors">
+            <div class="h5 cl-bg-tertiary pt5 options" v-else-if="!editMode && product.options">
+              <div v-for="opt in product.options" :key="opt.label">
+                <span class="opn">{{ opt.label }}: </span>
+                <span class="opv" v-html="opt.value" />
+              </div>
+            </div>
+            <div class="h6 pt5 cl-error" v-if="hasProductErrors && !isDisabledInputs">
               {{ product.errors | formatProductMessages }}
             </div>
-            <div class="h6 pt5 cl-success" v-if="hasProductInfo && !hasProductErrors">
+            <div class="h6 pt5 cl-success" v-if="hasProductInfo && !hasProductErrors && !isDisabledInputs">
               {{ product.info | formatProductMessages }}
             </div>
           </div>
           <product-quantity
             class="h5 cl-accent lh25 qty"
-            v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle'"
+            v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle' && !isDisabledInputs"
             :value="productQty"
             :max-quantity="maxQuantity"
             :loading="isStockInfoLoading"
@@ -59,6 +59,7 @@
             @input="updateProductQty"
             @error="handleQuantityError"
           />
+          <div class="product-quantity" v-else>{{$t("Quantity")+" : "+ productQty}}</div>
         </div>
         <div class="flex mr10 align-right start-xs between-sm prices">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
@@ -129,7 +130,7 @@
       </div>
       <div class="w-100 flex middle-xs actions" v-if="!editMode">
         <edit-button class="mx5" @click="openEditMode" v-if="productsAreReconfigurable && !editMode" />
-        <remove-button class="mx5" @click="removeItem" />
+        <remove-button class="mx5" @click="removeItem" v-if="!isDisabledInputs" />
       </div>
     </div>
   </li>
@@ -166,6 +167,10 @@ export default {
     product: {
       type: Object,
       required: true
+    },
+    isDisabledInputs: {
+      type: Boolean,
+      required: false
     }
   },
   components: {
@@ -186,7 +191,7 @@ export default {
       return this.product.errors && Object.keys(this.product.errors).length > 0
     },
     isTotalsActive () {
-      return this.isOnline && !this.editMode && this.product.totals && this.product.totals.options
+      return this.isOnline && !this.editMode && this.product && this.product.options
     },
     isOnline () {
       return onlineHelper.isOnline
@@ -339,6 +344,8 @@ export default {
 
     @media (max-width: 767px) {
       font-size: 12px;
+      padding: 0;
+      text-align: right;
     }
   }
 
@@ -351,6 +358,7 @@ export default {
     @media (max-width: 767px) {
       padding: 0;
       font-size: 12px;
+      margin: 0;
     }
   }
 
@@ -389,5 +397,16 @@ export default {
     min-width: 150px;
     width: 150px;
     padding: 10px;
+  }
+</style>
+<style lang="scss">
+  @media (max-width: 767px) {
+  .base-input-number {
+    display: flex;
+    align-items: center;
+    label.base-input-number__label {
+      margin-right: 10px;
+  }
+  }
   }
 </style>
