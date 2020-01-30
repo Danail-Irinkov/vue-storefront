@@ -50,7 +50,7 @@ function getShippingCost (shippingMethods, cartItems) {
     console.log('shippingMethods', shippingMethods)
     console.log('getShippingCost method', method)
     console.log('getShippingCost brand_id', brand_id)
-    if(method){
+    if (method) {
       cartItemByBrand = filter(cartItems, (product) => { return product.procc_brand_id === brand_id })
       total_shipping.push({name: method.name, cost: cartItemByBrand.length * method.cost})
     }

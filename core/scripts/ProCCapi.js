@@ -97,7 +97,7 @@ module.exports = (config, app) => {
     console.log(products, 'setProductBanners DATA:', storeCode, imagesRootURL);
     setProductBanners(config, products, storeCode, imagesRootURL);
 
-    if(process.env.NODE_ENV === 'development' && process.env.NODE_APP_INSTANCE === 'dev'){
+    if (process.env.NODE_ENV === 'development' && process.env.NODE_APP_INSTANCE === 'dev') {
       restartVueStorefrontDevDocker()
     }
     apiStatus(res, 'Vue Storefront: /product-link Success', 200);

@@ -41,6 +41,8 @@ spec:
         envFrom:
         - configMapRef:
             name: vue-storefront-config
+        - configMapRef:
+            name: vsf-secrets
         ports:
         - containerPort: 3000
         volumeMounts:

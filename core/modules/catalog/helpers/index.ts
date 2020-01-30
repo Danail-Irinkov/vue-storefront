@@ -439,9 +439,9 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         console.log('selectedVariant 2222: ', selectedVariant)
         selectedOption = {
           attribute_code: attribute_code,
-          value: selectedVariant[attribute_code],
+          value: selectedVariant[attribute_code]
         }
-        if(attribute_code === 'size'){
+        if (attribute_code === 'size') {
           selectedOption.label = selectedVariant.size_label // Added By Dan ProCC
         }
         console.log('selectedOption 2222: ', selectedOption)
@@ -484,11 +484,11 @@ export function configureProductAsync (context, { product, configuration, select
 
   // console.log('findConfigurableChildAsync product2', product)
   // console.log('findConfigurableChildAsync configuration', configuration)
-    const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0)
+  const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0)
 
   if (hasConfigurableChildren || hasConfigurableOptions) {
     // handle custom_attributes for easier comparing in the future
-    if(hasConfigurableChildren){
+    if (hasConfigurableChildren) {
       product.configurable_children.forEach((child) => {
         let customAttributesAsObject = {}
         if (child.custom_attributes) {
@@ -504,9 +504,9 @@ export function configureProductAsync (context, { product, configuration, select
     let desiredProductFound = false
     // Edited By dan to allow for not synced simple products from M2 - ProCC
     let selectedVariant
-    if(hasConfigurableChildren){
+    if (hasConfigurableChildren) {
       selectedVariant = findConfigurableChildAsync({ product, configuration, availabilityCheck: true })
-    }else{
+    } else {
       selectedVariant = {...product}
       if (configuration.size && configuration.size.id && configuration.size.label && configuration.size.label !== ' ') {
         if (selectedVariant.sku && selectedVariant.sku.indexOf('-' + configuration.size.label) === -1) {

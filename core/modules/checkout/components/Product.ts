@@ -8,10 +8,10 @@ export const Product = {
       required: true
     }
   },
-  data(){
-    return{
-      isStockInfoLoading:false,
-      maxQuantity:0
+  data () {
+    return {
+      isStockInfoLoading: false,
+      maxQuantity: 0
     }
   },
   computed: {

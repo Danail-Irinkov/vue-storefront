@@ -68,8 +68,7 @@ export const Payment = {
     // created watch function for copy address from shipping address  by shabbir
     isActive: {
       handler (value) {
-        if(value)
-          this.sendToShippingAddress=true
+        if (value) { this.sendToShippingAddress = true }
       }
     },
     sendToBillingAddress: {

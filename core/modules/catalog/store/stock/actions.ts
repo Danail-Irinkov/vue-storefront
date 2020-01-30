@@ -16,11 +16,11 @@ const actions: ActionTree<StockState, RootState> = {
     }
     if (config.stock.synchronize) {
       // call procc api for get quantity by shabbir
-      ProCcApi().checkProductQty({product_id: product.procc_product_id,sku:product.sku,size:product.size}, product.procc_brand_id).then((result)=>{
-        dispatch('cart/stockSync', result.data.product ,{ root: true })
+      ProCcApi().checkProductQty({product_id: product.procc_product_id, sku: product.sku, size: product.size}, product.procc_brand_id).then((result) => {
+        dispatch('cart/stockSync', result.data.product, { root: true })
         Logger.debug(`Stock quantity checked for ${result.data.product.product_sku}, response time: ${result.data.product.transmited_at - result.data.product.created_at} ms`, 'stock')()
-      }).catch((error)=>{
-        console.error("error check qty",error)
+      }).catch((error) => {
+        console.error('error check qty', error)
       })
       // @ts-ignore
 
@@ -37,15 +37,14 @@ const actions: ActionTree<StockState, RootState> = {
   async check (context, { product }) {
     if (config.stock.synchronize) {
       // call procc api for get quantity by shabbir
-      return ProCcApi().checkProductQty({product_id: product.procc_product_id,sku:product.sku,size:product.size},product.procc_brand_id).then((result)=>{
+      return ProCcApi().checkProductQty({product_id: product.procc_product_id, sku: product.sku, size: product.size}, product.procc_brand_id).then((result) => {
         return {
           qty: result.data.product ? parseInt(result.data.product.qty) : 0,
           status: getStatus(result.data.product, 'ok'),
           onlineCheckTaskId: ''
         }
-
-      }).catch((error)=>{
-        console.error("error check qty",error)
+      }).catch((error) => {
+        console.error('error check qty', error)
         return {
           qty: 0,
           status: getStatus({}, 'ok'),

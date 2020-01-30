@@ -61,7 +61,7 @@
                 <i class="material-icons">remove</i>
               </button>
               <span>{{ product.qty }}</span>
-              <button class="btn" @click="updateQuantity(parseInt(product.qty)+1)" :disabled="isStockInfoLoading || parseInt(product.qty) >= maxQuantity" >
+              <button class="btn" @click="updateQuantity(parseInt(product.qty)+1)" :disabled="isStockInfoLoading || parseInt(product.qty) >= maxQuantity">
                 <i class="material-icons">add</i>
               </button>
             </div>

@@ -12,7 +12,6 @@ import map from 'lodash-es/map'
 import find from 'lodash-es/find';
 import defaults from 'lodash-es/defaults';
 
-
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
     if (getters.isTotalsSyncRequired || forceServerSync) {

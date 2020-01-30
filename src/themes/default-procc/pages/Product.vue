@@ -424,8 +424,9 @@ export default {
     this.isCCStore = this.currentImage.is_cc_store
     let selected_filters = this.getSelectedFilters
 
-    if(selected_filters.size.id) // Added By dan, because missing size label
-    this.changeFilter(selected_filters.size)
+    if (selected_filters.size.id) { // Added By dan, because missing size label
+      this.changeFilter(selected_filters.size)
+    }
   },
   async asyncData ({ store, route }) {
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
@@ -542,21 +543,21 @@ export default {
       if (this.isStockInfoLoading) return // stock info is already loading
       this.isStockInfoLoading = true
 
-      try {// Edited by dan to select first option for configurable products
-        if(product && product.configurable_options && product.configurable_options[0]
-          && product.configurable_options[0].values && product.configurable_options[0].values.length > 0
-          && product.sku === product.parentSku && product.type_id === 'configurable'){
+      try { // Edited by dan to select first option for configurable products
+        if (product && product.configurable_options && product.configurable_options[0] &&
+          product.configurable_options[0].values && product.configurable_options[0].values.length > 0 &&
+          product.sku === product.parentSku && product.type_id === 'configurable') {
           console.log('stock/check product2', product)
           // AutoSelect first Option ProCC
-          if(this.getProductOptions[0] && this.getProductOptions[0].attribute_code){
+          if (this.getProductOptions[0] && this.getProductOptions[0].attribute_code) {
             let variant = this.getAvailableFilters[this.getProductOptions[0].attribute_code][0]
-            if(variant){
+            if (variant) {
               console.log('stock/check variant2', variant)
               this.isStockInfoLoading = false
               return this.changeFilter(variant)
             }
           }
-        }else if(variant){
+        } else if (variant) {
           const res = await this.$store.dispatch('stock/check', {
             // product: this.getCurrentProduct,
             product: product, // Edited by dan

@@ -78,8 +78,7 @@ export const Shipping = {
     checkSelectedShippingMethod () {
       console.log('this.getSelectedShippingMethods1', this.getSelectedShippingMethods)
       for (let brand_id in this.getSelectedShippingMethods) {
-        if(this.getSelectedShippingMethods[brand_id] && this.getSelectedShippingMethods[brand_id]._id)
-        this.selectedShippingMethods[brand_id] = this.getSelectedShippingMethods[brand_id]._id
+        if (this.getSelectedShippingMethods[brand_id] && this.getSelectedShippingMethods[brand_id]._id) { this.selectedShippingMethods[brand_id] = this.getSelectedShippingMethods[brand_id]._id }
       }
       console.log('this.getSelectedShippingMethods2', this.getSelectedShippingMethods)
     },

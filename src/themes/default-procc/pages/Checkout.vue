@@ -6,8 +6,9 @@
         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 mt20" style="">
           <div class="box-left"
                v-for="(brand_id, index) in getArrayBrandsOfCartProductsProCC()"
-               :key="index">
-            <cart-summary :brand_id="brand_id"/>
+               :key="index"
+          >
+            <cart-summary :brand_id="brand_id" />
           </div>
           <div class="box-left mt20">
             <!--    // Edited by Dan 02-01-2020-->
@@ -74,8 +75,8 @@ export default {
     getArrayBrandsOfCartProductsProCC () { // Added by Dan to split items by Brand
       console.log('his.$store.state.cart.cartItems', this.$store.state.cart.cartItems)
       let brands = []
-      for (let product of this.$store.state.cart.cartItems){
-        if(brands.indexOf(product.procc_brand_id) === -1){
+      for (let product of this.$store.state.cart.cartItems) {
+        if (brands.indexOf(product.procc_brand_id) === -1) {
           brands.push(product.procc_brand_id)
         }
       }

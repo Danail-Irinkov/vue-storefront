@@ -128,7 +128,7 @@ export default {
     Logger.info('Calling asyncData in Home (theme)')()
 
     await Promise.all([
-      store.dispatch('homepage/fetchNewCollection'),
+      store.dispatch('homepage/fetchNewCollection')
       // store.dispatch('promoted/updateHeadImage') // Disabled by Dan 29.12.2019, not using promoted offers yet
       // store.dispatch('promoted/updatePromotedOffers') // Disabled by Dan 29.12.2019, not using promoted offers yet
     ])
