@@ -159,7 +159,7 @@ Help,Abi
 "Name must have at least 3 letters.","Nimi peab sisaldama vähemalt kolme tähte"
 "Zip-code must have at least 3 letters.","Sihtnumber peab sisaldama vähemalt viite numbrit"
 "I want to create an account'","Tahan kontot luua'"
-"Copy address data from shipping","Kopeeri aadress tarneaadressi väljadelt"
+"The billing address is the same","Kopeeri aadress tarneaadressi väljadelt"
 "Tax identification number must have at least 3 letters.","Käibemaksukood peab olema vähemalt 3 tähte."
 "Please provide valid e-mail address.","Kontrolli e-maili aadressi"
 "Use my company's address details","Kasuta ettevõtte aadressi"

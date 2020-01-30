@@ -37,7 +37,7 @@
             v-model="sendToShippingAddress"
             v-if="!isVirtualCart"
           >
-            {{ $t('Copy address data from shipping') }}
+            {{ $t('The billing address is the same') }}
           </base-checkbox>
         </div>
         <!--modify condition for show address at copy shipping address unchecked by shabbir -->
