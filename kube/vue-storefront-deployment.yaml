@@ -42,7 +42,7 @@ spec:
         - configMapRef:
             name: vue-storefront-config
         - configMapRef:
-            name: vsf-secrets
+            name: vsf-tokens
         ports:
         - containerPort: 3000
         volumeMounts:

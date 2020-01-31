@@ -39,9 +39,9 @@ const app = express();
 
 // PROCC Imports
 // Mount Procc APIs
-console.log('ENV VARIABLES', process.env)
+// console.log('VSF config', config)
+// console.log('ENV VARIABLES', process.env)
 console.log('ENV VARIABLES NODE_APP_INSTANCE: ', process.env.NODE_APP_INSTANCE)
-console.log('VSF config', config)
 const ProCC = require('./ProCCapi.js');
 ProCC(config, app);
 // Mount Procc APIs - END
