@@ -6,6 +6,7 @@ npm-debug.log
 .vscode/
 .idea/
 config/jwt.js
+config/jwt_es5.js
 config/local.json
 var
 build/config.json

@@ -123,7 +123,7 @@ export default {
           this.product_data = _.cloneDeep(this.product)
         }
 
-        let result = await this.ProCcAPI.getSizeChart(this.$props.product.size_chart_id, this.$props.product.procc_brand_id) // product id
+        let result = await this.ProCcAPI.getVSFSizeChartById(this.$props.product.size_chart_id, this.$props.product.procc_brand_id) // product id
         this.size_chart_data = !_.isNull(result.data.sizeChart) ? result.data.sizeChart : {}
         this.$nextTick(() => { this.size_chart_loading = false })
       } catch (e) {

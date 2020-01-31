@@ -408,7 +408,7 @@ export default {
         'Culture': 'EN',
         'brand': this.currentImage.brand
       }
-      this.ProCcAPI.mangoPayCheckIn(data, this.currentImage.brand).then(async (response) => {
+      this.ProCcAPI.VSFOrderPayment(data, this.currentImage.brand).then(async (response) => {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
           let newWin = window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
           if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {

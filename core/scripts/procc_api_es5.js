@@ -57,9 +57,9 @@ module.exports = (baseURL = '') => {
 
   // const addNewOrder = (orderData, brandId) => api.post('order/addNewOrder', orderData, getHeader(brandId))
   // const saveTransactionInOrder = (orderData, brandId) => api.post('order/saveTransactionInOrder', orderData, getHeader(brandId))
-  // const mangoPayCheckIn = (data, brandId) => api.post('mangopay/VSFOrderPayment', data, getHeader(brandId))
+  // const VSFOrderPayment = (data, brandId) => api.post('mangopay/VSFOrderPayment', data, getHeader(brandId))
   // const updateTransactionStatus = (data, brandId) => api.post('mangopay/updateTransactionStatusVSF', data, getHeader(brandId))
-  // const getSizeChart = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
+  // const getVSFSizeChartById = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
   // const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
   // const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
   const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
@@ -67,8 +67,8 @@ module.exports = (baseURL = '') => {
   return {
     // addNewOrder,
     // getProductDeliveryPolicy,
-    // getSizeChart,
-    // mangoPayCheckIn,
+    // getVSFSizeChartById,
+    // VSFOrderPayment,
     // updateTransactionStatus,
     // updateVsfSyncStatus,
     // saveTransactionInOrder,
