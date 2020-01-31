@@ -120,9 +120,6 @@ export default {
     // this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
   },
   beforeDestroy () {
-    let test_order_data = this.prepareOrder()
-    console.log('test_order_data', test_order_data)
-
     this.$store.dispatch('checkout/setModifiedAt', 0) // exit checkout
     this.$bus.$off('cart-after-update', this.onCartAfterUpdate)
     this.$bus.$off('cart-after-delete', this.onCartAfterUpdate)
@@ -301,7 +298,7 @@ export default {
       }
       return paymentMethod
     },
-    prepareOrder () {
+    prepareProCCOrder () {
       console.log('this.$store.state.cart.selectedShippingMethods', this.$store.state.cart.selectedShippingMethods)
 
       this.order = {
@@ -357,14 +354,14 @@ export default {
     placeOrder () {
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
       if (this.checkStocks()) {
-        this.placeProccOrder()
+        this.placeProCCOrder()
       } else {
         this.notifyNotAvailable()
       }
     },
     // Created function by shabbir for place order in procc
-    placeProccOrder () {
-      let order_data = this.prepareOrder()
+    placeProCCOrder () {
+      let order_data = this.prepareProCCOrder()
       this.ProCcAPI.addNewOrder(order_data, order_data.store_brand)
         .then((result) => {
           if (result.data.message_type === 'success') {
@@ -433,7 +430,7 @@ export default {
       if (payment_data && payment_data.transactionId) {
         this.mangopay_transaction_id = payment_data.transactionId
       }
-      this.$store.dispatch('checkout/placeOrder', {order: this.prepareOrder()})
+      this.$store.dispatch('checkout/placeOrder', {order: this.prepareProCCOrder()})
     },
     savePersonalDetails () {
       this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)

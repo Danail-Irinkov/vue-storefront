@@ -90,7 +90,7 @@ export default {
     },
     orderSummary: {
       type: Array,
-      default: []
+      default: ()=>[]
     }
   },
   computed: {

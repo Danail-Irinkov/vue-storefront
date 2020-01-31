@@ -25,16 +25,20 @@ const actions: ActionTree<OrderState, RootState> = {
   async placeOrder ({ commit, getters, dispatch }, newOrder: Order) {
     // Check if order is already processed/processing
     const optimizedOrder = optimizeOrder(newOrder)
+    console.log('newOrder', newOrder)
+    console.log('optimizedOrder', optimizedOrder)
     const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
     if (isAlreadyProcessed) return
     commit(types.ORDER_ADD_SESSION_STAMPS, newOrder)
     commit(types.ORDER_ADD_SESSION_ORDER_HASH, currentOrderHash)
     const preparedOrder = prepareOrder(optimizedOrder)
+    console.log('preparedOrder', preparedOrder)
 
     EventBus.$emit('order-before-placed', { order: preparedOrder })
     const order = orderHooksExecutors.beforePlaceOrder(preparedOrder)
 
+    console.log('preparedOrder2Last', order)
     if (!config.orders.directBackendSync || !isOnline()) {
       dispatch('enqueueOrder', { newOrder: order })
       EventBus.$emit('order-after-placed', { order })
@@ -53,13 +57,16 @@ const actions: ActionTree<OrderState, RootState> = {
   },
   async processOrder ({ commit, dispatch }, { newOrder, currentOrderHash }) {
     const order = { ...newOrder, transmited: true }
+    console.log('preparedOrder2Last323', order)
     let update_data = {
       mp_transaction: order.mp_transaction,
       order_ids: order.order_ids
     }
+    console.log('preparedOrder!!update_data', update_data)
     // call API for update order status after payment successfully done
     return ProCcApi().saveTransactionInOrder(update_data, order.store_brand)
       .then((task) => {
+        console.log('preparedOrder!!task.data', task.data)
         dispatch('enqueueOrder', { newOrder: order })
         commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: {orders: task.data.orders} })
         orderHooksExecutors.afterPlaceOrder({ order, task: order.order_ids })

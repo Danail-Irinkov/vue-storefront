@@ -52,6 +52,7 @@ module.exports = function (csvDirectories, config = null) {
     })
 
     console.debug(`Writing JSON file multistoreLanguages`)
+    debugger
     fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify(bundledLanguages))
   } else {
     currentLocales.forEach((language) => {

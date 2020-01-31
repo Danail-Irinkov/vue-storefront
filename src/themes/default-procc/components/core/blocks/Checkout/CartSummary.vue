@@ -63,7 +63,7 @@ export default {
     // ShippingMethod
   },
   props: {
-    brandId: {
+    brand_id: {
       type: String,
       default: ''
     }
