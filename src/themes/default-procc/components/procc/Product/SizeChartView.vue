@@ -133,7 +133,9 @@ export default {
   },
   watch: {
     product (newProduct, oldProduct) {
-      this.getSizeChart()
+      // added condition for check id product is same then not call API for get size chart
+      if (newProduct.procc_product_id !== oldProduct.procc_product_id)
+        this.getSizeChart()
     }
   }
 }

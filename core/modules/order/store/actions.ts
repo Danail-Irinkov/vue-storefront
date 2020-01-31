@@ -61,7 +61,7 @@ const actions: ActionTree<OrderState, RootState> = {
     return ProCcApi().saveTransactionInOrder(update_data, order.store_brand)
       .then((task) => {
         dispatch('enqueueOrder', { newOrder: order })
-        commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: {orderData: task.data.orders} })
+        commit(types.ORDER_LAST_ORDER_WITH_CONFIRMATION, { order, confirmation: {orders: task.data.orders} })
         orderHooksExecutors.afterPlaceOrder({ order, task: order.order_ids })
         EventBus.$emit('order-after-placed', { order, confirmation: order.order_ids })
 

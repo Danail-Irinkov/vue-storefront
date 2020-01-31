@@ -1,18 +1,82 @@
 <template>
   <div>
-    <header class="thank-you-title bg-cl-secondary py35 pl20">
+    <header class="thank-you-title py35 pl20">
       <div class="container">
         <breadcrumbs
           :with-homepage="true"
           :routes="[]"
           :active-route="this.$t('Order confirmation')"
         />
-        <h2 class="category-title">
-          {{ $t('Order confirmation') }}
-        </h2>
+        <img src="https://procc.co/static/img/check-mark-circle.png" class="order-confirm-header">
+        <h4 class="category-title">{{ $t('Thank you for your purchase') }}</h4>
       </div>
     </header>
-    <div class="thank-you-content align-justify py40 pl20">
+    <!-- modify for display order details-->
+    <div class="container" v-if="lastOrderConfirmation.orders && lastOrderConfirmation.orders[0]">
+      <div class="row mb20">
+        <div class="col-sm-6 address">
+          <div class="bg-cl-secondary p10">
+            <h4 class="m0">{{$t("Shipping Address")}}</h4>
+            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address"></address-block>
+          </div>
+        </div>
+        <div class="col-sm-6 address">
+          <div class="bg-cl-secondary p10">
+            <h4 class="m0">{{$t("Billing Address")}}</h4>
+            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address"></address-block>
+          </div>
+        </div>
+      </div>
+      <div class="mb20 bg-cl-secondary thank-you-improvment">
+        <h4>
+          {{ $t('What we can improve?') }}
+        </h4>
+        <p class="mb25">
+          {{ $t('Your feedback is important for us. Let us know what we could improve.') }}
+        </p>
+          <form @submit.prevent="sendFeedback">
+            <div class="row align-items-end feedback-row">
+          <div class="col-md-8 col-lg-9">
+            <base-textarea
+              class="m0 h-100"
+              type="text"
+              name="body"
+              v-model="feedback"
+              :placeholder="$t('Type your opinion')"
+              :autofocus="true"
+            />
+          </div>
+            <div class="col-md-4 col-lg-3">
+              <button-outline color="dark">
+                {{ $t('Give a feedback') }}
+              </button-outline>
+            </div>
+            </div>
+          </form>
+      </div>
+      <div v-for="order in lastOrderConfirmation.orders" :key="order._id">
+        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" className="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true"/>
+      </div>
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <microcart-summary class="bg-cl-secondary mb20"  :order-summary="orderSummary"></microcart-summary>
+        </div>
+      </div>
+      <div class="mb20 bg-cl-secondary thank-you-improvment">
+        <h4> {{$t('What are the next steps?')}}</h4>
+        <ol>
+          <li v-if="lastOrderConfirmation.orders[0].customer_user">{{$t('You will receive an email at')}} <strong>{{lastOrderConfirmation.orders[0].customer_user.email}}</strong> {{$t('confirming your order.')}}</li>
+          <li>{{$t('You will receive another confirmation email at shipping. If you have any questions, see our')}} <a href="https://procc.co/faq" target="_blank">{{$t("FAQ")}}</a> </li>
+        </ol>
+        <p>{{$t("Remember You can check the status of the order using the order tracking option")}}</p>
+      </div>
+      <div class="mb20 bg-cl-secondary thank-you-improvment">
+        <h3 class="center title"> {{$t("Suggested Products")}}</h3>
+        <ProCCTileLinks />
+      </div>
+    </div>
+    <!--<div class="thank-you-content align-justify py40 pl20">
       <div class="container">
         <div class="row">
           <div class="col-md-6 pl20 pr20">
@@ -20,8 +84,8 @@
               {{ $t('Your purchase') }}
             </h3>
             <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
-            <div v-if="OnlineOnly && lastOrderConfirmation.orderData">
-              <p v-for="order in lastOrderConfirmation.orderData" :key="order._id">
+            <div v-if="OnlineOnly && lastOrderConfirmation.orders">
+              <p v-for="order in lastOrderConfirmation.orders" :key="order._id">
                 <strong>{{ order.brand.name }}</strong> brand's order number is {{ order.order_no }}.
               </p>
             </div>
@@ -78,7 +142,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -88,6 +152,10 @@ import Breadcrumbs from 'theme/components/core/Breadcrumbs'
 import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import VueOfflineMixin from 'vue-offline/mixin'
+import OrderItems from './OrderItems'
+import ProCCTileLinks from 'theme/components/procc/TileLinks/ProCCTileLinks'
+import MicrocartSummary from 'theme/components/core/blocks/Microcart/MicrocartSummary'
+import AddressBlock from 'theme/components/core/blocks/Checkout/AddressBlock'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
@@ -119,6 +187,16 @@ export default {
     },
     checkoutPersonalEmailAddress () {
       return this.$store.state.checkout.personalDetails.emailAddress
+    },
+    // created function for get order summary from order
+    orderSummary () {
+      let summary_data = []
+      let total = _.sumBy(this.lastOrderConfirmation.orders, function (o) { return o.total; });
+      let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, function (o) { return o.shipping_fee; });
+      summary_data.push({code: 'subtotal', title: 'Subtotal', value: (total - shipping_fee)})
+      summary_data.push({code: 'shipping_fee', title: 'Shipping Fee', value: shipping_fee})
+      summary_data.push({code: 'grand_total', title: 'Grand Total', value: total})
+      return summary_data
     },
     mailerElements () {
       return config.mailer.contactAddress
@@ -175,9 +253,13 @@ export default {
     this.$store.dispatch('checkout/setThankYouPage', false)
   },
   components: {
+    AddressBlock,
     BaseTextarea,
     Breadcrumbs,
-    ButtonOutline
+    ButtonOutline,
+    OrderItems,
+    ProCCTileLinks,
+    MicrocartSummary
   }
 }
 </script>
@@ -189,22 +271,59 @@ export default {
     p {
       line-height: 25px
     }
-
     @media (min-width: 64em) {
       h4 {
         font-size: 24px;
       }
     }
   }
+  .thank-you-title {
+    .order-confirm-header {
+      width: 96px;
+      height: auto !important;
+      display: block;
+      text-align: center;
+      margin: auto;
+    }
+    .category-title{
+      text-align: center;
+      margin: auto;
+    }
+  }
   .thank-you-improvment {
-    padding: 0 20px 15px;
-
-    @media (min-width: 64em) {
-      padding: 0 40px 10px;
+    padding: 20px;
+    h4 {
+      margin-top: 0;
     }
 
     textarea {
       min-height: 100px;
+      margin: 0;padding: 0;
+    }
+    h3.center.title {
+      margin-bottom: 15px;
+      text-align: center;
+      margin-top: 0;
+    }
+    .feedback-row {
+      align-items: flex-end;
+      button {
+        margin-bottom: 4px;
+        @media (max-width: 767px) {
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+  @media (max-width: 575px) {
+    .address:not(:last-child) {
+      margin-bottom: 15px;
+    }
+    .details {
+      &.flex-nowrap {
+        flex-wrap: wrap;
+        flex-flow: column;
+      }
     }
   }
 </style>

@@ -11,6 +11,7 @@ const getters: GetterTree<ProductState, RootState> = {
   getProductsSearchResult: state => state.list,
   getProducts: (state, getters) => getters.getProductsSearchResult.items,
   getProductGallery: state => state.productGallery,
+  getProductAvailableQuantity: state => state.productAvailableQuantity, // for get product available Quantity by shabbir
   getProductRelated: state => state.related
 }
 
