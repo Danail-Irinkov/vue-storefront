@@ -12,18 +12,18 @@
       </div>
     </header>
     <!-- modify for display order details-->
-    <div class="container">
-      <div class="row mb20" v-if="lastOrderConfirmation.orders">
+    <div class="container" v-if="lastOrderConfirmation.orders && lastOrderConfirmation.orders[0]">
+      <div class="row mb20">
         <div class="col-sm-6 address">
           <div class="bg-cl-secondary p10">
             <h4 class="m0">{{$t("Shipping Address")}}</h4>
-            <address :shipping="lastOrderConfirmation.orders.address" v-if="lastOrderConfirmation.orders.address"></address>
+            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address"></address-block>
           </div>
         </div>
         <div class="col-sm-6 address">
           <div class="bg-cl-secondary p10">
             <h4 class="m0">{{$t("Billing Address")}}</h4>
-            <address :shipping="lastOrderConfirmation.orders.address" v-if="lastOrderConfirmation.orders.address"></address>
+            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address"></address-block>
           </div>
         </div>
       </div>
@@ -55,18 +55,18 @@
           </form>
       </div>
       <div v-for="order in lastOrderConfirmation.orders" :key="order._id">
-        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" className="bg-cl-secondary mb20" order-id="order.order_no" :is-disabled-inputs="true"/>
+        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" className="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true"/>
       </div>
       <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-6">
-          <microcart-summary class="bg-cl-secondary mb20"></microcart-summary>
+          <microcart-summary class="bg-cl-secondary mb20"  :order-summary="orderSummary"></microcart-summary>
         </div>
       </div>
       <div class="mb20 bg-cl-secondary thank-you-improvment">
         <h4> {{$t('What are the next steps?')}}</h4>
         <ol>
-          <li v-if="lastOrderConfirmation.orders.customer.email">{{$t('You will receive an email at')}} {{lastOrderConfirmation.orders.customer.email}} {{$t('confirming your order.')}}</li>
+          <li v-if="lastOrderConfirmation.orders[0].customer_user">{{$t('You will receive an email at')}} <strong>{{lastOrderConfirmation.orders[0].customer_user.email}}</strong> {{$t('confirming your order.')}}</li>
           <li>{{$t('You will receive another confirmation email at shipping. If you have any questions, see our')}} <a href="https://procc.co/faq" target="_blank">{{$t("FAQ")}}</a> </li>
         </ol>
         <p>{{$t("Remember You can check the status of the order using the order tracking option")}}</p>
@@ -153,9 +153,9 @@ import BaseTextarea from 'theme/components/core/blocks/Form/BaseTextarea'
 import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import VueOfflineMixin from 'vue-offline/mixin'
 import OrderItems from './OrderItems'
-import Address from './Address'
 import ProCCTileLinks from 'theme/components/procc/TileLinks/ProCCTileLinks'
 import MicrocartSummary from 'theme/components/core/blocks/Microcart/MicrocartSummary'
+import AddressBlock from 'theme/components/core/blocks/Checkout/AddressBlock'
 import { EmailForm } from '@vue-storefront/core/modules/mailer/components/EmailForm'
 import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
@@ -187,6 +187,16 @@ export default {
     },
     checkoutPersonalEmailAddress () {
       return this.$store.state.checkout.personalDetails.emailAddress
+    },
+    // created function for get order summary from order
+    orderSummary () {
+      let summary_data = []
+      let total = _.sumBy(this.lastOrderConfirmation.orders, function (o) { return o.total; });
+      let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, function (o) { return o.shipping_fee; });
+      summary_data.push({code: 'subtotal', title: 'Subtotal', value: (total - shipping_fee)})
+      summary_data.push({code: 'shipping_fee', title: 'Shipping Fee', value: shipping_fee})
+      summary_data.push({code: 'grand_total', title: 'Grand Total', value: total})
+      return summary_data
     },
     mailerElements () {
       return config.mailer.contactAddress
@@ -243,7 +253,7 @@ export default {
     this.$store.dispatch('checkout/setThankYouPage', false)
   },
   components: {
-    Address,
+    AddressBlock,
     BaseTextarea,
     Breadcrumbs,
     ButtonOutline,

@@ -26,4 +26,5 @@ export default interface ProductState {
   productLoadStart: number,
   productLoadPromise: Promise<any> | null,
   productGallery: any
+  productAvailableQuantity:any
 }

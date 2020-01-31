@@ -12,7 +12,7 @@
     </div>
     <div class="blend">
       <div class="ml10 bg-cl-secondary">
-        <product-image :image="image" />
+        <product-image :image="image" :calc-ratio="false" />
       </div>
     </div>
     <div class="col-xs pt15 flex pl35 flex-wrap">
@@ -59,7 +59,9 @@
             @input="updateProductQty"
             @error="handleQuantityError"
           />
-          <div class="product-quantity" v-else>{{$t("Quantity")+" : "+ productQty}}</div>
+          <div class="product-quantity" v-else>
+            {{ $t("Quantity")+" : "+ productQty }}
+          </div>
         </div>
         <div class="flex mr10 align-right start-xs between-sm prices">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
@@ -137,7 +139,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import config from 'config'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
@@ -154,6 +156,9 @@ import { ProductOption } from '@vue-storefront/core/modules/catalog/components/P
 import { getThumbnailForProduct, getProductConfiguration } from '@vue-storefront/core/modules/cart/helpers'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import EditMode from './EditMode'
+import split from 'lodash-es/split'
+import last from 'lodash-es/last'
+import isEmpty from 'lodash-es/isEmpty'
 
 export default {
   data () {
@@ -184,6 +189,9 @@ export default {
   },
   mixins: [Product, ProductOption, EditMode],
   computed: {
+    ...mapGetters({
+      getProductAvailableQuantity: 'product/getProductAvailableQuantity'
+    }),
     hasProductInfo () {
       return this.product.info && Object.keys(this.product.info).length > 0
     },
@@ -203,9 +211,16 @@ export default {
       return config.cart.displayItemDiscounts
     },
     image () {
-      return {
-        loading: this.thumbnail,
-        src: this.thumbnail
+      if (this.isDisabledInputs) {
+        return {
+          loading: this.product.thumb,
+          src: this.product.thumb
+        }
+      } else {
+        return {
+          loading: this.thumbnail,
+          src: this.thumbnail
+        }
       }
     },
     thumbnail () {
@@ -256,11 +271,16 @@ export default {
       this.isStockInfoLoading = true
       try {
         const validProduct = product || this.product
-        const res = await this.$store.dispatch('stock/check', {
-          product: validProduct,
-          qty: this.productQty
-        })
-        return res.qty
+        let size_name = last(split(validProduct.sku, '-'))
+        if (!isEmpty(this.getProductAvailableQuantity) && this.getProductAvailableQuantity && this.getProductAvailableQuantity.product_id === validProduct.procc_product_id && this.getProductAvailableQuantity[size_name]) {
+          return this.getProductAvailableQuantity[size_name]
+        } else {
+          const res = await this.$store.dispatch('stock/check', {
+            product: validProduct,
+            qty: this.productQty
+          })
+          return res.qty
+        }
       } finally {
         this.isStockInfoLoading = false
       }

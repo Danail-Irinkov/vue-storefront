@@ -366,7 +366,8 @@ export default {
       getProductGallery: 'product/getProductGallery',
       getCurrentProductConfiguration: 'product/getCurrentProductConfiguration',
       getOriginalProduct: 'product/getOriginalProduct',
-      attributesByCode: 'attribute/attributeListByCode'
+      attributesByCode: 'attribute/attributeListByCode',
+      getProductAvailableQuantity: 'product/getProductAvailableQuantity',
     }),
     getOptionLabel () {
       return (option) => {
@@ -514,7 +515,15 @@ export default {
       )
       this.size_has_been_selected = true // Added by Dan
       // this.getQuantity()
-      this.getQuantity(variant) // Edited by dan to allow for querying the variant of the SKU
+      //this.getQuantity(variant) // Edited by dan to allow for querying the variant of the SKU
+      this.checkQuantity(variant) // Edited by shabbir to check quantity
+    },
+    // Created function for get quantity from  vuex if not found then get from API
+    checkQuantity(variant){
+      if(!_.isEmpty(this.getProductAvailableQuantity) && this.getProductAvailableQuantity && this.getProductAvailableQuantity[variant.label])
+        this.maxQuantity= this.getProductAvailableQuantity[variant.label]
+      else
+        this.getQuantity(variant)
     },
     isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
@@ -562,7 +571,8 @@ export default {
             product: product, // Edited by dan
             qty: this.ProCCCurrentProductVariant.qty // Edited by dan
           })
-          this.maxQuantity = res.qty
+          // added code for get quantity from  vuex
+          this.maxQuantity= this.getProductAvailableQuantity[variant.label]
         }
       } finally {
         this.isStockInfoLoading = false

@@ -682,6 +682,10 @@ const actions: ActionTree<ProductState, RootState> = {
       context.commit(types.PRODUCT_SET_GALLERY, productGallery)
     }
   },
+  // created function for set product available quantity
+  setProductAvailableQuantity (context,availableQuantity) {
+    context.commit(types.PRODUCT_SET_AVAILABLE_QUANTITY, availableQuantity)
+  },
   async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {
     if (product && product.category_ids) {
       const currentCategory = rootGetters['category-next/getCurrentCategory']

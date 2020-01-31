@@ -1,9 +1,10 @@
+<!--created component for order summary in micro cart and order confirm page -->
 <template>
-    <div v-if="productsInCart.length" class="summary p10 cl-accent serif" :class="className">
+    <div v-if="productsInCart.length || orderSummary.length" class="summary p10 cl-accent serif" :class="className">
       <h3 class="m0 p10 mb10 weight-400 summary-heading">
         {{ $t('Shopping summary') }}
       </h3>
-      <div v-for="(segment, index) in totals" :key="index" class="row p10" v-if="segment.code !== 'grand_total' && segment.code !== 'shipping' && segment.code !== 'tax' && 'Edited by Dan to avoid tax row, not configured'">
+      <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code !== 'grand_total' && segment.code !== 'shipping' && segment.code !== 'tax' && 'Edited by Dan to avoid tax row, not configured'">
         <div class="col-xs">
           {{ segment.title }}
           <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
@@ -16,7 +17,7 @@
           {{ segment.value | price }}
         </div>
       </div>
-      <div v-for="(segment, index) in totals" :key="index" class="row p10" v-if="segment.code == 'shipping'">
+      <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code == 'shipping'">
         <div class="col-xs">
           {{ segment.title }}
           <ul style="font-size: 14px" v-if="segment.value">
@@ -55,7 +56,7 @@
       <!--        </div>-->
       <!--      </div>-->
 
-      <div class="row p10 weight-700 middle-xs" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
+      <div class="row p10 weight-700 middle-xs" v-for="(segment, index) in summaryData" :key="index" v-if="segment.code === 'grand_total'">
         <div class="col-xs h4 total-price-label">
           {{ segment.title }}
         </div>
@@ -69,6 +70,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import i18n from '@vue-storefront/i18n'
+import isEmpty from 'lodash-es/isEmpty'
 export default {
   components: {},
   mixins: [],
@@ -84,14 +86,21 @@ export default {
   props: {
     className: {
       type: String
+    },
+    orderSummary: {
+      type: Array || Object
     }
   },
   computed: {
     ...mapGetters({
       productsInCart: 'cart/getCartItems',
       appliedCoupon: 'cart/getCoupon',
-      totals: 'cart/getTotals',
-    })
+      totals: 'cart/getTotals'
+    }),
+    //created function for get summary data, if orderSummary passed then take form orderSummary else get from getTotal
+    summaryData () {
+      return this.orderSummary && !isEmpty(this.orderSummary) ? this.orderSummary : this.totals
+    }
   },
   methods: {
     ...mapActions({

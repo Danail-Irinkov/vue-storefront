@@ -7,6 +7,7 @@ import { StockService } from '@vue-storefront/core/data-resolver'
 import { getStatus, getProductInfos } from '@vue-storefront/core/modules/catalog/helpers/stock'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
+import find from 'lodash-es/find'
 
 const actions: ActionTree<StockState, RootState> = {
   async queueCheck ({ dispatch }, { product }) {
@@ -18,6 +19,11 @@ const actions: ActionTree<StockState, RootState> = {
       // call procc api for get quantity by shabbir
       ProCcApi().checkProductQty({product_id: product.procc_product_id,sku:product.sku,size:product.size}, product.procc_brand_id).then((result)=>{
         dispatch('cart/stockSync', result.data.product ,{ root: true })
+        // Edited for set product available qty. in vuex by shabbir
+        let product_data= find(result.data.product,(p)=>{return p._id=product.procc_product_id})
+        let quantities = product_data.available_qty
+        quantities.product_id = product.procc_product_id
+        dispatch('product/setProductAvailableQuantity', quantities ,{ root: true })
         Logger.debug(`Stock quantity checked for ${result.data.product.product_sku}, response time: ${result.data.product.transmited_at - result.data.product.created_at} ms`, 'stock')()
       }).catch((error)=>{
         console.error("error check qty",error)
@@ -38,6 +44,11 @@ const actions: ActionTree<StockState, RootState> = {
     if (config.stock.synchronize) {
       // call procc api for get quantity by shabbir
       return ProCcApi().checkProductQty({product_id: product.procc_product_id,sku:product.sku,size:product.size},product.procc_brand_id).then((result)=>{
+        // Edited for set product available qty. in vuex by shabbir
+        let product_data= find(result.data.product,(p)=>{return p._id=product.procc_product_id})
+        let quantities = product_data.available_qty
+        quantities.product_id = product.procc_product_id
+        context.dispatch('product/setProductAvailableQuantity', quantities ,{ root: true })
         return {
           qty: result.data.product ? parseInt(result.data.product.qty) : 0,
           status: getStatus(result.data.product, 'ok'),
