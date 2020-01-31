@@ -34,7 +34,7 @@ export default (baseURL = '') => {
   if (process.env.NODE_APP_INSTANCE === 'kube') {
     private_key = process.env.JWT_PRIVATE_KEY
   }
-  if (!private_key || (private_key === 'NO TOKEN' && !isServer)) throw new Error('No JWT API TOKEN SUPPLIED')
+  if (!private_key || (private_key === 'NO TOKEN' && isServer)) throw new Error('No JWT API TOKEN SUPPLIED')
 
   const createToken = (brandId) => jwt.sign({ brand_id: brandId },
     private_key, {
