@@ -87,7 +87,7 @@ const mutations: MutationTree<ProductState> = {
   [types.PRODUCT_SET_GALLERY] (state, productGallery) {
     state.productGallery = productGallery
   },
-  //added for set product available quantity by shabbir
+  // added for set product available quantity by shabbir
   [types.PRODUCT_SET_AVAILABLE_QUANTITY] (state, availableQuantity) {
     state.productAvailableQuantity = availableQuantity
   },

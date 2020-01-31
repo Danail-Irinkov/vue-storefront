@@ -7,7 +7,7 @@
       <div v-if="isEditMode" class="overlay" @click="closeEditMode" />
     </transition>
     <div class="row bg-cl-primary px40 actions">
-      <account-icon class="p15 icon hidden-xs pointer login-registration" :show-text="true"/>
+      <account-icon class="p15 icon hidden-xs pointer login-registration" :show-text="true" />
       <div class="col-xs end-xs">
         <button
           type="button"
@@ -49,7 +49,7 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <div v-for="brand in getBrandsDetails" :key="brand._id">
-      <order-items :brand="brand" :order-items="productsInCartByBrandProCC(brand._id)" :shipping-method="getSelectedShippingMethods[brand._id]" className="bg-cl-secondary mb20" :is-disabled-inputs="false"/>
+      <order-items :brand="brand" :order-items="productsInCartByBrandProCC(brand._id)" :shipping-method="getSelectedShippingMethods[brand._id]" class-name="bg-cl-secondary mb20" :is-disabled-inputs="false" />
     </div>
     <!--<div v-if="productsInCart.length" class="summary px40 cl-accent serif">
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">
@@ -86,28 +86,28 @@
           {{ segment.total || 0 | price }}
         </div>
       </div> -->
-      <!--      <div class="row py20">-->
-      <!--        <div v-if="OnlineOnly && !addCouponPressed" class="col-xs-12">-->
-      <!--          <button-->
-      <!--            class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"-->
-      <!--            type="button"-->
-      <!--            @click="addDiscountCoupon"-->
-      <!--          >-->
-      <!--            {{ $t('Add a discount code') }}-->
-      <!--          </button>-->
-      <!--        </div>-->
-      <!--        <div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">-->
-      <!--          <div class="coupon-input">-->
-      <!--            <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>-->
-      <!--            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />-->
-      <!--          </div>-->
-      <!--          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">-->
-      <!--            {{ $t('Add discount code') }}-->
-      <!--          </button-outline>-->
-      <!--        </div>-->
-      <!--      </div>-->
+    <!--      <div class="row py20">-->
+    <!--        <div v-if="OnlineOnly && !addCouponPressed" class="col-xs-12">-->
+    <!--          <button-->
+    <!--            class="p0 brdr-none serif fs-medium-small cl-accent bg-cl-transparent"-->
+    <!--            type="button"-->
+    <!--            @click="addDiscountCoupon"-->
+    <!--          >-->
+    <!--            {{ $t('Add a discount code') }}-->
+    <!--          </button>-->
+    <!--        </div>-->
+    <!--        <div v-if="OnlineOnly && addCouponPressed" class="col-xs-12 pt30 coupon-wrapper">-->
+    <!--          <div class="coupon-input">-->
+    <!--            <label class="h6 cl-secondary">{{ $t('Discount code') }}</label>-->
+    <!--            <base-input type="text" id="couponinput" :autofocus="true" v-model.trim="couponCode" @keyup.enter="setCoupon" />-->
+    <!--          </div>-->
+    <!--          <button-outline color="dark" :disabled="!couponCode" @click.native="setCoupon">-->
+    <!--            {{ $t('Add discount code') }}-->
+    <!--          </button-outline>-->
+    <!--        </div>-->
+    <!--      </div>-->
 
-      <!--<div class="row pt30 pb20 weight-700 middle-xs" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
+    <!--<div class="row pt30 pb20 weight-700 middle-xs" v-for="(segment, index) in totals" :key="index" v-if="segment.code === 'grand_total'">
         <div class="col-xs h4 total-price-label">
           {{ segment.title }}
         </div>
@@ -116,7 +116,7 @@
         </div>
       </div>
     </div>-->
-    <microcart-summary class="bg-cl-secondary mb20"></microcart-summary>
+    <microcart-summary class="bg-cl-secondary mb20" />
 
     <div
       class="row py20 px40 middle-xs actions"
@@ -157,7 +157,7 @@ import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartBut
 import ButtonFull from 'theme/components/theme/ButtonFull'
 // import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
-import Product from 'theme/components/core/blocks/Microcart/Product'
+// import Product from 'theme/components/core/blocks/Microcart/Product'
 import OrderItems from 'theme/components/core/blocks/Checkout/OrderItems'
 import EditMode from './EditMode'
 import MicrocartSummary from './MicrocartSummary'
@@ -165,7 +165,7 @@ import { InstantCheckoutModule } from 'src/modules/instant-checkout'
 import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 export default {
   components: {
-    Product,
+    // Product,
     ClearCartButton,
     ButtonFull,
     // ButtonOutline,

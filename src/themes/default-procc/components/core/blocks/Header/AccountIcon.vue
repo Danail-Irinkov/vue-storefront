@@ -13,7 +13,8 @@
     <button
       type="button"
       class="bg-cl-transparent brdr-none p0"
-    ><strong v-if="showText">{{$t('Login / Registration')}}</strong>
+    >
+      <strong v-if="showText">{{ $t('Login / Registration') }}</strong>
       <i class="material-icons block">account_circle</i>
     </button>
 
@@ -47,6 +48,7 @@ export default {
   },
   props: {
     showText: {
+      type: Boolean,
       default: false
     }
   },

@@ -35,7 +35,7 @@ export const productModule: Module<ProductState, RootState> = {
     productLoadStart: 0,
     productLoadPromise: null,
     productGallery: [],
-    productAvailableQuantity:{} // Added for save product available Qty by shabbir
+    productAvailableQuantity: {} // Added for save product available Qty by shabbir
   },
   getters,
   actions,

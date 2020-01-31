@@ -11,9 +11,9 @@
           </a>
         </div>
         <div class="store-contact text shipping-method" v-if="shippingMethod">
-          <strong v-if="orderId" class="mr10">Order Id #{{orderId}}</strong>
+          <strong v-if="orderId" class="mr10">Order Id #{{ orderId }}</strong>
           {{ shippingMethod.name }} | {{ shippingMethod.cost | price }}
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 -5 73 70" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" data-darkreader-inline-fill="" data-darkreader-inline-stroke="" style="--darkreader-inline-fill:none; --darkreader-inline-stroke:#d4d1cc;"><g stroke-linecap="round"><path d="M17 15h26c2.3 0 2.1 1.6 1.7 3.1S41 33 41 33h10.1l4-2 3.9 2v8c0 1.3-.5 2-2 2h-8M9 43h6.6m9.4 0h14.6"></path><path d="M43.6 23H49l6.1 8M31 23H9m18 8H5"></path></g><path d="M24.8 44a6.9 6.9 0 0 1-6.2 5c-2.7 0-4.2-2.2-3.4-5a6.9 6.9 0 0 1 6.2-5c2.6 0 4.2 2.2 3.4 5zm24 0a6.9 6.9 0 0 1-6.2 5c-2.7 0-4.2-2.2-3.4-5a6.9 6.9 0 0 1 6.2-5c2.6 0 4.2 2.2 3.4 5z"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 -5 73 70" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" data-darkreader-inline-fill="" data-darkreader-inline-stroke="" style="--darkreader-inline-fill:none; --darkreader-inline-stroke:#d4d1cc;"><g stroke-linecap="round"><path d="M17 15h26c2.3 0 2.1 1.6 1.7 3.1S41 33 41 33h10.1l4-2 3.9 2v8c0 1.3-.5 2-2 2h-8M9 43h6.6m9.4 0h14.6" /><path d="M43.6 23H49l6.1 8M31 23H9m18 8H5" /></g><path d="M24.8 44a6.9 6.9 0 0 1-6.2 5c-2.7 0-4.2-2.2-3.4-5a6.9 6.9 0 0 1 6.2-5c2.6 0 4.2 2.2 3.4 5zm24 0a6.9 6.9 0 0 1-6.2 5c-2.7 0-4.2-2.2-3.4-5a6.9 6.9 0 0 1 6.2-5c2.6 0 4.2 2.2 3.4 5z" /></svg>
         </div>
       </div>
       <!--<div class="row p10 between-xs order-item" v-for="product in productsInCartByBrandProCC(brand_id)" :key="product.sku">
@@ -67,11 +67,11 @@ export default {
       default: ''
     },
     orderId: {
-      type: Number | String,
+      type: Number,
       default: 0
     },
     orderItems: {
-      type: Array | Object,
+      type: Array,
       default: []
     },
     shippingMethod: {
@@ -99,8 +99,7 @@ export default {
   methods: {
     getProductData (product) {
       let product_data = product
-      if (!product_data.price_incl_tax)
-        product_data.price_incl_tax = product.price
+      if (!product_data.price_incl_tax) { product_data.price_incl_tax = product.price }
       return product_data
     }
   }

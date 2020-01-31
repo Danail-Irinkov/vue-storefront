@@ -17,13 +17,13 @@ const actions: ActionTree<StockState, RootState> = {
     }
     if (config.stock.synchronize) {
       // call procc api for get quantity by shabbir
-      ProCcApi().checkProductQty({product_id: product.procc_product_id,sku:product.sku,size:product.size}, product.procc_brand_id).then((result)=>{
-        dispatch('cart/stockSync', result.data.product ,{ root: true })
+      ProCcApi().checkProductQty({product_id: product.procc_product_id, sku: product.sku, size: product.size}, product.procc_brand_id).then((result) => {
+        dispatch('cart/stockSync', result.data.product, { root: true })
         // Edited for set product available qty. in vuex by shabbir
-        let product_data= find(result.data.product,(p)=>{return p._id=product.procc_product_id})
+        let product_data = find(result.data.product, (p) => { return String(p._id) === String(product.procc_product_id) })
         let quantities = product_data.available_qty
         quantities.product_id = product.procc_product_id
-        dispatch('product/setProductAvailableQuantity', quantities ,{ root: true })
+        dispatch('product/setProductAvailableQuantity', quantities, { root: true })
         Logger.debug(`Stock quantity checked for ${result.data.product.product_sku}, response time: ${result.data.product.transmited_at - result.data.product.created_at} ms`, 'stock')()
       }).catch((error) => {
         console.error('error check qty', error)
@@ -43,25 +43,26 @@ const actions: ActionTree<StockState, RootState> = {
   async check (context, { product }) {
     if (config.stock.synchronize) {
       // call procc api for get quantity by shabbir
-      return ProCcApi().checkProductQty({product_id: product.procc_product_id,sku:product.sku,size:product.size},product.procc_brand_id).then((result)=>{
+      return ProCcApi().checkProductQty({product_id: product.procc_product_id, sku: product.sku, size: product.size}, product.procc_brand_id)
+        .then((result) => {
         // Edited for set product available qty. in vuex by shabbir
-        let product_data= find(result.data.product,(p)=>{return p._id=product.procc_product_id})
-        let quantities = product_data.available_qty
-        quantities.product_id = product.procc_product_id
-        context.dispatch('product/setProductAvailableQuantity', quantities ,{ root: true })
-        return {
-          qty: result.data.product ? parseInt(result.data.product.qty) : 0,
-          status: getStatus(result.data.product, 'ok'),
-          onlineCheckTaskId: ''
-        }
-      }).catch((error) => {
-        console.error('error check qty', error)
-        return {
-          qty: 0,
-          status: getStatus({}, 'ok'),
-          onlineCheckTaskId: ''
-        }
-      })
+          let product_data = find(result.data.product, (p) => { return String(p._id) === String(product.procc_product_id) })
+          let quantities = product_data.available_qty
+          quantities.product_id = product.procc_product_id
+          context.dispatch('product/setProductAvailableQuantity', quantities, { root: true })
+          return {
+            qty: result.data.product ? parseInt(result.data.product.qty) : 0,
+            status: getStatus(result.data.product, 'ok'),
+            onlineCheckTaskId: ''
+          }
+        }).catch((error) => {
+          console.error('error check qty', error)
+          return {
+            qty: 0,
+            status: getStatus({}, 'ok'),
+            onlineCheckTaskId: ''
+          }
+        })
     }
 
     return {

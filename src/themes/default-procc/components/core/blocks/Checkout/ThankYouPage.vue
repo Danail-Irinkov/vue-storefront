@@ -8,7 +8,9 @@
           :active-route="this.$t('Order confirmation')"
         />
         <img src="https://procc.co/static/img/check-mark-circle.png" class="order-confirm-header">
-        <h4 class="category-title">{{ $t('Thank you for your purchase') }}</h4>
+        <h4 class="category-title">
+          {{ $t('Thank you for your purchase') }}
+        </h4>
       </div>
     </header>
     <!-- modify for display order details-->
@@ -16,14 +18,18 @@
       <div class="row mb20">
         <div class="col-sm-6 address">
           <div class="bg-cl-secondary p10">
-            <h4 class="m0">{{$t("Shipping Address")}}</h4>
-            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address"></address-block>
+            <h4 class="m0">
+              {{ $t("Shipping Address") }}
+            </h4>
+            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address" />
           </div>
         </div>
         <div class="col-sm-6 address">
           <div class="bg-cl-secondary p10">
-            <h4 class="m0">{{$t("Billing Address")}}</h4>
-            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address"></address-block>
+            <h4 class="m0">
+              {{ $t("Billing Address") }}
+            </h4>
+            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address" />
           </div>
         </div>
       </div>
@@ -34,45 +40,49 @@
         <p class="mb25">
           {{ $t('Your feedback is important for us. Let us know what we could improve.') }}
         </p>
-          <form @submit.prevent="sendFeedback">
-            <div class="row align-items-end feedback-row">
-          <div class="col-md-8 col-lg-9">
-            <base-textarea
-              class="m0 h-100"
-              type="text"
-              name="body"
-              v-model="feedback"
-              :placeholder="$t('Type your opinion')"
-              :autofocus="true"
-            />
-          </div>
+        <form @submit.prevent="sendFeedback">
+          <div class="row align-items-end feedback-row">
+            <div class="col-md-8 col-lg-9">
+              <base-textarea
+                class="m0 h-100"
+                type="text"
+                name="body"
+                v-model="feedback"
+                :placeholder="$t('Type your opinion')"
+                :autofocus="true"
+              />
+            </div>
             <div class="col-md-4 col-lg-3">
               <button-outline color="dark">
                 {{ $t('Give a feedback') }}
               </button-outline>
             </div>
-            </div>
-          </form>
+          </div>
+        </form>
       </div>
       <div v-for="order in lastOrderConfirmation.orders" :key="order._id">
-        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" className="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true"/>
+        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" class-name="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true" />
       </div>
       <div class="row">
-        <div class="col-md-6"></div>
+        <div class="col-md-6" />
         <div class="col-md-6">
-          <microcart-summary class="bg-cl-secondary mb20"  :order-summary="orderSummary"></microcart-summary>
+          <microcart-summary class="bg-cl-secondary mb20" :order-summary="orderSummary" />
         </div>
       </div>
       <div class="mb20 bg-cl-secondary thank-you-improvment">
-        <h4> {{$t('What are the next steps?')}}</h4>
+        <h4> {{ $t('What are the next steps?') }}</h4>
         <ol>
-          <li v-if="lastOrderConfirmation.orders[0].customer_user">{{$t('You will receive an email at')}} <strong>{{lastOrderConfirmation.orders[0].customer_user.email}}</strong> {{$t('confirming your order.')}}</li>
-          <li>{{$t('You will receive another confirmation email at shipping. If you have any questions, see our')}} <a href="https://procc.co/faq" target="_blank">{{$t("FAQ")}}</a> </li>
+          <li v-if="lastOrderConfirmation.orders[0].customer_user">
+            {{ $t('You will receive an email at') }} <strong>{{ lastOrderConfirmation.orders[0].customer_user.email }}</strong> {{ $t('confirming your order.') }}
+          </li>
+          <li>{{ $t('You will receive another confirmation email at shipping. If you have any questions, see our') }} <a href="https://procc.co/faq" target="_blank">{{ $t("FAQ") }}</a> </li>
         </ol>
-        <p>{{$t("Remember You can check the status of the order using the order tracking option")}}</p>
+        <p>{{ $t("Remember You can check the status of the order using the order tracking option") }}</p>
       </div>
       <div class="mb20 bg-cl-secondary thank-you-improvment">
-        <h3 class="center title"> {{$t("Suggested Products")}}</h3>
+        <h3 class="center title">
+          {{ $t("Suggested Products") }}
+        </h3>
         <ProCCTileLinks />
       </div>
     </div>
@@ -161,6 +171,7 @@ import { isServer } from '@vue-storefront/core/helpers'
 import config from 'config'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { MailerModule } from '@vue-storefront/core/modules/mailer'
+import _ from 'lodash'
 
 export default {
   name: 'ThankYouPage',
@@ -191,8 +202,8 @@ export default {
     // created function for get order summary from order
     orderSummary () {
       let summary_data = []
-      let total = _.sumBy(this.lastOrderConfirmation.orders, function (o) { return o.total; });
-      let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, function (o) { return o.shipping_fee; });
+      let total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.total; });
+      let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.shipping_fee; });
       summary_data.push({code: 'subtotal', title: 'Subtotal', value: (total - shipping_fee)})
       summary_data.push({code: 'shipping_fee', title: 'Shipping Fee', value: shipping_fee})
       summary_data.push({code: 'grand_total', title: 'Grand Total', value: total})

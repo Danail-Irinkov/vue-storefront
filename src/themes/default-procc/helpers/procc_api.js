@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 // import jwtPrivateKey from '../../config/jwt.jst'
 import config from 'config';
 import { isServer } from '@vue-storefront/core/helpers'
-import jwt_token from '../../../../config/jwt.js'
+import jwt_token from '@vue-storefront/config/jwt'
 
 export default (baseURL = '') => {
   baseURL = config.PROCC.URL + '/api/'

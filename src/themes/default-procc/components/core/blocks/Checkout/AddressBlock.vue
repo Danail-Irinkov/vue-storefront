@@ -1,23 +1,23 @@
 <!--Created component for display address block by shabbir-->
 <template>
-<div :class="className">
-  <p>
-    {{ address.first_name }} {{ address.last_name }}
-  </p>
-  <p>
-    {{ address.streetNumber }} - {{ address.streetName }}
-  </p>
-  <p>
-    {{ address.city }} {{ address.postalCode }}
-  </p>
-  <p>
-    <span v-if="address.country"> {{ getCountryName() }}</span>
-  </p>
-  <div v-if="address.phoneNumber">
-    <span class="pr15">{{ address.phoneNumber }}</span>
-    <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
+  <div :class="className">
+    <p>
+      {{ address.first_name }} {{ address.last_name }}
+    </p>
+    <p>
+      {{ address.streetNumber }} - {{ address.streetName }}
+    </p>
+    <p>
+      {{ address.city }} {{ address.postalCode }}
+    </p>
+    <p>
+      <span v-if="address.country"> {{ getCountryName() }}</span>
+    </p>
+    <div v-if="address.phoneNumber">
+      <span class="pr15">{{ address.phoneNumber }}</span>
+      <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -31,9 +31,11 @@ export default {
   },
   props: {
     address: {
+      type: Object,
       default: {}
     },
     className: {
+      type: String,
       default: ''
     }
   },

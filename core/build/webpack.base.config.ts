@@ -131,6 +131,8 @@ export default {
       'theme/resource': themeResources,
 
       // Backward compatible
+      '@vue-storefront/config/jwt': path.resolve(__dirname, '../../config/jwt.js'),
+      '@vue-storefront/config/jwt_es5': path.resolve(__dirname, '../../config/jwt_es5.js'),
       '@vue-storefront/core/lib/store/multistore': path.resolve(__dirname, '../lib/multistore.ts'),
       'src/modules/order-history/components/UserOrders': path.resolve(__dirname, '../../core/modules/order/components/UserOrdersHistory'),
       '@vue-storefront/core/modules/social-share/components/WebShare': path.resolve(__dirname, '../../src/themes/default/components/theme/WebShare.vue'),

@@ -683,7 +683,7 @@ const actions: ActionTree<ProductState, RootState> = {
     }
   },
   // created function for set product available quantity
-  setProductAvailableQuantity (context,availableQuantity) {
+  setProductAvailableQuantity (context, availableQuantity) {
     context.commit(types.PRODUCT_SET_AVAILABLE_QUANTITY, availableQuantity)
   },
   async loadProductBreadcrumbs ({ dispatch, rootGetters }, { product } = {}) {

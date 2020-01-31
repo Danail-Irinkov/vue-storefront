@@ -7,7 +7,7 @@ const axios = require('axios')
 const jwt = require('jsonwebtoken')
 // const jwtPrivateKey = require('../../config/jwt.jst')
 const config = require('config')
-const jwt_token = require('../../config/jwt.js')
+const jwt_token = require('@vue-storefront/config/jwt_es5')
 
 // const { isServer } = require('@vue-storefront/core/helpers')
 
