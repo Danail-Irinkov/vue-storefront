@@ -1,3 +1,4 @@
 core/build/*.js
 node_modules
 packages/module/*.js
+src/themes/default-procc/resource/smooth-scroll.polyfills.min.js

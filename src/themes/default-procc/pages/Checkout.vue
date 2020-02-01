@@ -22,8 +22,12 @@
               :is-active="activeSection.personalDetails"
               :focused-field="focusedField"
             />
-            <shipping class="line relative" :is-active="activeSection.shipping" v-if="!isVirtualCart" />
-            <payment class="line relative" :is-active="activeSection.payment" />
+            <shipping class="line relative"
+                      data-scroll id="#shipping"
+                      :is-active="activeSection.shipping" v-if="!isVirtualCart" />
+            <payment class="line relative"
+                     data-scroll id="#payment"
+                     :is-active="activeSection.payment" />
 
             <div id="custom-steps" />
           </div>
@@ -37,7 +41,7 @@
         </div>
       </div>
     </div>
-    <thank-you-page v-show="isThankYouPage" />
+    <order-finalized-thank-you v-show="isThankYouPage" />
     <shipping-method v-if="loadShippingMethod" :store-brand-id="brandId" :is-active="true" />
   </div>
 </template>
@@ -51,7 +55,7 @@ import Payment from 'theme/components/core/blocks/Checkout/Payment'
 // import OrderReview from 'theme/components/core/blocks/Checkout/OrderReview'
 import CartSummary from 'theme/components/core/blocks/Checkout/CartSummary'
 import OrderSummary from 'theme/components/core/blocks/Checkout/OrderSummary'
-import ThankYouPage from 'theme/components/core/blocks/Checkout/ThankYouPage'
+import OrderFinalizedThankYou from 'theme/components/core/blocks/Checkout/OrderFinalizedThankYou'
 import ShippingMethod from 'theme/components/core/blocks/Checkout/ShippingMethod'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { OrderModule } from '@vue-storefront/core/modules/order'
@@ -64,7 +68,7 @@ export default {
     OrderSummary,
     // OrderReview,
     CartSummary,
-    ThankYouPage,
+    OrderFinalizedThankYou,
     ShippingMethod
   },
   mixins: [Checkout],
@@ -85,6 +89,7 @@ export default {
       return brands
     },
     notifyEmptyCart () {
+      this.$bus.$emit('notification-progress-stop'); // Added by Dan
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t('Shopping cart is empty. Please add some products before entering Checkout'),
@@ -92,6 +97,7 @@ export default {
       })
     },
     notifyOutStock (chp) {
+      this.$bus.$emit('notification-progress-stop'); // Added by Dan
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: chp.name + this.$t(' is out of stock!'),
@@ -99,6 +105,7 @@ export default {
       })
     },
     notifyNotAvailable () {
+      this.$bus.$emit('notification-progress-stop'); // Added by Dan
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t('Some of the ordered products are not available!'),
@@ -106,6 +113,7 @@ export default {
       })
     },
     notifyStockCheck () {
+      this.$bus.$emit('notification-progress-stop'); // Added by Dan
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t('Stock check in progress, please wait while available stock quantities are checked'),
@@ -113,6 +121,7 @@ export default {
       })
     },
     notifyNoConnection () {
+      this.$bus.$emit('notification-progress-stop'); // Added by Dan
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
         message: this.$t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
@@ -122,7 +131,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
   @import '~theme/css/base/text';
   @import '~theme/css/variables/colors';

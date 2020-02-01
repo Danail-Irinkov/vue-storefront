@@ -8,6 +8,8 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { isServer } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import find from 'lodash-es/find';
+import SmoothScroll from 'src/themes/default-procc/resource/smooth-scroll.polyfills.min.js'
+
 export default {
   name: 'Checkout',
   mixins: [Composite, VueOfflineMixin],
@@ -101,6 +103,7 @@ export default {
             for (let chp of checkedProducts) {
               if (chp && chp.stock) {
                 if (!chp.stock.is_in_stock) {
+                  console.log('chp.stock.is_in_stock', chp.stock)
                   this.stockCheckOK = false
                   chp.errors.stock = i18n.t('Out of stock!')
                   this.notifyOutStock(chp)
@@ -170,6 +173,10 @@ export default {
       if (this.$store.state.checkout.personalDetails.createAccount) {
         await this.$store.dispatch('user/login', { username: this.$store.state.checkout.personalDetails.emailAddress, password: this.$store.state.checkout.personalDetails.password })
       }
+
+      // Scrolling to top HERE to prepare for the ProCC Thank you page
+      window.scrollTo(0, 0); // Added By Dan
+
       this.$store.dispatch('checkout/setThankYouPage', true)
       this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
       Logger.debug(payload.order)()
@@ -235,6 +242,10 @@ export default {
     onNetworkStatusCheck (isOnline) {
       this.checkConnection(isOnline)
     },
+    checkStocksProCC () { // Added By Dan
+      // TODO: Copy the needed verifications here from 'checkStocks()' + Check Stock with ProCC + Show which Product is out of stock
+      return true
+    },
     checkStocks () {
       let isValid = true
       for (let child of this.$children) {
@@ -259,6 +270,7 @@ export default {
         if (this.stockCheckCompleted) {
           if (!this.stockCheckOK) {
             isValid = false
+            console.log('notifyNotAvailable checkStocks')
             this.notifyNotAvailable()
           }
         } else {
@@ -288,6 +300,23 @@ export default {
         this.activeSection[section] = false
       }
       this.activeSection[sectionToActivate] = true
+
+      // TODO: Scroll the page based on the #anchors -> '#' + sectionToActivate
+      // console.log('activateSection scroll', sectionToActivate)
+      // let anchor = document.querySelector('#' + sectionToActivate); // NOT GETTING THE ELEMENT WITH THIS QUERY? CAN YOU FIX?
+      // console.log('activateSection anchor: ', anchor)
+      let scroll = new SmoothScroll() // Added By Dan
+      // Workaround for not being able to select the exact elements
+      let scroll_offset = sectionToActivate === 'shipping' ? 533 : sectionToActivate === 'payment' ? 683 : 0
+      scroll.animateScroll(scroll_offset, null, { // Added By Dan
+        durationMin: 1183,
+        speed: 1200,
+        // offset: 300,
+        // clip: true,
+        // speedAsDuration: true,
+        easing: 'easeOutQuint'
+      }); // Added By Dan
+      // console.log('activateSection scroll: ', scroll)
       if (!isServer) window.location.href = window.location.origin + window.location.pathname + '#' + sectionToActivate
     },
     // This method checks if there exists a mapping of chosen payment method to one of Magento's payment methods.
@@ -353,9 +382,11 @@ export default {
     },
     placeOrder () {
       this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
-      if (this.checkStocks()) {
+      // if (this.checkStocks()) {
+      if (this.checkStocksProCC()) { // Added By Dan
         this.placeProCCOrder()
       } else {
+        console.log('notifyNotAvailable placeOrder')
         this.notifyNotAvailable()
       }
     },

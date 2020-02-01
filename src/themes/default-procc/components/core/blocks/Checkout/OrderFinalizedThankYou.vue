@@ -2,11 +2,11 @@
   <div>
     <header class="thank-you-title py35 pl20">
       <div class="container">
-        <breadcrumbs
-          :with-homepage="true"
-          :routes="[]"
-          :active-route="this.$t('Order confirmation')"
-        />
+<!--        <breadcrumbs-->
+<!--          :with-homepage="true"-->
+<!--          :routes="[]"-->
+<!--          :active-route="this.$t('Order confirmation')"-->
+<!--        />-->
         <img src="https://procc.co/static/img/check-mark-circle.png" class="order-confirm-header">
         <h4 class="category-title">
           {{ $t('Thank you for your purchase') }}
@@ -15,56 +15,71 @@
     </header>
     <!-- modify for display order details-->
     <div class="container" v-if="lastOrderConfirmation.orders && lastOrderConfirmation.orders[0]">
-      <div class="row mb20">
-        <div class="col-sm-6 address">
-          <div class="bg-cl-secondary p10">
+      <div class="row mb20" v-if="userInfoIsNotStored">
+        <h4 class="bg-cl-secondary" style="width: 100%; text-align: center; margin: 0 8px 1rem 18px!important;padding: 20px 0 20px 0">
+          {{ $t("Store your order's details in your ProCC Account") }}
+        </h4>
+        <div class="col-md-6">
+          <base-checkbox
+            class="col-sm-12 bg-cl-secondary p15 ml10"
+            id="storePersonalInfo"
+            v-model="storePersonalInfo"
+          >
+            {{ $t("Save my Personal Information in accordance with ProCC's Privacy Policy") }}
+          </base-checkbox>
+        </div>
+        <div class="col-md-6">
+          <base-checkbox
+            class="col-sm-12 bg-cl-secondary p15 ml10"
+            id="storePaymentInfo"
+            v-model="storePaymentInfo"
+          >
+            {{ $t("Save my Payment Information in accordance with ProCC's Privacy Policy") }}
+          </base-checkbox>
+        </div>
+        <div class="col-md-8 animated fadeInDown bg-cl-secondary"
+             v-if="storePersonalInfo || storePaymentInfo"
+             style="padding-left: 15px;margin: 1rem -28px 0 18px;">
+          <base-input
+            class=""
+            style="width: calc(100% - 28px); padding-top: 22px"
+            type="password"
+            name="password"
+            v-model="password"
+            @blur="$v.password.$touch()"
+            :placeholder="$t('Password *')"
+            :validations="[{
+            condition: !$v.password.required && $v.password.$error,
+            text: $t('Field is required')
+          }]"
+          />
+        </div>
+        <div class="col-md-4 animated fadeInDown bg-cl-secondary"
+             v-if="storePersonalInfo || storePaymentInfo"
+             style="padding-left: 15px; margin-top: 1rem" >
+          <button-full
+            @click.native="saveUserAccount"
+            data-testid="orderReviewSubmit"
+            class="place-order-btn"
+            style="margin-top: 10px;"
+            :disabled="$v.password.$invalid"
+          >
+            {{ $t('Save to Account') }}
+          </button-full>
+        </div>
+      </div>
+      <div v-for="order in lastOrderConfirmation.orders" :key="order._id">
+        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" class-name="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true" />
+      </div>
+      <div class="row">
+        <div class="col-md-6 address">
+          <div class="bg-cl-secondary p10" style="min-height: 212px">
             <h4 class="m0">
               {{ $t("Shipping Address") }}
             </h4>
             <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address" />
           </div>
         </div>
-        <div class="col-sm-6 address">
-          <div class="bg-cl-secondary p10">
-            <h4 class="m0">
-              {{ $t("Billing Address") }}
-            </h4>
-            <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address" />
-          </div>
-        </div>
-      </div>
-      <div class="mb20 bg-cl-secondary thank-you-improvment">
-        <h4>
-          {{ $t('What we can improve?') }}
-        </h4>
-        <p class="mb25">
-          {{ $t('Your feedback is important for us. Let us know what we could improve.') }}
-        </p>
-        <form @submit.prevent="sendFeedback">
-          <div class="row align-items-end feedback-row">
-            <div class="col-md-8 col-lg-9">
-              <base-textarea
-                class="m0 h-100"
-                type="text"
-                name="body"
-                v-model="feedback"
-                :placeholder="$t('Type your opinion')"
-                :autofocus="true"
-              />
-            </div>
-            <div class="col-md-4 col-lg-3">
-              <button-outline color="dark">
-                {{ $t('Give a feedback') }}
-              </button-outline>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div v-for="order in lastOrderConfirmation.orders" :key="order._id">
-        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" class-name="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true" />
-      </div>
-      <div class="row">
-        <div class="col-md-6" />
         <div class="col-md-6">
           <microcart-summary class="bg-cl-secondary mb20" :order-summary="orderSummary" />
         </div>
@@ -77,7 +92,35 @@
           </li>
           <li>{{ $t('You will receive another confirmation email at shipping. If you have any questions, see our') }} <a href="https://procc.co/faq" target="_blank">{{ $t("FAQ") }}</a> </li>
         </ol>
-        <p>{{ $t("Remember You can check the status of the order using the order tracking option") }}</p>
+        <p>{{ $t("You can check the status of the order using your account's Order History") }}</p>
+      </div>
+      <div class="mb20 bg-cl-secondary thank-you-improvment">
+        <h4>
+          {{ $t('What can we improve?') }}
+        </h4>
+        <p class="mb25">
+          {{ $t('Your feedback is important for us. Let us know what we could improve.') }}
+        </p>
+        <form @submit.prevent="sendFeedback">
+          <div class="row align-items-end feedback-row">
+            <div class="col-md-8 col-lg-9">
+              <base-textarea
+                class="m0 h-100 textarea-height-procc"
+                style=""
+                type="text"
+                name="body"
+                v-model="feedback"
+                :placeholder="$t('Type your opinion')"
+                :autofocus="true"
+              />
+            </div>
+            <div class="col-md-4 col-lg-3">
+              <button-outline color="dark">
+                {{ $t('Send feedback') }}
+              </button-outline>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="mb20 bg-cl-secondary thank-you-improvment">
         <h3 class="center title">
@@ -131,7 +174,7 @@
           </div>
           <div class="col-md-6 bg-cl-secondary thank-you-improvment">
             <h3>
-              {{ $t('What we can improve?') }}
+              {{ $t('What can we improve?') }}
             </h3>
             <p class="mb25">
               {{ $t('Your feedback is important for us. Let us know what we could improve.') }}
@@ -146,7 +189,7 @@
                 :autofocus="true"
               />
               <button-outline color="dark">
-                {{ $t('Give a feedback') }}
+                {{ $t('Send feedback') }}
               </button-outline>
             </form>
           </div>
@@ -172,6 +215,10 @@ import config from 'config'
 import { registerModule } from '@vue-storefront/core/lib/modules'
 import { MailerModule } from '@vue-storefront/core/modules/mailer'
 import _ from 'lodash'
+import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
+import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
+import ButtonFull from 'theme/components/theme/ButtonFull'
+import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ThankYouPage',
@@ -181,7 +228,10 @@ export default {
   },
   data () {
     return {
-      feedback: ''
+      feedback: '',
+      password: '', // Added by Dan
+      storePersonalInfo: false, // Added by Dan
+      storePaymentInfo: false, // Added by Dan
     }
   },
   computed: {
@@ -211,9 +261,20 @@ export default {
     },
     mailerElements () {
       return config.mailer.contactAddress
-    }
+    },
+    userInfoIsNotStored () { // Added By Dan
+      // TODO: Need to populate these boolenans according to real situation
+      // TODO: if the email the user wrote is already in used in an account -> add the data to that account, BUT dont allow the user to access the stored address an payment methods, unless they login and input password
+      const isUserAddressStored = false
+      const isUserPaymentStored = false
+      return !isUserAddressStored || !isUserPaymentStored
+    },
   },
   methods: {
+    saveUserAccount () { // Added by Dan
+      // TODO: Create an user account, OR save the selected address and/or payment data to the current user's account
+      console.log('saveUserAccount Mock Started')
+    },
     requestNotificationPermission () {
       if (isServer) return false
       if ('Notification' in window && Notification.permission !== 'granted') {
@@ -227,7 +288,7 @@ export default {
         {
           sourceAddress: this.checkoutPersonalEmailAddress,
           targetAddress: this.mailerElements,
-          subject: this.$t('What we can improve?'),
+          subject: this.$t('What can we improve?'),
           emailText: this.feedback
         },
         this.onSuccess,
@@ -263,6 +324,12 @@ export default {
   destroyed () {
     this.$store.dispatch('checkout/setThankYouPage', false)
   },
+  validations: { // Added by Dan
+    password: { // Added by Dan
+      minLength: minLength(8),
+      required
+    },
+  },
   components: {
     AddressBlock,
     BaseTextarea,
@@ -270,6 +337,9 @@ export default {
     ButtonOutline,
     OrderItems,
     ProCCTileLinks,
+    BaseCheckbox,
+    BaseInput,
+    ButtonFull,
     MicrocartSummary
   }
 }
@@ -335,6 +405,12 @@ export default {
         flex-wrap: wrap;
         flex-flow: column;
       }
+    }
+  }
+  .textarea-height-procc { // Added By Dan
+    & > div > textarea {
+      padding-top: 10px;
+      min-height: 50px!important
     }
   }
 </style>
