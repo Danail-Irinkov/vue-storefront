@@ -67,7 +67,7 @@
             </div>
           </div>
           <div class="static-available mt15" v-if="maxQuantity < 20">
-            Limited quantity available
+            {{ $t('Limited quantity available') }}
           </div>
         </div>
       </div>

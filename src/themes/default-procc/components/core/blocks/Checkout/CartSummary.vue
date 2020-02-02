@@ -24,7 +24,7 @@
         </div>
       </div>
       <!--      <product v-for="product in productsInCart" :key="product.sku" :product="product" />-->
-      <product v-for="product in productsInCartByBrandProCC(brand_id)" :key="product.sku" :product="product" />
+      <checkout-product v-for="product in productsInCartByBrandProCC(brand_id)" :key="product.sku" :product="product" />
     </div>
     <div class="py50 px25" v-show="false && 'TODO: need to edit the texts'">
       <h4 class="h3 m0">
@@ -54,12 +54,12 @@
 
 <script>
 import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
-import Product from './Product'
+import CheckoutProduct from './Product'
 // import ShippingMethod from './ShippingMethod'
 
 export default {
   components: {
-    Product
+    CheckoutProduct
     // ShippingMethod
   },
   props: {

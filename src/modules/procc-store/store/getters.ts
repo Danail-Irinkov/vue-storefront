@@ -8,7 +8,10 @@ const getters: GetterTree<StoreDataState, RootState> = {
     return state.banners
   },
   getHeadImage: state => state.headImage,
-  getStoreLogo: state => (!_.isNull(state.headImage) && !_.isUndefined(_.get(state.headImage, 'logo'))) ? _.get(state.headImage, 'logo') : '/assets/logo.svg'
+  getStoreLogo: state => {
+    console.log('state.headImage', state.headImage)
+    return state.headImage ? _.get(state.headImage, 'logo') : '/assets/logo.svg'
+  }
 }
 
 export default getters

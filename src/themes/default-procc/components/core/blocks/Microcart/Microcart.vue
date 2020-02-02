@@ -34,6 +34,13 @@
         <clear-cart-button
           v-if="productsInCart.length"
           @click.native="clearCart"
+          style="margin-right: 15px"
+        />
+        <clear-go-to-checkout-btn-pro-c-c
+          v-if="productsInCart.length"
+          :link="{ name: 'checkout' }"
+          @click.native="closeMicrocartExtend"
+          style="padding-left: 15px; border-left-width: 2px!important; border-left-color: #9a9a9a!important; border-left-style: outset!important;"
         />
       </div>
     </div>
@@ -154,6 +161,7 @@ import { registerModule } from '@vue-storefront/core/lib/modules'
 
 // import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
+import ClearGoToCheckoutBtnProCC from 'theme/components/core/blocks/Microcart/ClearGoToCheckoutBtnProCC' // Added by Dan
 import ButtonFull from 'theme/components/theme/ButtonFull'
 // import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
@@ -167,6 +175,7 @@ export default {
   components: {
     // Product,
     ClearCartButton,
+    ClearGoToCheckoutBtnProCC, // Added by Dan
     ButtonFull,
     // ButtonOutline,
     // BaseInput,
@@ -256,7 +265,8 @@ export default {
       }
     },
     closeMicrocartExtend () {
-      this.toggleMicrocart()
+      let close_micro_cart = this.toggleMicrocart // Added By Dan
+      setTimeout(close_micro_cart, 83) // Added By Dan
       this.$store.commit('ui/setSidebar', false)
       this.addCouponPressed = false
     },

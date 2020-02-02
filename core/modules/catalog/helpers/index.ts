@@ -504,6 +504,7 @@ export function configureProductAsync (context, { product, configuration, select
     let desiredProductFound = false
     // Edited By dan to allow for not synced simple products from M2 - ProCC
     let selectedVariant
+    console.log('!!!!!!!!!!!!!hasConfigurableChildren', hasConfigurableChildren)
     if (hasConfigurableChildren) {
       selectedVariant = findConfigurableChildAsync({ product, configuration, availabilityCheck: true })
     } else {
@@ -516,6 +517,9 @@ export function configureProductAsync (context, { product, configuration, select
         selectedVariant.size_label = configuration.size.label
       }
     }
+    console.log('!!!!!!!!!!!!!configuration.size', configuration.size)
+    console.log('!!!!!!!!!!!!!selectedVariant.sku', selectedVariant.sku)
+    console.log('!!!!!!!!!!!!!selectedVariant.size', selectedVariant.size)
     // Edited By dan to allow for not synced simple products from M2 - ProCC - END
     if (!selectedVariant) {
       if (fallbackToDefaultWhenNoAvailable) {

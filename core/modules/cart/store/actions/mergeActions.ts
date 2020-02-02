@@ -31,26 +31,36 @@ const mergeActions = {
     EventBus.$emit('cart-after-itemchanged', { item: cartItem })
   },
   async updateServerItem ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds }) {
+    console.log('updateServerItem Start')
+    console.time('updateServerItem0')
+    console.time('updateServerItem1')
+    console.time('updateServerItem2')
+    console.time('updateServerItem3')
+    console.time('updateServerItem4')
     const diffLog = createDiffLog()
     const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds)
     const event = await CartService.updateItem(getters.getCartToken, cartItem)
+    console.timeEnd('updateServerItem0')
     const wasUpdatedSuccessfully = event.resultCode === 200
     Logger.debug('Cart item server sync' + event, 'cart')()
     diffLog.pushServerResponse({ status: event.resultCode, sku: clientItem.sku, result: event })
 
     if (!wasUpdatedSuccessfully && !serverItem) {
       commit(types.CART_DEL_ITEM, { product: clientItem, removeByParentSku: false })
+      console.timeEnd('updateServerItem1')
       return diffLog
     }
 
     if (!wasUpdatedSuccessfully && clientItem.item_id) {
       await dispatch('restoreQuantity', { cartItem, clientItem })
+      console.timeEnd('updateServerItem2')
       return diffLog
     }
 
     if (!wasUpdatedSuccessfully) {
       Logger.warn('Removing product from cart', 'cart', clientItem)()
       commit(types.CART_DEL_NON_CONFIRMED_ITEM, { product: clientItem })
+      console.timeEnd('updateServerItem3')
       return diffLog
     }
 
@@ -63,9 +73,14 @@ const mergeActions = {
 
     await dispatch('updateClientItem', { clientItem, serverItem: event.result })
 
+    console.timeEnd('updateServerItem4')
     return diffLog
   },
   async synchronizeServerItem ({ dispatch }, { serverItem, clientItem, forceClientState, dryRun }) {
+    console.log('synchronizeServerItem Start')
+    console.time('synchronizeServerItem1')
+    console.time('synchronizeServerItem2')
+    console.time('synchronizeServerItem3')
     const diffLog = createDiffLog()
 
     if (!serverItem) {
@@ -75,6 +90,8 @@ const mergeActions = {
       if (dryRun) return diffLog
       if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: false })
+
+        console.timeEnd('synchronizeServerItem1')
         return diffLog.merge(updateServerItemDiffLog)
       }
 
@@ -89,12 +106,14 @@ const mergeActions = {
       if (forceClientState || !config.cart.serverSyncCanModifyLocalItems) {
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: true })
 
+        console.timeEnd('synchronizeServerItem2')
         return diffLog.merge(updateServerItemDiffLog)
       }
 
       await dispatch('updateItem', { product: serverItem })
     }
 
+    console.timeEnd('synchronizeServerItem3')
     return diffLog
   },
   async mergeClientItem ({ dispatch }, { clientItem, serverItems, forceClientState, dryRun }) {
@@ -200,8 +219,12 @@ const mergeActions = {
       forceClientState,
       dryRun
     }
+    console.time('mergeClientItems')
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
+    console.timeEnd('mergeClientItems')
+    console.time('mergeServerItems')
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
+    console.timeEnd('mergeServerItems')
     dispatch('updateTotalsAfterMerge', { clientItems, dryRun })
 
     diffLog

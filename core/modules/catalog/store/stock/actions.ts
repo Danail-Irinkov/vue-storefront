@@ -7,7 +7,6 @@ import { StockService } from '@vue-storefront/core/data-resolver'
 import { getStatus, getProductInfos } from '@vue-storefront/core/modules/catalog/helpers/stock'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
-import find from 'lodash-es/find'
 
 const actions: ActionTree<StockState, RootState> = {
   async queueCheck ({ dispatch }, { product }) {
@@ -23,7 +22,7 @@ const actions: ActionTree<StockState, RootState> = {
         console.log('queueCheck result.data.product', result.data.product)
         console.log('queueCheck product.procc_product_id', product.procc_product_id)
 
-        let product_data = find(result.data.product, (p) => { return String(p._id) === String(product.procc_product_id) })
+        let product_data = result.data.product
         let quantities = product_data.available_qty
         quantities.product_id = product.procc_product_id
         dispatch('product/setProductAvailableQuantity', quantities, { root: true })
@@ -51,7 +50,7 @@ const actions: ActionTree<StockState, RootState> = {
         // Edited for set product available qty. in vuex by shabbir
           console.log('check result.data.product', result.data.product)
           console.log('queueCheck product.procc_product_id', product.procc_product_id)
-          let product_data = find(result.data.product, (p) => { return String(p._id) === String(product.procc_product_id) })
+          let product_data = result.data.product
           let quantities = product_data.available_qty
           quantities.product_id = product.procc_product_id
           context.dispatch('product/setProductAvailableQuantity', quantities, { root: true })

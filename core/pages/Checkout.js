@@ -171,6 +171,7 @@ export default {
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
       if (this.$store.state.checkout.personalDetails.createAccount) {
+        console.log('Dispatching LOGIN REQUEST AT onAfterPlaceOrder')
         await this.$store.dispatch('user/login', { username: this.$store.state.checkout.personalDetails.emailAddress, password: this.$store.state.checkout.personalDetails.password })
       }
 

@@ -232,7 +232,7 @@ export default {
   @media screen and (min-width:1200px){
   #checkout .container {max-width: 1200px;margin:0 auto;}
   }
-  #app {background: #f2f2f2;}
+  #app {background: #fafafa;}
   .box-left, .box-right {background: #fff;    border-radius: 8px;}
   .checkout-title h3, h3.order-sum{font-size: 24px;
     color: #000;

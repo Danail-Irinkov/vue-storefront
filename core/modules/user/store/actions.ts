@@ -50,6 +50,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   async login ({ commit, dispatch }, { username, password }) {
+    console.log('BEFORE UserService.login', username, password)
     const resp = await UserService.login(username, password)
     userHooksExecutors.afterUserAuthorize(resp)
 

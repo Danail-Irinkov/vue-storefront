@@ -7,7 +7,7 @@
 <!--          :routes="[]"-->
 <!--          :active-route="this.$t('Order confirmation')"-->
 <!--        />-->
-        <img src="https://procc.co/static/img/check-mark-circle.png" class="order-confirm-header">
+        <img src="https://procc.co/static/img/check-mark-circle.png" class="order-confirm-header" style="opacity: 0.6;">
         <h4 class="category-title">
           {{ $t('Thank you for your purchase') }}
         </h4>

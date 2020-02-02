@@ -48,18 +48,18 @@
         </div>
       </div>-->
       <ul class="thank-you-order-items">
-        <product v-for="product in orderItems" :key="product.checksum || product.sku" :product="getProductData(product)" :is-disabled-inputs="isDisabledInputs" />
+        <microcart-product v-for="product in orderItems" :key="product.checksum || product.sku" :product="getProductData(product)" :is-disabled-inputs="isDisabledInputs" />
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import Product from 'theme/components/core/blocks/Microcart/Product'
+import MicrocartProduct from 'theme/components/core/blocks/Microcart/Product'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 export default {
   components: {
-    Product
+    MicrocartProduct
   },
   props: {
     brand: {

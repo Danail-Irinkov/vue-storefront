@@ -15,22 +15,27 @@
         <product-image :image="image" :calc-ratio="false" />
       </div>
     </div>
-    <div class="col-xs pt15 flex pl35 flex-wrap">
+    <div class="col-xs pt5 flex pl35 flex-wrap">
       <div class="flex flex-nowrap details">
         <div class="flex w-100 flex-wrap between-xs product-name-and-qty">
           <div>
             <router-link
-              class="serif h4 name"
+              class="serif h2"
+              style="line-height: 20px;"
               :to="productLink"
               data-testid="productLink"
               @click.native="$store.commit('ui/setMicrocart', false)"
             >
-              {{ product.name | htmlDecode }}
+<!--              {{ product.name | htmlDecode }}-->
+              {{ product.name ? product.name : product.product ? product.product.name : '' | htmlDecode }}
             </router-link>
-            <div class="h6 cl-bg-tertiary pt5 sku" data-testid="productSku">
+            <div v-if="product.size" class="h4 cl-bg-tertiary pt5" data-testid="productSku">
+              {{ $t('Size') }}: {{ product.size }}
+            </div>
+            <div class="h5 cl-bg-tertiary pt5" data-testid="productSku">
               {{ product.sku }}
             </div>
-            <div class="h5 cl-bg-tertiary pt5 options" v-if="isTotalsActive">
+            <div class="h4 cl-bg-tertiary pt5" v-if="isTotalsActive">
               <div v-for="opt in product.options" :key="opt.label">
                 <span class="opn">{{ opt.label }}: </span>
                 <span class="opv" v-html="opt.value" />
@@ -49,9 +54,15 @@
               {{ product.info | formatProductMessages }}
             </div>
           </div>
+          <div class="" style="min-width: 160px;"
+               v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle' && !isDisabledInputs">
+          <button class="btn brdr-none" @click="updateQuantity(parseInt(product.qty)-1)"
+                  style="display: inline-block;height: 26px; width: 35px; padding-left: 6px;"
+                  :disabled="isStockInfoLoading || parseInt(product.qty) < 2">
+            <i class="material-icons">remove</i>
+          </button>
           <product-quantity
-            class="h5 cl-accent lh25 qty"
-            v-if="product.type_id !== 'grouped' && product.type_id !== 'bundle' && !isDisabledInputs"
+            class="h5 cl-accent lh25 prod-qty-procc"
             :value="productQty"
             :max-quantity="maxQuantity"
             :loading="isStockInfoLoading"
@@ -59,11 +70,18 @@
             @input="updateProductQty"
             @error="handleQuantityError"
           />
-          <div class="product-quantity" v-else>
+          <button class="btn brdr-none" @click="updateQuantity(parseInt(product.qty)+1)"
+                  style="display: inline-block;height: 26px; width: 35px; padding-left: 6px;"
+                  :disabled="isStockInfoLoading || parseInt(product.qty) >= maxQuantity">
+            <i class="material-icons">add</i>
+          </button>
+          </div>
+          <div  v-else class="product-quantity"
+               style="margin-top: 5px!important">
             {{ $t("Quantity")+" : "+ productQty }}
           </div>
         </div>
-        <div class="flex mr10 align-right start-xs between-sm prices">
+        <div class="flex mr10 align-right start-xs between-sm prices" style="margin-top: 5px!important">
           <div class="prices" v-if="!displayItemDiscounts || !isOnline">
             <span class="h4 serif cl-error price-special" v-if="product.special_price">
               {{ product.price_incl_tax * product.qty | price }}
@@ -177,6 +195,9 @@ export default {
       type: Boolean,
       required: false
     }
+  },
+  mounted (){
+    console.log('MicroCart Product Mounted: ', this.product)
   },
   components: {
     RemoveButton,
@@ -420,13 +441,21 @@ export default {
   }
 </style>
 <style lang="scss">
-  @media (max-width: 767px) {
-  .base-input-number {
-    display: flex;
-    align-items: center;
-    label.base-input-number__label {
-      margin-right: 10px;
+  .prod-qty-procc {
+    display: inline-block;
+    padding-right: 0;
+    margin: 10px;
+    & > div > input {
+      padding-left: 9px;
+    }
   }
-  }
-  }
+  /*@media (max-width: 767px) {*/
+  /*.base-input-number {*/
+  /*  display: flex;*/
+  /*  align-items: center;*/
+  /*  label.base-input-number__label {*/
+  /*    margin-right: 10px;*/
+  /*}*/
+  /*}*/
+  /*}*/
 </style>
