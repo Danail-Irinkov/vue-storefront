@@ -64,6 +64,7 @@ export default {
   props: {
     brand: {
       type: Object,
+      required: true,
       default: ''
     },
     orderId: {
@@ -72,6 +73,7 @@ export default {
     },
     orderItems: {
       type: Array,
+      required: true,
       default: []
     },
     shippingMethod: {

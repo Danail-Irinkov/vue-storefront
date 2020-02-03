@@ -188,7 +188,7 @@ export default {
     onSuccess () {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: this.$t('You are logged in!'),
+        message: this.$t('You are successfully registered, please check your email and verify email!'),
         action1: { label: this.$t('OK') }
       })
     },

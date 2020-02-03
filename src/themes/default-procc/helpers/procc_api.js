@@ -77,6 +77,9 @@ export default (baseURL = '') => {
   const getShippingMethodByBrand = (brand_ids) => api.post(`shipping-method/getShippingMethodByBrand`, {brand_ids})
   const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
   const checkProductQty = (data, brandId) => api.post(`product/checkProductQty`, data, getHeader(brandId))
+  // Customer
+  const createVSFCustomer = (data) => api.post(`customer/createVSFCustomer`, data)
+  const VSFCustomerLogin = (data) => api.post(`customer/VSFCustomerLogin`, data)
 
   return {
     addNewOrder,
@@ -88,6 +91,8 @@ export default (baseURL = '') => {
     saveTransactionInOrder,
     getShippingMethodByBrand,
     getStoreData,
-    checkProductQty
+    checkProductQty,
+    createVSFCustomer,
+    VSFCustomerLogin
   }
 }

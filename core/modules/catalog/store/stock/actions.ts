@@ -16,8 +16,12 @@ const actions: ActionTree<StockState, RootState> = {
     }
     if (config.stock.synchronize) {
       // call procc api for get quantity by shabbir
-      ProCcApi().checkProductQty({product_id: product.procc_product_id, sku: product.sku, size: product.size}, product.procc_brand_id).then((result) => {
-        dispatch('cart/stockSync', result.data.product, { root: true })
+      ProCcApi().checkProductQty({product_id: product.procc_product_id}, product.procc_brand_id).then((result) => {
+        const product_details = {
+          product_sku:product.sku,
+          stock:{is_in_stock:'ok'}
+        }
+        dispatch('cart/stockSync', product_details, { root: true })
         // Edited for set product available qty. in vuex by shabbir
         console.log('queueCheck result.data.product', result.data.product)
         console.log('queueCheck product.procc_product_id', product.procc_product_id)
@@ -45,7 +49,7 @@ const actions: ActionTree<StockState, RootState> = {
   async check (context, { product }) {
     if (config.stock.synchronize) {
       // call procc api for get quantity by shabbir
-      return ProCcApi().checkProductQty({product_id: product.procc_product_id, sku: product.sku, size: product.size}, product.procc_brand_id)
+      return ProCcApi().checkProductQty({product_id: product.procc_product_id}, product.procc_brand_id)
         .then((result) => {
         // Edited for set product available qty. in vuex by shabbir
           console.log('check result.data.product', result.data.product)

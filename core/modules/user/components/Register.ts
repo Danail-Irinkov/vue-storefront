@@ -29,7 +29,16 @@ export const Register = {
         Logger.debug(result, 'user')()
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
-        if (result.code !== 200) {
+
+        // Edited by shabbir for display proper message after customer register
+        if(result.message_type=='success') {
+          this.onSuccess()
+          this.close()
+        }else {
+          this.onFailure({result: result.message})
+        }
+
+        /*if (result.code !== 200) {
           this.onFailure(result)
           // If error includes a word 'password', focus on a corresponding field
           if (result.result.includes('password')) {
@@ -38,10 +47,11 @@ export const Register = {
             this.rPassword = ''
           }
         } else {
-          this.$store.dispatch('user/login', { username: this.email, password: this.password })
+          //this.$store.dispatch('user/login', { username: this.email, password: this.password })
           this.onSuccess()
           this.close()
-        }
+        }*/
+
       }).catch(err => {
         // TODO Move to theme
         this.onFailure({ result: 'Unexpected authorization error. Check your Network conection.' })

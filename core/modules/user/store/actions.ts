@@ -11,6 +11,7 @@ import { UserService } from '@vue-storefront/core/data-resolver'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { userHooksExecutors, userHooks } from '../hooks'
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -51,13 +52,15 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async login ({ commit, dispatch }, { username, password }) {
     console.log('BEFORE UserService.login', username, password)
-    const resp = await UserService.login(username, password)
-    userHooksExecutors.afterUserAuthorize(resp)
+    //const resp = await UserService.login(username, password)
+    // Edited by shabbir for login customer in procc
+    const resp = await ProCcApi().VSFCustomerLogin ({ email:username, password})
+    //userHooksExecutors.afterUserAuthorize(resp)
 
     if (resp.code === 200) {
       try {
         await dispatch('resetUserInvalidateLock', {}, { root: true })
-        commit(types.USER_TOKEN_CHANGED, { newToken: resp.result, meta: resp.meta }) // TODO: handle the "Refresh-token" header
+        commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.user, meta: resp.data.brand }) // TODO: handle the "Refresh-token" header
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
       } catch (err) {
         await dispatch('clearCurrentUser')
@@ -71,7 +74,11 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   async register (context, { password, ...customer }) {
-    return UserService.register(customer, password)
+    // Edited by shabbir for save customer in procc
+    return ProCcApi().createVSFCustomer ({ password, ...customer }).then((result)=>{
+      console.log("result",result)
+      return result.data
+    })
   },
 
   /**
