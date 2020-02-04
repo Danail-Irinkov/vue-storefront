@@ -87,8 +87,8 @@ export const UserAccount = {
         (this.userCompany.company && !this.addCompany)
       ) {
         updatedProfile = JSON.parse(JSON.stringify(this.$store.state.user.current))
-        updatedProfile.firstname = this.currentUser.firstname
-        updatedProfile.lastname = this.currentUser.lastname
+        updatedProfile.first_name = this.currentUser.first_name
+        updatedProfile.last_name = this.currentUser.last_name
         updatedProfile.email = this.currentUser.email
         if (updatedProfile.hasOwnProperty('default_billing')) {
           let index
@@ -99,8 +99,8 @@ export const UserAccount = {
           }
           if (index >= 0) {
             if (this.addCompany) {
-              updatedProfile.addresses[index].firstname = this.currentUser.firstname || ''
-              updatedProfile.addresses[index].lastname = this.currentUser.lastname || ''
+              updatedProfile.addresses[index].first_name = this.currentUser.first_name || ''
+              updatedProfile.addresses[index].last_name = this.currentUser.last_name || ''
               updatedProfile.addresses[index].company = this.userCompany.company || ''
               updatedProfile.addresses[index].street = [this.userCompany.street, this.userCompany.house] || ['', '']
               updatedProfile.addresses[index].city = this.userCompany.city || ''
@@ -128,8 +128,8 @@ export const UserAccount = {
           }
         } else if (this.addCompany) {
           updatedProfile.addresses.push({
-            firstname: this.currentUser.firstname,
-            lastname: this.currentUser.lastname,
+            first_name: this.currentUser.first_name,
+            last_name: this.currentUser.last_name,
             company: this.userCompany.company,
             street: [this.userCompany.street, this.userCompany.house],
             city: this.userCompany.city,

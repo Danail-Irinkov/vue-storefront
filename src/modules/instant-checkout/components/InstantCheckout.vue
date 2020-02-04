@@ -256,7 +256,7 @@ export default {
       const billingLastName = billingRecipient.join(' ') || i18n.t('(lastname not provided)')
 
       return {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
+        user_id: this.$store.state.user.current ? this.$store.state.user.current._id.toString() : '', // edited by shabbir for get customer id
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken : '',
         products: this.$store.state.cart.cartItems,
         addressInformation: {

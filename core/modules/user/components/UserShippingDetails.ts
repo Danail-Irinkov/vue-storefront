@@ -6,12 +6,12 @@ export const UserShippingDetails = {
   data () {
     return {
       shippingDetails: {
-        firstName: '',
-        lastName: '',
-        street: '',
-        house: '',
+        first_name: '',
+        last_name: '',
+        streetName: '',
+        streetNumber: '',
         city: '',
-        postcode: '',
+        postalCode: '',
         region: '',
         country: '',
         phone: ''
@@ -82,13 +82,13 @@ export const UserShippingDetails = {
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
         updatedShippingDetails = JSON.parse(JSON.stringify(this.$store.state.user.current))
         let updatedShippingDetailsAddress = {
-          firstname: this.shippingDetails.firstName,
-          lastname: this.shippingDetails.lastName,
-          street: [this.shippingDetails.street, this.shippingDetails.house],
+          first_name: this.shippingDetails.first_name,
+          last_name: this.shippingDetails.last_name,
+          streetName: [this.shippingDetails.streetName, this.shippingDetails.streetNumber],
           city: this.shippingDetails.city,
           ...(this.shippingDetails.region ? { region: { region: this.shippingDetails.region } } : {}),
           country_id: this.shippingDetails.country,
-          postcode: this.shippingDetails.postcode,
+          postalCode: this.shippingDetails.postalCode,
           ...(this.shippingDetails.phone ? { telephone: this.shippingDetails.phone } : {})
         }
         if (this.currentUser.hasOwnProperty('default_shipping')) {
@@ -124,14 +124,14 @@ export const UserShippingDetails = {
     },
     fillCompanyAddress () {
       if (this.useCompanyAddress) {
-        const companyAddress = this.currentUser.addresses.find((address) => toString(address.id) === toString(this.currentUser.default_billing))
+        const companyAddress = this.currentUser.addresses.find((address) => (!address._id.set_as_default))
         if (companyAddress) {
-          this.shippingDetails.firstName = companyAddress.firstname
-          this.shippingDetails.lastName = companyAddress.lastname
-          this.shippingDetails.street = companyAddress.street[0]
-          this.shippingDetails.house = companyAddress.street[1]
+          this.shippingDetails.first_name = companyAddress.first_name
+          this.shippingDetails.last_name = companyAddress.last_name
+          this.shippingDetails.streetName = companyAddress.streetName
+          this.shippingDetails.streetNumber = companyAddress.streetNumber
           this.shippingDetails.city = companyAddress.city
-          this.shippingDetails.postcode = companyAddress.postcode
+          this.shippingDetails.postalCode = companyAddress.postalCode
           this.shippingDetails.region = companyAddress.region.region ? companyAddress.region.region : ''
           this.shippingDetails.country = companyAddress.country_id
         }
@@ -141,15 +141,15 @@ export const UserShippingDetails = {
     },
     readShippingDetailsFromCurrentUser (shippingDetails) {
       for (let address of this.currentUser.addresses) {
-        if (toString(address.id) === toString(this.currentUser.default_shipping)) {
+        if (!address._id.set_as_default) {
           return {
-            firstName: address.firstname,
-            lastName: address.lastname,
-            street: address.street[0],
-            house: address.street[1],
+            first_name: address.first_name,
+            last_name: address.last_name,
+            streetName: address.streetName,
+            streetNumber: address.streetNumber,
             city: address.city,
-            postcode: address.postcode,
-            region: address.region.region ? address.region.region : '',
+            postalCode: address.postalCode,
+            region: address.region && address.region.region ? address.region.region : '',
             country: address.country_id,
             phone: address.hasOwnProperty('telephone') ? address.telephone : ''
           }
@@ -160,22 +160,22 @@ export const UserShippingDetails = {
     getShippingDetails () {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
       let shippingDetails = {
-        firstName: '',
-        lastName: '',
-        street: '',
-        house: '',
+        first_name: '',
+        last_name: '',
+        streetName: '',
+        streetNumber: '',
         city: '',
-        postcode: '',
+        postalCode: '',
         region: '',
         country: '',
         phone: ''
       }
       if (this.currentUser) {
-        if (this.currentUser && this.currentUser.hasOwnProperty('default_shipping')) {
+        if (this.currentUser && this.currentUser.addresses) {
           shippingDetails = this.readShippingDetailsFromCurrentUser(shippingDetails);
         } else {
-          shippingDetails.firstName = this.currentUser.firstname
-          shippingDetails.lastName = this.currentUser.lastname
+          shippingDetails.first_name = this.currentUser.first_name
+          shippingDetails.last_name = this.currentUser.last_name
         }
       }
       return shippingDetails;

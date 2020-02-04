@@ -2,11 +2,11 @@
   <div>
     <header class="thank-you-title py35 pl20">
       <div class="container">
-<!--        <breadcrumbs-->
-<!--          :with-homepage="true"-->
-<!--          :routes="[]"-->
-<!--          :active-route="this.$t('Order confirmation')"-->
-<!--        />-->
+        <!--        <breadcrumbs-->
+        <!--          :with-homepage="true"-->
+        <!--          :routes="[]"-->
+        <!--          :active-route="this.$t('Order confirmation')"-->
+        <!--        />-->
         <img src="https://procc.co/static/img/check-mark-circle.png" class="order-confirm-header" style="opacity: 0.6;">
         <h4 class="category-title">
           {{ $t('Thank you for your purchase') }}
@@ -39,7 +39,8 @@
         </div>
         <div class="col-md-8 animated fadeInDown bg-cl-secondary"
              v-if="storePersonalInfo || storePaymentInfo"
-             style="padding-left: 15px;margin: 1rem -28px 0 18px;">
+             style="padding-left: 15px;margin: 1rem -28px 0 18px;"
+        >
           <base-input
             class=""
             style="width: calc(100% - 28px); padding-top: 22px"
@@ -49,14 +50,15 @@
             @blur="$v.password.$touch()"
             :placeholder="$t('Password *')"
             :validations="[{
-            condition: !$v.password.required && $v.password.$error,
-            text: $t('Field is required')
-          }]"
+              condition: !$v.password.required && $v.password.$error,
+              text: $t('Field is required')
+            }]"
           />
         </div>
         <div class="col-md-4 animated fadeInDown bg-cl-secondary"
              v-if="storePersonalInfo || storePaymentInfo"
-             style="padding-left: 15px; margin-top: 1rem" >
+             style="padding-left: 15px; margin-top: 1rem"
+        >
           <button-full
             @click.native="saveUserAccount"
             data-testid="orderReviewSubmit"
@@ -231,7 +233,7 @@ export default {
       feedback: '',
       password: '', // Added by Dan
       storePersonalInfo: false, // Added by Dan
-      storePaymentInfo: false, // Added by Dan
+      storePaymentInfo: false // Added by Dan
     }
   },
   computed: {
@@ -268,7 +270,7 @@ export default {
       const isUserAddressStored = false
       const isUserPaymentStored = false
       return !isUserAddressStored || !isUserPaymentStored
-    },
+    }
   },
   methods: {
     saveUserAccount () { // Added by Dan
@@ -328,7 +330,7 @@ export default {
     password: { // Added by Dan
       minLength: minLength(8),
       required
-    },
+    }
   },
   components: {
     AddressBlock,

@@ -52,15 +52,13 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async login ({ commit, dispatch }, { username, password }) {
     console.log('BEFORE UserService.login', username, password)
-    //const resp = await UserService.login(username, password)
     // Edited by shabbir for login customer in procc
-    const resp = await ProCcApi().VSFCustomerLogin ({ email:username, password})
-    //userHooksExecutors.afterUserAuthorize(resp)
-
-    if (resp.code === 200) {
+    const resp = await ProCcApi().VSFCustomerLogin({email: username, password})
+    userHooksExecutors.afterUserAuthorize(resp)
+    if (resp.data.message_type === 'success') {
       try {
         await dispatch('resetUserInvalidateLock', {}, { root: true })
-        commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.user, meta: resp.data.brand }) // TODO: handle the "Refresh-token" header
+        commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: resp.data.user }) // TODO: handle the "Refresh-token" header
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
       } catch (err) {
         await dispatch('clearCurrentUser')
@@ -68,15 +66,15 @@ const actions: ActionTree<UserState, RootState> = {
       }
     }
 
-    return resp
+    return resp.data
   },
   /**
    * Login user and return user profile and current token
    */
   async register (context, { password, ...customer }) {
     // Edited by shabbir for save customer in procc
-    return ProCcApi().createVSFCustomer ({ password, ...customer }).then((result)=>{
-      console.log("result",result)
+    return ProCcApi().createVSFCustomer({ password, ...customer }).then((result) => {
+      console.log('result', result)
       return result.data
     })
   },
@@ -117,25 +115,25 @@ const actions: ActionTree<UserState, RootState> = {
       commit(types.USER_INFO_LOADED, currentUser)
       await dispatch('setUserGroup', currentUser)
       EventBus.$emit('user-after-loggedin', currentUser)
-      dispatch('cart/authorize', {}, { root: true })
+      // dispatch('cart/authorize', {}, { root: true }) // temporary comment by shabbir
 
       return currentUser
     }
 
     return null
   },
-  async refreshUserProfile ({ commit, dispatch }, { resolvedFromCache }) {
-    const resp = await UserService.getProfile()
+  async refreshUserProfile ({ commit, dispatch, getters }, { resolvedFromCache }) {
+    // modify by shabbir for get customer details from procc
+    const resp = await ProCcApi().getCustomer(getters.getToken)
 
-    if (resp.resultCode === 200) {
-      commit(types.USER_INFO_LOADED, resp.result) // this also stores the current user to localForage
-      await dispatch('setUserGroup', resp.result)
+    if (resp.status === 200 && resp.data.message_type === 'success') {
+      commit(types.USER_INFO_LOADED, resp.data.user) // this also stores the current user to localForage
+      await dispatch('setUserGroup', resp.data.user)
     }
-
-    if (!resolvedFromCache && resp.resultCode === 200) {
-      EventBus.$emit('user-after-loggedin', resp.result)
-      dispatch('cart/authorize', {}, { root: true })
-      return resp
+    if (!resolvedFromCache && resp.status === 200 && resp.data.message_type === 'success') {
+      EventBus.$emit('user-after-loggedin', resp.data.user)
+      // dispatch('cart/authorize', {}, { root: true })  // temporary comment by shabbir
+      return resp.data
     }
   },
   /**
@@ -168,14 +166,24 @@ const actions: ActionTree<UserState, RootState> = {
   async update (_, profile: UserProfile) {
     await UserService.updateProfile(profile, 'user/handleUpdateProfile')
   },
+  /**
+   * Update user profile with data from My Account page by shabbir
+   */
+  async updateCustomerProfile ({ getters, dispatch }, userProfile) {
+    await ProCcApi().updateCustomerProfile(getters.getToken, userProfile).then((result) => {
+      dispatch('handleUpdateProfile', result.data)
+    })
+  },
+
   async handleUpdateProfile ({ dispatch }, event) {
-    if (event.resultCode === 200) {
+    // edited by shabbir for check request status
+    if (event.message_type === 'success') {
       dispatch('notification/spawnNotification', {
         type: 'success',
         message: i18n.t('Account data has successfully been updated'),
         action1: { label: i18n.t('OK') }
       }, { root: true })
-      dispatch('user/setCurrentUser', event.result, { root: true })
+      dispatch('refreshUserProfile', { resolvedFromCache: true })
     }
   },
   setCurrentUser ({ commit }, userData) {
@@ -194,10 +202,10 @@ const actions: ActionTree<UserState, RootState> = {
 
       return
     }
+    // Edited by shabbir fro call change password procc API
+    const resp = await ProCcApi().changePassword(getters.getToken, passwordData)
 
-    const resp = await UserService.changePassword(passwordData)
-
-    if (resp.code === 200) {
+    if (resp.status === 200 && resp.data.message_type === 'success') {
       await dispatch('notification/spawnNotification', {
         type: 'success',
         message: 'Password has successfully been changed',
@@ -210,7 +218,7 @@ const actions: ActionTree<UserState, RootState> = {
     } else {
       await dispatch('notification/spawnNotification', {
         type: 'error',
-        message: i18n.t(resp.result.errorMessage),
+        message: i18n.t(resp.data.message), // display response message from API
         action1: { label: i18n.t('OK') }
       }, { root: true })
     }
@@ -256,19 +264,20 @@ const actions: ActionTree<UserState, RootState> = {
       return ordersHistory
     }
   },
-  async refreshOrdersHistory ({ commit }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
-    const resp = await UserService.getOrdersHistory(pageSize, currentPage)
+  async refreshOrdersHistory ({ commit, getters }, { resolvedFromCache, pageSize = 20, currentPage = 1 }) {
+    // modify by shabbir for get customer orders from procc
+    const resp = await ProCcApi().getCustomerOrders(getters.getToken, pageSize, currentPage).then((result) => { return result })
 
-    if (resp.code === 200) {
-      commit(types.USER_ORDERS_HISTORY_LOADED, resp.result) // this also stores the current user to localForage
-      EventBus.$emit('user-after-loaded-orders', resp.result)
+    if (resp.status === 200 && resp.data.message_type === 'success') {
+      commit(types.USER_ORDERS_HISTORY_LOADED, resp.data.orders) // this also stores the current user to localForage
+      EventBus.$emit('user-after-loaded-orders', resp.data.orders)
     }
 
     if (!resolvedFromCache) {
-      Promise.resolve(resp.code === 200 ? resp : null)
+      Promise.resolve(resp.status === 200 && resp.data.message_type === 'success' ? resp : null)
     }
 
-    return resp
+    return resp.data
   },
   /**
    * Load user's orders history

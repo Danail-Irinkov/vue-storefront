@@ -41,7 +41,8 @@ export default {
     onBeforeUpdateUser (updatedData) {
       if (updatedData) {
         try {
-          this.$store.dispatch('user/update', { customer: updatedData })
+          // changed update to updateCustomerProfile method in vuex for update customer data by shabbir
+          this.$store.dispatch('user/updateCustomerProfile', { customer: updatedData })
         } catch (err) {
           this.$bus.$emit('myAccount-before-remainInEditMode', this.$props.activeBlock)
           Logger.error(err)()

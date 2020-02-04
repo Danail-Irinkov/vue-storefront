@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex';
-
+import sumBy from 'lodash-es/sumBy'
 /**
  * Component responsible for displaying single user order. Requires User module.
  */
@@ -11,25 +11,34 @@ export const UserSingleOrder = {
     }),
     order () {
       return this.ordersHistory.find(order =>
-        parseInt(order.entity_id) === parseInt(this.$route.params.orderId)
+        // modify by shabbir for get order by id
+        parseInt(order._id) === parseInt(this.$route.params.orderId)
       )
     },
     paymentMethod () {
-      return this.order && this.order.payment.additional_information[0]
+      // modify by shabbir for get order payment
+      return this.order && this.order.transaction
     },
     billingAddress () {
-      return this.order && this.order.billing_address
+      // modify by shabbir for get order address
+      return this.order && this.order.address
     },
     shippingAddress () {
-      return this.order && this.order.extension_attributes.shipping_assignments[0].shipping.address
+      // modify by shabbir for get order address
+      return this.order && this.order.address
     },
     singleOrderItems () {
       if (!this.order) return []
-
-      return this.order.items.filter((item) => {
-        return !item.parent_item_id
-      })
+      return this.order.order_items
+    },
+    // created function by shabbir for get order summary
+    orderSummary () {
+      let subtotal = sumBy(this.order.order_items, (o) => { return o.price * o.qty })
+      let shipping_amount = this.order.shipping_fee
+      let grand_total = subtotal + shipping_amount
+      return {subtotal, shipping_amount, grand_total}
     }
+
   },
   methods: {
     async remakeOrder (products) {

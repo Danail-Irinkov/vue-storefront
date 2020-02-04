@@ -172,7 +172,7 @@ export default {
         message: this.$t(result.result),
         action1: { label: this.$t('OK') }
       })
-    },
+    }
   }
 }
 </script>

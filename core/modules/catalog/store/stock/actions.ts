@@ -18,8 +18,8 @@ const actions: ActionTree<StockState, RootState> = {
       // call procc api for get quantity by shabbir
       ProCcApi().checkProductQty({product_id: product.procc_product_id}, product.procc_brand_id).then((result) => {
         const product_details = {
-          product_sku:product.sku,
-          stock:{is_in_stock:'ok'}
+          product_sku: product.sku,
+          stock: {is_in_stock: 'ok'}
         }
         dispatch('cart/stockSync', product_details, { root: true })
         // Edited for set product available qty. in vuex by shabbir

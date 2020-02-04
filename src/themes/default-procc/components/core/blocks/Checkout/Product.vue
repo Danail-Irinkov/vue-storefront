@@ -7,9 +7,13 @@
       <div class="row">
         <div class="col-xs-12 col-md-9 col-sm-8 pb15">
           <div class="mb15">
-            <div class="h4 weight-400 cl-accent serif">
-              {{ product.name | htmlDecode }}
-            </div>
+            <router-link
+              class="h4 weight-400 cl-accent serif"
+              :to="productLink"
+              data-testid="productLink"
+            >
+              {{ product.name ? product.name : product.product ? product.product.name : '' | htmlDecode }}
+            </router-link>
             <div class="cl-error" v-if="product.errors && Object.keys(product.errors).length > 0">
               {{ product.errors | formatProductMessages }}
             </div>
@@ -81,6 +85,8 @@ import { onlineHelper } from '@vue-storefront/core/helpers'
 import ProductImage from 'theme/components/core/ProductImage'
 import AddToWishlist from 'theme/components/core/blocks/Wishlist/AddToWishlist'
 import { IsOnWishlist } from '@vue-storefront/core/modules/wishlist/components/IsOnWishlist'
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import { formatProductLink } from '@vue-storefront/core/modules/url/helpers'
 
 export default {
   computed: {
@@ -95,6 +101,9 @@ export default {
     },
     favoriteIcon () {
       return this.isOnWishlist ? 'favorite' : 'favorite_border'
+    },
+    productLink () {
+      return formatProductLink(this.product, currentStoreView().storeCode)
     }
   },
   mixins: [Product, IsOnWishlist],

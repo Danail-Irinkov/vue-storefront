@@ -27,15 +27,15 @@
         name="first-name"
         autocomplete="given-name"
         :placeholder="$t('First name')"
-        v-model.trim="currentUser.firstname"
-        @input="$v.currentUser.firstname.$touch()"
+        v-model.trim="currentUser.first_name"
+        @input="$v.currentUser.first_name.$touch()"
         :validations="[
           {
-            condition: !$v.currentUser.firstname.required,
+            condition: !$v.currentUser.first_name.required,
             text: $t('Field is required')
           },
           {
-            condition: !$v.currentUser.firstname.minLength,
+            condition: !$v.currentUser.first_name.minLength,
             text: $t('Name must have at least 2 letters.')
           }
         ]"
@@ -47,10 +47,10 @@
         name="last-name"
         autocomplete="family-name"
         :placeholder="$t('Last name')"
-        v-model.trim="currentUser.lastname"
-        @input="$v.currentUser.lastname.$touch()"
+        v-model.trim="currentUser.last_name"
+        @input="$v.currentUser.last_name.$touch()"
         :validations="[{
-          condition: !$v.currentUser.lastname.required,
+          condition: !$v.currentUser.last_name.required,
           text: $t('Field is required')
         }]"
       />
@@ -303,7 +303,7 @@
     <div class="row fs16 mb35" v-else>
       <div class="col-xs-12 h4">
         <p>
-          {{ currentUser.firstname }} {{ currentUser.lastname }}
+          {{ currentUser.first_name }} {{ currentUser.last_name }}
         </p>
         <p>
           {{ currentUser.email }}
@@ -396,12 +396,12 @@ export default {
   },
   validations: {
     currentUser: {
-      firstname: {
+      first_name: {
         required,
         minLength: minLength(2),
         unicodeAlpha
       },
-      lastname: {
+      last_name: {
         required,
         unicodeAlpha
       },

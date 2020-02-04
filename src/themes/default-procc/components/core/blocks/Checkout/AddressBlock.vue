@@ -4,11 +4,11 @@
     <p>
       {{ address.first_name }} {{ address.last_name }}
     </p>
-    <p>
-      {{ address.streetNumber }} - {{ address.streetName }}
+    <p v-if="address.streetNumber || address.streetName">
+      {{ address.streetNumber }} - {{ address.streetName }},
     </p>
-    <p>
-      {{ address.city }} {{ address.postalCode }}
+    <p v-if="address.city || address.postalCode">
+      {{ address.city }} {{ address.postalCode }},
     </p>
     <p>
       <span v-if="address.country"> {{ getCountryName() }}</span>

@@ -332,7 +332,7 @@ export default {
       console.log('this.$store.state.cart.selectedShippingMethods', this.$store.state.cart.selectedShippingMethods)
 
       this.order = {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current.id.toString() : '',
+        user_id: this.$store.state.user.current ? this.$store.state.user.current._id.toString() : '', // edited by shabbir for get customer id
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
         order_ids: this.procc_order_ids ? this.procc_order_ids : null, // Added by shabbir ProCC

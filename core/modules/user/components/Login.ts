@@ -15,8 +15,8 @@ export const Login = {
       this.$bus.$emit('notification-progress-start', i18n.t('Authorization in progress ...'))
       this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
         this.$bus.$emit('notification-progress-stop', {})
-
-        if (result.code !== 200) {
+        // edited by shabbir for check API response type
+        if (result.message_type !== 'success') {
           this.onFailure(result)
         } else {
           this.onSuccess()

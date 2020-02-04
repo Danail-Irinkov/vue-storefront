@@ -138,7 +138,7 @@ export default {
     onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: this.$t(result.result),
+        message: this.$t(result.message), // display API response message
         action1: { label: this.$t('OK') }
       })
     }

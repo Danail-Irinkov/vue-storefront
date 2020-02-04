@@ -66,6 +66,12 @@ export default (baseURL = '') => {
       'Authorization': `Bearer ${createToken(brandId)}`
     }
   })
+  // pass token in request
+  const getHeaderWithToken = (token) => ({
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
 
   const addNewOrder = (orderData, brandId) => api.post('order/addNewOrder', orderData, getHeader(brandId))
   const saveTransactionInOrder = (orderData, brandId) => api.post('order/saveTransactionInOrder', orderData, getHeader(brandId))
@@ -80,6 +86,10 @@ export default (baseURL = '') => {
   // Customer
   const createVSFCustomer = (data) => api.post(`customer/createVSFCustomer`, data)
   const VSFCustomerLogin = (data) => api.post(`customer/VSFCustomerLogin`, data)
+  const getCustomer = (token) => api.get(`customer/getCustomer`, getHeaderWithToken(token))
+  const getCustomerOrders = (token, pageSize, currentPage) => api.post(`order/getCustomerOrders`, {pageSize, currentPage}, getHeaderWithToken(token))
+  const updateCustomerProfile = (token, data) => api.post(`customer/updateCustomerProfile`, data, getHeaderWithToken(token))
+  const changePassword = (token, data) => api.post(`customer/changePassword`, data, getHeaderWithToken(token))
 
   return {
     addNewOrder,
@@ -93,6 +103,10 @@ export default (baseURL = '') => {
     getStoreData,
     checkProductQty,
     createVSFCustomer,
-    VSFCustomerLogin
+    VSFCustomerLogin,
+    getCustomer,
+    getCustomerOrders,
+    updateCustomerProfile,
+    changePassword
   }
 }

@@ -2,6 +2,7 @@ import { price } from './price'
 import { htmlDecode } from './html-decode'
 import { date } from './date'
 import { capitalize } from './capitalize'
+import { camelCase } from './camelCase'
 import { formatProductMessages } from './product-messages'
 import { stripHTML } from './strip-html'
 
@@ -11,5 +12,6 @@ export {
   date,
   capitalize,
   formatProductMessages,
-  stripHTML
+  stripHTML,
+  camelCase
 }

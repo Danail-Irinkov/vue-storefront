@@ -28,15 +28,15 @@
           name="first-name"
           autocomplete="given-name"
           :placeholder="`${$t('First name')} *`"
-          v-model.trim="shippingDetails.firstName"
-          @input="$v.shippingDetails.firstName.$touch()"
+          v-model.trim="shippingDetails.first_name"
+          @input="$v.shippingDetails.first_name.$touch()"
           :validations="[
             {
-              condition: !$v.shippingDetails.firstName.required && $v.shippingDetails.firstName.$error,
+              condition: !$v.shippingDetails.first_name.required && $v.shippingDetails.first_name.$error,
               text: $t('Field is required')
             },
             {
-              condition: !$v.shippingDetails.firstName.minLength,
+              condition: !$v.shippingDetails.first_name.minLength,
               text: $t('Name must have at least 2 letters.')
             }
           ]"
@@ -48,10 +48,10 @@
           name="last-name"
           autocomplete="family-name"
           :placeholder="`${$t('Last name')} *`"
-          v-model.trim="shippingDetails.lastName"
-          @input="$v.shippingDetails.lastName.$touch()"
+          v-model.trim="shippingDetails.last_name"
+          @input="$v.shippingDetails.last_name.$touch()"
           :validations="[{
-            condition: !$v.shippingDetails.lastName.required && $v.shippingDetails.lastName.$error,
+            condition: !$v.shippingDetails.last_name.required && $v.shippingDetails.last_name.$error,
             text: $t('Field is required')
           }]"
         />
@@ -71,10 +71,10 @@
           name="street-address"
           autocomplete="address-line1"
           :placeholder="`${$t('Street name')} *`"
-          v-model.trim="shippingDetails.street"
-          @input="$v.shippingDetails.street.$touch()"
+          v-model.trim="shippingDetails.streetName"
+          @input="$v.shippingDetails.streetName.$touch()"
           :validations="[{
-            condition: !$v.shippingDetails.street.required && $v.shippingDetails.street.$error,
+            condition: !$v.shippingDetails.streetName.required && $v.shippingDetails.streetName.$error,
             text: $t('Field is required')
           }]"
         />
@@ -85,10 +85,10 @@
           name="apartment-number"
           autocomplete="address-line2"
           :placeholder="`${$t('House/Apartment number')} *`"
-          v-model.trim="shippingDetails.house"
-          @input="$v.shippingDetails.house.$touch()"
+          v-model.trim="shippingDetails.streetNumber"
+          @input="$v.shippingDetails.streetNumber.$touch()"
           :validations="[{
-            condition: !$v.shippingDetails.house.required && $v.shippingDetails.house.$error,
+            condition: !$v.shippingDetails.streetNumber.required && $v.shippingDetails.streetNumber.$error,
             text: $t('Field is required')
           }]"
         />
@@ -128,15 +128,15 @@
           name="zip-code"
           autocomplete="postal-code"
           :placeholder="`${$t('Zip-code')} *`"
-          v-model.trim="shippingDetails.postcode"
-          @input="$v.shippingDetails.postcode.$touch()"
+          v-model.trim="shippingDetails.postalCode"
+          @input="$v.shippingDetails.postalCode.$touch()"
           :validations="[
             {
-              condition: !$v.shippingDetails.postcode.required && $v.shippingDetails.postcode.$error,
+              condition: !$v.shippingDetails.postalCode.required && $v.shippingDetails.postalCode.$error,
               text: $t('Field is required')
             },
             {
-              condition: !$v.shippingDetails.postcode.minLength,
+              condition: !$v.shippingDetails.postalCode.minLength,
               text: $t('Zip-code must have at least 3 letters.')
             }
           ]"
@@ -191,7 +191,7 @@
     <div class="row fs16 mb35" v-else>
       <div class="col-xs-12 h4">
         <p>
-          {{ shippingDetails.firstName }} {{ shippingDetails.lastName }}
+          {{ shippingDetails.first_name }} {{ shippingDetails.last_name }}
         </p>
         <base-checkbox
           v-if="useCompanyAddress"
@@ -206,11 +206,11 @@
           {{ shippingDetails.company }}
         </p>
         <p class="mb25">
-          {{ shippingDetails.street }}
-          <span v-if="shippingDetails.house"> {{ shippingDetails.house }}</span>
+          {{ shippingDetails.streetName }}
+          <span v-if="shippingDetails.streetNumber"> {{ shippingDetails.streetNumber }}</span>
         </p>
         <p class="mb25">
-          {{ shippingDetails.city }} {{ shippingDetails.postcode }}
+          {{ shippingDetails.city }} {{ shippingDetails.postalCode }}
         </p>
         <p class="mb25">
           <span v-if="shippingDetails.region">{{ shippingDetails.region }}, </span>
@@ -259,26 +259,26 @@ export default {
   },
   validations: {
     shippingDetails: {
-      firstName: {
+      first_name: {
         required,
         minLength: minLength(2),
         unicodeAlpha
       },
-      lastName: {
+      last_name: {
         required
       },
       country: {
         required
       },
-      street: {
+      streetName: {
         required,
         unicodeAlphaNum
       },
-      house: {
+      streetNumber: {
         required,
         unicodeAlphaNum
       },
-      postcode: {
+      postalCode: {
         required,
         minLength: minLength(3)
       },

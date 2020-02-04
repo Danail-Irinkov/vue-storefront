@@ -11,7 +11,8 @@ const getters: GetterTree<UserState, RootState> = {
     return state.token
   },
   getOrdersHistory (state) {
-    return state.orders_history ? state.orders_history.items : []
+    // edited by shabbir for get order history
+    return state.orders_history ? state.orders_history : []
   },
   getToken (state) {
     return state.token

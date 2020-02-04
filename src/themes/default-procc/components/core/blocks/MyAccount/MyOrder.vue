@@ -1,4 +1,5 @@
 <template>
+  <!-- modify by shabbir for display order details from procc  -->
   <div class="mb35" v-if="order">
     <!-- My order header -->
     <div class="row mb15">
@@ -7,9 +8,9 @@
       </div>
       <div class="col-xs-12 col-md-6">
         <h3 class="m0 mt5">
-          {{ $t('Order #{id}', { id: order.increment_id }) }}
+          {{ $t('Order #{id}', { id: order.order_no }) }}
           <span class="brdr-1 brdr-cl-bg-secondary py5 px10 ml20 sans-serif fs-medium-small weight-400 cl-secondary">
-            {{ order.status | capitalize }}
+            {{ order.status | camelCase }}
           </span>
         </h3>
       </div>
@@ -30,6 +31,9 @@
           <thead>
             <tr>
               <th class="serif lh20">
+                {{ $t('Image') }}
+              </th>
+              <th class="serif lh20">
                 {{ $t('Product Name') }}
               </th>
               <th class="serif lh20">
@@ -44,30 +48,27 @@
               <th class="serif lh20">
                 {{ $t('Subtotal') }}
               </th>
-              <th class="serif lh20">
-                {{ $t('Thumbnail') }}
-              </th>
             </tr>
           </thead>
           <tbody>
             <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="item in singleOrderItems" :key="item.item_id">
+              <td class="fs-medium lh25">
+                <product-image :image="{src: item.thumb}" />
+              </td>
               <td class="fs-medium lh25" :data-th="$t('Product Name')">
-                {{ item.name }}
+                {{ item.product.name }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('SKU')">
                 {{ item.sku }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Price')">
-                {{ item.price_incl_tax | price }}
+                {{ item.price | price }}
               </td>
               <td class="fs-medium lh25 align-right" :data-th="$t('Qty')">
-                {{ item.qty_ordered }}
+                {{ item.qty }}
               </td>
               <td class="fs-medium lh25" :data-th="$t('Subtotal')">
-                {{ item.row_total_incl_tax | price }}
-              </td>
-              <td class="fs-medium lh25">
-                <product-image :image="{src: itemThumbnail[item.sku]}" />
+                {{ item.price | price }}
               </td>
             </tr>
           </tbody>
@@ -76,13 +77,13 @@
               <td colspan="5" class="align-right">
                 {{ $t('Subtotal') }}
               </td>
-              <td>{{ order.subtotal | price }}</td>
+              <td>{{ orderSummary.subtotal | price }}</td>
             </tr>
             <tr>
               <td colspan="5" class="align-right">
                 {{ $t('Shipping') }}
               </td>
-              <td>{{ order.shipping_amount | price }}</td>
+              <td>{{ orderSummary.shipping_amount | price }}</td>
             </tr>
             <tr v-if="!'Disabled by Dan, not configured to tax properly'">
               <td colspan="5" class="align-right">
@@ -90,17 +91,17 @@
               </td>
               <td>{{ order.tax_amount + order.discount_tax_compensation_amount | price }}</td>
             </tr>
-            <tr v-if="order.discount_amount">
+            <tr v-if="orderSummary.discount_amount">
               <td colspan="5" class="align-right">
                 {{ $t('Discount') }}
               </td>
-              <td>{{ order.discount_amount | price }}</td>
+              <td>{{ orderSummary.discount_amount | price }}</td>
             </tr>
             <tr>
               <td colspan="5" class="align-right">
                 {{ $t('Grand total') }}
               </td>
-              <td>{{ order.grand_total | price }}</td>
+              <td>{{ orderSummary.grand_total | price }}</td>
             </tr>
           </tfoot>
         </table>
@@ -112,29 +113,21 @@
         <div class="row">
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Shipping address') }}</h5>
-            <address>
-              <p>{{ shippingAddress.firstname }} {{ shippingAddress.lastname }}</p>
-              <p>{{ shippingAddress.street[0] }} {{ shippingAddress.street[1] }}</p>
-              <p>{{ shippingAddress.postcode }} {{ shippingAddress.city }}</p>
-              <p>{{ shippingAddress.country }}</p>
-            </address>
+            <address-block :address="shippingAddress" />
           </div>
-          <div class="col-sm-6 col-md-3">
+          <div class="col-sm-6 col-md-3" v-if="order.shipping_method && order.shipping_method.name">
             <h5>{{ $t('Shipping method') }}</h5>
-            <p>{{ order.shipping_description }}</p>
+            <p>{{ order.shipping_method.name }}</p>
           </div>
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Billing address') }}</h5>
-            <address>
-              <p>{{ billingAddress.firstname }} {{ billingAddress.lastname }}</p>
-              <p>{{ billingAddress.street[0] }} {{ billingAddress.street[1] }}</p>
-              <p>{{ billingAddress.postcode }} {{ billingAddress.city }}</p>
-              <p>{{ billingAddress.country }}</p>
-            </address>
+            <address-block :address="billingAddress" />
           </div>
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Payment method') }}</h5>
-            <p>{{ paymentMethod }}</p>
+            <p v-if="paymentMethod">
+              {{ $t('Online Payment') }}
+            </p>
           </div>
         </div>
       </div>
@@ -146,6 +139,7 @@
 import Vue from 'vue'
 import MyOrder from '@vue-storefront/core/compatibility/components/blocks/MyAccount/MyOrder'
 import ReturnIcon from 'theme/components/core/blocks/Header/ReturnIcon'
+import AddressBlock from 'theme/components/core/blocks/Checkout/AddressBlock'
 import ProductImage from 'theme/components/core/ProductImage'
 import { getThumbnailPath, productThumbnailPath } from '@vue-storefront/core/helpers'
 import { mapActions } from 'vuex'
@@ -154,7 +148,8 @@ export default {
   mixins: [MyOrder],
   components: {
     ReturnIcon,
-    ProductImage
+    ProductImage,
+    AddressBlock
   },
   data () {
     return {

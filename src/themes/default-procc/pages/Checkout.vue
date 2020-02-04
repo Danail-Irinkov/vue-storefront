@@ -24,10 +24,12 @@
             />
             <shipping class="line relative"
                       data-scroll id="#shipping"
-                      :is-active="activeSection.shipping" v-if="!isVirtualCart" />
+                      :is-active="activeSection.shipping" v-if="!isVirtualCart"
+            />
             <payment class="line relative"
                      data-scroll id="#payment"
-                     :is-active="activeSection.payment" />
+                     :is-active="activeSection.payment"
+            />
 
             <div id="custom-steps" />
           </div>

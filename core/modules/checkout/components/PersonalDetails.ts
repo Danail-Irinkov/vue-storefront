@@ -32,11 +32,14 @@ export const PersonalDetails = {
       isVirtualCart: 'cart/isVirtualCart'
     })
   },
+  created () {
+    this.onLoggedIn(this.currentUser)
+  },
   methods: {
     onLoggedIn (receivedData) {
       this.personalDetails = {
-        firstName: receivedData.firstname,
-        lastName: receivedData.lastname,
+        firstName: receivedData.first_name,
+        lastName: receivedData.last_name,
         emailAddress: receivedData.email
       }
     },
