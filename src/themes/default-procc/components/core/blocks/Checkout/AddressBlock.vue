@@ -11,7 +11,7 @@
       {{ address.city }} {{ address.postalCode }},
     </p>
     <p>
-      <span v-if="address.country"> {{ getCountryName() }}</span>
+      <span v-if="address.country"> {{ address.country }}</span>
     </p>
     <div v-if="address.phoneNumber">
       <span class="pr15">{{ address.phoneNumber }}</span>
@@ -38,16 +38,6 @@ export default {
     className: {
       type: String,
       default: ''
-    }
-  },
-  methods: {
-    getCountryName () {
-      for (let i = 0; i < this.countries.length; i++) {
-        if (this.countries[i].code === this.address.country) {
-          return this.countries[i].name
-        }
-      }
-      return ''
     }
   }
 }

@@ -1,4 +1,5 @@
 import toString from 'lodash-es/toString'
+import { Logger } from '@vue-storefront/core/lib/logger'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const UserShippingDetails = {
@@ -6,6 +7,7 @@ export const UserShippingDetails = {
   data () {
     return {
       shippingDetails: {
+        _id:'',
         first_name: '',
         last_name: '',
         streetName: '',
@@ -77,7 +79,7 @@ export const UserShippingDetails = {
       }
       return true
     },
-    updateDetails () {
+    async updateDetails () {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
         updatedShippingDetails = JSON.parse(JSON.stringify(this.$store.state.user.current))
@@ -87,32 +89,35 @@ export const UserShippingDetails = {
           streetName: [this.shippingDetails.streetName, this.shippingDetails.streetNumber],
           city: this.shippingDetails.city,
           ...(this.shippingDetails.region ? { region: { region: this.shippingDetails.region } } : {}),
-          country_id: this.shippingDetails.country,
+          country: this.shippingDetails.country,
           postalCode: this.shippingDetails.postalCode,
-          ...(this.shippingDetails.phone ? { telephone: this.shippingDetails.phone } : {})
+          ...(this.shippingDetails.phone ? { phone: this.shippingDetails.phone } : {})
         }
-        if (this.currentUser.hasOwnProperty('default_shipping')) {
           if (this.currentUser.addresses.length === 0) {
             updatedShippingDetails = null
           } else {
             updatedShippingDetails.addresses = updatedShippingDetails.addresses.map((address) =>
-              toString(address.id) === toString(this.currentUser.default_shipping)
+              address.set_as_default
                 ? {...address, ...updatedShippingDetailsAddress} // update default address if already exist
                 : address
             )
           }
-        } else {
-          // create default address
-          updatedShippingDetails.addresses.push({
-            ...updatedShippingDetailsAddress,
-            default_shipping: true
-          })
+      }
+      if (this.shippingDetails) {
+        try {
+          // call method for update customer address data by shabbir
+          this.shippingDetails.user = this.currentUser._id
+          this.shippingDetails.set_as_default = true
+          let result = await this.$store.dispatch('user/updateCustomerAddress',  {address: this.shippingDetails})
+          if (result.message_type === 'success') {
+            this.exitSection(null, updatedShippingDetails)
+          }
+        } catch (err) {
+          Logger.error(err)()
         }
       }
-      this.exitSection(null, updatedShippingDetails)
     },
     exitSection (event, updatedShippingDetails) {
-      this.$bus.$emit('myAccount-before-updateUser', updatedShippingDetails)
       if (!updatedShippingDetails) {
         this.shippingDetails = this.getShippingDetails()
         this.useCompanyAddress = false
@@ -124,7 +129,7 @@ export const UserShippingDetails = {
     },
     fillCompanyAddress () {
       if (this.useCompanyAddress) {
-        const companyAddress = this.currentUser.addresses.find((address) => (!address._id.set_as_default))
+        const companyAddress = this.currentUser.addresses.find((address) => (address.set_as_default))
         if (companyAddress) {
           this.shippingDetails.first_name = companyAddress.first_name
           this.shippingDetails.last_name = companyAddress.last_name
@@ -133,7 +138,7 @@ export const UserShippingDetails = {
           this.shippingDetails.city = companyAddress.city
           this.shippingDetails.postalCode = companyAddress.postalCode
           this.shippingDetails.region = companyAddress.region.region ? companyAddress.region.region : ''
-          this.shippingDetails.country = companyAddress.country_id
+          this.shippingDetails.country = companyAddress.country
         }
       } else {
         this.shippingDetails = this.getShippingDetails()
@@ -141,8 +146,9 @@ export const UserShippingDetails = {
     },
     readShippingDetailsFromCurrentUser (shippingDetails) {
       for (let address of this.currentUser.addresses) {
-        if (!address._id.set_as_default) {
+        if (address.set_as_default) {
           return {
+            _id: address._id,
             first_name: address.first_name,
             last_name: address.last_name,
             streetName: address.streetName,
@@ -150,8 +156,8 @@ export const UserShippingDetails = {
             city: address.city,
             postalCode: address.postalCode,
             region: address.region && address.region.region ? address.region.region : '',
-            country: address.country_id,
-            phone: address.hasOwnProperty('telephone') ? address.telephone : ''
+            country: address.country,
+            phone: address.hasOwnProperty('phone') ? address.phone : ''
           }
         }
       }
@@ -160,6 +166,7 @@ export const UserShippingDetails = {
     getShippingDetails () {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
       let shippingDetails = {
+        _id: '',
         first_name: '',
         last_name: '',
         streetName: '',
@@ -171,9 +178,10 @@ export const UserShippingDetails = {
         phone: ''
       }
       if (this.currentUser) {
-        if (this.currentUser && this.currentUser.addresses) {
+        if (this.currentUser && this.currentUser.addresses && this.currentUser.addresses.length > 0) {
           shippingDetails = this.readShippingDetailsFromCurrentUser(shippingDetails);
         } else {
+          this.isEdited = true
           shippingDetails.first_name = this.currentUser.first_name
           shippingDetails.last_name = this.currentUser.last_name
         }

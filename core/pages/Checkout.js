@@ -332,7 +332,8 @@ export default {
       console.log('this.$store.state.cart.selectedShippingMethods', this.$store.state.cart.selectedShippingMethods)
 
       this.order = {
-        user_id: this.$store.state.user.current ? this.$store.state.user.current._id.toString() : '', // edited by shabbir for get customer id
+        customer_user: this.$store.state.user.current ? this.$store.state.user.current._id : '', // edited by shabbir for get customer id
+        customer_brand: this.$store.state.user.current && this.$store.state.user.current.user_type.active_brand ? this.$store.state.user.current.user_type.active_brand : '', // edited by shabbir for get customer brand
         cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
         order_ids: this.procc_order_ids ? this.procc_order_ids : null, // Added by shabbir ProCC
@@ -345,7 +346,7 @@ export default {
           billingAddress: {
             region: this.payment.state,
             region_id: this.payment.region_id ? this.payment.region_id : 0,
-            country_id: this.payment.country,
+            country: this.payment.country,
             street: [this.payment.streetAddress, this.payment.apartmentNumber],
             company: this.payment.company,
             telephone: this.payment.phoneNumber,
@@ -367,7 +368,7 @@ export default {
         this.order.addressInformation.shippingAddress = {
           region: this.shipping.state,
           region_id: this.shipping.region_id ? this.shipping.region_id : 0,
-          country_id: this.shipping.country,
+          country: this.shipping.country,
           street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
           company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
           telephone: this.shipping.phoneNumber,

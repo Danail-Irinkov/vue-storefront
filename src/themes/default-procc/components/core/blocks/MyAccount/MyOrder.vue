@@ -113,7 +113,7 @@
         <div class="row">
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Shipping address') }}</h5>
-            <address-block :address="shippingAddress" />
+            <address-block :address="shippingAddress" v-if="shippingAddress"/>
           </div>
           <div class="col-sm-6 col-md-3" v-if="order.shipping_method && order.shipping_method.name">
             <h5>{{ $t('Shipping method') }}</h5>
@@ -121,7 +121,7 @@
           </div>
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Billing address') }}</h5>
-            <address-block :address="billingAddress" />
+            <address-block :address="billingAddress" v-if="billingAddress"/>
           </div>
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Payment method') }}</h5>

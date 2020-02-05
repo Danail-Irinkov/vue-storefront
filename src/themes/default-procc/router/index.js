@@ -6,6 +6,7 @@ const Category = () => import(/* webpackChunkName: "vsf-category" */ 'theme/page
 const CmsPage = () => import(/* webpackChunkName: "vsf-cms" */ 'theme/pages/CmsPage.vue');
 const Checkout = () => import(/* webpackChunkName: "vsf-checkout" */ 'theme/pages/Checkout.vue');
 const Compare = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/Compare.vue');
+const EmailVerification = () => import(/* webpackChunkName: "vsf-compare" */ 'theme/pages/EmailVerification.vue');
 const ProCCTransactionDone = () => import(/* webpackChunkName: "vsf-transaction" */ 'theme/components/procc/ProCCTransactionDone.vue');
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue');
 const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue');
@@ -24,6 +25,7 @@ let routes = [
   { name: 'my-newsletter', path: '/my-account/newsletter', component: MyAccount, props: { activeBlock: 'MyNewsletter' } },
   { name: 'my-orders', path: '/my-account/orders', component: MyAccount, props: { activeBlock: 'MyOrders' } },
   { name: 'my-order', path: '/my-account/orders/:orderId', component: MyAccount, props: { activeBlock: 'MyOrder' } },
+  { name: 'email-verification', path: '/email-verification/:token', component: EmailVerification, props: {page: 'lorem', title: 'Email Verification'} },
   { name: 'my-recently-viewed', path: '/my-account/recently-viewed', component: MyAccount, props: { activeBlock: 'MyRecentlyViewed' } },
   { name: 'about-us', path: '/about-us', component: Static, props: {page: 'lorem', title: 'About us'} },
   { name: 'customer-service', path: '/customer-service', component: Static, props: {page: 'lorem', title: 'Customer service'} },

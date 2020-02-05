@@ -90,6 +90,9 @@ export default (baseURL = '') => {
   const getCustomerOrders = (token, pageSize, currentPage) => api.post(`order/getCustomerOrders`, {pageSize, currentPage}, getHeaderWithToken(token))
   const updateCustomerProfile = (token, data) => api.post(`customer/updateCustomerProfile`, data, getHeaderWithToken(token))
   const changePassword = (token, data) => api.post(`customer/changePassword`, data, getHeaderWithToken(token))
+  const updateCustomerAddress = (token, data) => api.post(`address/updateCustomerAddress`, data, getHeaderWithToken(token))
+  const verifyCustomer = (data) => api.post(`customer/verifyCustomer`, data)
+  const resendVerificationEmail = (data) => api.post(`customer/resendVerificationEmail`, data)
 
   return {
     addNewOrder,
@@ -107,6 +110,9 @@ export default (baseURL = '') => {
     getCustomer,
     getCustomerOrders,
     updateCustomerProfile,
-    changePassword
+    changePassword,
+    updateCustomerAddress,
+    verifyCustomer,
+    resendVerificationEmail
   }
 }

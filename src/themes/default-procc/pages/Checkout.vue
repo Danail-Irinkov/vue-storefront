@@ -8,7 +8,7 @@
                v-for="(brand_id, index) in getArrayBrandsOfCartProductsProCC()"
                :key="index"
           >
-            <cart-summary :brand_id="brand_id" />
+            <cart-summary :brand-id="brand_id" />
           </div>
           <div class="box-left mt20">
             <!--    // Edited by Dan 02-01-2020-->

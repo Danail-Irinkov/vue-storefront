@@ -12,6 +12,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { userHooksExecutors, userHooks } from '../hooks'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
+import isUndefined from "lodash-es/isUndefined";
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -55,7 +56,10 @@ const actions: ActionTree<UserState, RootState> = {
     // Edited by shabbir for login customer in procc
     const resp = await ProCcApi().VSFCustomerLogin({email: username, password})
     userHooksExecutors.afterUserAuthorize(resp)
-    if (resp.data.message_type === 'success') {
+    if (!isUndefined(resp.data.email_not_verify) && resp.data.email_not_verify) {
+      dispatch('handleResendVerificationEmail', {email:username})
+    }
+    else if (resp.data.message_type === 'success') {
       try {
         await dispatch('resetUserInvalidateLock', {}, { root: true })
         commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: resp.data.user }) // TODO: handle the "Refresh-token" header
@@ -71,10 +75,11 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  async register (context, { password, ...customer }) {
+  async register ({ dispatch }, { password, ...customer }) {
     // Edited by shabbir for save customer in procc
     return ProCcApi().createVSFCustomer({ password, ...customer }).then((result) => {
       console.log('result', result)
+      dispatch('handleResendVerificationEmail', {email:customer.email})
       return result.data
     })
   },
@@ -175,12 +180,74 @@ const actions: ActionTree<UserState, RootState> = {
     })
   },
 
+  /**
+   * Update user address with data from My Account page by shabbir
+   */
+  async updateCustomerAddress ({ getters, dispatch }, address) {
+    return  await ProCcApi().updateCustomerAddress(getters.getToken, address).then((result) => {
+      dispatch('handleUpdateProfile', result.data)
+      return result.data
+    })
+  },
+
+  /**
+   * Resend email verification API by shabbir
+   */
+  async resendVerificationEmail ({ getters, dispatch },email) {
+    return  await ProCcApi().resendVerificationEmail(email).then((result) => {
+      return result.data
+    })
+  },
+
+  /**
+   * Update user address with data from My Account page by shabbir
+   */
+  async verifyCustomer({ commit, getters, dispatch }, email_verification_code) {
+    return  await ProCcApi().verifyCustomer({ email_verification_code }).then(async (resp) => {
+      if (resp.data.message_type === 'success') {
+        try {
+          await dispatch('resetUserInvalidateLock', {}, { root: true })
+          commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: resp.data.user }) // TODO: handle the "Refresh-token" header
+          await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+        } catch (err) {
+          await dispatch('clearCurrentUser')
+          throw new Error(err)
+        }
+      }
+      dispatch('notification/spawnNotification', {
+        type: resp.data.message_type === 'success'? 'success':'error',
+        message: resp.data.message,
+        action1: { label: i18n.t('OK') }
+      }, { root: true })
+
+      return resp.data
+    })
+  },
+
+  async handleResendVerificationEmail ({ dispatch }, {email, message }) {
+    dispatch('notification/spawnNotification', {
+      type: 'warning',
+      message: isUndefined(message) && message ? message : i18n.t('Do you want to resend email ?'),
+      action1: { label: i18n.t('Yes'),
+        action: () => {
+          dispatch('resendVerificationEmail', { email: email }).then((result) => {
+            console.log("result ",result)
+            dispatch('handleResendVerificationEmail', {email,message: result.message})
+          })
+        }
+      },
+      action2: { label: i18n.t('No')},
+      hasNoTimeout: true
+    }, { root: true })
+
+  },
+
   async handleUpdateProfile ({ dispatch }, event) {
-    // edited by shabbir for check request status
+    // edited by shabbir for check request status and display message
     if (event.message_type === 'success') {
       dispatch('notification/spawnNotification', {
         type: 'success',
-        message: i18n.t('Account data has successfully been updated'),
+        message: event.message,
         action1: { label: i18n.t('OK') }
       }, { root: true })
       dispatch('refreshUserProfile', { resolvedFromCache: true })

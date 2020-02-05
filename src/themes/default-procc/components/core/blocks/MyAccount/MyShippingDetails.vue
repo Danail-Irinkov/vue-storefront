@@ -214,7 +214,7 @@
         </p>
         <p class="mb25">
           <span v-if="shippingDetails.region">{{ shippingDetails.region }}, </span>
-          {{ getCountryName() }}
+          {{shippingDetails.country}}
         </p>
         <div class="mb25">
           {{ shippingDetails.phone }}
@@ -251,7 +251,7 @@ export default {
     countryOptions () {
       return this.countries.map((item) => {
         return {
-          value: item.code,
+          value: item.name,
           label: item.name
         }
       })
