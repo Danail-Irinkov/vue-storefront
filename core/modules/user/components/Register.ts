@@ -10,7 +10,8 @@ export const Register = {
       lastName: '',
       password: '',
       rPassword: '',
-      conditions: false
+      conditions: false,
+      user_type: { role: 'customer' }
     }
   },
   methods: {

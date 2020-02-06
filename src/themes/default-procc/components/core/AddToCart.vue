@@ -30,6 +30,7 @@ export default {
     },
     async addToCart (product) {
       try {
+        product.store_brand = this.currentImage.brand // added for set store brand id in product
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)
@@ -44,7 +45,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isAddingToCart: 'cart/getIsAdding'
+      isAddingToCart: 'cart/getIsAdding',
+      currentImage: 'procc/getHeadImage', // by ProCC
     }),
     isProductDisabled () {
       return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart

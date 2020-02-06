@@ -107,11 +107,10 @@ export const Shipping = {
     },
     hasShippingDetails () {
       if (this.currentUser) {
-        if (this.currentUser.hasOwnProperty('default_shipping')) {
-          let id = this.currentUser.default_shipping
+        if (this.currentUser.addresses && this.currentUser.addresses.length > 0) {
           let addresses = this.currentUser.addresses
           for (let i = 0; i < addresses.length; i++) {
-            if (toString(addresses[i].id) === toString(id)) {
+            if (addresses[i].set_as_default) {
               this.myAddressDetails = addresses[i]
               return true
             }
@@ -123,15 +122,15 @@ export const Shipping = {
     useMyAddress () {
       if (this.shipToMyAddress) {
         this.shipping = {
-          firstName: this.myAddressDetails.firstname,
-          lastName: this.myAddressDetails.lastname,
-          country: this.myAddressDetails.country_id,
-          state: this.myAddressDetails.region.region ? this.myAddressDetails.region.region : '',
+          firstName: this.myAddressDetails.first_name,
+          lastName: this.myAddressDetails.last_name,
+          country: this.myAddressDetails.country,
+          // state: this.myAddressDetails.region.region ? this.myAddressDetails.region.region : '', // this is not need for now by shabbir
           city: this.myAddressDetails.city,
-          streetAddress: this.myAddressDetails.street[0],
-          apartmentNumber: this.myAddressDetails.street[1],
-          zipCode: this.myAddressDetails.postcode,
-          phoneNumber: this.myAddressDetails.telephone,
+          streetAddress: this.myAddressDetails.streetName,
+          apartmentNumber: this.myAddressDetails.streetNumber,
+          zipCode: this.myAddressDetails.postalCode,
+          phoneNumber: this.myAddressDetails.phone,
           shippingMethod: this.checkoutShippingDetails.shippingMethod,
           shippingCarrier: this.checkoutShippingDetails.shippingCarrier
         }

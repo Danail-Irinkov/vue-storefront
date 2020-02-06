@@ -86,7 +86,8 @@ export const UserShippingDetails = {
         let updatedShippingDetailsAddress = {
           first_name: this.shippingDetails.first_name,
           last_name: this.shippingDetails.last_name,
-          streetName: [this.shippingDetails.streetName, this.shippingDetails.streetNumber],
+          streetName: this.shippingDetails.streetName,
+          streetNumber: this.shippingDetails.streetNumber,
           city: this.shippingDetails.city,
           ...(this.shippingDetails.region ? { region: { region: this.shippingDetails.region } } : {}),
           country: this.shippingDetails.country,
@@ -94,7 +95,7 @@ export const UserShippingDetails = {
           ...(this.shippingDetails.phone ? { phone: this.shippingDetails.phone } : {})
         }
           if (this.currentUser.addresses.length === 0) {
-            updatedShippingDetails = null
+            updatedShippingDetails.addresses = [updatedShippingDetailsAddress]
           } else {
             updatedShippingDetails.addresses = updatedShippingDetails.addresses.map((address) =>
               address.set_as_default
@@ -111,11 +112,21 @@ export const UserShippingDetails = {
           let result = await this.$store.dispatch('user/updateCustomerAddress',  {address: this.shippingDetails})
           if (result.message_type === 'success') {
             this.exitSection(null, updatedShippingDetails)
-          }
+          }else
+            this.onFailure(result)
+
         } catch (err) {
           Logger.error(err)()
+          this.onFailure(err)
         }
       }
+    },
+    onFailure (result) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'error',
+        message: this.$t(result.message?result.message:result),
+        action1: { label: this.$t('OK') }
+      })
     },
     exitSection (event, updatedShippingDetails) {
       if (!updatedShippingDetails) {

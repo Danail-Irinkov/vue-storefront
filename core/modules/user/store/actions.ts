@@ -51,13 +51,13 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Login user and return user profile and current token
    */
-  async login ({ commit, dispatch }, { username, password }) {
-    console.log('BEFORE UserService.login', username, password)
+  async login ({ commit, dispatch }, { email, password }) {
+    console.log('BEFORE UserService.login', email, password)
     // Edited by shabbir for login customer in procc
-    const resp = await ProCcApi().VSFCustomerLogin({email: username, password})
+    const resp = await ProCcApi().VSFCustomerLogin({email: email, password})
     userHooksExecutors.afterUserAuthorize(resp)
     if (!isUndefined(resp.data.email_not_verify) && resp.data.email_not_verify) {
-      dispatch('handleResendVerificationEmail', {email:username})
+      dispatch('handleResendVerificationEmail', {email:email})
     }
     else if (resp.data.message_type === 'success') {
       try {
@@ -202,8 +202,8 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user address with data from My Account page by shabbir
    */
-  async verifyCustomer({ commit, getters, dispatch }, email_verification_code) {
-    return  await ProCcApi().verifyCustomer({ email_verification_code }).then(async (resp) => {
+  async verifyCustomerEmail({ commit, getters, dispatch }, email_verification_code) {
+    return  await ProCcApi().verifyCustomerEmail({ email_verification_code }).then(async (resp) => {
       if (resp.data.message_type === 'success') {
         try {
           await dispatch('resetUserInvalidateLock', {}, { root: true })
@@ -225,14 +225,15 @@ const actions: ActionTree<UserState, RootState> = {
   },
 
   async handleResendVerificationEmail ({ dispatch }, {email, message }) {
+    let msg = !isUndefined(message) && message ? message : i18n.t('Do you want to resend email ?')
     dispatch('notification/spawnNotification', {
       type: 'warning',
-      message: isUndefined(message) && message ? message : i18n.t('Do you want to resend email ?'),
+      message: msg,
       action1: { label: i18n.t('Yes'),
         action: () => {
           dispatch('resendVerificationEmail', { email: email }).then((result) => {
             console.log("result ",result)
-            dispatch('handleResendVerificationEmail', {email,message: result.message})
+            dispatch('handleResendVerificationEmail', {email, message: result.message})
           })
         }
       },
@@ -279,7 +280,7 @@ const actions: ActionTree<UserState, RootState> = {
         action1: { label: i18n.t('OK') }
       }, { root: true })
       await dispatch('login', {
-        username: getters.getUserEmail,
+        email: getters.getUserEmail,
         password: passwordData.newPassword
       })
     } else {

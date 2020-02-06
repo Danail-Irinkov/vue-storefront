@@ -12,8 +12,8 @@ export default {
       loading: true
     }
   },
-  async beforeCreate () {
-    let result = await this.$store.dispatch('user/verifyCustomer', this.$route.params.token)
+  async mounted () {
+    let result = await this.$store.dispatch('user/verifyCustomerEmail', this.$route.params.token)
     this.$router.push(this.localizedRoute('/'))
   }
 }

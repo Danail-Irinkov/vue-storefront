@@ -13,7 +13,7 @@ export const Login = {
   methods: {
     callLogin () {
       this.$bus.$emit('notification-progress-start', i18n.t('Authorization in progress ...'))
-      this.$store.dispatch('user/login', { username: this.email, password: this.password }).then((result) => {
+      this.$store.dispatch('user/login', { email: this.email, password: this.password }).then((result) => {
         this.$bus.$emit('notification-progress-stop', {})
         // edited by shabbir for check API response type
         if (result.message_type !== 'success') {

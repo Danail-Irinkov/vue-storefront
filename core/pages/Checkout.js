@@ -399,7 +399,7 @@ export default {
         .then((result) => {
           if (result.data.message_type === 'success') {
             this.procc_order_ids = result.data.order_ids
-            this.ProCCOrderPayment()
+            this.ProCCOrderPayment(result.data.order_ids)
           }
         }).catch(err => {
           Logger.error(err, 'Transaction was not Done!!')
@@ -412,7 +412,7 @@ export default {
         })
     },
     // Created function by shabbir for make payment
-    ProCCOrderPayment () {
+    ProCCOrderPayment (order_ids) {
       console.log('this.getTotals: ', this.getTotals)
       let amount
       for (let segment of this.getTotals) {
@@ -420,24 +420,7 @@ export default {
           amount = segment.value
         }
       }
-
-      let data = {
-        'PaymentType': 'CARD',
-        'ExecutionType': 'WEB',
-        'DebitedFunds': {
-          'Currency': 'EUR',
-          'Amount': amount * 100
-        },
-        'Fees': {
-          'Currency': 'EUR',
-          'Amount': 0
-        },
-        'ReturnURL': this.config.server.url + '/transactionDone', //  store url
-        'CardType': 'CB_VISA_MASTERCARD',
-        'SecureMode': 'DEFAULT',
-        'Culture': 'EN',
-        'brand': this.currentImage.brand
-      }
+      let data = {total_amount: amount, order_ids}
       this.ProCcAPI.VSFOrderPayment(data, this.currentImage.brand).then(async (response) => {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
           let newWin = window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')

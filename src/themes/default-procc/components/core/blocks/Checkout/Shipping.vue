@@ -255,7 +255,7 @@ export default {
     countryOptions () {
       return this.countries.map((item) => {
         return {
-          value: item.code,
+          value: item.name,
           label: item.name
         }
       })
