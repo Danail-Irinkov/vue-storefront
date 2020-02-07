@@ -265,18 +265,18 @@ export const Payment = {
         const result = await this.$store.dispatch('user/register', {
           email: this.getPersonalDetails.emailAddress,
           password: this.getPersonalDetails.password,
-          firstname: this.getPersonalDetails.firstName,
-          lastname: this.getPersonalDetails.lastName,
+          first_name: this.getPersonalDetails.firstName,
+          last_name: this.getPersonalDetails.lastName,
           addresses: [{
-            firstname: this.getShippingDetails.firstName,
-            lastname: this.getShippingDetails.lastName,
-            street: [this.getShippingDetails.streetAddress, this.getShippingDetails.apartmentNumber],
+            first_name: this.getShippingDetails.first_name,
+            last_name: this.getShippingDetails.last_name,
+            streetName: this.getShippingDetails.streetAddress,
+            streetNumber: this.getShippingDetails.apartmentNumber,
             city: this.getShippingDetails.city,
             ...(this.getShippingDetails.state ? { region: { region: this.getShippingDetails.state } } : {}),
-            country_id: this.getShippingDetails.country,
-            postcode: this.getShippingDetails.zipCode,
-            ...(this.getShippingDetails.phoneNumber ? { telephone: this.getShippingDetails.phoneNumber } : {}),
-            default_shipping: true
+            country: this.getShippingDetails.country,
+            postCode: this.getShippingDetails.zipCode,
+            ...(this.getShippingDetails.phoneNumber ? { phone: this.getShippingDetails.phoneNumber } : {}),
           }]
         });
 

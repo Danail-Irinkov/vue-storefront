@@ -1,5 +1,6 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
+import { Logger } from '@vue-storefront/core/lib/logger'
 
 export const PersonalDetails = {
   name: 'PersonalDetails',
@@ -53,6 +54,43 @@ export const PersonalDetails = {
       this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
       this.isValidationError = false
+      if(this.personalDetails.createAccount)
+        this.register()
+    },
+    async register () {
+      this.$bus.$emit('notification-progress-start', this.$t('Registering the account ...'));
+
+      try {
+        const result = await this.$store.dispatch('user/register', {
+          email: this.personalDetails.emailAddress,
+          password: this.personalDetails.password,
+          first_name: this.personalDetails.firstName,
+          last_name: this.personalDetails.lastName,
+        });
+        debugger
+        this.$bus.$emit('notification-progress-stop');
+        if (result.data.message_type === 'error') {
+          this.onFailure(result);
+          // If error includes a word 'password', emit event that eventually focuses on a corresponding field
+          if (result.result.includes(this.$t('password'))) {
+            this.$bus.$emit('checkout-after-validationError', 'password')
+          }
+          // If error includes a word 'mail', emit event that eventually focuses on a corresponding field
+          if (result.result.includes(this.$t('email'))) {
+            this.$bus.$emit('checkout-after-validationError', 'email-address')
+          }
+        } else {
+          this.$bus.$emit('modal-hide', 'modal-signup');
+          await this.$store.dispatch('user/login', {
+            username: this.personalDetails.emailAddress,
+            password: this.personalDetails.password
+          });
+          this.onSuccess()
+        }
+      } catch (err) {
+        this.$bus.$emit('notification-progress-stop');
+        Logger.error(err, 'checkout')()
+      }
     },
     edit () {
       if (this.isFilled) {
