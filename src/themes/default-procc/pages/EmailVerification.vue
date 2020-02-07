@@ -1,6 +1,6 @@
 <template>
   <div class="h4 email-verify">
-    {{$t("Please wait email verification running")}}
+    {{ $t("Please wait email verification running") }}
   </div>
 </template>
 

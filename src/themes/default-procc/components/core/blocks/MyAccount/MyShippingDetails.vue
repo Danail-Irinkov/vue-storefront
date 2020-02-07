@@ -214,7 +214,7 @@
         </p>
         <p class="mb25">
           <span v-if="shippingDetails.region">{{ shippingDetails.region }}, </span>
-          {{shippingDetails.country}}
+          {{ shippingDetails.country }}
         </p>
         <div class="mb25">
           {{ shippingDetails.phone }}

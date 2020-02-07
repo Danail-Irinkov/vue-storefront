@@ -393,6 +393,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} options
    */
   async single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, assignDefaultVariant = false, key = 'sku', skipCache = false }) {
+    console.log('Setting Up current Product !! options ', options)
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
@@ -403,6 +404,7 @@ const actions: ActionTree<ProductState, RootState> = {
       const cache = StorageManager.get('elasticCache')
 
       const setupProduct = (prod) => {
+        console.log('setupProduct  prod ', prod)
         // set product quantity to 1
         if (!prod.qty) {
           prod.qty = 1

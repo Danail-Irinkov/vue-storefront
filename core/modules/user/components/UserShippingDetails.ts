@@ -7,7 +7,7 @@ export const UserShippingDetails = {
   data () {
     return {
       shippingDetails: {
-        _id:'',
+        _id: '',
         first_name: '',
         last_name: '',
         streetName: '',
@@ -94,27 +94,25 @@ export const UserShippingDetails = {
           postalCode: this.shippingDetails.postalCode,
           ...(this.shippingDetails.phone ? { phone: this.shippingDetails.phone } : {})
         }
-          if (this.currentUser.addresses.length === 0) {
-            updatedShippingDetails.addresses = [updatedShippingDetailsAddress]
-          } else {
-            updatedShippingDetails.addresses = updatedShippingDetails.addresses.map((address) =>
-              address.set_as_default
-                ? {...address, ...updatedShippingDetailsAddress} // update default address if already exist
-                : address
-            )
-          }
+        if (this.currentUser.addresses.length === 0) {
+          updatedShippingDetails.addresses = [updatedShippingDetailsAddress]
+        } else {
+          updatedShippingDetails.addresses = updatedShippingDetails.addresses.map((address) =>
+            address.set_as_default
+              ? {...address, ...updatedShippingDetailsAddress} // update default address if already exist
+              : address
+          )
+        }
       }
       if (this.shippingDetails) {
         try {
           // call method for update customer address data by shabbir
           this.shippingDetails.user = this.currentUser._id
           this.shippingDetails.set_as_default = true
-          let result = await this.$store.dispatch('user/updateCustomerAddress',  {address: this.shippingDetails})
+          let result = await this.$store.dispatch('user/updateCustomerAddress', {address: this.shippingDetails})
           if (result.message_type === 'success') {
             this.exitSection(null, updatedShippingDetails)
-          }else
-            this.onFailure(result)
-
+          } else { this.onFailure(result) }
         } catch (err) {
           Logger.error(err)()
           this.onFailure(err)
@@ -124,7 +122,7 @@ export const UserShippingDetails = {
     onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message: this.$t(result.message?result.message:result),
+        message: this.$t(result.message ? result.message : result),
         action1: { label: this.$t('OK') }
       })
     },

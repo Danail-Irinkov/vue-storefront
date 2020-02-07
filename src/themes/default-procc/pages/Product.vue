@@ -521,7 +521,7 @@ export default {
     },
     // Created function for get quantity from  vuex if not found then get from API
     checkQuantity (variant) {
-      if (!_.isEmpty(this.getProductAvailableQuantity) && this.getProductAvailableQuantity && this.getProductAvailableQuantity[variant.label]) { this.maxQuantity = this.getProductAvailableQuantity[variant.label] } else { this.getQuantity(variant) }
+      if (this.getProductAvailableQuantity && this.getProductAvailableQuantity[variant.label]) { this.maxQuantity = this.getProductAvailableQuantity[variant.label] } else { this.getQuantity(variant) }
     },
     isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)
@@ -565,7 +565,6 @@ export default {
           }
         } else if (variant) {
           const res = await this.$store.dispatch('stock/check', {
-            // product: this.getCurrentProduct,
             product: product, // Edited by dan
             qty: this.ProCCCurrentProductVariant.qty // Edited by dan
           })

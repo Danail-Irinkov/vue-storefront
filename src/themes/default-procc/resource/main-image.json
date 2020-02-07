@@ -3,6 +3,14 @@
       "title": "Walk the walk.",
       "subtitle": "A fashion can become the prevailing style in behaviour or manifest the newest creations of designers, technologists, engineers, and design managers.",
       "image": "/assets/full_width_banner.jpg",
-      "link": "/c/women-20"
+      "working_hours": "12-12",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "logo": "https://storage.googleapis.com/procc/vendor/store_logo/original/200206-5e3c732027241f4700b8d988.png",
+      "link": "www.procc.co/",
+      "contact_information": "Happy wife, happy life!",
+      "about_text": "Model 21 years",
+      "brand": "5e207aec4af97200369e834c",
+      "is_cc_store": true
   }
 }

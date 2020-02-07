@@ -46,7 +46,7 @@ export default {
   computed: {
     ...mapGetters({
       isAddingToCart: 'cart/getIsAdding',
-      currentImage: 'procc/getHeadImage', // by ProCC
+      currentImage: 'procc/getHeadImage' // by ProCC
     }),
     isProductDisabled () {
       return this.disabled || formatProductMessages(this.product.errors) !== '' || this.isAddingToCart

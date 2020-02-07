@@ -243,7 +243,7 @@ export default {
     onNetworkStatusCheck (isOnline) {
       this.checkConnection(isOnline)
     },
-    checkStocksProCC () { // Added By Dan
+    async checkStocksProCC () { // Added By Dan
       // TODO: Copy the needed verifications here from 'checkStocks()' + Check Stock with ProCC + Show which Product is out of stock
       return true
     },
@@ -382,14 +382,18 @@ export default {
       }
       return this.order
     },
-    placeOrder () {
-      this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
-      // if (this.checkStocks()) {
-      if (this.checkStocksProCC()) { // Added By Dan
-        this.placeProCCOrder()
-      } else {
-        console.log('notifyNotAvailable placeOrder')
-        this.notifyNotAvailable()
+    async placeOrder () {
+      try {
+        this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
+        // if (this.checkStocks()) {
+        if (await this.checkStocksProCC()) { // Added By Dan
+          this.placeProCCOrder()
+        } else {
+          console.log('notifyNotAvailable placeOrder')
+          this.notifyNotAvailable()
+        }
+      } catch (e) {
+        console.log('placeOrder Err', e)
       }
     },
     // Created function by shabbir for place order in procc

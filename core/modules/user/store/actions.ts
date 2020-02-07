@@ -12,7 +12,7 @@ import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import { StorageManager } from '@vue-storefront/core/lib/storage-manager'
 import { userHooksExecutors, userHooks } from '../hooks'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
-import isUndefined from "lodash-es/isUndefined";
+import isUndefined from 'lodash-es/isUndefined';
 
 const actions: ActionTree<UserState, RootState> = {
   async startSession ({ commit, dispatch, getters }) {
@@ -57,9 +57,8 @@ const actions: ActionTree<UserState, RootState> = {
     const resp = await ProCcApi().VSFCustomerLogin({email: email, password})
     userHooksExecutors.afterUserAuthorize(resp)
     if (!isUndefined(resp.data.email_not_verify) && resp.data.email_not_verify) {
-      dispatch('handleResendVerificationEmail', {email:email})
-    }
-    else if (resp.data.message_type === 'success') {
+      dispatch('handleResendVerificationEmail', {email: email})
+    } else if (resp.data.message_type === 'success') {
       try {
         await dispatch('resetUserInvalidateLock', {}, { root: true })
         commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: resp.data.user }) // TODO: handle the "Refresh-token" header
@@ -79,7 +78,7 @@ const actions: ActionTree<UserState, RootState> = {
     // Edited by shabbir for save customer in procc
     return ProCcApi().createVSFCustomer({ password, ...customer }).then((result) => {
       console.log('result', result)
-      dispatch('handleResendVerificationEmail', {email:customer.email})
+      dispatch('handleResendVerificationEmail', {email: customer.email})
       return result.data
     })
   },
@@ -184,7 +183,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Update user address with data from My Account page by shabbir
    */
   async updateCustomerAddress ({ getters, dispatch }, address) {
-    return  await ProCcApi().updateCustomerAddress(getters.getToken, address).then((result) => {
+    return ProCcApi().updateCustomerAddress(getters.getToken, address).then((result) => {
       dispatch('handleUpdateProfile', result.data)
       return result.data
     })
@@ -193,8 +192,8 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Resend email verification API by shabbir
    */
-  async resendVerificationEmail ({ getters, dispatch },email) {
-    return  await ProCcApi().resendVerificationEmail(email).then((result) => {
+  async resendVerificationEmail ({ getters, dispatch }, email) {
+    return ProCcApi().resendVerificationEmail(email).then((result) => {
       return result.data
     })
   },
@@ -202,8 +201,8 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Update user address with data from My Account page by shabbir
    */
-  async verifyCustomerEmail({ commit, getters, dispatch }, email_verification_code) {
-    return  await ProCcApi().verifyCustomerEmail({ email_verification_code }).then(async (resp) => {
+  async verifyCustomerEmail ({ commit, getters, dispatch }, email_verification_code) {
+    return ProCcApi().verifyCustomerEmail({ email_verification_code }).then(async (resp) => {
       if (resp.data.message_type === 'success') {
         try {
           await dispatch('resetUserInvalidateLock', {}, { root: true })
@@ -215,7 +214,7 @@ const actions: ActionTree<UserState, RootState> = {
         }
       }
       dispatch('notification/spawnNotification', {
-        type: resp.data.message_type === 'success'? 'success':'error',
+        type: resp.data.message_type === 'success' ? 'success' : 'error',
         message: resp.data.message,
         action1: { label: i18n.t('OK') }
       }, { root: true })
@@ -224,7 +223,7 @@ const actions: ActionTree<UserState, RootState> = {
     })
   },
 
-  async handleResendVerificationEmail ({ dispatch }, {email, message }) {
+  async handleResendVerificationEmail ({ dispatch }, { email, message }) {
     let msg = !isUndefined(message) && message ? message : i18n.t('Do you want to resend email ?')
     dispatch('notification/spawnNotification', {
       type: 'warning',
@@ -232,15 +231,14 @@ const actions: ActionTree<UserState, RootState> = {
       action1: { label: i18n.t('Yes'),
         action: () => {
           dispatch('resendVerificationEmail', { email: email }).then((result) => {
-            console.log("result ",result)
+            console.log('result ', result)
             dispatch('handleResendVerificationEmail', {email, message: result.message})
           })
         }
       },
-      action2: { label: i18n.t('No')},
+      action2: { label: i18n.t('No') },
       hasNoTimeout: true
     }, { root: true })
-
   },
 
   async handleUpdateProfile ({ dispatch }, event) {

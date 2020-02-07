@@ -43,7 +43,7 @@
   },
   "storeViews": {
     "multistore": true,
-    "commonCache": false,
+    "commonCache": true,
     "mapStoreUrlsFor": [
     ]
   }
