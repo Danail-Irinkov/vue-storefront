@@ -34,7 +34,8 @@ export const PersonalDetails = {
     })
   },
   created () {
-    this.onLoggedIn(this.currentUser)
+    if(this.currentUser )
+      this.onLoggedIn(this.currentUser)
   },
   methods: {
     onLoggedIn (receivedData) {
@@ -64,10 +65,10 @@ export const PersonalDetails = {
         const result = await this.$store.dispatch('user/register', {
           email: this.personalDetails.emailAddress,
           password: this.personalDetails.password,
-          first_name: this.personalDetails.firstName,
-          last_name: this.personalDetails.lastName,
+          firstname: this.personalDetails.firstName,
+          lastname: this.personalDetails.lastName,
+          requireLogin:true
         });
-        debugger
         this.$bus.$emit('notification-progress-stop');
         if (result.data.message_type === 'error') {
           this.onFailure(result);
@@ -80,11 +81,7 @@ export const PersonalDetails = {
             this.$bus.$emit('checkout-after-validationError', 'email-address')
           }
         } else {
-          this.$bus.$emit('modal-hide', 'modal-signup');
-          await this.$store.dispatch('user/login', {
-            username: this.personalDetails.emailAddress,
-            password: this.personalDetails.password
-          });
+
           this.onSuccess()
         }
       } catch (err) {

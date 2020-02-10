@@ -267,15 +267,24 @@ export default {
     userInfoIsNotStored () { // Added By Dan
       // TODO: Need to populate these boolenans according to real situation
       // TODO: if the email the user wrote is already in used in an account -> add the data to that account, BUT dont allow the user to access the stored address an payment methods, unless they login and input password
-      const isUserAddressStored = false
-      const isUserPaymentStored = false
-      return !isUserAddressStored || !isUserPaymentStored
+      // const isUserAddressStored = false
+      // const isUserPaymentStored = false
+      // return !isUserAddressStored || !isUserPaymentStored
+      // Edited by danail if customer not login then we need to save only password all other information saved when order 
+      return _.isUndefined(this.$store.state.user.current) || !this.$store.state.user.current
     }
   },
   methods: {
     saveUserAccount () { // Added by Dan
       // TODO: Create an user account, OR save the selected address and/or payment data to the current user's account
-      console.log('saveUserAccount Mock Started')
+      console.log('saveUserAccount Mock Started', this.lastOrderConfirmation.orders)
+      if (this.lastOrderConfirmation.orders && this.lastOrderConfirmation.orders[0].customer_user) {
+        console.log('this.password', this.password, this.lastOrderConfirmation.orders[0].customer_user._id)
+        const result = this.$store.dispatch('user/setCustomerPassword', {
+          customerId: this.lastOrderConfirmation.orders[0].customer_user._id || this.lastOrderConfirmation.orders[0].customer_user,
+          password: this.password
+        })
+      }
     },
     requestNotificationPermission () {
       if (isServer) return false

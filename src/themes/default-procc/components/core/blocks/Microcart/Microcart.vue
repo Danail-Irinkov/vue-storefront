@@ -55,7 +55,7 @@
       </router-link>
       {{ $t('to find something beautiful for You!') }}
     </div>
-    <div v-for="brand in getBrandsDetails" :key="brand._id">
+    <div v-for="brand in getBrandsDetails" :key="brand._id" v-if="productsInCart.length">
       <order-items :brand="brand" :order-items="productsInCartByBrandProCC(brand._id)" :shipping-method="getSelectedShippingMethods[brand._id]" class-name="bg-cl-secondary mb20" :is-disabled-inputs="false" />
     </div>
     <!--<div v-if="productsInCart.length" class="summary px40 cl-accent serif">
@@ -123,7 +123,7 @@
         </div>
       </div>
     </div>-->
-    <microcart-summary class="bg-cl-secondary mb20" />
+    <microcart-summary class="bg-cl-secondary mb20" v-if="productsInCart.length" />
 
     <div
       class="row py20 px40 middle-xs actions"

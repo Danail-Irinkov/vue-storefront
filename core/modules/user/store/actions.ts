@@ -71,13 +71,39 @@ const actions: ActionTree<UserState, RootState> = {
 
     return resp.data
   },
+
   /**
-   * Login user and return user profile and current token
+   * set customer password user and return message
    */
-  async register ({ dispatch }, { password, ...customer }) {
+  async setCustomerPassword ({ commit, dispatch }, { customerId, password }) {
+    console.log('BEFORE setCustomerPassword', customerId, password)
+    // Edited by shabbir for login customer in procc
+    const resp = await ProCcApi().setCustomerPassword({customerId , password})
+    console.log(resp.data)
+    if (resp.data.message_type === 'success') {
+      dispatch('handleResendVerificationEmail', {email: resp.data.user.email})
+    }
+
+    return resp.data
+  },
+
+  /**
+   * register user and return user profile and current token
+   */
+  async register ({commit, dispatch }, { password, ...customer }) {
     // Edited by shabbir for save customer in procc
-    return ProCcApi().createVSFCustomer({ password, ...customer }).then((result) => {
+    return ProCcApi().createVSFCustomer({ password, ...customer }).then(async(result) => {
       console.log('result', result)
+      if(!isUndefined(customer.requireLogin) && customer.requireLogin){
+        try {
+          await dispatch('resetUserInvalidateLock', {}, { root: true })
+          commit(types.USER_TOKEN_CHANGED, { newToken: result.data.token, meta: result.data.user }) // TODO: handle the "Refresh-token" header
+          await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+        } catch (err) {
+          await dispatch('clearCurrentUser')
+          throw new Error(err)
+        }
+      }
       dispatch('handleResendVerificationEmail', {email: customer.email})
       return result.data
     })
