@@ -28,8 +28,8 @@ const actions: ActionTree<StockState, RootState> = {
 
         let product_data = result.data.product
         let quantities = product_data.available_qty
-        for (let name in quantities){
-          if(quantities[name] < 0) quantities[name]=0
+        for (let name in quantities) {
+          if (quantities[name] < 0) quantities[name] = 0
         }
         quantities.product_id = product.procc_product_id
         dispatch('product/setProductAvailableQuantity', quantities, { root: true })
@@ -60,9 +60,9 @@ const actions: ActionTree<StockState, RootState> = {
           console.log('queueCheck product.procc_product_id', product.procc_product_id)
           let product_data = result.data.product
           let quantities = product_data.available_qty
-          for (let name in quantities){
-            if(quantities[name] < 0){
-              quantities[name]=0
+          for (let name in quantities) {
+            if (quantities[name] < 0) {
+              quantities[name] = 0
             }
           }
           quantities.product_id = product.procc_product_id

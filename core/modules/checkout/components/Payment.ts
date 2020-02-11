@@ -276,7 +276,7 @@ export const Payment = {
             ...(this.getShippingDetails.state ? { region: { region: this.getShippingDetails.state } } : {}),
             country: this.getShippingDetails.country,
             postCode: this.getShippingDetails.zipCode,
-            ...(this.getShippingDetails.phoneNumber ? { phone: this.getShippingDetails.phoneNumber } : {}),
+            ...(this.getShippingDetails.phoneNumber ? { phone: this.getShippingDetails.phoneNumber } : {})
           }]
         });
 

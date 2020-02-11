@@ -451,6 +451,12 @@ export default {
           this.getQuantity()
         }
       }
+    },
+    getCurrentProduct: {
+      async handler (product) {
+        this.ProCCCurrentProductVariant = product
+      },
+      immediate: true
     }
   },
   methods: {
@@ -521,7 +527,11 @@ export default {
     },
     // Created function for get quantity from  vuex if not found then get from API
     checkQuantity (variant) {
-      if (this.getProductAvailableQuantity && this.getProductAvailableQuantity[variant.label]) { this.maxQuantity = this.getProductAvailableQuantity[variant.label] } else { this.getQuantity(variant) }
+      if (this.getProductAvailableQuantity && this.getProductAvailableQuantity.product_id && this.getProductAvailableQuantity.product_id === this.getCurrentProduct.procc_product_id && this.getProductAvailableQuantity[variant.label]) {
+        this.maxQuantity = this.getProductAvailableQuantity[variant.label]
+      } else {
+        this.getQuantity(variant)
+      }
     },
     isOptionAvailable (option) { // check if the option is available
       const currentConfig = Object.assign({}, this.getCurrentProductConfiguration)

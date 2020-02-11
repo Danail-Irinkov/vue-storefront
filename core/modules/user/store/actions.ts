@@ -46,7 +46,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Send password reset link for specific e-mail
    */
   resetPassword (context, { email }) {
-    return UserService.resetPassword(email)
+    return ProCcApi().forgotPassword({ email: email }).then((result) => { return result.data })
   },
   /**
    * Login user and return user profile and current token
@@ -78,7 +78,7 @@ const actions: ActionTree<UserState, RootState> = {
   async setCustomerPassword ({ commit, dispatch }, { customerId, password }) {
     console.log('BEFORE setCustomerPassword', customerId, password)
     // Edited by shabbir for login customer in procc
-    const resp = await ProCcApi().setCustomerPassword({customerId , password})
+    const resp = await ProCcApi().setCustomerPassword({customerId, password})
     console.log(resp.data)
     if (resp.data.message_type === 'success') {
       dispatch('handleResendVerificationEmail', {email: resp.data.user.email})
@@ -90,11 +90,11 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * register user and return user profile and current token
    */
-  async register ({commit, dispatch }, { password, ...customer }) {
+  async register ({ commit, dispatch }, { password, ...customer }) {
     // Edited by shabbir for save customer in procc
-    return ProCcApi().createVSFCustomer({ password, ...customer }).then(async(result) => {
+    return ProCcApi().createVSFCustomer({ password, ...customer }).then(async (result) => {
       console.log('result', result)
-      if(!isUndefined(customer.requireLogin) && customer.requireLogin){
+      if (!isUndefined(customer.requireLogin) && customer.requireLogin && result.data.message_type === 'success') {
         try {
           await dispatch('resetUserInvalidateLock', {}, { root: true })
           commit(types.USER_TOKEN_CHANGED, { newToken: result.data.token, meta: result.data.user }) // TODO: handle the "Refresh-token" header
@@ -103,8 +103,15 @@ const actions: ActionTree<UserState, RootState> = {
           await dispatch('clearCurrentUser')
           throw new Error(err)
         }
+        dispatch('handleResendVerificationEmail', {email: customer.email})
+      } else {
+        dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: result.data.message,
+          action1: { label: i18n.t('Ok') },
+          hasNoTimeout: true
+        }, { root: true })
       }
-      dispatch('handleResendVerificationEmail', {email: customer.email})
       return result.data
     })
   },

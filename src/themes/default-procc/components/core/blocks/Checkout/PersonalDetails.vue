@@ -110,8 +110,8 @@
                 text: $t('Field is required.')
               }]"
             />
-
-            <base-input
+            <!--Commented by shabbir for not need -->
+            <!--   <base-input
               class="col-xs-12 mb25"
               type="password"
               name="password-confirm"
@@ -128,7 +128,7 @@
                   text: $t('Passwords must be identical.')
                 }
               ]"
-            />
+            />-->
 
             <base-checkbox
               class="col-xs-12 mb15"
@@ -260,10 +260,6 @@ export default {
     },
     password: {
       required
-    },
-    rPassword: {
-      required,
-      sameAsPassword: sameAs('password')
     },
     acceptConditions: {
       required

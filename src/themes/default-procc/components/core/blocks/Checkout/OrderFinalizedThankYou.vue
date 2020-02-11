@@ -270,7 +270,7 @@ export default {
       // const isUserAddressStored = false
       // const isUserPaymentStored = false
       // return !isUserAddressStored || !isUserPaymentStored
-      // Edited by danail if customer not login then we need to save only password all other information saved when order 
+      // Edited by danail if customer not login then we need to save only password all other information saved when order
       return _.isUndefined(this.$store.state.user.current) || !this.$store.state.user.current
     }
   },

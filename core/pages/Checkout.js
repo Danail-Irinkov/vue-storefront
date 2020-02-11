@@ -170,10 +170,11 @@ export default {
     },
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
-      if (this.$store.state.checkout.personalDetails.createAccount) {
-        console.log('Dispatching LOGIN REQUEST AT onAfterPlaceOrder')
-        await this.$store.dispatch('user/login', { username: this.$store.state.checkout.personalDetails.emailAddress, password: this.$store.state.checkout.personalDetails.password })
-      }
+      // edited by shabbir for not need
+      // if (this.$store.state.checkout.personalDetails.createAccount) {
+      //   console.log('Dispatching LOGIN REQUEST AT onAfterPlaceOrder')
+      //   await this.$store.dispatch('user/login', { username: this.$store.state.checkout.personalDetails.emailAddress, password: this.$store.state.checkout.personalDetails.password })
+      // }
 
       // Scrolling to top HERE to prepare for the ProCC Thank you page
       window.scrollTo(0, 0); // Added By Dan

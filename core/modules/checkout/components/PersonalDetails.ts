@@ -34,8 +34,7 @@ export const PersonalDetails = {
     })
   },
   created () {
-    if(this.currentUser )
-      this.onLoggedIn(this.currentUser)
+    if (this.currentUser) { this.onLoggedIn(this.currentUser) }
   },
   methods: {
     onLoggedIn (receivedData) {
@@ -55,8 +54,7 @@ export const PersonalDetails = {
       this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
       this.isFilled = true
       this.isValidationError = false
-      if(this.personalDetails.createAccount)
-        this.register()
+      if (this.personalDetails.createAccount) { this.register() }
     },
     async register () {
       this.$bus.$emit('notification-progress-start', this.$t('Registering the account ...'));
@@ -67,7 +65,7 @@ export const PersonalDetails = {
           password: this.personalDetails.password,
           firstname: this.personalDetails.firstName,
           lastname: this.personalDetails.lastName,
-          requireLogin:true
+          requireLogin: true
         });
         this.$bus.$emit('notification-progress-stop');
         if (result.data.message_type === 'error') {
@@ -81,7 +79,6 @@ export const PersonalDetails = {
             this.$bus.$emit('checkout-after-validationError', 'email-address')
           }
         } else {
-
           this.onSuccess()
         }
       } catch (err) {

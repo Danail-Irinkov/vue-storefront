@@ -95,7 +95,7 @@ export default {
       this.$bus.$emit('notification-progress-start', i18n.t('Resetting the password ... '))
       this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
         this.$bus.$emit('notification-progress-stop')
-        if (response.code === 200) {
+        if (response.message_type === 'success') {
           this.passwordSent = true
         } else {
           this.$store.dispatch('notification/spawnNotification', {
