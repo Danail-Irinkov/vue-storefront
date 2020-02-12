@@ -38,7 +38,7 @@ module.exports = (baseURL = '') => {
   })
 
   // JWT TOKEN MANAGEMENT
-  let private_key = jwt_token.private_key
+  let privajwt_tokente_key = jwt_token.private_key
   if (process.env.NODE_APP_INSTANCE === 'kube') {
     private_key = process.env.JWT_PRIVATE_KEY
   }
