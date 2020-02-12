@@ -1,5 +1,6 @@
-module.exports = {
-  private_key: '-----BEGIN RSA PRIVATE KEY-----\n' +
+module.exports = function (){
+  return {
+    private_key: '-----BEGIN RSA PRIVATE KEY-----\n' +
     'MIICWwIBAAKBgQDdlatRjRjogo3WojgGHFHYLugdUWAY9iR3fy4arWNA1KoS8kVw\n' +
     '33cJibXr8bvwUAUparCwlvdbH6dvEOfou0/gCFQsHUfQrSDv+MuSUMAe8jzKE4qW\n' +
     '+jK+xQU9a03GUnKHkkle+Q0pX/g6jXZ7r1/xAK5Do2kQ+X5xK9cipRgEKwIDAQAB\n' +
@@ -14,4 +15,5 @@ module.exports = {
     'Y0sz/OZtSWcol/UMgQJALesy++GdvoIDLfJX5GBQpuFgFenRiRDabxrE9MNUZ2aP\n' +
     'FaFp+DyAe+b4nDwuJaW2LURbr8AEZga7oQj0uYxcYw==\n' +
     '-----END RSA PRIVATE KEY-----'
+}
 }

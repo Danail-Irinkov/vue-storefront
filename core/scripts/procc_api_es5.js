@@ -7,7 +7,8 @@ const axios = require('axios')
 const jwt = require('jsonwebtoken')
 // const jwtPrivateKey = require('../../config/jwt.jst')
 const config = require('config')
-const jwt_token = require('../../config/jwt_es5')
+let jwt_token = require('../../config/jwt_es5')
+console.log('jwt_token', jwt_token)
 // const jwt_token = require('@vue-storefront/config/jwt_es5')
 
 // const { isServer } = require('@vue-storefront/core/helpers')
@@ -38,7 +39,7 @@ module.exports = (baseURL = '') => {
   })
 
   // JWT TOKEN MANAGEMENT
-  let privajwt_tokente_key = jwt_token.private_key
+  let private_key = jwt_token.private_key
   if (process.env.NODE_APP_INSTANCE === 'kube') {
     private_key = process.env.JWT_PRIVATE_KEY
   }
