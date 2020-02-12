@@ -93,14 +93,14 @@ export default {
       }
 
       this.$bus.$emit('notification-progress-start', i18n.t('Resetting the password ... '))
-      this.$store.dispatch('user/resetPassword', { email: this.email }).then((response) => {
+      this.$store.dispatch('user/forgotPassword', { email: this.email }).then((response) => {
         this.$bus.$emit('notification-progress-stop')
         if (response.message_type === 'success') {
           this.passwordSent = true
         } else {
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
-            message: i18n.t(response.result) || i18n.t('Error while sending reset password e-mail'),
+            message: i18n.t(response.message) || i18n.t('Error while sending reset password e-mail'),
             action1: { label: i18n.t('OK'), action: 'close' }
           })
         }

@@ -45,7 +45,7 @@ const actions: ActionTree<UserState, RootState> = {
   /**
    * Send password reset link for specific e-mail
    */
-  resetPassword (context, { email }) {
+  forgotPassword (context, { email }) {
     return ProCcApi().forgotPassword({ email: email }).then((result) => { return result.data })
   },
   /**
@@ -88,13 +88,34 @@ const actions: ActionTree<UserState, RootState> = {
   },
 
   /**
+   * reset customer password user and return token
+   */
+  async resetPassword ({ commit, dispatch }, { password_reset_code, password }) {
+    console.log('BEFORE setCustomerPassword', password_reset_code, password)
+    // Edited by shabbir for login customer in procc
+    const resp = await ProCcApi().resetPassword({password_reset_code, password})
+    console.log(resp.data)
+    if (resp.data.message_type === 'success' && !isUndefined(resp.data.token) && resp.data.token) {
+      try {
+        await dispatch('resetUserInvalidateLock', {}, { root: true })
+        commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: resp.data.user })
+        await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+      } catch (err) {
+        await dispatch('clearCurrentUser')
+        throw new Error(err)
+      }
+    }
+    return resp.data
+  },
+
+  /**
    * register user and return user profile and current token
    */
   async register ({ commit, dispatch }, { password, ...customer }) {
     // Edited by shabbir for save customer in procc
     return ProCcApi().createVSFCustomer({ password, ...customer }).then(async (result) => {
       console.log('result', result)
-      if (!isUndefined(customer.requireLogin) && customer.requireLogin && result.data.message_type === 'success') {
+      if (!isUndefined(customer.requireLogin) && customer.requireLogin && result.data.message_type === 'success' && !isUndefined(result.data.token) && result.data.token) {
         try {
           await dispatch('resetUserInvalidateLock', {}, { root: true })
           commit(types.USER_TOKEN_CHANGED, { newToken: result.data.token, meta: result.data.user }) // TODO: handle the "Refresh-token" header
@@ -103,6 +124,7 @@ const actions: ActionTree<UserState, RootState> = {
           await dispatch('clearCurrentUser')
           throw new Error(err)
         }
+      } else if (result.data.message_type === 'success') {
         dispatch('handleResendVerificationEmail', {email: customer.email})
       } else {
         dispatch('notification/spawnNotification', {

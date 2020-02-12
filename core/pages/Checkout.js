@@ -405,6 +405,8 @@ export default {
           if (result.data.message_type === 'success') {
             this.procc_order_ids = result.data.order_ids
             this.ProCCOrderPayment(result.data.order_ids)
+          } else {
+            throw new Error(result.data.message)
           }
         }).catch(err => {
           Logger.error(err, 'Transaction was not Done!!')

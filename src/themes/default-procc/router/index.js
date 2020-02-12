@@ -10,6 +10,7 @@ const EmailVerification = () => import(/* webpackChunkName: "vsf-compare" */ 'th
 const ProCCTransactionDone = () => import(/* webpackChunkName: "vsf-transaction" */ 'theme/components/procc/ProCCTransactionDone.vue');
 const MyAccount = () => import(/* webpackChunkName: "vsf-my-account" */ 'theme/pages/MyAccount.vue');
 const Static = () => import(/* webpackChunkName: "vsf-static" */ 'theme/pages/Static.vue');
+const ResetPassword = () => import(/* webpackChunkName: "vsf-static" */ 'theme/components/procc/ResetPassword.vue');
 
 let routes = [
   { name: 'home', path: '/', component: Home, alias: '/pwa.html' },
@@ -47,6 +48,7 @@ let routes = [
   { name: 'product', path: '/p/:parentSku/:slug/:childSku', component: Product }, // :sku param can be marked as optional with ":sku?" (https://github.com/vuejs/vue-router/blob/dev/examples/route-matching/app.js#L16), but it requires a lot of work to adjust the rest of the site
   { name: 'category', path: '/c/:slug', component: Category },
   { name: 'cms-page', path: '/i/:slug', component: CmsPage },
+  { name: 'reset-password', path: '/reset-password/:code', component: ResetPassword },
   { name: 'page-not-found', path: '*', component: PageNotFound }
 ];
 

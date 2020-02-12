@@ -314,7 +314,7 @@ export default {
     },
     async changeEditModeFilter (filter) {
       const editedProduct = this.getEditedProduct(filter)
-      const maxQuantity = this.isDisabledInputs ? await this.getQuantity(editedProduct) : 0
+      const maxQuantity = this.isDisabledInputs ? 0 : await this.getQuantity(editedProduct)
       if (!maxQuantity) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
@@ -338,7 +338,7 @@ export default {
   watch: {
     isOnline: {
       async handler (isOnline) {
-        if (isOnline && this.isDisabledInputs) {
+        if (isOnline && !this.isDisabledInputs) {
           const maxQuantity = await this.getQuantity()
           this.maxQuantity = maxQuantity
         }

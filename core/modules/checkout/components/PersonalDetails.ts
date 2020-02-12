@@ -1,6 +1,7 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import { Logger } from '@vue-storefront/core/lib/logger'
+import i18n from '@vue-storefront/i18n'
 
 export const PersonalDetails = {
   name: 'PersonalDetails',
@@ -51,10 +52,11 @@ export const PersonalDetails = {
       } else {
         this.personalDetails.createAccount = false
       }
-      this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
-      this.isFilled = true
-      this.isValidationError = false
-      if (this.personalDetails.createAccount) { this.register() }
+      if (this.personalDetails.createAccount) { this.register() } else {
+        this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
+        this.isFilled = true
+        this.isValidationError = false
+      }
     },
     async register () {
       this.$bus.$emit('notification-progress-start', this.$t('Registering the account ...'));
@@ -68,7 +70,7 @@ export const PersonalDetails = {
           requireLogin: true
         });
         this.$bus.$emit('notification-progress-stop');
-        if (result.data.message_type === 'error') {
+        if (result.message_type === 'danger') {
           this.onFailure(result);
           // If error includes a word 'password', emit event that eventually focuses on a corresponding field
           if (result.result.includes(this.$t('password'))) {
@@ -79,7 +81,10 @@ export const PersonalDetails = {
             this.$bus.$emit('checkout-after-validationError', 'email-address')
           }
         } else {
-          this.onSuccess()
+          this.onSuccess(result.message)
+          this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
+          this.isFilled = true
+          this.isValidationError = false
         }
       } catch (err) {
         this.$bus.$emit('notification-progress-stop');
@@ -93,6 +98,13 @@ export const PersonalDetails = {
     },
     gotoAccount () {
       this.$bus.$emit('modal-show', 'modal-signup')
+    },
+    onSuccess (message) {
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'success',
+        message: i18n.t('You already registered and successfully login'),
+        action1: { label: this.$t('OK') }
+      })
     }
   },
   updated () {

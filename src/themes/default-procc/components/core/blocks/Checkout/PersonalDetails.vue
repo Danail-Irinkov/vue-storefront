@@ -184,7 +184,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <p class="h4 cl-accent text-c-dt">
+        <p class="h4 cl-accent text-c-dt" v-if="createAccount && !currentUser">
           {{ $t('or') }}
           <span
             class="link pointer"
