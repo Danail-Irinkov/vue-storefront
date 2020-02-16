@@ -1,10 +1,48 @@
 {
   "productBanners": [
     {
-      "title": "Black Winter Coat",
-      "subtitle": "warm, wool and polyester, fashion ",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/200113-5e1cfaa160c0622ca4a7f26a.jpg",
-      "link": "/p/DA0013/black-winter-coat",
+      "title": "Striped Leather Leggings",
+      "subtitle": "100% Polymer",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd5e1dbbcbcf09e4814471.jpg",
+      "link": "/p/DA008/striped-leather-leggings",
+      "category": [
+        {
+          "category_id": 157,
+          "name": "Get 4K",
+          "slug": "get-4k-157",
+          "path": "get-4k-157"
+        },
+        {
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five-155",
+          "path": "dev-five-155"
+        },
+        {
+          "category_id": 156,
+          "name": "Category 2.5-3",
+          "slug": "category-25-3-156",
+          "path": "category-25-3-156"
+        },
+        {
+          "category_id": 159,
+          "name": "products 8",
+          "slug": "products-8-159",
+          "path": "products-8-159"
+        },
+        {
+          "category_id": 158,
+          "name": "5 Products 2.6-a",
+          "slug": "5-products-26-a-158",
+          "path": "5-products-26-a-158"
+        }
+      ]
+    },
+    {
+      "title": "Pink Set ",
+      "subtitle": "2 piece, girly, stylish",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/200113-5e1cf08a6c817448d0e94a05.jpg",
+      "link": "/p/DA0012/pink-set",
       "category": [
         {
           "category_id": 234
@@ -21,47 +59,10 @@
       ]
     },
     {
-      "title": "Green off shoulder blouse",
-      "subtitle": "with buttons on the sleeves, cotton, off shoulder",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/200113-5e1c9d034185df1b9cbef704.jpg",
-      "link": "/p/DA0011/green-off-shoulder-blouse",
-      "category": [
-        {
-          "category_id": 239
-        },
-        {
-          "category_id": 156,
-          "name": "Category 2.5-3",
-          "slug": "category-25-3-156",
-          "path": "category-25-3-156"
-        }
-      ]
-    },
-    {
-      "title": "Stripe Pants",
-      "subtitle": "beige, stretchy, comfortable, cotton and elastane, ",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4d340ac1c960f68fc6f3c.jpg",
-      "link": "/p/DA001/stripe-pants",
-      "category": [
-        {
-          "category_id": 159,
-          "name": "products 8",
-          "slug": "products-8-159",
-          "path": "products-8-159"
-        },
-        {
-          "category_id": 153,
-          "name": "Dev3",
-          "slug": "dev3-153",
-          "path": "dev3-153"
-        }
-      ]
-    },
-    {
-      "title": "Pink Set ",
-      "subtitle": "2 piece, girly, stylish",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/200113-5e1cf08a6c817448d0e94a05.jpg",
-      "link": "/p/DA0012/pink-set",
+      "title": "Black Winter Coat",
+      "subtitle": "warm, wool and polyester, fashion ",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/200113-5e1cfaa160c0622ca4a7f26a.jpg",
+      "link": "/p/DA0013/black-winter-coat",
       "category": [
         {
           "category_id": 234
@@ -110,29 +111,28 @@
       ]
     },
     {
-      "title": "Striped Leather Leggings",
-      "subtitle": "100% Polymer",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd5e1dbbcbcf09e4814471.jpg",
-      "link": "/p/DA008/striped-leather-leggings",
+      "title": "Green off shoulder blouse",
+      "subtitle": "with buttons on the sleeves, cotton, off shoulder",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/200113-5e1c9d034185df1b9cbef704.jpg",
+      "link": "/p/DA0011/green-off-shoulder-blouse",
       "category": [
         {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k-157",
-          "path": "get-4k-157"
-        },
-        {
-          "category_id": 155,
-          "name": "Dev five",
-          "slug": "dev-five-155",
-          "path": "dev-five-155"
+          "category_id": 239
         },
         {
           "category_id": 156,
           "name": "Category 2.5-3",
           "slug": "category-25-3-156",
           "path": "category-25-3-156"
-        },
+        }
+      ]
+    },
+    {
+      "title": "Stripe Pants",
+      "subtitle": "beige, stretchy, comfortable, cotton and elastane, ",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4d340ac1c960f68fc6f3c.jpg",
+      "link": "/p/DA001/stripe-pants",
+      "category": [
         {
           "category_id": 159,
           "name": "products 8",
@@ -140,10 +140,10 @@
           "path": "products-8-159"
         },
         {
-          "category_id": 158,
-          "name": "5 Products 2.6-a",
-          "slug": "5-products-26-a-158",
-          "path": "5-products-26-a-158"
+          "category_id": 153,
+          "name": "Dev3",
+          "slug": "dev3-153",
+          "path": "dev3-153"
         }
       ]
     }
