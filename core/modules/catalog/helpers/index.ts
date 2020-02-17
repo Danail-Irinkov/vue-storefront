@@ -406,7 +406,7 @@ function _internalMapOptions (productOption) {
 }
 
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
-  // console.log('populateProductConfigurationAsync product: ', product)
+  console.log('populateProductConfigurationAsync product: ', product)
   console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant)
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
@@ -433,10 +433,10 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       let selectedOption = null
       if (selectedVariant.custom_attributes) {
         selectedOption = selectedVariant.custom_attributes.find((a) => { // this is without the "label"
-          return (a.attribute_code === attribute_code)
+          return (a.attribute_code.toString() === attribute_code.toString())
         })
       } else {
-        console.log('selectedVariant 2222: ', selectedVariant)
+        console.log('selectedVariant 2222: ', selectedVariant, '===', attribute_code, '===', selectedVariant[attribute_code])
         selectedOption = {
           attribute_code: attribute_code,
           value: selectedVariant[attribute_code]
@@ -444,6 +444,18 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         if (attribute_code === 'size') {
           selectedOption.label = selectedVariant.size_label // Added By Dan ProCC
         }
+        // Edited by shabbir for try to fix size issue
+
+        if (attribute_code === 'size') {
+          console.log('option.values', option.values)
+          console.log('selectedVariant[attribute_code]', selectedVariant[attribute_code])
+          let selected_size = option.values.find((s) => {
+            return (s.value_index.toString() === selectedVariant[attribute_code])
+          })
+          console.log('selected_size', selected_size)
+          selectedOption.label = selected_size.label // Added By Dan ProCC
+        }
+
         console.log('selectedOption 2222: ', selectedOption)
       }
       if (option.values && option.values.length && !selectedOption.label) { // Added label condition by Dan

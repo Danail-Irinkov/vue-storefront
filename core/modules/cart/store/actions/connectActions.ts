@@ -27,8 +27,7 @@ const connectActions = {
     const timeBypassCart = config.orders.directBackendSync || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)
 
     if (!config.cart.bypassCartLoaderForAuthorizedUsers || timeBypassCart) {
-      await dispatch('connect', { guestCart: false })
-
+      await dispatch('connect', { guestCart: true })
       if (!getters.getCoupon) {
         await dispatch('applyCoupon', coupon)
       }
