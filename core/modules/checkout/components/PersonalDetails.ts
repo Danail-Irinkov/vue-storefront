@@ -102,7 +102,7 @@ export const PersonalDetails = {
     onSuccess (message) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: i18n.t('You already registered and successfully login'),
+        message: i18n.t('You are already registered. You are now logged in :)'),
         action1: { label: this.$t('OK') }
       })
     }
