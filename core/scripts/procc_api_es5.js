@@ -10,7 +10,7 @@ const config = require('config')
 let jwt_token = require('../../config/jwt_es5')()
 console.log('jwt_token', jwt_token)
 // const jwt_token = require('@vue-storefront/config/jwt_es5')
-import SBuffer from 'safer-buffer'
+const SBuffer = require('safer-buffer')
 const Buffer = SBuffer.Buffer
 
 // const { isServer } = require('@vue-storefront/core/helpers')
