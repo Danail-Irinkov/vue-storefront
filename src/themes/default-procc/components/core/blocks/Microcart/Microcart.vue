@@ -146,6 +146,7 @@
         <instant-checkout v-if="isInstantCheckoutRegistered" class="no-outline button-full block brdr-none w-100 px10 py20 bg-cl-mine-shaft :bg-cl-th-secondary ripple weight-400 h4 cl-white sans-serif fs-medium mt20" />
       </div>
     </div>
+    <shipping-method v-if="loadShippingMethod" :store-brand-id="brandId" :is-active="true" />
   </div>
 </template>
 
@@ -154,14 +155,17 @@ import { mapGetters, mapActions } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 
+import ShippingMethod from 'theme/components/core/blocks/Checkout/ShippingMethod'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'
 import { registerModule } from '@vue-storefront/core/lib/modules'
+import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
 
 // import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ClearCartButton from 'theme/components/core/blocks/Microcart/ClearCartButton'
 import ClearGoToCheckoutBtnProCC from 'theme/components/core/blocks/Microcart/ClearGoToCheckoutBtnProCC' // Added by Dan
+import Checkout from '@vue-storefront/core/pages/Checkout' // Added by Dan
 import ButtonFull from 'theme/components/theme/ButtonFull'
 // import ButtonOutline from 'theme/components/theme/ButtonOutline'
 import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
@@ -182,12 +186,15 @@ export default {
     AccountIcon,
     InstantCheckout,
     OrderItems,
+    ShippingMethod, // Added by Dan
     MicrocartSummary
   },
   mixins: [
     VueOfflineMixin,
     EditMode,
     onEscapePress,
+    CartSummary, // Added by Dan
+    Checkout, // Added by Dan
     Microcart
   ],
   data () {

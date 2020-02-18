@@ -70,8 +70,8 @@ export default {
     OrderSummary,
     // OrderReview,
     CartSummary,
-    OrderFinalizedThankYou,
-    ShippingMethod
+    OrderFinalizedThankYou, // Added by ProCC
+    ShippingMethod // Added by ProCC
   },
   mixins: [Checkout],
   beforeCreate () {

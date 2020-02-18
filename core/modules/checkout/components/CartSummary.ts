@@ -64,6 +64,7 @@ export const CartSummary = {
       }
     },
     showShippingModel (brand_id) {
+      console.log('showShippingModel', brand_id)
       this.$bus.$emit('show-shipping-method-modal', brand_id)
     }
   }
