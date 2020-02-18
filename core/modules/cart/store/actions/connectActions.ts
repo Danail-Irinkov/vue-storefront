@@ -15,7 +15,7 @@ const connectActions = {
       await commit(types.CART_LOAD_CART_SERVER_TOKEN, null)
       await commit(types.CART_SET_ITEMS_HASH, null)
       // edited by shabbir for fix user account logout after place order issue
-      await dispatch('connect', { guestCart: true }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
+      await dispatch('connect', { guestCart: !config.orders.directBackendSync }) // guest cart when not using directBackendSync because when the order hasn't been passed to Magento yet it will repopulate your cart
     }
   },
   async disconnect ({ commit }) {
@@ -27,7 +27,7 @@ const connectActions = {
     const timeBypassCart = config.orders.directBackendSync || (Date.now() - lastCartBypassTs) >= (1000 * 60 * 24)
 
     if (!config.cart.bypassCartLoaderForAuthorizedUsers || timeBypassCart) {
-      await dispatch('connect', { guestCart: true })
+      await dispatch('connect', { guestCart: false })
       if (!getters.getCoupon) {
         await dispatch('applyCoupon', coupon)
       }

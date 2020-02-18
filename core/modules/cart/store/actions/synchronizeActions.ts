@@ -39,7 +39,7 @@ const synchronizeActions = {
       dispatch('sync', { forceClientState, dryRun: !serverMergeByDefault })
     } else {
       // Logger.info('Creating server cart token', 'cart')()
-      await dispatch('connect', { guestCart: true })
+      await dispatch('connect', { guestCart: false })
     }
   },
   /** @deprecated backward compatibility only */
