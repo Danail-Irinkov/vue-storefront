@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import config from 'config';
 import { isServer } from '@vue-storefront/core/helpers'
 import jwt_token from '@vue-storefront/config/jwt'
+import SBuffer from 'safer-buffer'
+const Buffer = SBuffer.Buffer
 
 export default (baseURL = '') => {
   baseURL = config.PROCC.URL + '/api/'
@@ -32,7 +34,10 @@ export default (baseURL = '') => {
   // JWT TOKEN MANAGEMENT
   let private_key = jwt_token.private_key
   if (process.env.NODE_APP_INSTANCE === 'kube') {
-    private_key = process.env.JWT_PRIVATE_KEY
+    /* eslint-disable */
+    let Buff = new Buffer.from(process.env.JWT_PRIVATE_KEY_1, 'base64')
+    private_key = Buff.toString('ascii')
+    /* eslint-disable */
   } else if (!isServer) { // Adding this case to avoid Breaking the Header Calculation flow, but not used for Browser API Calls
     private_key = '-----BEGIN RSA PRIVATE KEY-----\n' +
       'MIICXAIBAAKBgQDk6soMG1p8EnVHi5Q/AcS1Y/Kxw8cAuWWrnysj61WbZBnaeeoz\n' +
