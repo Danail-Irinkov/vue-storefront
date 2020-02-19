@@ -115,6 +115,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
           context.state.current_options[optionKey] = optionsAvailable
         }
       }
+      console.log('_filterChildrenByStockitem prod:', product)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
       if (totalOptions === 0) {
@@ -406,8 +407,8 @@ function _internalMapOptions (productOption) {
 }
 
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
-  console.log('populateProductConfigurationAsync product: ', product)
-  console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant)
+  console.log('populateProductConfigurationAsync product: ', product.size_label)
+  console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant.size_label)
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
       console.log('populateProductConfigurationAsync option', option)
@@ -436,7 +437,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
           return (a.attribute_code.toString() === attribute_code.toString())
         })
       } else {
-        console.log('selectedVariant 2222: ', selectedVariant, '===', attribute_code, '===', selectedVariant[attribute_code])
+        console.log('selectedVariant 2222: ', selectedVariant.size_label, '===', attribute_code, '===', selectedVariant[attribute_code])
         selectedOption = {
           attribute_code: attribute_code,
           value: selectedVariant[attribute_code]
@@ -449,11 +450,15 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         if (attribute_code === 'size') {
           console.log('option.values', option.values)
           console.log('selectedVariant[attribute_code]', selectedVariant[attribute_code])
+          console.log('selectedVariant[attribute_code] type ', typeof selectedVariant[attribute_code])
           let selected_size = option.values.find((s) => {
-            return (s.value_index.toString() === selectedVariant[attribute_code])
+            return (s.value_index === selectedVariant[attribute_code])
           })
           console.log('selected_size', selected_size)
-          selectedOption.label = selected_size.label // Added By Dan ProCC
+          if(selected_size && selected_size.label)
+            selectedOption.label = selected_size.label // Added By Dan ProCC
+          else if (option.values && option.values[0] && option.values[0].label)
+            selectedOption.label = option.values[0].label // Added By Dan ProCC
         }
 
         console.log('selectedOption 2222: ', selectedOption)
@@ -484,42 +489,42 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       }
     }
   }
-  console.log('populateProductConfigurationAsync END: ', selectedVariant)
+  console.log('populateProductConfigurationAsync END: ', selectedVariant.size_label)
   return selectedVariant
 }
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
-  // console.log('findConfigurableChildAsync product1', product)
-  if (product === null) product = context.getters.getCurrentProduct
+  console.log('findConfigurableChildAsync product1', product)
+  if (product === null) product = context.getters.getCurrentProduct // Added by Dan, maybe not needed
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
+  const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0) // Added by Dan
+  console.log('!!!!!!!!!!!!!hasConfigurableChildren', hasConfigurableChildren)// Added by Dan
+  console.log('!!!!!!!!!!!!!hasConfigurableOptions', hasConfigurableOptions)// Added by Dan
 
-  // console.log('findConfigurableChildAsync product2', product)
-  // console.log('findConfigurableChildAsync configuration', configuration)
-  const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0)
-
-  if (hasConfigurableChildren || hasConfigurableOptions) {
+  if (hasConfigurableChildren || hasConfigurableOptions) {// EDITED  by Dan
+  if (hasConfigurableChildren) {// EDITED  by Dan
     // handle custom_attributes for easier comparing in the future
-    if (hasConfigurableChildren) {
-      product.configurable_children.forEach((child) => {
-        let customAttributesAsObject = {}
-        if (child.custom_attributes) {
-          child.custom_attributes.forEach((attr) => {
-            customAttributesAsObject[attr.attribute_code] = attr.value
-          })
-          // add values from custom_attributes in a different form
-          Object.assign(child, customAttributesAsObject)
-        }
-      })
-    }
+    product.configurable_children.forEach((child) => {
+      let customAttributesAsObject = {}
+      if (child.custom_attributes) {
+        child.custom_attributes.forEach((attr) => {
+          customAttributesAsObject[attr.attribute_code] = attr.value
+        })
+        // add values from custom_attributes in a different form
+        Object.assign(child, customAttributesAsObject)
+      }
+    })
+  }
     // find selected variant
     let desiredProductFound = false
     // Edited By dan to allow for not synced simple products from M2 - ProCC
     let selectedVariant
-    console.log('!!!!!!!!!!!!!hasConfigurableChildren', hasConfigurableChildren)
-    if (hasConfigurableChildren) {
+    if (false && hasConfigurableChildren) { // DISABLED BY DAN PROCC (( NEED TO ENABLE THIS IF WE IMPLEMENT REAL VARIANTS ))
+      console.log('!!!!!!!!!!!!!findConfigurableChildAsync 1')
       selectedVariant = findConfigurableChildAsync({ product, configuration, availabilityCheck: true })
-    } else {
+    } else {// DISABLED BY DAN PROCC
+      console.log('!!!!!!!!!!!!!hasConfigurableChildren ELSE flow')
       selectedVariant = {...product}
       if (configuration.size && configuration.size.id && configuration.size.label && configuration.size.label !== ' ') {
         if (selectedVariant.sku && selectedVariant.sku.indexOf('-' + configuration.size.label) === -1) {
@@ -527,14 +532,19 @@ export function configureProductAsync (context, { product, configuration, select
         }
         selectedVariant.size = configuration.size.id
         selectedVariant.size_label = configuration.size.label
+        console.log('!!!!!!!!!!!!!configuration.size.label', configuration.size.label)
+        console.log('!!!!!!!!!!!!!selectedVariant.size_label', selectedVariant.size_label)
       }
-    }
+    }// DISABLED BY DAN PROCC
+    console.log('!!!!!!!!!!!!!product', product)
     console.log('!!!!!!!!!!!!!configuration.size', configuration.size)
     console.log('!!!!!!!!!!!!!selectedVariant.sku', selectedVariant.sku)
     console.log('!!!!!!!!!!!!!selectedVariant.size', selectedVariant.size)
+    console.log('!!!!!!!!!!!!!selectedVariant.size_label', selectedVariant.size_label)
     // Edited By dan to allow for not synced simple products from M2 - ProCC - END
     if (!selectedVariant) {
       if (fallbackToDefaultWhenNoAvailable) {
+        console.log('!!!!!!!!!!!!!findConfigurableChildAsync 2')
         selectedVariant = findConfigurableChildAsync({ product, selectDefaultChildren: true, availabilityCheck: true }) // return first available child
         desiredProductFound = false
       } else {
@@ -546,6 +556,7 @@ export function configureProductAsync (context, { product, configuration, select
 
     if (selectedVariant) {
       if (!desiredProductFound && selectDefaultVariant /** don't change the state when no selectDefaultVariant is set */) { // update the configuration
+        console.log('populateProductConfigurationAsync configureProductAsync')
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
         configuration = context.state.current_configuration
       }

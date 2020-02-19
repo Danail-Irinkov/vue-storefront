@@ -63,8 +63,9 @@ export const CartSummary = {
         cost: ''
       }
     },
-    showShippingModel (brand_id) {
+    showShippingModel (brand_id, isDisabledInputs = false) {
       console.log('showShippingModel', brand_id)
+      if(!isDisabledInputs) // Added By Dan to disable courier input at ThankYOu page Post sale
       this.$bus.$emit('show-shipping-method-modal', brand_id)
     }
   }
