@@ -15,14 +15,14 @@
     <div v-for="(segment, index) in totals" :key="index" class="row pl20 pr20 py5" v-if="segment.code === 'shipping'">
       <div class="col-xs cl-accent">
         {{ segment.title }}
-        <ul style="font-size: 14px">
-          <li v-for="data in segment.value" :key="data.id">
-            {{ data.name }} ({{ data.cost | price }})
-          </li>
+        <ul style="font-size: 14px" v-if="segment.extension_attributes">
+            <li v-for="(cost,name) in segment.extension_attributes" :key="name">
+              {{ name }} ({{ cost | price }})
+            </li>
         </ul>
       </div>
-      <div v-if="segment.total != null" class="col-xs align-right cl-accent h4">
-        {{ segment.total | price }}
+      <div v-if="segment.value != null" class="col-xs align-right cl-accent h4">
+        {{ segment.value | price }}
       </div>
     </div>
 
