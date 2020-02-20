@@ -54,6 +54,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
     }
 
     const cache = StorageManager.get('elasticCache') // switch to appcache?
+    console.log("quickSearchByQuery cache",cache)
     let servedFromCache = false
     const cacheKey = sha3_224(JSON.stringify(Request))
     const benchmarkTime = new Date()

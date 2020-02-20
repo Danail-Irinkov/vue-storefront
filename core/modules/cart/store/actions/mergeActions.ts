@@ -32,7 +32,11 @@ const mergeActions = {
   },
   async updateServerItem ({ getters, rootGetters, commit, dispatch }, { clientItem, serverItem, updateIds }) {
     const diffLog = createDiffLog()
-    const cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds)
+    let cartItem = createCartItemForUpdate(clientItem, serverItem, updateIds)
+    if(cartItem && cartItem.sku)
+      cartItem.sku = cartItem.parentSku || cartItem.sku.split("-")[0]
+
+    console.log("cartItem.sku", cartItem.sku)
     const event = await CartService.updateItem(getters.getCartToken, cartItem)
     console.timeEnd('updateServerItem0')
     const wasUpdatedSuccessfully = event.resultCode === 200
@@ -130,7 +134,6 @@ const mergeActions = {
   },
   async mergeClientItems ({ dispatch }, { clientItems, serverItems, forceClientState, dryRun }) {
     const diffLog = createDiffLog()
-
     for (const clientItem of clientItems) {
       try {
         const mergeClientItemDiffLog = await dispatch('mergeClientItem', { clientItem, serverItems, forceClientState, dryRun })
@@ -143,8 +146,8 @@ const mergeActions = {
     return diffLog
   },
   async mergeServerItem ({ dispatch, getters }, { clientItems, serverItem, forceClientState, dryRun }) {
-    //    console.log('mergeActions.ts mergeServerItem clientItems', clientItems)
-  //  console.log('mergeActions.ts mergeServerItem serverItem', serverItem)
+    console.log('mergeActions.ts mergeServerItem clientItems', clientItems)
+   console.log('mergeActions.ts mergeServerItem serverItem', serverItem)
     const diffLog = createDiffLog()
     const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
     if (clientItem) return diffLog
@@ -166,7 +169,7 @@ const mergeActions = {
     }
 
     const productToAdd = await dispatch('getProductVariant', { serverItem })
-
+console.log("productToAdd",productToAdd)
     if (productToAdd) {
       dispatch('addItem', { productToAdd, forceServerSilence: true })
       Logger.debug('Product variant for given serverItem has not found', 'cart', serverItem)()

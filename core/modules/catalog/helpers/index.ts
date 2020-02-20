@@ -5,6 +5,7 @@ import omit from 'lodash-es/omit'
 import remove from 'lodash-es/remove'
 import toString from 'lodash-es/toString'
 import union from 'lodash-es/union'
+import isUndefined from 'lodash-es/isUndefined'
 // TODO: Remove this dependency
 import { optionLabel } from './optionLabel'
 import i18n from '@vue-storefront/i18n'
@@ -346,7 +347,7 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
     const configurable_item_options = product_option.extension_attributes.configurable_item_options
     for (const configKey of Object.keys(configuration)) {
       const configOption = configuration[configKey]
-      if (configOption.attribute_code && configOption.attribute_code !== 'price') {
+      if (configOption && !isUndefined(configOption.attribute_code) && configOption.attribute_code  && configOption.attribute_code !== 'price') {
         const option = product.configurable_options.find(co => {
           return (co.attribute_code === configOption.attribute_code)
         })

@@ -11,7 +11,7 @@ const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateId
     product_option: clientItem.product_option,
     procc_product_id: clientItem.procc_product_id, // Edited by shabbir for save product id in cart session
     item_id: clientItem.id,
-    product_type: 'simple',
+    product_type: clientItem.type_id,
     name:clientItem.name,
     price:clientItem.price
   } as any as CartItem
