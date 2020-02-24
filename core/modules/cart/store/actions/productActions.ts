@@ -7,8 +7,7 @@ const productActions = {
       query = query.applyFilter({key: 'configurable_children.sku', value: {'eq': serverItem.sku}})
 
       const { items } = await dispatch('product/list', { query, start: 0, size: 1, updateState: false }, { root: true })
-
-      return items.length >= 1 ? { sku: items[0].sku, childSku: serverItem.sku } : null
+      return items.length >= 1 ? { sku: items[0].parentSku, childSku: serverItem.sku } : null
     }
 
     return { sku: serverItem.sku }
@@ -16,9 +15,9 @@ const productActions = {
   async getProductVariant ({ dispatch }, { serverItem }) {
     try {
       const options = await dispatch('findProductOption', { serverItem })
-      console.log("getProductVariant options",options)
+      console.log('getProductVariant options', options)
       const singleProduct = await dispatch('product/single', { options, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
-      console.log("getProductVariant singleProduct",singleProduct)
+      console.log('getProductVariant singleProduct', singleProduct)
       return {
         ...singleProduct,
         server_item_id: serverItem.item_id,
@@ -27,7 +26,7 @@ const productActions = {
         product_option: serverItem.product_option || singleProduct.product_option
       }
     } catch (e) {
-      console.log("getProductVariant e",e)
+      console.log('getProductVariant e', e)
       return null
     }
   }

@@ -40,8 +40,8 @@ const itemActions = {
   },
   async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
     const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
-    console.log('itemActions.ts addItem productToAdd cartItem', cartItem)
-    console.log('itemActions.ts addItem productToAdd2', prepareProductsToAdd(cartItem))
+    // console.log('itemActions.ts addItem productToAdd cartItem', cartItem)
+    // console.log('itemActions.ts addItem productToAdd2', prepareProductsToAdd(cartItem))
     commit(types.CART_ADDING_ITEM, { isAdding: true })
     const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
     commit(types.CART_ADDING_ITEM, { isAdding: false })
@@ -58,8 +58,8 @@ const itemActions = {
     let productIndex = 0
     const diffLog = createDiffLog()
     for (let product of productsToAdd) {
-      console.log('addItems check sproductsToAddku:', productsToAdd, product)
-      console.log('addItems check sku:', product.sku, encodeURIComponent(product.sku))
+      // console.log('addItems check sproductsToAddku:', productsToAdd, product)
+      // console.log('addItems check sku:', product.sku, encodeURIComponent(product.sku))
       const errors = validateProduct(product)
       diffLog.pushNotifications(notifications.createNotifications({ type: 'error', messages: errors }))
 

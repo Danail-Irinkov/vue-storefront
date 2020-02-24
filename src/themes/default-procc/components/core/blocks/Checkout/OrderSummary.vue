@@ -16,9 +16,9 @@
       <div class="col-xs cl-accent">
         {{ segment.title }}
         <ul style="font-size: 14px" v-if="segment.extension_attributes">
-            <li v-for="(cost,name) in segment.extension_attributes" :key="name">
-              {{ name }} ({{ cost | price }})
-            </li>
+          <li v-for="(cost,name) in segment.extension_attributes" :key="name">
+            {{ name }} ({{ cost | price }})
+          </li>
         </ul>
       </div>
       <div v-if="segment.value != null" class="col-xs align-right cl-accent h4">

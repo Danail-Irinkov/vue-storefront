@@ -191,7 +191,7 @@ const actions: ActionTree<UserState, RootState> = {
     }
     if (!resolvedFromCache && resp.status === 200 && resp.data.message_type === 'success') {
       EventBus.$emit('user-after-loggedin', resp.data.user)
-      dispatch('cart/authorize', {}, { root: true })  // temporary comment by shabbir
+      dispatch('cart/authorize', {}, { root: true }) // temporary comment by shabbir
       return resp.data
     }
   },

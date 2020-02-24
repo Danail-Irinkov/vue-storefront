@@ -348,11 +348,11 @@ const actions: ActionTree<ProductState, RootState> = {
   async findProducts (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', excludeFields = null, includeFields = null, configuration = null, populateRequestCacheTags = true }) {
     const isCacheable = canCache({ includeFields, excludeFields })
     const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
-    console.log("findProducts ==", query, start, size, entityType, sort, excludeFields, includeFields)
+    console.log('findProducts ==', query, start, size, entityType, sort, excludeFields, includeFields)
     const resp = await quickSearchByQuery({ query, start, size, entityType, sort, excludeFields: excluded, includeFields: included })
-    console.log("findProducts == resp", resp)
+    console.log('findProducts == resp', resp)
     const products = await context.dispatch('configureLoadedProducts', { products: resp, isCacheable, cacheByKey, populateRequestCacheTags, configuration })
-    console.log("findProducts == products", products)
+    console.log('findProducts == products', products)
 
     return products
   },
@@ -440,13 +440,13 @@ const actions: ActionTree<ProductState, RootState> = {
       const syncProducts = () => {
         let searchQuery = new SearchQuery()
         searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
-        console.log("searchQuery", searchQuery)
+        console.log('searchQuery', searchQuery)
         return context.dispatch('list', { // product list syncs the platform price on it's own
           query: searchQuery,
           prefetchGroupProducts: false,
           updateState: false
         }).then((res) => {
-          console.log("res",res)
+          console.log('res', res)
           if (res && res.items && res.items.length) {
             let prd = res.items[0]
             const _returnProductNoCacheHelper = (subresults) => {
@@ -516,7 +516,6 @@ const actions: ActionTree<ProductState, RootState> = {
           }
         })
       }
-      // debugger
       if (!skipCache) {
         getProductFromCache()
       } else {

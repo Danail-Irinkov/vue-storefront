@@ -10,7 +10,9 @@ export default {
   methods: {
     openEditMode () {
       this.$store.dispatch('themeCart/configureProduct', { product: this.product }).then(() => {
+        console.log('this.getSelectedFilters', this.getSelectedFilters)
         const selectedOptions = Object.assign({}, this.getSelectedFilters)
+        console.log('selectedOptions', selectedOptions)
         this.$store.dispatch('themeCart/openEditMode', { product: this.product, selectedOptions })
       })
     },
