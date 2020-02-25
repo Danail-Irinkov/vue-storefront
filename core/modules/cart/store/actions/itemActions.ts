@@ -58,11 +58,10 @@ const itemActions = {
     let productIndex = 0
     const diffLog = createDiffLog()
     for (let product of productsToAdd) {
-      // console.log('addItems check sproductsToAddku:', productsToAdd, product)
-      // console.log('addItems check sku:', product.sku, encodeURIComponent(product.sku))
+       console.log('addItems check sproductsToAddku:', productsToAdd, product)
+       console.log('addItems check sku:', product.sku, encodeURIComponent(product.sku))
       const errors = validateProduct(product)
       diffLog.pushNotifications(notifications.createNotifications({ type: 'error', messages: errors }))
-
       if (errors.length === 0) {
         const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
 

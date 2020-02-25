@@ -96,6 +96,7 @@ export default (baseURL = '') => {
   const setCustomerPassword = (data) => api.post(`customer/setCustomerPassword`, data)
   const forgotPassword = (data) => api.post(`auth/forgotPassword`, data)
   const resetPassword = (data) => api.post(`auth/resetPassword`, data)
+  const saveCartShippingMethods = (data) => api.post(`cart/saveCartShippingMethods`, data)
 
   return {
     addNewOrder,
@@ -119,6 +120,7 @@ export default (baseURL = '') => {
     resendVerificationEmail,
     setCustomerPassword,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    saveCartShippingMethods
   }
 }

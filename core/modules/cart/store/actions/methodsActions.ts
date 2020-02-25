@@ -27,7 +27,9 @@ const methodsActions = {
     }
   },
   // created method for update cart selected shipping methods
-  async updateCartSelectedShippingMethods ({ commit }, updateData) {
+  async updateCartSelectedShippingMethods ({ commit, getters, rootGetters }, updateData) {
+    if(getters.getCartToken)
+      ProCcApi().saveCartShippingMethods({cartId:getters.getCartToken,shippingMethods:updateData})
     commit(types.CART_UPD_SELECTED_SHIPPING_METHODS, updateData)
   },
   // created method for set shipping method and selected shipping methods in checkout
