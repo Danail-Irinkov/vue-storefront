@@ -202,7 +202,7 @@
         "index": "vue_storefront_catalog_dev"
       },
       "tax": {
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -210,7 +210,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",

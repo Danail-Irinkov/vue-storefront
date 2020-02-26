@@ -1,7 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
-import toString from 'lodash-es/toString'
-import find from 'lodash-es/find';
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
@@ -76,15 +74,17 @@ export const Shipping = {
       this.shipToMyAddress = this.hasShippingDetails()
     },
     checkSelectedShippingMethod () {
-      console.log('this.getSelectedShippingMethods1', this.getSelectedShippingMethods)
+      //console.log('this.getSelectedShippingMethods1', this.getSelectedShippingMethods)
       for (let brand_id in this.getSelectedShippingMethods) {
         if (this.getSelectedShippingMethods[brand_id] && this.getSelectedShippingMethods[brand_id]._id) { this.selectedShippingMethods[brand_id] = this.getSelectedShippingMethods[brand_id]._id }
       }
-      console.log('this.getSelectedShippingMethods2', this.getSelectedShippingMethods)
+      this.$forceUpdate()
+      //console.log('this.getSelectedShippingMethods2', this.getSelectedShippingMethods)
     },
     saveShippingMethod (brand_id) {
       this.$bus.$emit('modal-hide', 'modal-shipping-method')
       this.$bus.$emit('checkout-after-shippingMethodChanged', this.selectedShippingMethods)
+      this.checkSelectedShippingMethod()
     },
     onAfterShippingSet (receivedData) {
       this.shipping = receivedData

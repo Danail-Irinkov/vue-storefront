@@ -17,7 +17,9 @@
           </a>
         </div>
         <div class="store-contact text shipping-method pointer" v-if="getSelectedShippingMethods[brandId]" @click="showShippingModel(brandId)">
-          {{ getSelectedShippingMethods[brandId].name }} | {{ getSelectedShippingMethods[brandId].cost | price }}
+          {{ getSelectedShippingMethods[brandId].name }} |&nbsp;
+          <span v-if="getSelectedShippingMethods[brandId].cost && getSelectedShippingMethods[brandId].cost > 0">{{ getSelectedShippingMethods[brandId].cost | price }}</span>
+          <span v-else>??</span>
           <button class="btn normal-icon-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 -5 73 70" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" data-darkreader-inline-fill="" data-darkreader-inline-stroke="" style="--darkreader-inline-fill:none; --darkreader-inline-stroke:#d4d1cc;"><g stroke-linecap="round"><path d="M17 15h26c2.3 0 2.1 1.6 1.7 3.1S41 33 41 33h10.1l4-2 3.9 2v8c0 1.3-.5 2-2 2h-8M9 43h6.6m9.4 0h14.6" /><path d="M43.6 23H49l6.1 8M31 23H9m18 8H5" /></g><path d="M24.8 44a6.9 6.9 0 0 1-6.2 5c-2.7 0-4.2-2.2-3.4-5a6.9 6.9 0 0 1 6.2-5c2.6 0 4.2 2.2 3.4 5zm24 0a6.9 6.9 0 0 1-6.2 5c-2.7 0-4.2-2.2-3.4-5a6.9 6.9 0 0 1 6.2-5c2.6 0 4.2 2.2 3.4 5z" /></svg>
           </button>
@@ -55,12 +57,10 @@
 <script>
 import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
 import CheckoutProduct from './Product'
-// import ShippingMethod from './ShippingMethod'
 
 export default {
   components: {
     CheckoutProduct
-    // ShippingMethod
   },
   props: {
     brandId: {

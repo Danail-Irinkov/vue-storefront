@@ -15,7 +15,7 @@
               {{ $t('Cost') }}
             </th>
             <th>
-              {{ $t('tracking') }}
+              {{ $t('Tracking') }}
             </th>
             <th>
               {{ $t('Carrier') }}
@@ -86,8 +86,6 @@ export default {
     this.$nextTick(() => {
       this.$bus.$emit('modal-show', 'modal-shipping-method')
     })
-  },
-  methods: {
   },
   components: {
     Modal,

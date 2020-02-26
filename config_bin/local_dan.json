@@ -216,7 +216,7 @@
         "index": "vue_storefront_catalog_dev"
       },
       "tax": {
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -224,7 +224,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -245,7 +245,7 @@
         "index": "vue_storefront_catalog_judy"
       },
       "tax": {
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -253,7 +253,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -279,7 +279,7 @@
         "index": "vue_storefront_catalog_aa"
       },
       "tax": {
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -287,7 +287,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -592,7 +592,7 @@
     "totals_endpoint": "http://localhost:8081/api/cart/totals?token={{token}}&cartId={{cartId}}",
     "paymentmethods_endpoint": "http://localhost:8081/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
     "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-    "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+    "shippinginfo_endpoint": "http://localhost:8081/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
     "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
     "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
     "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"

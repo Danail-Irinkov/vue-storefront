@@ -13,13 +13,13 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
       code: 'subtotal_incl_tax',
       title: i18n.t('Subtotal incl. tax'),
       value: sumBy(cartItems, (p) => p.qty * p.price_incl_tax),
-      total: 0
+      extension_attributes:null
     },
     {
       code: 'grand_total',
       title: i18n.t('Grand total'),
       value: sumBy(cartItems, (p) => p.qty * p.price_incl_tax) + shippingTax,
-      total: 0
+      extension_attributes:null
     }
   ]
 
@@ -28,15 +28,16 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
       code: 'payment',
       title: i18n.t(paymentMethod.title),
       value: paymentMethod.cost_incl_tax,
-      total: 0
+      extension_attributes:null
     })
   }
   if (shippingMethod) {
     totalsArray.push({
       code: 'shipping',
       title: i18n.t('Shipping Total Cost'),
-      value: totalByShippingMethod,
-      total: shippingTax
+      value: shippingTax,
+      extension_attributes:totalByShippingMethod,
+
     })
   }
   return totalsArray
@@ -47,9 +48,6 @@ function getShippingCost (shippingMethods, cartItems) {
   let cartItemByBrand = null
   for (let brand_id in shippingMethods) {
     method = shippingMethods[brand_id]
-    console.log('shippingMethods', shippingMethods)
-    console.log('getShippingCost method', method)
-    console.log('getShippingCost brand_id', brand_id)
     if (method) {
       cartItemByBrand = filter(cartItems, (product) => { return product.procc_brand_id === brand_id })
       total_shipping.push({name: method.name, cost: cartItemByBrand.length * method.cost})

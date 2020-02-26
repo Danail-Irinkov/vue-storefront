@@ -348,11 +348,11 @@ const actions: ActionTree<ProductState, RootState> = {
   async findProducts (context, { query, start = 0, size = 50, entityType = 'product', sort = '', cacheByKey = 'sku', excludeFields = null, includeFields = null, configuration = null, populateRequestCacheTags = true }) {
     const isCacheable = canCache({ includeFields, excludeFields })
     const { excluded, included } = getOptimizedFields({ excludeFields, includeFields })
-    console.log('findProducts ==', query, start, size, entityType, sort, excludeFields, includeFields)
+    // console.log('findProducts ==', query, start, size, entityType, sort, excludeFields, includeFields)
     const resp = await quickSearchByQuery({ query, start, size, entityType, sort, excludeFields: excluded, includeFields: included })
-    console.log('findProducts == resp', resp)
+    // console.log('findProducts == resp', resp)
     const products = await context.dispatch('configureLoadedProducts', { products: resp, isCacheable, cacheByKey, populateRequestCacheTags, configuration })
-    console.log('findProducts == products', products)
+    // console.log('findProducts == products', products)
 
     return products
   },

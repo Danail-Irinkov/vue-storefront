@@ -66,9 +66,6 @@ const synchronizeActions = {
         clientItems,
         forceClientState: shouldUpdateClientState
       })
-      if(result.shippingMethods){
-        console.log("sync result.shippingMethods",result.shippingMethods)
-      }
       cartHooksExecutors.afterSync(diffLog)
       //console.timeEnd('SyncCartActionTime')
       return diffLog

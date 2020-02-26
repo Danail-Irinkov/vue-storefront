@@ -16,8 +16,8 @@
       <div class="col-xs cl-accent">
         {{ segment.title }}
         <ul style="font-size: 14px" v-if="segment.extension_attributes">
-          <li v-for="(cost,name) in segment.extension_attributes" :key="name">
-            {{ name }} ({{ cost | price }})
+          <li v-for="(data) in segment.extension_attributes" :key="data.name">
+            {{ data.name }} ({{ data.cost | price }})
           </li>
         </ul>
       </div>

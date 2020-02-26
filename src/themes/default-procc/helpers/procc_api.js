@@ -80,7 +80,7 @@ export default (baseURL = '') => {
   const getVSFSizeChartById = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
   const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
   const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
-  const getShippingMethodByBrand = (brand_ids) => api.post(`shipping-method/getShippingMethodByBrand`, {brand_ids})
+  const getShippingMethodByBrand = (data) => api.post(`shipping-method/getShippingMethodByBrand`, data)
   const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
   const checkProductQty = (data, brandId) => api.post(`product/checkProductQty`, data, getHeader(brandId))
   // Customer
@@ -96,7 +96,6 @@ export default (baseURL = '') => {
   const setCustomerPassword = (data) => api.post(`customer/setCustomerPassword`, data)
   const forgotPassword = (data) => api.post(`auth/forgotPassword`, data)
   const resetPassword = (data) => api.post(`auth/resetPassword`, data)
-  const saveCartShippingMethods = (data) => api.post(`cart/saveCartShippingMethods`, data)
 
   return {
     addNewOrder,
@@ -120,7 +119,6 @@ export default (baseURL = '') => {
     resendVerificationEmail,
     setCustomerPassword,
     forgotPassword,
-    resetPassword,
-    saveCartShippingMethods
+    resetPassword
   }
 }

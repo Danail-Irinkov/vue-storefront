@@ -106,8 +106,8 @@ const mergeActions = {
     return diffLog
   },
   async mergeClientItem ({ dispatch }, { clientItem, serverItems, forceClientState, dryRun }) {
-    console.log('mergeActions.ts mergeClientItem clientItem', clientItem)
-    console.log('mergeActions.ts mergeClientItem serverItem', serverItems)
+    // console.log('mergeActions.ts mergeClientItem clientItem', clientItem)
+    // console.log('mergeActions.ts mergeClientItem serverItem', serverItems)
     const serverItem = serverItems.find(itm => productsEquals(itm, clientItem))
     const diffLog = await dispatch('synchronizeServerItem', { serverItem, clientItem, forceClientState, dryRun })
 
@@ -142,8 +142,8 @@ const mergeActions = {
     return diffLog
   },
   async mergeServerItem ({ dispatch, getters }, { clientItems, serverItem, forceClientState, dryRun }) {
-    console.log('mergeActions.ts mergeServerItem clientItems', clientItems)
-    console.log('mergeActions.ts mergeServerItem serverItem', serverItem)
+    // console.log('mergeActions.ts mergeServerItem clientItems', clientItems)
+    // console.log('mergeActions.ts mergeServerItem serverItem', serverItem)
     const diffLog = createDiffLog()
     const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
     if (clientItem) return diffLog

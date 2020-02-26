@@ -1,6 +1,7 @@
 import * as types from '@vue-storefront/core/modules/cart/store/mutation-types'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { CartService } from '@vue-storefront/core/data-resolver'
+import isEmpty from 'lodash/isEmpty'
 import {
   prepareShippingInfoForUpdateTotals,
   createOrderData,
@@ -59,7 +60,7 @@ const totalsActions = {
       // console.log('syncTotals shippingMethodsData' , shippingMethodsData)
       if (shippingMethodsData.country) {
         return dispatch('overrideServerTotals', {
-          hasShippingInformation: shippingMethodsData.method_code || shippingMethodsData.carrier_code,
+          hasShippingInformation: shippingMethodsData.selectedShippingMethods && !isEmpty(shippingMethodsData.selectedShippingMethods),
           addressInformation: createShippingInfoData(shippingMethodsData)
         })
       }
