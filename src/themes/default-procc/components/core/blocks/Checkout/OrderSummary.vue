@@ -1,5 +1,5 @@
 <template>
-  <div v-if="productsInCart && productsInCart.length" class="checkout pt10 serif cl-accent">
+  <div v-if="cartItems && cartItems.length > 0" class="checkout pt10 serif cl-accent">
     <h3 class="order-sum pl20 pr20">
       Order Summary
     </h3>
@@ -42,14 +42,14 @@
 </template>
 
 <script>
-import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
-// import Product from './Product'
-
+import { mapGetters } from 'vuex'
 export default {
-  components: {
-    // Product
-  },
-  mixins: [CartSummary]
+  computed: {
+    ...mapGetters({
+      totals: 'cart/getTotals',
+      cartItems: 'cart/getCartItems'
+    })
+  }
 }
 </script>
 

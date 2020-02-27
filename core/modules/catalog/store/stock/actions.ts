@@ -23,8 +23,8 @@ const actions: ActionTree<StockState, RootState> = {
         }
         dispatch('cart/stockSync', product_details, { root: true })
         // Edited for set product available qty. in vuex by shabbir
-        console.log('queueCheck result.data.product', result.data.product.available_qty)
-        console.log('queueCheck product.procc_product_id', product.procc_product_id)
+        // console.log('queueCheck result.data.product', result.data.product.available_qty)
+        // console.log('queueCheck product.procc_product_id', product.procc_product_id)
 
         let product_data = result.data.product
         let quantities = product_data.available_qty

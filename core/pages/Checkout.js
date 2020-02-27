@@ -151,7 +151,6 @@ export default {
       }
     },
     async onAfterShippingMethodChanged (shippingMethods) {
-      // await this.$store.dispatch('cart/syncTotals', { forceServerSync: true, methodsData: payload })
       let selectedshippingMethods = {}
       for (let brand_id in shippingMethods) {
         selectedshippingMethods[brand_id] = find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethods[brand_id] })
@@ -161,6 +160,7 @@ export default {
       await this.$store.dispatch('checkout/updateSelectedShippingMethods', selectedshippingMethods)
       await this.$store.dispatch('cart/updateCartSelectedShippingMethods', selectedshippingMethods)
       // this.shippingMethods = selectedshippingMethods
+      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
       this.$forceUpdate()
     },
     onBeforeShippingMethods (country) {
@@ -335,7 +335,7 @@ export default {
       this.order = {
         customer_user: this.$store.state.user.current ? this.$store.state.user.current._id : '', // edited by shabbir for get customer id
         customer_brand: this.$store.state.user.current && this.$store.state.user.current.user_type.active_brand ? this.$store.state.user.current.user_type.active_brand : '', // edited by shabbir for get customer brand
-        cart_id: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
+        cartId: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
         order_ids: this.procc_order_ids ? this.procc_order_ids : null, // Added by shabbir ProCC
         mp_transaction: this.mangopay_transaction_id ? this.mangopay_transaction_id : null, // Added by shabbir ProCC
@@ -348,7 +348,8 @@ export default {
             region: this.payment.state,
             region_id: this.payment.region_id ? this.payment.region_id : 0,
             country: this.payment.country,
-            street: [this.payment.streetAddress, this.payment.apartmentNumber],
+            streetNumber: this.payment.streetAddress,
+            streetName: this.payment.apartmentNumber,
             company: this.payment.company,
             telephone: this.payment.phoneNumber,
             postcode: this.payment.zipCode,
@@ -359,7 +360,7 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             vat_id: this.payment.taxId
           },
-          shipping_method_code: this.$store.state.cart.selectedShippingMethods ? this.$store.state.cart.selectedShippingMethods : {},
+          selected_shipping_methods: this.$store.state.cart.selectedShippingMethods ? this.$store.state.cart.selectedShippingMethods : {},
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
@@ -370,7 +371,8 @@ export default {
           region: this.shipping.state,
           region_id: this.shipping.region_id ? this.shipping.region_id : 0,
           country: this.shipping.country,
-          street: [this.shipping.streetAddress, this.shipping.apartmentNumber],
+          streetName: this.shipping.streetAddress,
+          streetNumber: this.shipping.apartmentNumber,
           company: 'NA', // TODO: Fix me! https://github.com/DivanteLtd/vue-storefront/issues/224
           telephone: this.shipping.phoneNumber,
           postcode: this.shipping.zipCode,

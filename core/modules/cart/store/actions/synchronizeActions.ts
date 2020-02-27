@@ -48,8 +48,8 @@ const synchronizeActions = {
     return dispatch('sync', { forceClientState, dryRun })
   },
   async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false }) {
-    //console.log('SyncCartActionTime Start')
-    //console.time('SyncCartActionTime')
+    // console.log('SyncCartActionTime Start')
+    // console.time('SyncCartActionTime')
 
     const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
@@ -67,7 +67,7 @@ const synchronizeActions = {
         forceClientState: shouldUpdateClientState
       })
       cartHooksExecutors.afterSync(diffLog)
-      //console.timeEnd('SyncCartActionTime')
+      // console.timeEnd('SyncCartActionTime')
       return diffLog
     }
 

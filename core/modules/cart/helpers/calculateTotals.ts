@@ -13,13 +13,13 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
       code: 'subtotal_incl_tax',
       title: i18n.t('Subtotal incl. tax'),
       value: sumBy(cartItems, (p) => p.qty * p.price_incl_tax),
-      extension_attributes:null
+      extension_attributes: null
     },
     {
       code: 'grand_total',
       title: i18n.t('Grand total'),
       value: sumBy(cartItems, (p) => p.qty * p.price_incl_tax) + shippingTax,
-      extension_attributes:null
+      extension_attributes: null
     }
   ]
 
@@ -28,7 +28,7 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
       code: 'payment',
       title: i18n.t(paymentMethod.title),
       value: paymentMethod.cost_incl_tax,
-      extension_attributes:null
+      extension_attributes: null
     })
   }
   if (shippingMethod) {
@@ -36,7 +36,7 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
       code: 'shipping',
       title: i18n.t('Shipping Total Cost'),
       value: shippingTax,
-      extension_attributes:totalByShippingMethod,
+      extension_attributes: totalByShippingMethod
 
     })
   }
