@@ -21,16 +21,16 @@
           <div>
             <router-link
               class="serif h4"
-              style="line-height: 20px;"
+              style="line-height: 30px"
               :to="productLink"
               data-testid="productLink"
               @click.native="$store.commit('ui/setMicrocart', false)"
             >
               {{ product.name ? product.name : product.product ? product.product.name : '' | htmlDecode }}
             </router-link>
-            <div v-if="product.size" class="h4 cl-bg-tertiary pt5" data-testid="productSku">
-              {{ $t('Size') }}: {{ product.size }}
-            </div>
+<!--            <div v-if="product.size" class="h4 cl-bg-tertiary pt5" data-testid="productSku">-->
+<!--              {{ $t('Size') }}: {{ product.size }}-->
+<!--            </div>-->
             <div class="h5 cl-bg-tertiary pt5" data-testid="productSku">
               {{ product.sku }}
             </div>
@@ -108,8 +108,8 @@
             </span>
           </div>
           <div class="prices" v-else>
-            <span class="h4 serif price-regular">
-              {{ (product.regular_price || product.price_incl_tax) * product.qty | price }}
+            <span class="h4 serif price-regular in-use">
+              {{ (product.regular_price || product.price_incl_tax || product.price) * product.qty | price }}
             </span>
           </div>
         </div>

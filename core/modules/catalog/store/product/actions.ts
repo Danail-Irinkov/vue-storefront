@@ -264,6 +264,7 @@ const actions: ActionTree<ProductState, RootState> = {
         }
         context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
         let selectedVariant = context.getters.getCurrentProduct
+        console.log('populateProductConfigurationAsync setupVariants')
         populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
       }).catch(err => {
         Logger.error(err)()
@@ -318,7 +319,7 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
     let prod = preConfigureProduct({ product, populateRequestCacheTags })
-
+    console.log('preConfigureProduct', prod)
     if (configuration) {
       const selectedVariant = configureProductAsync(context, { product: prod, selectDefaultVariant: false, configuration })
       prod = Object.assign({}, prod, omit(selectedVariant, ['visibility']))
@@ -426,6 +427,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (prod.type_id === 'configurable' && hasConfigurableChildren) {
           // set first available configuration
           // todo: probably a good idea is to change this [0] to specific id
+          console.log('setupProduct prod: ', prod)
           const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
           if (selectedVariant && assignDefaultVariant) {
             prod = Object.assign({}, prod, selectedVariant)
@@ -534,6 +536,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Array} configuration
    */
   configure (context, { product = null, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true }) {
+    console.log('configure product prod: ', product)
     return configureProductAsync(context, { product: product, configuration: configuration, selectDefaultVariant: selectDefaultVariant, fallbackToDefaultWhenNoAvailable: fallbackToDefaultWhenNoAvailable })
   },
 
@@ -575,8 +578,9 @@ const actions: ActionTree<ProductState, RootState> = {
       const originalProduct = context.getters.getOriginalProduct
 
       // check if passed variant is the same as original
-      console.log('setCurrent productVariant: ', productVariant)
+      console.log('setCurrent productVariant: ', productVariant.size_label)
       const productUpdated = Object.assign({}, originalProduct, productVariant)
+      console.log('populateProductConfigurationAsync setCurrent')
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
       if (!config.products.gallery.mergeConfigurableChildren) {
         context.commit(types.PRODUCT_SET_GALLERY, attributeImages(productVariant))

@@ -4,21 +4,21 @@
       {{ $t('Shipping Methods') }}
     </p>
     <div slot="content">
-      <table class="brdr-1 brdr-cl-bg-secondary">
+      <table class="brdr-1 brdr-cl-bg-secondary text-align-center-all">
         <thead>
           <tr>
             <th />
             <th>
-              {{ $t('Est. Delivery') }}
+              {{ $t('Carrier') }}
+            </th>
+            <th>
+              {{ $t('Estimated Delivery Time') }}
             </th>
             <th>
               {{ $t('Cost') }}
             </th>
             <th>
               {{ $t('Tracking') }}
-            </th>
-            <th>
-              {{ $t('Carrier') }}
             </th>
           </tr>
         </thead>
@@ -37,20 +37,21 @@
                 </label>
               </div>
             </td>
-            <td class="fs-medium lh25" :data-th="$t('Estimated Delivery')">
-              {{ $t('Estimated Delivery Time:') }} {{ method.estimated_delivery_period }} {{ $t('Days') }}
+            <td class="fs-medium lh25" :data-th="$t('Carrier')">
+              {{ method.name }}
+            </td>
+            <td class="fs-medium lh25" :data-th="$t('Estimated Delivery')" style="width: 180px;">
+              {{ method.estimated_delivery_period }} {{ $t('Days') }}
             </td>
             <td class="fs-medium lh25 align-right" :data-th="$t('Cost')">
               <span v-if="method.cost > 0">{{ method.cost | price }}</span>
               <span v-else>{{ $t('Calculated') }}</span>
             </td>
             <td class="fs-medium lh25" :data-th="$t('tracking')">
+<!--     // TODO: add a proper boolean to show if there is tracking for thew shipping method-->
               <i class="material-icons">
                 check
               </i>
-            </td>
-            <td class="fs-medium lh25" :data-th="$t('Carrier')">
-              {{ method.name }}
             </td>
           </tr>
         </tbody>
@@ -248,7 +249,7 @@ export default {
     }
     .modal-container {
       max-width: 90%;
-      min-width: 812px;
+      /*min-width: 812px;*/
       border-radius: 8px;
       overflow: hidden;
       @media (max-width: 991px) {
@@ -333,6 +334,17 @@ export default {
         margin:  0 auto;
       }
     }
+  }
+  .text-align-center-all th {
+    text-align: center !important;
+  }
+  .text-align-center-all td {
+    text-align: center !important;
+  }
+  .text-align-center-all tr {
+    text-align: center !important;
+    vertical-align: middle !important;
+    max-height: 30px !important;
   }
   #checkout {
     .modal.modal-shipping-method {

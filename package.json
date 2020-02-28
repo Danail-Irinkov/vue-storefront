@@ -68,6 +68,8 @@
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
     "dayjs": "^1.8.15",
+    "lodash": "^4.17.15",
+    "safer-buffer": "^2.1.2",
     "es6-promise": "^4.2.4",
     "express": "^4.14.0",
     "fs-extra": "^8.1.0",

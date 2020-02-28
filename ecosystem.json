@@ -5,6 +5,7 @@
       "max_memory_restart": "1G",
       "instances": "1",
       "exec_mode": "cluster",
+      "instance_var": "INSTANCE_ID",
       "env": {
         "TS_NODE_PROJECT": "tsconfig-build.json",
         "NODE_ENV": "production",

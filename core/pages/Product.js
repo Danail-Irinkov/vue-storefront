@@ -60,9 +60,11 @@ export default {
     }
   },
   asyncData ({ store, route, context }) { // this is for SSR purposes to prefetch data
+    console.log('product/loadProduct asyncData')
     EventBus.$emit('product-before-load', { store: store, route: route })
     if (context) context.output.cacheTags.add(`product`)
-    return store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
+    return {}
+    // return store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
   },
   beforeRouteUpdate (to, from, next) {
     this.validateRoute(to) // TODO: remove because client-entry.ts is executing `asyncData` anyway
@@ -97,6 +99,7 @@ export default {
     validateRoute (route = this.$route) {
       if (!this.loading) {
         this.loading = true
+        console.log('product/loadProduct validateRoute')
         this.$store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null }).then(res => {
           this.loading = false
           this.defaultOfflineImage = this.product.image
@@ -184,6 +187,7 @@ export default {
       const prevOption = this.configuration[filterOption.attribute_code]
       let changedConfig = Object.assign({}, this.configuration, {[filterOption.attribute_code]: filterOption})
       this.$forceUpdate() // this is to update the available options regarding current selection
+      console.log('onAfterFilterChanged prod: ', this.product)
       this.$store.dispatch('product/configure', {
         product: this.product,
         configuration: changedConfig,

@@ -13,6 +13,7 @@ import { cartHooksExecutors } from './../../hooks'
 const itemActions = {
   configureItem (context, { product, configuration }) {
     const { commit, dispatch, getters } = context
+    console.log('configureItem prod:', product)
     const variant = configureProductAsync(context, {
       product,
       configuration,
