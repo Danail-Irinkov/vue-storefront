@@ -457,12 +457,11 @@ export default {
     },
     getCurrentProduct: {
       async handler (product) {
-        console.log('getCurrentProduct Variant set1', product.sku )
-        console.log('getCurrentProduct Variant set2', this.ProCCCurrentProductVariant.sku )
-        console.log('getCurrentProduct Variant set3', this.ProCCCurrentProductVariant.size_label )
-        console.log('getCurrentProduct Variant set4', product.size_label )
-        if(product.size_label && product.sku !== this.ProCCCurrentProductVariant.sku)
-        this.ProCCCurrentProductVariant = product
+        console.log('getCurrentProduct Variant set1', product.sku)
+        console.log('getCurrentProduct Variant set2', this.ProCCCurrentProductVariant.sku)
+        console.log('getCurrentProduct Variant set3', this.ProCCCurrentProductVariant.size_label)
+        console.log('getCurrentProduct Variant set4', product.size_label)
+        if (product.size_label && product.sku !== this.ProCCCurrentProductVariant.sku) { this.ProCCCurrentProductVariant = product }
       },
       immediate: true
     }
@@ -588,7 +587,7 @@ export default {
             qty: this.ProCCCurrentProductVariant.qty // Edited by dan
           })
           // added code for get quantity from  vuex
-          this.maxQuantity = this.getProductAvailableQuantity[variant.label]
+          this.maxQuantity = res.qty[variant.label]
         }
       } finally {
         this.isStockInfoLoading = false

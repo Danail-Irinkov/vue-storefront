@@ -202,7 +202,7 @@
         "index": "vue_storefront_catalog_dev"
       },
       "tax": {
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -210,7 +210,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -644,7 +644,7 @@
   },
   "demomode": false,
   "tax": {
-    "defaultCountry": "US",
+    "defaultCountry": "Bulgaria",
     "defaultRegion": "",
     "sourcePriceIncludesTax": false,
     "calculateServerSide": true,
@@ -670,7 +670,7 @@
     "disablePersistentTaskQueue": true
   },
   "i18n": {
-    "defaultCountry": "US",
+    "defaultCountry": "Bulgaria",
     "defaultLanguage": "EN",
     "availableLocale": [
       "en-US",

@@ -6,9 +6,9 @@ const ATTRIBUTES = ['color', 'size']
 
 const getProductConfiguration = (product: CartItem): ProductConfiguration => {
   const options = getProductOptions(product)
-  const getAttributesFields = (attributeCode) =>
-    options[attributeCode].find(c => c.id === parseInt(product[attributeCode]))
-
+  const getAttributesFields = (attributeCode) => {
+    if (options && options[attributeCode]) { return options[attributeCode].find(c => c.id === parseInt(product[attributeCode])) }
+  }
   if (!options) {
     return null
   }

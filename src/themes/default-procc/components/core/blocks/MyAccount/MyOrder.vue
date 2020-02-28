@@ -79,11 +79,17 @@
               </td>
               <td>{{ orderSummary.subtotal | price }}</td>
             </tr>
-            <tr>
+            <tr v-if="orderSummary.shipping_amount">
               <td colspan="5" class="align-right">
                 {{ $t('Shipping') }}
               </td>
               <td>{{ orderSummary.shipping_amount | price }}</td>
+            </tr>
+            <tr v-if="orderSummary.tax">
+              <td colspan="5" class="align-right">
+                {{ $t('Tax') }}
+              </td>
+              <td>{{ orderSummary.tax | price }}</td>
             </tr>
             <tr v-if="!'Disabled by Dan, not configured to tax properly'">
               <td colspan="5" class="align-right">

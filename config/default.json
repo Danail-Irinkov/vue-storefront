@@ -365,7 +365,7 @@
   },
   "demomode": false,
   "tax": {
-    "defaultCountry": "US",
+    "defaultCountry": "Bulgaria",
     "defaultRegion": "",
     "sourcePriceIncludesTax": false,
     "calculateServerSide": true,
@@ -391,7 +391,7 @@
     "disablePersistentTaskQueue": true
   },
   "i18n": {
-    "defaultCountry": "US",
+    "defaultCountry": "Bulgaria",
     "defaultLanguage": "EN",
     "availableLocale": ["en-US","de-DE","fr-FR","es-ES","nl-NL", "ja-JP", "ru-RU", "it-IT", "pt-BR", "pl-PL", "cs-CZ"],
     "defaultLocale": "en-US",

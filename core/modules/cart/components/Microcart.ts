@@ -25,10 +25,10 @@ export const Microcart = {
   },
   methods: {
     productsInCartByBrandProCC (brand_id: string): Promise<boolean> { // Added by Dan to split items by Brand
-      console.log('his.$store.state.cart.brand_id', brand_id)
-      console.log('his.$store.state.cart.cartItems', this.$store.state.cart.cartItems)
+      // console.log('his.$store.state.cart.brand_id', brand_id)
+      // console.log('his.$store.state.cart.cartItems', this.$store.state.cart.cartItems)
       let products = this.$store.state.cart.cartItems.filter(product => product.procc_brand_id === brand_id)
-      console.log('his.$store.state.cart.products', products)
+      // console.log('his.$store.state.cart.products', products)
       return products
     },
     applyCoupon (code: string): Promise<boolean> {

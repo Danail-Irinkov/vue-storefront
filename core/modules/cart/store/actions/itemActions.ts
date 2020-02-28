@@ -26,6 +26,10 @@ const itemActions = {
       commit(types.CART_DEL_ITEM, { product: itemWithSameSku })
       product.qty = parseInt(product.qty) + parseInt(itemWithSameSku.qty)
     }
+    // Edited by shabbir for not getting options in product
+    // variant.options = configuration ? [] : variant.options
+    // for(let key in configuration)
+    //   variant.options.push({label: configuration[key].attribute_code, value :configuration[key].label})
 
     commit(types.CART_UPD_ITEM_PROPS, { product: { ...product, ...variant } })
 
@@ -41,8 +45,8 @@ const itemActions = {
   },
   async addItem ({ dispatch, commit }, { productToAdd, forceServerSilence = false }) {
     const { cartItem } = cartHooksExecutors.beforeAddToCart({ cartItem: productToAdd })
-    console.log('itemActions.ts addItem productToAdd cartItem', cartItem)
-    console.log('itemActions.ts addItem productToAdd2', prepareProductsToAdd(cartItem))
+    // console.log('itemActions.ts addItem productToAdd cartItem', cartItem)
+    // console.log('itemActions.ts addItem productToAdd2', prepareProductsToAdd(cartItem))
     commit(types.CART_ADDING_ITEM, { isAdding: true })
     const result = await dispatch('addItems', { productsToAdd: prepareProductsToAdd(cartItem), forceServerSilence })
     commit(types.CART_ADDING_ITEM, { isAdding: false })
@@ -63,7 +67,6 @@ const itemActions = {
       console.log('addItems check sku:', product.sku, encodeURIComponent(product.sku))
       const errors = validateProduct(product)
       diffLog.pushNotifications(notifications.createNotifications({ type: 'error', messages: errors }))
-
       if (errors.length === 0) {
         const { status, onlineCheckTaskId } = await dispatch('checkProductStatus', { product })
 

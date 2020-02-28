@@ -254,11 +254,16 @@ export default {
     // created function for get order summary from order
     orderSummary () {
       let summary_data = []
+      let sub_total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.products_total; });
+      sub_total= sub_total / 100
       let total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.total; });
       let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.shipping_fee; });
-      summary_data.push({code: 'subtotal', title: 'Subtotal', value: (total - shipping_fee)})
+      shipping_fee = shipping_fee / 100
+      let tax = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.tax; });
+      summary_data.push({code: 'subtotal', title: 'Subtotal', value: sub_total})
       summary_data.push({code: 'shipping_fee', title: 'Shipping Fee', value: shipping_fee})
-      summary_data.push({code: 'grand_total', title: 'Grand Total', value: total})
+      summary_data.push({code: 'tax', title: 'Tax', value: tax})
+      summary_data.push({code: 'grand_total', title: 'Grand Total', value: (total + tax)})
       return summary_data
     },
     mailerElements () {

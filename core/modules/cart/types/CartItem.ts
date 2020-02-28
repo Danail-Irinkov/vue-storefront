@@ -5,6 +5,7 @@ import CartItemTotals from './CartItemTotals'
 
 export default interface CartItem extends Product {
   qty: number,
+  procc_product_id: string,
   options: CartItemOption[],
   totals: CartItemTotals,
   server_item_id: number | string,

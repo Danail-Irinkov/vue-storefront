@@ -9,7 +9,6 @@ const getters: GetterTree<StoreDataState, RootState> = {
   },
   getHeadImage: state => state.headImage,
   getStoreLogo: state => {
-    console.log('state.headImage', state.headImage)
     return state.headImage && state.headImage.logo ? _.get(state.headImage, 'logo') : '/assets/logo.svg'
   }
 }

@@ -28,9 +28,9 @@
             >
               {{ product.name ? product.name : product.product ? product.product.name : '' | htmlDecode }}
             </router-link>
-<!--            <div v-if="product.size" class="h4 cl-bg-tertiary pt5" data-testid="productSku">-->
-<!--              {{ $t('Size') }}: {{ product.size }}-->
-<!--            </div>-->
+            <!--            <div v-if="product.size" class="h4 cl-bg-tertiary pt5" data-testid="productSku">-->
+            <!--              {{ $t('Size') }}: {{ product.size }}-->
+            <!--            </div>-->
             <div class="h5 cl-bg-tertiary pt5" data-testid="productSku">
               {{ product.sku }}
             </div>
@@ -96,7 +96,7 @@
               {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price }}
             </span>
           </div>
-          <div class="prices" v-else-if="isOnline && product.totals">
+          <div class="prices" v-else-if="isOnline && product.totals && product.totals.discount_amount">
             <span class="h4 serif cl-error price-special" v-if="product.totals.discount_amount">
               {{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }}
             </span>
@@ -199,9 +199,6 @@ export default {
       required: false
     }
   },
-  mounted () {
-    console.log('MicroCart Product Mounted: ', this.product)
-  },
   components: {
     RemoveButton,
     ProductImage,
@@ -212,6 +209,12 @@ export default {
     ProductQuantity
   },
   mixins: [Product, ProductOption, EditMode],
+  beforeMount () {
+    this.$bus.$on('loading-quantity', this.hideShowQtySpinner)
+  },
+  beforeDestroy () {
+    this.$bus.$off('loading-quantity')
+  },
   computed: {
     ...mapGetters({
       getProductAvailableQuantity: 'product/getProductAvailableQuantity'
@@ -272,6 +275,10 @@ export default {
     }
   },
   methods: {
+    hideShowQtySpinner (isLoading) {
+      this.isStockInfoLoading = isLoading
+      this.$forceUpdate()
+    },
     updateProductVariant () {
       this.updateVariant()
       this.closeEditMode()
@@ -284,11 +291,17 @@ export default {
 
       this.updateQuantity(qty)
     },
-    removeFromCart () {
-      this.$store.dispatch('cart/removeItem', { product: this.product })
+    async removeFromCart () {
+      this.$bus.$emit('loading-summary', true)
+      await this.$store.dispatch('cart/removeItem', { product: this.product })
+      this.$bus.$emit('loading-summary', false)
     },
-    updateQuantity (quantity) {
-      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
+    async updateQuantity (quantity) {
+      this.isStockInfoLoading = true
+      this.$bus.$emit('loading-summary', true)
+      await this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
+      this.isStockInfoLoading = false
+      this.$bus.$emit('loading-summary', false)
     },
     async getQuantity (product) {
       if (this.isStockInfoLoading) return // stock info is already loading
@@ -303,7 +316,7 @@ export default {
             product: validProduct,
             qty: this.productQty
           })
-          return res.qty
+          return parseInt(res.qty[size_name])
         }
       } finally {
         this.isStockInfoLoading = false

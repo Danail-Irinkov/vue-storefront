@@ -39,7 +39,7 @@ export default {
       const children = this.product.configurable_children || []
 
       return children.find((child) =>
-        Number(child.color) === Number(colorId) &&
+        (!colorId || Number(child.color) === Number(colorId)) && // edited by shabbir for not getting product
         Number(child.size) === Number(sizeId)
       ) || this.product
     }

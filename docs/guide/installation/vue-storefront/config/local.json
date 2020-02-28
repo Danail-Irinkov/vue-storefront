@@ -77,7 +77,7 @@
         "calculateServerSide": true
     },
     "i18n": {
-        "defaultCountry": "US",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN"
     },
     "mailchimp": {

@@ -21,8 +21,10 @@ export const MicrocartProduct = {
     removeFromCart () {
       this.$store.dispatch('cart/removeItem', { product: this.product })
     },
-    updateQuantity (quantity) {
-      this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
+    async updateQuantity (quantity) {
+      this.$bus.$emit('loading-summary', true)
+      await this.$store.dispatch('cart/updateQuantity', { product: this.product, qty: quantity })
+      this.$bus.$emit('loading-summary', false)
     }
   }
 }

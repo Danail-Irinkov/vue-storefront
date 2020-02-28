@@ -12,7 +12,7 @@ export const UserSingleOrder = {
     order () {
       return this.ordersHistory.find(order =>
         // modify by shabbir for get order by id
-        parseInt(order._id) === parseInt(this.$route.params.orderId)
+        order._id.toString() === this.$route.params.orderId.toString()
       )
     },
     paymentMethod () {
@@ -35,8 +35,9 @@ export const UserSingleOrder = {
     orderSummary () {
       let subtotal = sumBy(this.order.order_items, (o) => { return o.price * o.qty })
       let shipping_amount = this.order.shipping_fee
-      let grand_total = subtotal + shipping_amount
-      return {subtotal, shipping_amount, grand_total}
+      let tax = this.order.tax ? this.order.tax : 0
+      let grand_total = subtotal + shipping_amount + tax
+      return {subtotal, shipping_amount, tax, grand_total}
     }
 
   },

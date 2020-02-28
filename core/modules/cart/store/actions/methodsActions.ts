@@ -27,7 +27,7 @@ const methodsActions = {
     }
   },
   // created method for update cart selected shipping methods
-  async updateCartSelectedShippingMethods ({ commit }, updateData) {
+  async updateCartSelectedShippingMethods ({ commit, getters, rootGetters }, updateData) {
     commit(types.CART_UPD_SELECTED_SHIPPING_METHODS, updateData)
   },
   // created method for set shipping method and selected shipping methods in checkout
@@ -110,8 +110,9 @@ const methodsActions = {
 
       if (getters.getCartItemsByBrand && !isEmpty(getters.getCartItemsByBrand)) {
         const brand_ids = keys(getters.getCartItemsByBrand);
+        const cartId = rootGetters['cart/getCartToken']
         // added code for get shipping methods and set shipping methods and selected shipping method in vuex by shabbir
-        await ProCcApi().getShippingMethodByBrand(brand_ids)
+        await ProCcApi().getShippingMethodByBrand({brand_ids, cartId})
           .then((result) => {
             let default_shipping_methods = {}
             let shipping_methods = {}

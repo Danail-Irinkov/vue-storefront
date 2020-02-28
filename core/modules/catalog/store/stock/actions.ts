@@ -23,8 +23,8 @@ const actions: ActionTree<StockState, RootState> = {
         }
         dispatch('cart/stockSync', product_details, { root: true })
         // Edited for set product available qty. in vuex by shabbir
-        console.log('queueCheck result.data.product', result.data.product.available_qty)
-        console.log('queueCheck product.procc_product_id', product.procc_product_id)
+        // console.log('queueCheck result.data.product', result.data.product.available_qty)
+        // console.log('queueCheck product.procc_product_id', product.procc_product_id)
 
         let product_data = result.data.product
         let quantities = product_data.available_qty
@@ -52,23 +52,20 @@ const actions: ActionTree<StockState, RootState> = {
   async check (context, { product }) {
     if (config.stock.synchronize) {
       // call procc api for get quantity by shabbir
-      console.log('checkProductQty product', product)
       return ProCcApi().checkProductQty({product_id: product.procc_product_id, test_str: 'atCheck'}, product.procc_brand_id)
         .then((result) => {
         // Edited for set product available qty. in vuex by shabbir
-          console.log('queueCheck result.data.product', result.data.product.available_qty)
-          console.log('queueCheck product.procc_product_id', product.procc_product_id)
           let product_data = result.data.product
           let quantities = product_data.available_qty
           for (let name in quantities) {
-            if (quantities[name] < 0) {
+            if (parseInt(quantities[name]) < 0) {
               quantities[name] = 0
             }
           }
           quantities.product_id = product.procc_product_id
           context.dispatch('product/setProductAvailableQuantity', quantities, { root: true })
           return {
-            qty: result.data.product ? parseInt(result.data.product.qty) : 0,
+            qty: quantities || {},
             status: getStatus(result.data.product, 'ok'),
             onlineCheckTaskId: ''
           }

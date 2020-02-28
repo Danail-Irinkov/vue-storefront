@@ -6,8 +6,10 @@ const createShippingInfoData = (methodsData) => ({
   billingAddress: {
     ...(methodsData.billingAddress ? methodsData.billingAddress : {})
   },
-  shippingCarrierCode: methodsData.carrier_code,
-  shippingMethodCode: methodsData.method_code
+  // Edited by shabbir because get selected shipping method
+  // shippingCarrierCode: methodsData.carrier_code,
+  // shippingMethodCode: methodsData.method_code,
+  selectedShippingMethods: methodsData.selectedShippingMethods
 });
 
 export default createShippingInfoData

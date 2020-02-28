@@ -26,7 +26,6 @@ export default {
   watch: {
     storeLogo: { // This was done by Vinod -> not sure why
       handler: function (newValue, oldValue) {
-        console.log('storeLogo newValue', newValue)
         if (newValue !== '') {
           this.logo_loaded = 0
           setTimeout(() => this.logo_loaded++, 50)

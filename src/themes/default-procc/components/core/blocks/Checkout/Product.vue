@@ -34,7 +34,7 @@
             </div>
           </div>
           <div>
-            <div v-if="isOnline && product.totals">
+            <div v-if="isOnline && product.totals && product.totals.discount_amount">
               <span class="h4 cl-error" v-if="product.totals.discount_amount">{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }} </span>
               <span class="price-original h5" v-if="product.totals.discount_amount">{{ product.totals.row_total_incl_tax | price }}</span>
               <span v-if="!product.totals.discount_amount" class="h4">{{ product.price_incl_tax | price }}</span>

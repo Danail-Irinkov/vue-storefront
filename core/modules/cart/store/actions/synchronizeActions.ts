@@ -39,7 +39,7 @@ const synchronizeActions = {
       dispatch('sync', { forceClientState, dryRun: !serverMergeByDefault })
     } else {
       // Logger.info('Creating server cart token', 'cart')()
-      await dispatch('connect', { guestCart: true })
+      await dispatch('connect', { guestCart: false })
     }
   },
   /** @deprecated backward compatibility only */
@@ -48,15 +48,16 @@ const synchronizeActions = {
     return dispatch('sync', { forceClientState, dryRun })
   },
   async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false }) {
-    console.log('SyncCartActionTime Start')
-    console.time('SyncCartActionTime')
+    // console.log('SyncCartActionTime Start')
+    // console.time('SyncCartActionTime')
+
     const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if (!canUpdateMethods || !isSyncRequired) return createDiffLog()
     commit(types.CART_SET_SYNC)
     const { result, resultCode } = await CartService.getItems()
 
-    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result })
+    const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result.cartItems })
 
     if (resultCode === 200) {
       const diffLog = await dispatch('merge', {
@@ -66,7 +67,7 @@ const synchronizeActions = {
         forceClientState: shouldUpdateClientState
       })
       cartHooksExecutors.afterSync(diffLog)
-      console.timeEnd('SyncCartActionTime')
+      // console.timeEnd('SyncCartActionTime')
       return diffLog
     }
 
@@ -77,7 +78,7 @@ const synchronizeActions = {
     }
 
     Logger.error(result, 'cart')
-    cartHooksExecutors.afterSync(result)
+    cartHooksExecutors.afterSync(result.cartItems)
     return createDiffLog()
   },
   async stockSync ({ dispatch, commit }, stockTask) {

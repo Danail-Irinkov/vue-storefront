@@ -48,7 +48,7 @@
               <span v-else>{{ $t('Calculated') }}</span>
             </td>
             <td class="fs-medium lh25" :data-th="$t('tracking')">
-<!--     // TODO: add a proper boolean to show if there is tracking for thew shipping method-->
+              <!--     // TODO: add a proper boolean to show if there is tracking for thew shipping method-->
               <i class="material-icons">
                 check
               </i>
@@ -87,8 +87,6 @@ export default {
     this.$nextTick(() => {
       this.$bus.$emit('modal-show', 'modal-shipping-method')
     })
-  },
-  methods: {
   },
   components: {
     Modal,

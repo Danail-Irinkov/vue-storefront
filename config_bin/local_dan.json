@@ -216,7 +216,7 @@
         "index": "vue_storefront_catalog_dev"
       },
       "tax": {
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -224,7 +224,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -245,7 +245,7 @@
         "index": "vue_storefront_catalog_judy"
       },
       "tax": {
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -253,7 +253,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -279,7 +279,7 @@
         "index": "vue_storefront_catalog_aa"
       },
       "tax": {
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -287,7 +287,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "BG",
+        "defaultCountry": "Bulgaria",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -585,14 +585,14 @@
     "displayItemDiscounts": true,
     "productsAreReconfigurable": true,
     "minicartCountType": "quantities",
-    "create_endpoint": "http://localhost:8080/api/cart/create?token={{token}}",
-    "updateitem_endpoint": "http://localhost:8080/api/cart/update?token={{token}}&cartId={{cartId}}",
-    "deleteitem_endpoint": "http://localhost:8080/api/cart/delete?token={{token}}&cartId={{cartId}}",
-    "pull_endpoint": "http://localhost:8080/api/cart/pull?token={{token}}&cartId={{cartId}}",
-    "totals_endpoint": "http://localhost:8080/api/cart/totals?token={{token}}&cartId={{cartId}}",
-    "paymentmethods_endpoint": "http://localhost:8080/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
+    "create_endpoint": "http://localhost:8081/api/cart/createToken?token={{token}}",
+    "updateitem_endpoint": "http://localhost:8081/api/cart/update?token={{token}}&cartId={{cartId}}",
+    "deleteitem_endpoint": "http://localhost:8081/api/cart/delete?token={{token}}&cartId={{cartId}}",
+    "pull_endpoint": "http://localhost:8081/api/cart/pull?token={{token}}&cartId={{cartId}}",
+    "totals_endpoint": "http://localhost:8081/api/cart/totals?token={{token}}&cartId={{cartId}}",
+    "paymentmethods_endpoint": "http://localhost:8081/api/cart/payment-methods?token={{token}}&cartId={{cartId}}",
     "shippingmethods_endpoint": "http://localhost:8080/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}",
-    "shippinginfo_endpoint": "http://localhost:8080/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
+    "shippinginfo_endpoint": "http://localhost:8081/api/cart/shipping-information?token={{token}}&cartId={{cartId}}",
     "collecttotals_endpoint": "http://localhost:8080/api/cart/collect-totals?token={{token}}&cartId={{cartId}}",
     "deletecoupon_endpoint": "http://localhost:8080/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}",
     "applycoupon_endpoint": "http://localhost:8080/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}"
@@ -739,7 +739,7 @@
   },
   "demomode": false,
   "tax": {
-    "defaultCountry": "US",
+    "defaultCountry": "Bulgaria",
     "defaultRegion": "",
     "sourcePriceIncludesTax": false,
     "calculateServerSide": true,
@@ -765,7 +765,7 @@
     "disablePersistentTaskQueue": true
   },
   "i18n": {
-    "defaultCountry": "US",
+    "defaultCountry": "Bulgaria",
     "defaultLanguage": "EN",
     "availableLocale": [
       "en-US",
