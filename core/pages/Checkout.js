@@ -155,12 +155,17 @@ export default {
       for (let brand_id in shippingMethods) {
         selectedshippingMethods[brand_id] = find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethods[brand_id] })
       }
-      console.log('onAfterShippingMethodChanged shippingMethods', shippingMethods)
-      console.log('onAfterShippingMethodChanged selectedshippingMethods', selectedshippingMethods)
+      // console.log('onAfterShippingMethodChanged shippingMethods', shippingMethods)
+      // console.log('onAfterShippingMethodChanged selectedshippingMethods', selectedshippingMethods)
+      this.$bus.$emit('loading-summary', true)
+      this.$bus.$emit('loading-order-summary', true)
       await this.$store.dispatch('checkout/updateSelectedShippingMethods', selectedshippingMethods)
       await this.$store.dispatch('cart/updateCartSelectedShippingMethods', selectedshippingMethods)
       // this.shippingMethods = selectedshippingMethods
       await this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
+      this.$bus.$emit('loading-summary', false)
+      this.$bus.$emit('loading-order-summary', false)
+
       this.$forceUpdate()
     },
     onBeforeShippingMethods (country) {

@@ -14,13 +14,14 @@
         </button>
       </div>
       <div v-if="segment.value != null" class="col-xs align-right">
-        {{ segment.value | price }}
+        <spinner v-if="loadingSummary" />
+        <span v-else>{{ segment.value | price }}</span>
       </div>
     </div>
     <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code == 'shipping'">
       <div class="col-xs">
         {{ segment.title }}
-        <ul style="font-size: 14px" v-if="segment.extension_attributes">
+        <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary">
           <li v-for="(data) in segment.extension_attributes" :key="data.name">
             {{ data.name }} ({{ data.cost | price }})
           </li>
@@ -32,7 +33,8 @@
         </button>
       </div>
       <div class="col-xs align-right">
-        {{ segment.value || 0 | price }}
+        <spinner v-if="loadingSummary" />
+        <span v-else>{{ segment.value | price }}</span>
       </div>
     </div>
     <!--      <div class="row py20">-->
@@ -61,7 +63,8 @@
         {{ segment.title }}
       </div>
       <div class="col-xs align-right h2 total-price-value">
-        {{ segment.value | price }}
+        <spinner v-if="loadingSummary" />
+        <span v-else>{{ segment.value | price }}</span>
       </div>
     </div>
   </div>
@@ -71,11 +74,13 @@
 import { mapGetters, mapActions } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import isEmpty from 'lodash-es/isEmpty'
+import Spinner from 'theme/components/core/Spinner'
 export default {
-  components: {},
+  components: {Spinner},
   mixins: [],
   data () {
     return {
+      loadingSummary: false,
       addCouponPressed: false,
       couponCode: '',
       componentLoaded: false,
@@ -104,6 +109,12 @@ export default {
       return this.orderSummary && !isEmpty(this.orderSummary) ? this.orderSummary : this.totals
     }
   },
+  beforeMount () {
+    this.$bus.$on('loading-summary', this.hideShowSpinner)
+  },
+  beforeDestroy () {
+    this.$bus.$off('loading-summary')
+  },
   methods: {
     ...mapActions({
       applyCoupon: 'cart/applyCoupon'
@@ -126,6 +137,10 @@ export default {
           action1: { label: i18n.t('OK') }
         })
       }
+    },
+    hideShowSpinner (isLoading) {
+      this.loadingSummary = isLoading
+      this.$forceUpdate()
     }
   }
 }
@@ -174,5 +189,10 @@ export default {
       margin-right: 20px;
       width: 100%;
     }
+  }
+</style>
+<style>
+  .summary .spinner {
+    padding: 0;
   }
 </style>

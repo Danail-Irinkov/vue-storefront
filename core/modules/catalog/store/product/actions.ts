@@ -319,7 +319,7 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
     let prod = preConfigureProduct({ product, populateRequestCacheTags })
-    console.log('preConfigureProduct', prod)
+    // console.log('preConfigureProduct', prod)
     if (configuration) {
       const selectedVariant = configureProductAsync(context, { product: prod, selectDefaultVariant: false, configuration })
       prod = Object.assign({}, prod, omit(selectedVariant, ['visibility']))

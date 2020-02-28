@@ -109,7 +109,7 @@ const actions: ActionTree<CategoryState, RootState> = {
   async configureProducts ({ rootState }, { products = [], filters = {} } = {}) {
     return products.map(product => {
       product = Object.assign({}, preConfigureProduct({ product, populateRequestCacheTags: config.server.useOutputCacheTagging }))
-      console.log('configureProducts prod:', product)
+      // console.log('configureProducts prod:', product)
       const configuredProductVariant = configureProductAsync({rootState, state: {current_configuration: {}}}, {product, configuration: filters, selectDefaultVariant: false, fallbackToDefaultWhenNoAvailable: true, setProductErorrs: false})
       return Object.assign(product, omit(configuredProductVariant, ['visibility']))
     })

@@ -1,5 +1,7 @@
 import i18n from '@vue-storefront/i18n'
 import config from 'config'
+import last from 'lodash-es/last';
+import split from 'lodash-es/split';
 export const Product = {
   name: 'Product',
   props: {
@@ -42,11 +44,12 @@ export const Product = {
       this.isStockInfoLoading = true
       try {
         const validProduct = product || this.product
+        let size_name = last(split(validProduct.sku, '-'))
         const res = await this.$store.dispatch('stock/check', {
           product: validProduct,
           qty: this.productQty
         })
-        return parseInt(res.qty)
+        return parseInt(res.qty[size_name])
       } finally {
         this.isStockInfoLoading = false
       }

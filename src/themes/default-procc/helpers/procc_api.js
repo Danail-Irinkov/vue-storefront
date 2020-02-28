@@ -101,6 +101,7 @@ export default (baseURL = '') => {
   const setCustomerPassword = (data) => api.post(`customer/setCustomerPassword`, data)
   const forgotPassword = (data) => api.post(`auth/forgotPassword`, data)
   const resetPassword = (data) => api.post(`auth/resetPassword`, data)
+  const calculateShipmentCost = (data) => api.post(`rapido/calculateShipmentCost`, data)
 
   return {
     addNewOrder,
@@ -124,6 +125,7 @@ export default (baseURL = '') => {
     resendVerificationEmail,
     setCustomerPassword,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    calculateShipmentCost
   }
 }

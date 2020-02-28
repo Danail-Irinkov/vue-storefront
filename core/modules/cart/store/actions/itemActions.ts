@@ -26,6 +26,10 @@ const itemActions = {
       commit(types.CART_DEL_ITEM, { product: itemWithSameSku })
       product.qty = parseInt(product.qty) + parseInt(itemWithSameSku.qty)
     }
+    // Edited by shabbir for not getting options in product
+    // variant.options = configuration ? [] : variant.options
+    // for(let key in configuration)
+    //   variant.options.push({label: configuration[key].attribute_code, value :configuration[key].label})
 
     commit(types.CART_UPD_ITEM_PROPS, { product: { ...product, ...variant } })
 

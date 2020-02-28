@@ -8,21 +8,23 @@
         {{ segment.title }}
       </div>
       <div v-if="segment.value != null" class="col-xs align-right cl-accent h4">
-        {{ segment.value | price }}
+        <spinner v-if="loadingSummary" />
+        <span v-else>{{ segment.value | price }}</span>
       </div>
     </div>
 
     <div v-for="(segment, index) in totals" :key="index" class="row pl20 pr20 py5" v-if="segment.code === 'shipping'">
       <div class="col-xs cl-accent">
         {{ segment.title }}
-        <ul style="font-size: 14px" v-if="segment.extension_attributes">
+        <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary">
           <li v-for="(data) in segment.extension_attributes" :key="data.name">
             {{ data.name }} ({{ data.cost | price }})
           </li>
         </ul>
       </div>
       <div v-if="segment.value != null" class="col-xs align-right cl-accent h4">
-        {{ segment.value | price }}
+        <spinner v-if="loadingSummary" />
+        <span v-else>{{ segment.value | price }}</span>
       </div>
     </div>
 
@@ -34,7 +36,8 @@
       </div>
       <div class="col-xs align-right">
         <h3 class="order-sum">
-          {{ segment.value | price }}
+          <spinner v-if="loadingSummary" />
+          <span v-else>{{ segment.value | price }}</span>
         </h3>
       </div>
     </div>
@@ -43,12 +46,33 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Spinner from 'theme/components/core/Spinner'
 export default {
+  data () {
+    return {
+      loadingSummary: false
+    }
+  },
+  components: {
+    Spinner
+  },
+  beforeMount () {
+    this.$bus.$on('loading-order-summary', this.hideShowSpinner)
+  },
+  beforeDestroy () {
+    this.$bus.$off('loading-order-summary')
+  },
   computed: {
     ...mapGetters({
       totals: 'cart/getTotals',
       cartItems: 'cart/getCartItems'
     })
+  },
+  methods: {
+    hideShowSpinner (isLoading) {
+      this.loadingSummary = isLoading
+      this.$forceUpdate()
+    }
   }
 }
 </script>
@@ -58,5 +82,10 @@ export default {
     @media (max-width: 767px) {
       margin-left: 0;
     }
+  }
+</style>
+<style>
+  .checkout .spinner{
+    padding: 0;
   }
 </style>

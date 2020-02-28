@@ -348,8 +348,8 @@ export function setConfigurableProductOptionsAsync (context, { product, configur
     const configurable_item_options = product_option.extension_attributes.configurable_item_options
     for (const configKey of Object.keys(configuration)) {
       const configOption = configuration[configKey]
-      if (configOption && !isUndefined(configOption.attribute_code) && configOption.attribute_code && configOption.attribute_code !== 'price') {
-        const option = product.configurable_options.find(co => {
+      if (configOption && !isUndefined(configOption.attribute_code) && configOption.attribute_code && configOption.id && configOption.attribute_code !== 'price') {
+        const option = product.configurable_options.find((co) => {
           return (co.attribute_code === configOption.attribute_code)
         })
 
@@ -456,10 +456,12 @@ export function populateProductConfigurationAsync (context, { product, selectedV
             return (s.value_index === selectedVariant[attribute_code])
           })
           console.log('selected_size', selected_size)
-          if(selected_size && selected_size.label)
-            selectedOption.label = selected_size.label // Added By Dan ProCC
-          else if (option.values && option.values[0] && option.values[0].label)
-            selectedOption.label = option.values[0].label // Added By Dan ProCC
+          // Added By Dan ProCC
+          if (selected_size && selected_size.label) {
+            selectedOption.label = selected_size.label
+          } else if (option.values && option.values[0] && option.values[0].label) {
+            selectedOption.label = option.values[0].label
+          }
         }
 
         console.log('selectedOption 2222: ', selectedOption)
@@ -503,29 +505,31 @@ export function configureProductAsync (context, { product, configuration, select
   console.log('!!!!!!!!!!!!!hasConfigurableChildren', hasConfigurableChildren)// Added by Dan
   console.log('!!!!!!!!!!!!!hasConfigurableOptions', hasConfigurableOptions)// Added by Dan
 
-  if (hasConfigurableChildren || hasConfigurableOptions) {// EDITED  by Dan
-  if (hasConfigurableChildren) {// EDITED  by Dan
+  if (hasConfigurableChildren || hasConfigurableOptions) { // EDITED  by Dan
+    if (hasConfigurableChildren) { // EDITED  by Dan
     // handle custom_attributes for easier comparing in the future
-    product.configurable_children.forEach((child) => {
-      let customAttributesAsObject = {}
-      if (child.custom_attributes) {
-        child.custom_attributes.forEach((attr) => {
-          customAttributesAsObject[attr.attribute_code] = attr.value
-        })
-        // add values from custom_attributes in a different form
-        Object.assign(child, customAttributesAsObject)
-      }
-    })
-  }
+      product.configurable_children.forEach((child) => {
+        let customAttributesAsObject = {}
+        if (child.custom_attributes) {
+          child.custom_attributes.forEach((attr) => {
+            customAttributesAsObject[attr.attribute_code] = attr.value
+          })
+          // add values from custom_attributes in a different form
+          Object.assign(child, customAttributesAsObject)
+        }
+      })
+    }
     // find selected variant
     let desiredProductFound = false
     // Edited By dan to allow for not synced simple products from M2 - ProCC
     let selectedVariant
-    if (false && hasConfigurableChildren) { // DISABLED BY DAN PROCC (( NEED TO ENABLE THIS IF WE IMPLEMENT REAL VARIANTS ))
+    // fixed Unexpected constant condition error at yarn lint run
+    const false_dan = false
+    if (false_dan && hasConfigurableChildren) { // DISABLED BY DAN PROCC (( NEED TO ENABLE THIS IF WE IMPLEMENT REAL VARIANTS ))
       console.log('!!!!!!!!!!!!!findConfigurableChildAsync 1')
       selectedVariant = findConfigurableChildAsync({ product, configuration, availabilityCheck: true })
-    } else {// DISABLED BY DAN PROCC
-      console.log('!!!!!!!!!!!!!hasConfigurableChildren ELSE flow')
+    } else { // DISABLED BY DAN PROCC
+      // console.log('!!!!!!!!!!!!!hasConfigurableChildren ELSE flow')
       selectedVariant = {...product}
       if (configuration.size && configuration.size.id && configuration.size.label && configuration.size.label !== ' ') {
         if (selectedVariant.sku && selectedVariant.sku.indexOf('-' + configuration.size.label) === -1) {
@@ -533,19 +537,19 @@ export function configureProductAsync (context, { product, configuration, select
         }
         selectedVariant.size = configuration.size.id
         selectedVariant.size_label = configuration.size.label
-        console.log('!!!!!!!!!!!!!configuration.size.label', configuration.size.label)
-        console.log('!!!!!!!!!!!!!selectedVariant.size_label', selectedVariant.size_label)
+        // console.log('!!!!!!!!!!!!!configuration.size.label', configuration.size.label)
+        // console.log('!!!!!!!!!!!!!selectedVariant.size_label', selectedVariant.size_label)
       }
     }// DISABLED BY DAN PROCC
-    console.log('!!!!!!!!!!!!!product', product)
-    console.log('!!!!!!!!!!!!!configuration.size', configuration.size)
-    console.log('!!!!!!!!!!!!!selectedVariant.sku', selectedVariant.sku)
-    console.log('!!!!!!!!!!!!!selectedVariant.size', selectedVariant.size)
-    console.log('!!!!!!!!!!!!!selectedVariant.size_label', selectedVariant.size_label)
+    // console.log('!!!!!!!!!!!!!product', product)
+    // console.log('!!!!!!!!!!!!!configuration.size', configuration.size)
+    // console.log('!!!!!!!!!!!!!selectedVariant.sku', selectedVariant.sku)
+    // console.log('!!!!!!!!!!!!!selectedVariant.size', selectedVariant.size)
+    // console.log('!!!!!!!!!!!!!selectedVariant.size_label', selectedVariant.size_label)
     // Edited By dan to allow for not synced simple products from M2 - ProCC - END
     if (!selectedVariant) {
       if (fallbackToDefaultWhenNoAvailable) {
-        console.log('!!!!!!!!!!!!!findConfigurableChildAsync 2')
+        // console.log('!!!!!!!!!!!!!findConfigurableChildAsync 2')
         selectedVariant = findConfigurableChildAsync({ product, selectDefaultChildren: true, availabilityCheck: true }) // return first available child
         desiredProductFound = false
       } else {
@@ -557,7 +561,7 @@ export function configureProductAsync (context, { product, configuration, select
 
     if (selectedVariant) {
       if (!desiredProductFound && selectDefaultVariant /** don't change the state when no selectDefaultVariant is set */) { // update the configuration
-        console.log('populateProductConfigurationAsync configureProductAsync')
+        // console.log('populateProductConfigurationAsync configureProductAsync')
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
         configuration = context.state.current_configuration
       }

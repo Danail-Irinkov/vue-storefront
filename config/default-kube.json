@@ -644,7 +644,7 @@
   },
   "demomode": false,
   "tax": {
-    "defaultCountry": "US",
+    "defaultCountry": "Bulgaria",
     "defaultRegion": "",
     "sourcePriceIncludesTax": false,
     "calculateServerSide": true,
@@ -670,7 +670,7 @@
     "disablePersistentTaskQueue": true
   },
   "i18n": {
-    "defaultCountry": "US",
+    "defaultCountry": "Bulgaria",
     "defaultLanguage": "EN",
     "availableLocale": [
       "en-US",
