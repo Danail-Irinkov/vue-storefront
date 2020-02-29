@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'development') {
   storefrontConfig = new Store({path: path.resolve('./config/production.json')});
 }
 console.log('START process.env.NODE_ENV: ', process.env.NODE_ENV);
-console.log('START storefrontConfig: ', storefrontConfig.clone());
+// console.log('START storefrontConfig: ', storefrontConfig.clone());
 console.log('START storefrontConfig: ');
 
 module.exports = (config, app) => {
@@ -430,7 +430,7 @@ function exec (cmd, args, opts, enableLogging = false, limit_output = false) {
 // Need this kebabcase, because lodash.kebabCase is doing it in a different way (numbers == words)
 function kebabForLink (string) {
   function split (text) {
-    let words = text.match(/[A-Za-z0-9.]+/g) || [];
+    let words = text.match(/[A-Za-z0-9:;)?!.]+/g) || [];
 
     if (words.length === 1 && words[0].length === text.length) {
       if (/[a-z]/.test(text)) {
@@ -441,12 +441,11 @@ function kebabForLink (string) {
   }
 
   function splitCamelCase (text) {
-    let foundFirstUpperCase = /[A-Z]/.exec(text);
+    let foundFirstUpperCase = /[A-Z]*/.exec(text);
     if (!foundFirstUpperCase) {
       return [text];
     }
-
-    let pattern = /[A-Z][a-z0-9:;).]*/g;
+    let pattern = /[A-Z]*[a-z0-9:;)?!.]*/g;
 
     // PascalCase
     if (foundFirstUpperCase.index === 0) {
@@ -464,6 +463,7 @@ function kebabForLink (string) {
   }
 
   function join (words) {
+    console.log('join words 3', words)
     if (!words.length) {
       return '';
     }
@@ -471,7 +471,10 @@ function kebabForLink (string) {
     let ret = String(words[0]).toLowerCase();
 
     for (let i = 1, n = words.length; i < n; i++) {
-      ret += '-' + String(words[i]).toLowerCase();
+      if(words[i]){
+        words[i] = words[i].replace(':', '').replace('?', '').replace('!', '').replace(')', '').replace('(', '').replace('.', '')
+        ret += '-' + String(words[i]).toLowerCase();
+      }
     }
 
     return ret;
@@ -488,18 +491,18 @@ function kebabForLink (string) {
     }
   });
 
-  return kebabCase(string).replace('.', '')
+  return kebabCase(string)
 }
 
 function testKebab () {
   console.time('testKebab took');
-  let array = ['GG 5?', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5', 'GG5 :)', 'GG5 66.5-7'];
-  let expected = ['GG-5', 'GG-5-!', 'GG-5-5-<3', 'GG-55', 'GG5-:-)', 'GG5-66.5-7'];
+  let array = ['RRrr', 'GG 533', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5 mega', 'GG-5 :)', 'GG 5 my love <3', 'GG5 :)', 'GG5 66.5-7'];
+  let expected = ['rrrr', 'gg-533', 'gg-5-', 'gg-5-5-3', 'gg-55-mega', 'gg-5-', 'gg-5-my-love-3', 'gg5-', 'gg5-665-7'];
   let result = [];
   for (let key in array) {
     let word1 = array[key];
     let word2 = kebabForLink(word1);
-    let res = 'testKebab TEST ' + key + '  -  test1: ' + word1 + '  -  result: ' + word2 + '  -  expected: ' + expected[key];
+    let res = 'testKebab TEST ' + key + '  -  input: ' + word1 + '  -  result: ' + word2 + '  -  expected: ' + expected[key];
     console.log(res);
     result.push(res)
   }

@@ -146,6 +146,7 @@ const mergeActions = {
     // console.log('mergeActions.ts mergeServerItem serverItem', serverItem)
     const diffLog = createDiffLog()
     const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
+    console.log('mergeServerItem clientItem', clientItem)
     if (clientItem) return diffLog
     Logger.info('No client item for' + serverItem.sku, 'cart')()
     diffLog.pushClientParty({ sku: serverItem.sku, status: 'no-item' })
@@ -159,8 +160,9 @@ const mergeActions = {
         item_id: serverItem.item_id,
         quoteId: serverItem.quote_id
       } as any as CartItem
-
+      console.log('mergeServerItem cartItem', cartItem)
       const resp = await CartService.deleteItem(getters.getCartToken, cartItem)
+      console.log('mergeServerItem resp', resp)
       return diffLog.pushServerResponse({ status: resp.resultCode, sku: serverItem.sku, result: resp })
     }
 
@@ -171,6 +173,7 @@ const mergeActions = {
       Logger.debug('Product variant for given serverItem has not found', 'cart', serverItem)()
     }
 
+    console.log('mergeServerItem diffLog', diffLog)
     return diffLog
   },
   async mergeServerItems ({ dispatch }, { serverItems, clientItems, forceClientState, dryRun }) {
