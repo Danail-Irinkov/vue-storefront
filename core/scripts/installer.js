@@ -23,6 +23,7 @@ const SOURCE_BACKEND_CONFIG_FILE = 'config/default.json'
 const STOREFRONT_BACKEND_GIT_URL = 'https://github.com/DivanteLtd/vue-storefront-api'
 const MAGENTO_SAMPLE_DATA_GIT_URL = 'https://github.com/magento/magento2-sample-data.git'
 const STOREFRONT_REMOTE_BACKEND_URL = 'https://demo.vuestorefront.io'
+const PROCC_REMOTE_BACKEND_URL = 'https://procc.co/'
 
 const STOREFRONT_DIRECTORY = shell.pwd()
 
@@ -413,10 +414,12 @@ class Storefront extends Abstract {
         let backendPath
         let graphQlHost
         let graphQlPort = 8080
+        let proccBackendPath = PROCC_REMOTE_BACKEND_URL
 
         if (Abstract.wasLocalBackendInstalled) {
           graphQlHost = 'localhost'
           backendPath = 'http://localhost:8080'
+          proccBackendPath = 'http://localhost:8081'
         } else {
           backendPath = STOREFRONT_REMOTE_BACKEND_URL
           graphQlHost = backendPath.replace('https://', '').replace('http://', '')
@@ -437,14 +440,14 @@ class Storefront extends Abstract {
         config.users.me_endpoint = `${backendPath}/api/user/me?token={{token}}`
         config.users.refresh_endpoint = `${backendPath}/api/user/refresh`
         config.stock.endpoint = `${backendPath}/api/stock`
-        config.cart.create_endpoint = `${backendPath}/api/cart/create?token={{token}}`
-        config.cart.updateitem_endpoint = `${backendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`
-        config.cart.deleteitem_endpoint = `${backendPath}/api/cart/delete?token={{token}}&cartId={{cartId}}`
-        config.cart.pull_endpoint = `${backendPath}/api/cart/pull?token={{token}}&cartId={{cartId}}`
-        config.cart.totals_endpoint = `${backendPath}/api/cart/totals?token={{token}}&cartId={{cartId}}`
-        config.cart.paymentmethods_endpoint = `${backendPath}/api/cart/payment-methods?token={{token}}&cartId={{cartId}}`
-        config.cart.shippingmethods_endpoint = `${backendPath}/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}`
-        config.cart.shippinginfo_endpoint = `${backendPath}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}`
+        config.cart.create_endpoint = `${proccBackendPath}/api/cart/create?token={{token}}`
+        config.cart.updateitem_endpoint = `${proccBackendPath}/api/cart/update?token={{token}}&cartId={{cartId}}`
+        config.cart.deleteitem_endpoint = `${proccBackendPath}/api/cart/delete?token={{token}}&cartId={{cartId}}`
+        config.cart.pull_endpoint = `${proccBackendPath}/api/cart/pull?token={{token}}&cartId={{cartId}}`
+        config.cart.totals_endpoint = `${proccBackendPath}/api/cart/totals?token={{token}}&cartId={{cartId}}`
+        config.cart.paymentmethods_endpoint = `${proccBackendPath}/api/cart/payment-methods?token={{token}}&cartId={{cartId}}`
+        config.cart.shippingmethods_endpoint = `${proccBackendPath}/api/cart/shipping-methods?token={{token}}&cartId={{cartId}}`
+        config.cart.shippinginfo_endpoint = `${proccBackendPath}/api/cart/shipping-information?token={{token}}&cartId={{cartId}}`
         config.cart.collecttotals_endpoint = `${backendPath}/api/cart/collect-totals?token={{token}}&cartId={{cartId}}`
         config.cart.deletecoupon_endpoint = `${backendPath}/api/cart/delete-coupon?token={{token}}&cartId={{cartId}}`
         config.cart.applycoupon_endpoint = `${backendPath}/api/cart/apply-coupon?token={{token}}&cartId={{cartId}}&coupon={{coupon}}`
