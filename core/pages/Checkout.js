@@ -427,7 +427,7 @@ export default {
     },
     // Created function by shabbir for make payment
     ProCCOrderPayment (order_ids) {
-      console.log('this.getTotals: ', this.getTotals)
+      // console.log('this.getTotals: ', this.getTotals)
       let amount
       for (let segment of this.getTotals) {
         if (segment.code === 'grand_total') {
