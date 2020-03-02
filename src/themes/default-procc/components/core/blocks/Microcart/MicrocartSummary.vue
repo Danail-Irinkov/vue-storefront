@@ -21,7 +21,7 @@
     <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code == 'shipping'">
       <div class="col-xs">
         {{ segment.title }}
-        <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary">
+        <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary" class="shipping-method-attributes">
           <li v-for="(data) in segment.extension_attributes" :key="data.name">
             {{ data.name }} ({{ data.cost | price }})
           </li>
@@ -195,4 +195,5 @@ export default {
   .summary .spinner {
     padding: 0;
   }
+  .shipping-method-attributes {padding-left: 25px;}
 </style>

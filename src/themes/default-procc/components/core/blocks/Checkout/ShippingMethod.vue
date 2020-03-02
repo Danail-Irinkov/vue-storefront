@@ -308,7 +308,7 @@ export default {
                 display: none;
               }
               width: calc(100% - 50px);
-              float: right;
+              float: none;
               padding-left:50px;
               &:first-child {
                 width: 30px;
@@ -354,6 +354,11 @@ export default {
         @media (max-width: 991px) {
           padding: 10px !important;
           float: left;
+        }
+        @media (max-width: 767px) {
+          span.checkmark{
+            left: 15px;
+          }
         }
         input {
           display: none;

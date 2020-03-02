@@ -218,4 +218,16 @@ export default {
     }
   }
 }
+.VueCarousel-inner img.product-image__thumb {
+  width: 100% !important;
+  min-height: auto !important;
+}
+.VueCarousel-navigation-button i{
+  width: 45px;
+  height: 45px;
+  background: #000;
+  border-radius: 50%;
+  padding: 0px;
+  line-height: 45px;
+}
 </style>

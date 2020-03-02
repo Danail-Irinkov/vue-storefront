@@ -424,5 +424,71 @@ export default {
       }
     }
   }
+  .microcart .modal-shipping-method .modal-backdrop {    background-color: rgba(0, 0, 0, 0.4);}
+  .microcart {
+      .modal-container{
+        header { color:#000;}
+          .modal-content {
+              .radioStyled {
+                margin: 0 !important;
+                float: right;
+                display: block;
+                position: relative;
+                padding-left: 35px;
+                margin-bottom: 12px;
+                cursor: pointer;
+                font-size: 16px;
+                line-height: 30px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
 
+                input {
+                  display: none;
+                  opacity: 0;
+                  cursor: pointer;
+                  &:checked + span.checkmark:after{
+                    content: '';
+                    display: block;
+                    height: 8px;
+                    width: 8px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-color: #fff;
+                  }
+                  &:focus {
+                    outline: none;
+                  }
+                }
+                .checkmark {
+                  height: 20px;
+                  width: 20px;
+                  right: 0;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  border-radius: 50%;
+                  border: 1px solid #000;
+
+                  &:after {
+                    content: "";
+                    position: absolute;
+                    display: none;
+                    top: 3px;
+                    left: 3px;
+                    width: 19px;
+                    height: 19px;
+                    border-radius: 50%;
+                    background: #828282;
+                  }
+                }
+              }
+          }
+      }
+  }
+  .microcart .modal-container .modal-content .radioStyled input:checked ~ .checkmark:after {display: block;}
+  .microcart .modal-container .modal-content  .radioStyled input:checked + span.checkmark {    background: #000;}
 </style>

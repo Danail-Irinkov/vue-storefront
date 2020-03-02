@@ -5,6 +5,8 @@ import config from 'config';
 import { isServer } from '@vue-storefront/core/helpers'
 import jwt_token from '@vue-storefront/config/jwt'
 import SBuffer from 'safer-buffer'
+import store from '@vue-storefront/core/store'
+import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 const Buffer = SBuffer.Buffer
 
 export default (baseURL = '') => {
@@ -19,7 +21,7 @@ export default (baseURL = '') => {
   //
   // Create and configure an apisauce-based api object.
   //
-  const api = axios.create({
+  let api = axios.create({
     // base URL is read from the "constructor"
     baseURL,
     // here are some default headers
@@ -29,6 +31,27 @@ export default (baseURL = '') => {
     },
     // 10 second timeout...
     timeout: 150000
+  })
+  api.interceptors.request.use(
+    (config) => {
+      const auth_token = store.getters['user/getUserToken']
+      if (auth_token) {
+        config.headers.Authorization = `Bearer ${auth_token}`
+      }
+      return config
+    },
+    error => Promise.reject(error)
+  )
+  api.interceptors.response.use((response) => {
+    if (response.data && response.data.token_expired) {
+      store.dispatch('user/logout', { silent: true })
+      localStorage.setItem('redirect', this.$route.path)
+      this.$router.push(localizedRoute('/', currentStoreView().storeCode))
+    }
+    return response
+  }, (error) => {
+    console.log('tokenexpite error', error)
+    return Promise.reject(error)
   })
 
   // JWT TOKEN MANAGEMENT
@@ -72,9 +95,10 @@ export default (baseURL = '') => {
     }
   })
   // pass token in request
-  const getHeaderWithToken = (token) => ({
+  const auth_token = store.getters['user/getUserToken']
+  const getHeaderWithToken = () => ({
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${auth_token}`
     }
   })
 
@@ -91,11 +115,11 @@ export default (baseURL = '') => {
   // Customer
   const createVSFCustomer = (data) => api.post(`customer/createVSFCustomer`, data)
   const VSFCustomerLogin = (data) => api.post(`customer/VSFCustomerLogin`, data)
-  const getCustomer = (token) => api.get(`customer/getCustomer`, getHeaderWithToken(token))
-  const getCustomerOrders = (token, pageSize, currentPage) => api.post(`order/getCustomerOrders`, {pageSize, currentPage}, getHeaderWithToken(token))
-  const updateCustomerProfile = (token, data) => api.post(`customer/updateCustomerProfile`, data, getHeaderWithToken(token))
-  const changePassword = (token, data) => api.post(`customer/changePassword`, data, getHeaderWithToken(token))
-  const updateCustomerAddress = (token, data) => api.post(`address/updateCustomerAddress`, data, getHeaderWithToken(token))
+  const getCustomer = (token) => api.get(`customer/getCustomer`)
+  const getCustomerOrders = (token, pageSize, currentPage) => api.post(`order/getCustomerOrders`, {pageSize, currentPage})
+  const updateCustomerProfile = (token, data) => api.post(`customer/updateCustomerProfile`, data)
+  const changePassword = (token, data) => api.post(`customer/changePassword`, data)
+  const updateCustomerAddress = (token, data) => api.post(`address/updateCustomerAddress`, data)
   const verifyCustomerEmail = (data) => api.post(`customer/verifyCustomerEmail`, data)
   const resendVerificationEmail = (data) => api.post(`customer/resendVerificationEmail`, data)
   const setCustomerPassword = (data) => api.post(`customer/setCustomerPassword`, data)
