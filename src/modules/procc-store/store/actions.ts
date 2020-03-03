@@ -21,6 +21,9 @@ const actions: ActionTree<StoreDataState, RootState> = {
     } catch (err) {
       Logger.debug('Unable to load headImage' + err)()
     }
+  },
+  async updateCurrentStore ({commit, rootState}, data) {
+    commit('SET_CURRENT_STORE', data)
   }
 }
 

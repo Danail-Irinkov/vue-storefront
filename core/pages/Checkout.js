@@ -469,6 +469,14 @@ export default {
             action1: { label: this.$t('OK') }
           })
         }
+      }).catch(err => {
+        Logger.error(err, 'Transaction was not Done!!')
+        this.$bus.$emit('notification-progress-stop');
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Something goes Wrong :(  payment fail, please retry'),
+          action1: { label: this.$t('OK') }
+        })
       })
     },
     // Created function by shabbir for place order in magento

@@ -50,7 +50,7 @@
                 {{ order.customer_user.first_name }} {{ order.customer_user.last_name }}
               </td>
               <td class="fs-medium lh25 hide-on-xs">
-                {{ order.total | price }}
+                {{ (order.total/100).toFixed(2) | price }}
               </td>
               <td class="fs-medium lh25 hide-on-xs">
                 {{ $t('Purchase') }}
@@ -65,6 +65,7 @@
                     <router-link class="no-underline block py10 px15" :to="localizedRoute(`/my-account/orders/${order._id}`)">
                       {{ $t('View order') }}
                     </router-link>
+                    <a href="#" class="no-underline block py10 px15" @click.prevent="paymentRetry(order)" v-if="order.status =='awaiting_payment'">{{ $t('Retry Payment') }}</a>
                     <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
                   </div>
                 </span>
@@ -84,7 +85,12 @@
 import UserOrder from '@vue-storefront/core/modules/order/components/UserOrdersHistory'
 
 export default {
-  mixins: [UserOrder]
+  mixins: [UserOrder],
+  mounted () {
+    window.callPlaceOrder = (transactionId) => { // ProCC MangoPay Handler
+      this.updateTransactionStatus(transactionId)
+    }
+  }
 }
 </script>
 

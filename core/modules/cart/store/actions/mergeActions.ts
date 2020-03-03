@@ -21,7 +21,7 @@ const mergeActions = {
       server_item_id: serverItem.item_id,
       procc_product_id: serverItem.procc_product_id,
       sku: cartItem.sku,
-      server_cart_id: serverItem.quoteId,
+      server_cart_id: serverItem.quote_id,
       prev_qty: cartItem.qty,
       product_option: serverItem.product_option,
       type_id: serverItem.product_type
@@ -157,7 +157,7 @@ const mergeActions = {
       const cartItem = {
         sku: serverItem.sku,
         item_id: serverItem.item_id,
-        quoteId: serverItem.quote_id
+        quote_id: serverItem.quote_id
       } as any as CartItem
 
       const resp = await CartService.deleteItem(getters.getCartToken, cartItem)

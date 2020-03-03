@@ -13,6 +13,7 @@ export const module: Module<StoreDataState, RootState> = {
       smallBanners: [],
       productBanners: []
     },
+    currentStore: [],
     headImage: null
   },
   getters,

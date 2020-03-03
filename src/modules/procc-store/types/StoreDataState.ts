@@ -4,5 +4,6 @@ export default interface StoreDataState {
     smallBanners: any[],
     productBanners: any[]
   },
+  currentStore: any,
   headImage: Record<string, any>
 }
