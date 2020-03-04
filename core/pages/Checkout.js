@@ -50,6 +50,7 @@ export default {
     ...mapGetters({
       getTotals: 'cart/getTotals',
       isVirtualCart: 'cart/isVirtualCart',
+      getCartItemsByBrand: 'cart/getCartItemsByBrand',
       productsInCartByBrand: 'cart/getCartItemsByBrand',
       currentImage: 'procc/getHeadImage', // by ProCC
       isThankYouPage: 'checkout/isThankYouPage'
@@ -154,6 +155,9 @@ export default {
       let selectedshippingMethods = {}
       for (let brand_id in shippingMethods) {
         selectedshippingMethods[brand_id] = find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethods[brand_id] })
+        if (selectedshippingMethods[brand_id] && !selectedshippingMethods[brand_id].cost) {
+          this.calculateRapidoShippingFee(brand_id)
+        }
       }
       // console.log('onAfterShippingMethodChanged shippingMethods', shippingMethods)
       // console.log('onAfterShippingMethodChanged selectedshippingMethods', selectedshippingMethods)
@@ -167,6 +171,18 @@ export default {
       this.$bus.$emit('loading-order-summary', false)
 
       this.$forceUpdate()
+    },
+    calculateRapidoShippingFee (brandId) {
+      let items = this.getCartItemsByBrand[brandId]
+      console.log('items', items)
+    },
+    notifyEmptyCart () {
+      this.$bus.$emit('notification-progress-stop'); // Added by Dan
+      this.$store.dispatch('notification/spawnNotification', {
+        type: 'warning',
+        message: this.$t('Shopping cart is empty. Please add some products before entering Checkout'),
+        action1: { label: this.$t('OK') }
+      })
     },
     onBeforeShippingMethods (country) {
       this.$store.dispatch('checkout/updatePropValue', ['country', country])
@@ -427,7 +443,7 @@ export default {
     },
     // Created function by shabbir for make payment
     ProCCOrderPayment (order_ids) {
-      console.log('this.getTotals: ', this.getTotals)
+      // console.log('this.getTotals: ', this.getTotals)
       let amount
       for (let segment of this.getTotals) {
         if (segment.code === 'grand_total') {
