@@ -71,7 +71,7 @@
         </div>
       </div>
       <div v-for="order in lastOrderConfirmation.orders" :key="order._id">
-        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" class-name="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true" />
+        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="getShipmentData(order)" class-name="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true" />
       </div>
       <div class="row">
         <div class="col-md-6 address">
@@ -255,15 +255,17 @@ export default {
     orderSummary () {
       let summary_data = []
       let sub_total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.products_total; });
-      sub_total= sub_total / 100
+      sub_total = (sub_total / 100).toFixed(2)
       let total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.total; });
+      total = (total / 100).toFixed(2)
       let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.shipping_fee; });
-      shipping_fee = shipping_fee / 100
+      shipping_fee = (shipping_fee / 100).toFixed(2)
       let tax = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.tax; });
+      tax = (tax / 100).toFixed(2)
       summary_data.push({code: 'subtotal', title: 'Subtotal', value: sub_total})
       summary_data.push({code: 'shipping_fee', title: 'Shipping Fee', value: shipping_fee})
       summary_data.push({code: 'tax', title: 'Tax', value: tax})
-      summary_data.push({code: 'grand_total', title: 'Grand Total', value: (total + tax)})
+      summary_data.push({code: 'grand_total', title: 'Grand Total', value: total})
       return summary_data
     },
     mailerElements () {
@@ -290,6 +292,13 @@ export default {
           password: this.password
         })
       }
+    },
+    getShipmentData (orderData) {
+      let shipment_data = orderData.shipping_method
+      if (!shipment_data.cost) {
+        shipment_data.cost = (parseFloat(orderData.shipping_fee) / 100).toFixed(2)
+      }
+      return shipment_data
     },
     requestNotificationPermission () {
       if (isServer) return false

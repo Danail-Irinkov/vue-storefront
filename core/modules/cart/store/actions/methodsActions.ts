@@ -91,6 +91,17 @@ const methodsActions = {
       await dispatch('checkout/updateSelectedShippingMethods', selectedShippingMethods, { root: true })
     }
   },
+  async calculateRapidoShippingFee ({ rootGetters }, {brandId}) {
+    const cartId = rootGetters['cart/getCartToken']
+    return ProCcApi().calculateShipmentCost({cartId, brandId}).then((result) => {
+      console.log('calculateShipmentCost', result.data)
+      const cost = parseFloat(result.data.shipping_cost).toFixed(2);
+      console.log('shipping cost ', cost)
+      return cost
+    }).catch((error) => {
+      console.error('error', error)
+    })
+  },
   async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
       const storeView = currentStoreView()
@@ -113,13 +124,17 @@ const methodsActions = {
         const cartId = rootGetters['cart/getCartToken']
         // added code for get shipping methods and set shipping methods and selected shipping method in vuex by shabbir
         await ProCcApi().getShippingMethodByBrand({brand_ids, cartId})
-          .then((result) => {
+          .then(async (result) => {
             let default_shipping_methods = {}
             let shipping_methods = {}
             for (let brand_id in result.data.shipping_methods) {
               let store_data = result.data.shipping_methods[brand_id]
               shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
               let shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
+              if (shipping_method_data && (!shipping_method_data.cost || shipping_method_data.isRapido)) {
+                shipping_method_data.cost = await dispatch('calculateRapidoShippingFee', {brandId: brand_id})
+                shipping_method_data.isRapido = true
+              }
               default_shipping_methods[brand_id] = shipping_method_data
             }
             dispatch('updateShippingMethods', {shippingMethods: shipping_methods})

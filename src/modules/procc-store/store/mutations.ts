@@ -7,6 +7,9 @@ const mutations: MutationTree<StoreDataState> = {
   },
   SET_HEAD_IMAGE (state, headImage) {
     state.headImage = headImage
+  },
+  SET_CURRENT_STORE (state, data) {
+    state.currentStore = data
   }
 }
 

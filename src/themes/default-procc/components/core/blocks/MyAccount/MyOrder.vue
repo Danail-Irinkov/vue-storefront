@@ -131,7 +131,12 @@
           </div>
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Payment method') }}</h5>
-            <p v-if="paymentMethod">
+            <div v-if="order.status =='awaiting_payment'">
+              <button type="button" class="brdr-none p10 pointer" @click.prevent="paymentRetry(order)">
+                {{ $t('Retry Payment') }}
+              </button>
+            </div>
+            <p v-else-if="paymentMethod">
               {{ $t('Online Payment') }}
             </p>
           </div>
@@ -168,6 +173,9 @@ export default {
     })
   },
   mounted () {
+    window.callPlaceOrder = (transactionId) => { // ProCC MangoPay Handler
+      this.updateTransactionStatus(transactionId)
+    }
     this.singleOrderItems.forEach(async item => {
       if (!this.itemThumbnail[item.sku]) {
         const product = await this.getProduct({ options: { sku: item.sku }, setCurrentProduct: false, setCurrentCategoryPath: false, selectDefaultVariant: false })
