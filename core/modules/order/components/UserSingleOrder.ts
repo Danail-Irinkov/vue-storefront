@@ -34,8 +34,8 @@ export const UserSingleOrder = {
     // created function by shabbir for get order summary
     orderSummary () {
       let subtotal = sumBy(this.order.order_items, (o) => { return o.price * o.qty })
-      let shipping_amount = (parseFloat(this.order.shipping_fee)/100).toFixed(2)
-      let tax = this.order.tax ? (parseFloat(this.order.tax)/100): 0
+      let shipping_amount = (parseFloat(this.order.shipping_fee) / 100).toFixed(2)
+      let tax = this.order.tax ? (parseFloat(this.order.tax) / 100) : 0
       let grand_total = parseFloat(subtotal) + parseFloat(shipping_amount) + tax
       return {subtotal, shipping_amount, tax, grand_total}
     }

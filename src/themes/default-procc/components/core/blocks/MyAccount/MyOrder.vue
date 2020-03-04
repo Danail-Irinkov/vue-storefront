@@ -132,7 +132,9 @@
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Payment method') }}</h5>
             <div v-if="order.status =='awaiting_payment'">
-              <button type="button" class="brdr-none p10 pointer" @click.prevent="paymentRetry(order)">{{$t('Retry Payment')}}</button>
+              <button type="button" class="brdr-none p10 pointer" @click.prevent="paymentRetry(order)">
+                {{ $t('Retry Payment') }}
+              </button>
             </div>
             <p v-else-if="paymentMethod">
               {{ $t('Online Payment') }}

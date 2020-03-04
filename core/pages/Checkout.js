@@ -156,7 +156,8 @@ export default {
       for (let brand_id in shippingMethods) {
         selectedshippingMethods[brand_id] = find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethods[brand_id] })
         if (selectedshippingMethods[brand_id] && !selectedshippingMethods[brand_id].cost) {
-          this.calculateRapidoShippingFee(brand_id)
+          selectedshippingMethods[brand_id].cost = await this.$store.dispatch('cart/calculateRapidoShippingFee', { brandId: brand_id })
+          selectedshippingMethods[brand_id].isRapido = true
         }
       }
       // console.log('onAfterShippingMethodChanged shippingMethods', shippingMethods)
@@ -171,10 +172,6 @@ export default {
       this.$bus.$emit('loading-order-summary', false)
 
       this.$forceUpdate()
-    },
-    calculateRapidoShippingFee (brandId) {
-      let items = this.getCartItemsByBrand[brandId]
-      console.log('items', items)
     },
     notifyEmptyCart () {
       this.$bus.$emit('notification-progress-stop'); // Added by Dan

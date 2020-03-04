@@ -71,7 +71,7 @@
         </div>
       </div>
       <div v-for="order in lastOrderConfirmation.orders" :key="order._id">
-        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="order.shipping_method" class-name="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true" />
+        <order-items :brand="order.brand" :order-items="order.order_items" :shipping-method="getShipmentData(order)" class-name="bg-cl-secondary mb20" :order-id="order.order_no" :is-disabled-inputs="true" />
       </div>
       <div class="row">
         <div class="col-md-6 address">
@@ -292,6 +292,13 @@ export default {
           password: this.password
         })
       }
+    },
+    getShipmentData (orderData) {
+      let shipment_data = orderData.shipping_method
+      if (!shipment_data.cost) {
+        shipment_data.cost = (parseFloat(orderData.shipping_fee) / 100).toFixed(2)
+      }
+      return shipment_data
     },
     requestNotificationPermission () {
       if (isServer) return false

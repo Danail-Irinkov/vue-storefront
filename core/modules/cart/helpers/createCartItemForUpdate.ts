@@ -14,7 +14,7 @@ const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateId
     product_type: clientItem.type_id,
     name: clientItem.name,
     price: clientItem.price,
-    store_brand: clientItem.store_brand, // Edited by shabbir for save product id in cart session
+    store_brand: clientItem.store_brand // Edited by shabbir for save product id in cart session
   } as any as CartItem
 
   if (updateIds && serverItem.quote_id && serverItem.item_id) {

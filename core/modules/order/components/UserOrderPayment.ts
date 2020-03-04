@@ -1,6 +1,6 @@
 import { mapGetters } from 'vuex';
 import { Logger } from '@vue-storefront/core/lib/logger';
-import ProCcApi from "@vue-storefront/theme-default-procc/helpers/procc_api";
+import ProCcApi from '@vue-storefront/theme-default-procc/helpers/procc_api';
 import i18n from '@vue-storefront/i18n';
 
 /**
@@ -13,13 +13,13 @@ export const UserOrderPayment = {
     }
   },
   computed: {
-    ...mapGetters('user', ['getOrdersHistory']),
+    ...mapGetters('user', ['getOrdersHistory'])
   },
   methods: {
     paymentRetry (order) {
       this.$bus.$emit('notification-progress-start', i18n.t('Processing Transaction...'))
       console.log('this.getTotals: ', order)
-      let data = {order_ids:[order._id]}
+      let data = {order_ids: [order._id]}
       this.selected_order = order
       this.ProCcAPI.VSFOrderPayment(data, order.customer_brand._id).then(async (response) => {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
@@ -78,7 +78,7 @@ export const UserOrderPayment = {
       console.log('preparedOrder2Last323', mp_transaction_id)
       let update_data = {
         mp_transaction: mp_transaction_id,
-        order_ids:[this.selected_order._id]
+        order_ids: [this.selected_order._id]
       }
       console.log('preparedOrder!!update_data', update_data)
       // call API for update order status after payment successfully done
@@ -88,11 +88,11 @@ export const UserOrderPayment = {
           this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
           this.$bus.$emit('notification-progress-stop');
           this.$forceUpdate()
-          this.selected_order=''
+          this.selected_order = ''
         }).catch((error) => {
           Logger.error('Internal validation error; Order entity is not compliant with the schema: ' + JSON.stringify(error), 'orders')()
           this.$bus.$emit('notification-progress-stop');
         })
-    },
+    }
   }
 }
