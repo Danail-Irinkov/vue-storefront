@@ -65,6 +65,9 @@
                     <router-link class="no-underline block py10 px15" :to="localizedRoute(`/my-account/orders/${order._id}`)">
                       {{ $t('View order') }}
                     </router-link>
+                    <a :href="`${config.PROCC.FRONT_URL}/orderReview/${order.customer_feedback_hash}`" class="no-underline block py10 px15" target="_blank">
+                      {{ $t('Order Feedback') }}
+                    </a>
                     <a href="#" class="no-underline block py10 px15" @click.prevent="paymentRetry(order)" v-if="order.status =='awaiting_payment'">{{ $t('Retry Payment') }}</a>
                     <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
                   </div>
@@ -83,7 +86,7 @@
 
 <script>
 import UserOrder from '@vue-storefront/core/modules/order/components/UserOrdersHistory'
-
+import config from 'config';
 export default {
   mixins: [UserOrder],
   mounted () {

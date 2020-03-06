@@ -1,7 +1,8 @@
 {
   "PROCC": {
     "API": "http://procc-dash-api:8081",
-    "URL": "https://procc.co"
+    "URL": "https://procc.co",
+    "FRONT_URL": "http://procc.co"
   },
   "server": {
     "url": "https://store.procc.co",
@@ -494,7 +495,7 @@
     "displayItemDiscounts": true,
     "productsAreReconfigurable": true,
     "minicartCountType": "quantities",
-    "create_endpoint": "https://procc.co/api/cart/createToken?token={{token}}",
+    "create_endpoint": "https://procc.co/api/cart/create?token={{token}}",
     "updateitem_endpoint": "https://procc.co/api/cart/update?token={{token}}&cartId={{cartId}}",
     "deleteitem_endpoint": "https://procc.co/api/cart/delete?token={{token}}&cartId={{cartId}}",
     "pull_endpoint": "https://procc.co/api/cart/pull?token={{token}}&cartId={{cartId}}",
