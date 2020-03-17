@@ -213,6 +213,8 @@ const mergeActions = {
     // console.time('mergeClientItems')
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     // console.timeEnd('mergeClientItems')
+    console.log('mergeServerItems', serverItems)
+    console.log('mergeServer mergeParameters', mergeParameters)
     // console.time('mergeServerItems')
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
     // console.timeEnd('mergeServerItems')
