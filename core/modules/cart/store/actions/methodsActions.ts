@@ -142,6 +142,8 @@ const methodsActions = {
             dispatch('updateSelectedShippingMethods', {selectedShippingMethods: selected_shipping_methods})
             dispatch('updateBrandsDetails', {brandsDetails: map(result.data.shipping_methods, (o) => { return o.brand; })})
             dispatch('setCheckoutShippingMethods')
+          }).catch((err)=>{
+            console.log('getShippingMethodByBrand ERR: ', err)
           })
       }
     } else {
