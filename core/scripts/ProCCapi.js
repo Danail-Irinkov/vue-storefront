@@ -366,7 +366,7 @@ function getDefaultStoreData (config, storeData) {
       index: `vue_storefront_catalog_${_.snakeCase(storeData.storefront_url)}`
     },
     tax: {
-      defaultCountry: 'BG',
+      defaultCountry: 'Bulgaria',
       defaultRegion: '',
       calculateServerSide: true,
       sourcePriceIncludesTax: false

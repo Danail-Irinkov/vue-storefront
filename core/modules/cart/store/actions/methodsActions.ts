@@ -129,13 +129,13 @@ const methodsActions = {
             let shipping_methods = {}
             for (let brand_id in result.data.shipping_methods) {
               let store_data = result.data.shipping_methods[brand_id]
-              shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
+              shipping_methods[brand_id] = result.data.shipping_methods[brand_id] && result.data.shipping_methods[brand_id]['shipping_methods']?result.data.shipping_methods[brand_id]['shipping_methods']:[]
               let shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
               if (shipping_method_data && (!shipping_method_data.cost || shipping_method_data.isRapido)) {
                 shipping_method_data.cost = await dispatch('calculateRapidoShippingFee', {brandId: brand_id})
                 shipping_method_data.isRapido = true
               }
-              default_shipping_methods[brand_id] = shipping_method_data
+              default_shipping_methods[brand_id] = shipping_method_data?shipping_method_data:result.data.shipping_methods[brand_id]['shipping_methods'][0]?result.data.shipping_methods[brand_id]['shipping_methods'][0]:{}
             }
             dispatch('updateShippingMethods', {shippingMethods: shipping_methods})
             let selected_shipping_methods = defaults(getters.getSelectedShippingMethods, default_shipping_methods);

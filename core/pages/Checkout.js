@@ -181,10 +181,12 @@ export default {
         action1: { label: this.$t('OK') }
       })
     },
-    onBeforeShippingMethods (country) {
-      this.$store.dispatch('checkout/updatePropValue', ['country', country])
-      this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
+    async onBeforeShippingMethods (country) {
+      this.$bus.$emit('loading-order-summary', true)
+      await this.$store.dispatch('checkout/updatePropValue', ['country', country])
+      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
       this.$forceUpdate()
+      this.$bus.$emit('loading-order-summary', false)
     },
     async onAfterPlaceOrder (payload) {
       this.confirmation = payload.confirmation
