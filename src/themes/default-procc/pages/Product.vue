@@ -348,7 +348,7 @@ export default {
       countries: [],
       courier: {},
       selected_delivery_policy: {},
-      selected_country: 'BG',
+      selected_country: 'Bulgaria',
       product_quantity: 1,
       ProCCCurrentProductVariant: {qty: 1},
       isCCStore: false
