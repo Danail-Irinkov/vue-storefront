@@ -17,7 +17,7 @@
           </a>
         </div>
         <div class="store-contact text shipping-method pointer" v-if="getSelectedShippingMethods[brandId]" @click="showShippingModel(brandId)">
-          {{ getSelectedShippingMethods[brandId].name }} |&nbsp;
+          {{ getSelectedShippingMethods[brandId].name }} |&nbsp
           <span v-if="getSelectedShippingMethods[brandId].cost && getSelectedShippingMethods[brandId].cost > 0">{{ getSelectedShippingMethods[brandId].cost | price }}</span>
           <span v-else>??</span>
           <button class="btn normal-icon-btn">
@@ -57,6 +57,7 @@
 <script>
 import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary'
 import CheckoutProduct from './Product'
+import {mapGetters} from "vuex";
 
 export default {
   components: {
@@ -67,6 +68,24 @@ export default {
       type: String,
       default: ''
     }
+  },
+  computed: {
+    ...mapGetters({
+      totals: 'cart/getTotals',
+      shippingMethods: 'checkout/getShippingMethods',
+      getSelectedShippingMethods: 'checkout/getSelectedShippingMethods'
+    })
+
+  },
+  watch: {
+    'getSelectedShippingMethods': {
+      handler: function (value) {
+        console.log("getSelectedShippingMethods watcher", value);
+        this.$forceUpdate()
+      },
+      deep: true,
+      immediate: true
+    },
   },
   mixins: [CartSummary]
 }

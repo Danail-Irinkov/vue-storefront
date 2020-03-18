@@ -155,7 +155,7 @@ import { mapGetters, mapActions } from 'vuex'
 import i18n from '@vue-storefront/i18n'
 import { isModuleRegistered } from '@vue-storefront/core/lib/modules'
 
-import ShippingMethod from 'theme/components/core/blocks/Checkout/ShippingMethod'
+import ShippingMethod from 'theme/components/procc/Checkout/ShippingMethod'
 import VueOfflineMixin from 'vue-offline/mixin'
 import onEscapePress from '@vue-storefront/core/mixins/onEscapePress'
 import InstantCheckout from 'src/modules/instant-checkout/components/InstantCheckout.vue'

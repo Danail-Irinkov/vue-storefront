@@ -6,6 +6,9 @@ import { isServer } from '@vue-storefront/core/helpers'
 import jwt_token from '@vue-storefront/config/jwt'
 import SBuffer from 'safer-buffer'
 import store from '@vue-storefront/core/store'
+import map from 'lodash-es/map'
+import find from 'lodash-es/find';
+import defaults from 'lodash-es/defaults';
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
 const Buffer = SBuffer.Buffer
 
@@ -109,7 +112,42 @@ export default (baseURL = '') => {
   const getVSFSizeChartById = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
   const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
   const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
-  const getShippingMethodByBrand = (data) => api.post(`shipping-method/getShippingMethodByBrand`, data)
+  const updateShippingMethodsFromProCC = (data) => api.post(`shipping-method/updateShippingMethodsFromProCC`, data)
+    .then(async (result) => {
+      let default_shipping_methods = {}
+      let shipping_methods = {}
+      for (let brand_id in result.data.shipping_methods) {
+        let store_data = result.data.shipping_methods[brand_id]
+        shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
+        let shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
+        if (shipping_method_data && (!shipping_method_data.cost || shipping_method_data.isRapido)) {
+          // shipping_method_data.cost = await store.dispatch('cart/calculateRapidoShippingFee', { brandId: brand_id })
+          shipping_method_data.isRapido = true
+        }
+        default_shipping_methods[brand_id] = shipping_method_data
+      }
+      console.log('store.getters[checkout/getSelectedShippingMethods]', store.getters['checkout/getSelectedShippingMethods'])
+      console.log('default_shipping_methods', default_shipping_methods)
+      let shippingMethods = shipping_methods
+      let selectedShippingMethods = defaults(store.getters['checkout/getSelectedShippingMethods'], default_shipping_methods)
+      // let selectedShippingMethods = defaults(default_shipping_methods, store.getters['checkout/getSelectedShippingMethods'])
+
+      console.log('selectedShippingMethods', selectedShippingMethods)
+      let brandsDetails = map(result.data.shipping_methods, (o) => { return o.brand; })
+      await store.dispatch('cart/updateShippingMethods', {shippingMethods})
+      await store.dispatch('cart/updateSelectedShippingMethods', {selectedShippingMethods})
+      await store.dispatch('cart/updateBrandsDetails', {brandsDetails})
+      await store.dispatch('cart/setCheckoutShippingMethods')
+      return {
+        shippingMethods,
+        selectedShippingMethods,
+        brandsDetails
+      }
+    }).catch((err)=>{
+      console.log('updateShippingMethodsFromProCC ERR: ', err)
+      return Promise.reject(err)
+    })
+
   const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
   const checkProductQty = (data, brandId) => api.post(`product/checkProductQty`, data, getHeader(brandId))
   // Customer
@@ -136,7 +174,7 @@ export default (baseURL = '') => {
     updateTransactionStatus,
     updateVsfSyncStatus,
     saveTransactionInOrder,
-    getShippingMethodByBrand,
+    updateShippingMethodsFromProCC,
     getStoreData,
     checkProductQty,
     createVSFCustomer,

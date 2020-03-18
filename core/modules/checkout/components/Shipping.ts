@@ -83,6 +83,7 @@ export const Shipping = {
     },
     saveShippingMethod (brand_id) {
       this.$bus.$emit('modal-hide', 'modal-shipping-method')
+      console.log('this.selectedShippingMethods', this.selectedShippingMethods)
       this.$bus.$emit('checkout-after-shippingMethodChanged', this.selectedShippingMethods)
       this.checkSelectedShippingMethod()
     },

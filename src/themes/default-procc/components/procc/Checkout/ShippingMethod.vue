@@ -45,6 +45,7 @@
             </td>
             <td class="fs-medium lh25 align-right" :data-th="$t('Cost')">
               <span v-if="method.cost > 0">{{ method.cost | price }}</span>
+              <span v-else-if="getSelectedShippingMethods[storeBrandId].name === method.name && getSelectedShippingMethods[storeBrandId].cost > 0">{{ getSelectedShippingMethods[storeBrandId].cost | price }}</span>
               <span v-else>{{ $t('Calculated') }}</span>
             </td>
             <td class="fs-medium lh25" :data-th="$t('tracking')">
@@ -84,9 +85,17 @@ export default {
     }
   },
   mounted () {
+    // const shippingDetails = this.$store.get['checkout/getShippingDetails']
+    // console.log('modal  ShippingMethod shippingDetails', shippingDetails)
+    // if(shippingDetails.country){ // if customer has set the Country for shipping
+      // this.$store.dispatch('syncShippingMethods', { forceServerSync: false })
+    // }
     this.$nextTick(() => {
       this.$bus.$emit('modal-show', 'modal-shipping-method')
     })
+  },
+  beforeDestroy() {
+    this.$bus.$emit('modal-hide', 'modal-shipping-method')
   },
   components: {
     Modal,

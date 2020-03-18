@@ -8,9 +8,7 @@ import PaymentMethod from '../../types/PaymentMethod'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 import keys from 'lodash-es/keys'
 import isEmpty from 'lodash-es/isEmpty'
-import map from 'lodash-es/map'
-import find from 'lodash-es/find';
-import defaults from 'lodash-es/defaults';
+import size from 'lodash-es/size'
 
 const methodsActions = {
   async pullMethods ({ getters, dispatch }, { forceServerSync }) {
@@ -87,22 +85,35 @@ const methodsActions = {
   },
   // created method for emit updateSelectedShippingMethods in checkout for update selected shipping methods
   async updateSelectedShippingMethods ({ dispatch }, { selectedShippingMethods, commit }) {
-    if (selectedShippingMethods && !isEmpty(selectedShippingMethods)) {
+    console.log('selectedShippingMethods: ', selectedShippingMethods)
+    console.log('size(selectedShippingMethods): ', size(selectedShippingMethods))
+    if (selectedShippingMethods && size(selectedShippingMethods) > 0) {
+      // for (let key in selectedShippingMethods){
+      //   let shipping_method = selectedShippingMethods[key]
+      //   if (shipping_method && shipping_method.isRapido){
+      //     console.log('IS RAPIDO SHIPPING METHOD: ', shipping_method)
+      //     shipping_method.cost = await dispatch('calculateRapidoShippingFee', { brandId: shipping_method.brand })
+      //     console.log('shipping_method.cost', shipping_method.cost)
+      //   }
+      // }
       await dispatch('checkout/updateSelectedShippingMethods', selectedShippingMethods, { root: true })
     }
   },
   async calculateRapidoShippingFee ({ rootGetters }, {brandId}) {
     const cartId = rootGetters['cart/getCartToken']
-    return ProCcApi().calculateShipmentCost({cartId, brandId}).then((result) => {
+    console.log('calculateShipmentCost shipping cartId ', cartId)
+    console.log('calculateShipmentCost shipping brandId ', brandId)
+    return ProCcApi().calculateShipmentCost({cartId, brandId}).then(async (result) => {
       console.log('calculateShipmentCost', result.data)
-      const cost = parseFloat(result.data.shipping_cost).toFixed(2);
-      console.log('shipping cost ', cost)
+      let cost = parseFloat(result.data.shipping_cost).toFixed(2);
+      console.log('calculateShipmentCost shipping cost ', cost)
       return cost
     }).catch((error) => {
       console.error('error', error)
+      return Promise.reject(error)
     })
   },
-  async syncShippingMethods ({ getters, rootGetters, dispatch }, { forceServerSync = false }) {
+  syncShippingMethods: async function ({getters, rootGetters, dispatch}, {forceServerSync = false}) {
     if (getters.canUpdateMethods && (getters.isTotalsSyncRequired || forceServerSync)) {
       const storeView = currentStoreView()
       Logger.debug('Refreshing shipping methods', 'cart')()
@@ -123,28 +134,7 @@ const methodsActions = {
         const brand_ids = keys(getters.getCartItemsByBrand);
         const cartId = rootGetters['cart/getCartToken']
         // added code for get shipping methods and set shipping methods and selected shipping method in vuex by shabbir
-        await ProCcApi().getShippingMethodByBrand({brand_ids, cartId})
-          .then(async (result) => {
-            let default_shipping_methods = {}
-            let shipping_methods = {}
-            for (let brand_id in result.data.shipping_methods) {
-              let store_data = result.data.shipping_methods[brand_id]
-              shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
-              let shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
-              if (shipping_method_data && (!shipping_method_data.cost || shipping_method_data.isRapido)) {
-                shipping_method_data.cost = await dispatch('calculateRapidoShippingFee', {brandId: brand_id})
-                shipping_method_data.isRapido = true
-              }
-              default_shipping_methods[brand_id] = shipping_method_data
-            }
-            dispatch('updateShippingMethods', {shippingMethods: shipping_methods})
-            let selected_shipping_methods = defaults(getters.getSelectedShippingMethods, default_shipping_methods);
-            dispatch('updateSelectedShippingMethods', {selectedShippingMethods: selected_shipping_methods})
-            dispatch('updateBrandsDetails', {brandsDetails: map(result.data.shipping_methods, (o) => { return o.brand; })})
-            dispatch('setCheckoutShippingMethods')
-          }).catch((err)=>{
-            console.log('getShippingMethodByBrand ERR: ', err)
-          })
+        await ProCcApi().updateShippingMethodsFromProCC({brand_ids, cartId})
       }
     } else {
       Logger.debug('Shipping methods does not need to be updated', 'cart')()

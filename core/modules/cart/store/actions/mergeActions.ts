@@ -195,6 +195,7 @@ const mergeActions = {
     if (dryRun) return
 
     if (getters.isTotalsSyncRequired && clientItems.length > 0) {
+      // await dispatch('syncShippingMethods', { forceServerSync: false }) // Added By Dan to Sync shipping methods upon cart modifications
       await dispatch('syncTotals')
     }
 

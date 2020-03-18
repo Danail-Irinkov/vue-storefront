@@ -8,6 +8,7 @@ import { currentStoreView } from '@vue-storefront/core/lib/multistore';
 import { isServer } from '@vue-storefront/core/helpers';
 import { Logger } from '@vue-storefront/core/lib/logger';
 import find from 'lodash-es/find';
+import cloneDeep from 'lodash-es/cloneDeep';
 import SmoothScroll from 'src/themes/default-procc/resource/smooth-scroll.polyfills.min.js'
 
 export default {
@@ -152,22 +153,38 @@ export default {
       }
     },
     async onAfterShippingMethodChanged (shippingMethods) {
-      let selectedshippingMethods = {}
-      for (let brand_id in shippingMethods) {
-        selectedshippingMethods[brand_id] = find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethods[brand_id] })
-        if (selectedshippingMethods[brand_id] && !selectedshippingMethods[brand_id].cost) {
-          selectedshippingMethods[brand_id].cost = await this.$store.dispatch('cart/calculateRapidoShippingFee', { brandId: brand_id })
-          selectedshippingMethods[brand_id].isRapido = true
+      let selectedShippingMethods2 = {}
+      let rapido_price = '0'
+      let rapido_brand_id = '0'
+      for (let brand_id_1 in shippingMethods) {
+        let brand_id = '' + String(brand_id_1)
+        if (!shippingMethods.hasOwnProperty(brand_id)) continue
+        let default_s_m = {...find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethods[brand_id] })}
+        // delete default_s_m.cost
+        if (default_s_m) {
+          default_s_m.cost = '' + default_s_m.cost
+        } else {
+          default_s_m = {}
+        }
+        selectedShippingMethods2[brand_id] = cloneDeep(default_s_m)
+        // selectedShippingMethods2[brand_id] = {name: 'Rap', cost: '0'}
+        console.log('onAfterShippingMethodChanged selectedShippingMethods2[brand_id]', selectedShippingMethods2[brand_id])
+        if (selectedShippingMethods2[brand_id] && selectedShippingMethods2[brand_id].cost === '0') {
+          rapido_price = await this.$store.dispatch('cart/calculateRapidoShippingFee', { brandId: brand_id })
+          selectedShippingMethods2[brand_id].cost = '' + rapido_price
+          selectedShippingMethods2[brand_id].isRapido = true
         }
       }
       // console.log('onAfterShippingMethodChanged shippingMethods', shippingMethods)
-      // console.log('onAfterShippingMethodChanged selectedshippingMethods', selectedshippingMethods)
+      // console.log('onAfterShippingMethodChanged selectedShippingMethods2', selectedShippingMethods2)
       this.$bus.$emit('loading-summary', true)
       this.$bus.$emit('loading-order-summary', true)
-      await this.$store.dispatch('checkout/updateSelectedShippingMethods', selectedshippingMethods)
-      await this.$store.dispatch('cart/updateCartSelectedShippingMethods', selectedshippingMethods)
+
+      await this.$store.dispatch('checkout/updateSelectedShippingMethods', selectedShippingMethods2)
+      await this.$store.dispatch('cart/updateCartSelectedShippingMethods', selectedShippingMethods2)
       // this.shippingMethods = selectedshippingMethods
       await this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
+
       this.$bus.$emit('loading-summary', false)
       this.$bus.$emit('loading-order-summary', false)
 
@@ -457,6 +474,15 @@ export default {
               message: this.$t('Please allow to open popup window'),
               action1: { label: this.$t('OK') }
             })
+          } else {
+            console.log('newWin.onClose Set for payment popUp')
+            let eventBusEmit = (event) => this.$bus.$emit(event);
+            let timer = setInterval(() => {
+              if (newWin.closed) {
+                clearInterval(timer);
+                eventBusEmit('notification-progress-stop')
+              }
+            }, 500);
           }
         } else {
           this.$bus.$emit('notification-progress-stop');

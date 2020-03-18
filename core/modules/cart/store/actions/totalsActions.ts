@@ -46,6 +46,8 @@ const totalsActions = {
   },
   async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
     const methodsData = payload ? payload.methodsData : null
+    console.log('pullMethods payload.forceServerSync', payload.forceServerSync)
+
     await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
 
     if (getters.canSyncTotals && (getters.isTotalsSyncRequired || payload.forceServerSync)) {
