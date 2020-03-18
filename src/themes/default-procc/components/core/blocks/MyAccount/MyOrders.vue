@@ -68,6 +68,7 @@
                     <a :href="`${config.PROCC.FRONT_URL}/orderReview/${order.customer_feedback_hash}`" class="no-underline block py10 px15" target="_blank">
                       {{ $t('Order Feedback') }}
                     </a>
+                    <a class="no-underline block py10 px15" @click.prevent="getOrderInvoicePDF(order._id)" v-if="order.status != 'awaiting_payment'">{{ $t('Download Invoice') }}</a>
                     <a href="#" class="no-underline block py10 px15" @click.prevent="paymentRetry(order)" v-if="order.status =='awaiting_payment'">{{ $t('Retry Payment') }}</a>
                     <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
                   </div>
