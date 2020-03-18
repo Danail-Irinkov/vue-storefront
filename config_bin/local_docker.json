@@ -208,6 +208,7 @@
       "dev"
     ],
     "dev": {
+      "store_brand_id": "5dfd22ae43f1670037a23fac",
       "storeCode": "dev",
       "storeName": "Dev Acc Store",
       "disabled": false,

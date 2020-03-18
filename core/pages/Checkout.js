@@ -419,7 +419,7 @@ export default {
         console.log('placeOrder Err', e)
       }
     },
-    // Created function by shabbir for place order in procc
+    // Created function by Shabbir for place order in ProCC
     placeProCCOrder () {
       let order_data = this.prepareProCCOrder()
       this.ProCcAPI.addNewOrder(order_data, order_data.store_brand)
@@ -435,7 +435,7 @@ export default {
           this.$bus.$emit('notification-progress-stop');
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
-            message: this.$t('Unable to place order in procc!!'),
+            message: this.$t('Placing the order failed, please contact support!'),
             action1: { label: this.$t('OK') }
           })
         })

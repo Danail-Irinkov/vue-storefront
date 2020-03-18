@@ -79,7 +79,7 @@ export default {
     },
     shippingMethod: {
       type: Object,
-      default: ''
+      default: () => {}
     },
     isDisabledInputs: {
       type: Boolean,

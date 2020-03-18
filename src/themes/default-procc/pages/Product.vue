@@ -575,6 +575,7 @@ export default {
           // AutoSelect first Option ProCC
           if (this.getProductOptions[0] && this.getProductOptions[0].attribute_code) {
             let variant = this.getAvailableFilters[this.getProductOptions[0].attribute_code][0]
+            console.log('stock/check variant', variant)
             if (variant) {
               console.log('stock/check variant2', variant)
               this.isStockInfoLoading = false
