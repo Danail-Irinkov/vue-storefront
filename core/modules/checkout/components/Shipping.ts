@@ -1,5 +1,6 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
@@ -21,7 +22,8 @@ export const Shipping = {
   data () {
     return {
       isFilled: false,
-      countries: Countries,
+      ProCcApi: ProCcApi(),
+      countries: [], //Edited By Dan
       shipping: this.$store.state.checkout.shippingDetails,
       shipToMyAddress: false,
       selectedShippingMethods: {},
@@ -65,11 +67,29 @@ export const Shipping = {
       immediate: true
     }
   },
+  created () {
+    this.countries = [...Countries]
+  },
   mounted () {
+    this.getShippingCountryList()
     this.checkDefaultShippingAddress()
     this.checkSelectedShippingMethod()
   },
   methods: {
+    async getShippingCountryList () {
+      try {
+        // console.log('C Countries1:', this.countries )
+        if (!this.ProCC_Countries) {
+          let ProCC_Countries = await this.ProCcApi.getShippingCountriesList() // Added by Dan to load countries from ProCC shipping list
+          this.ProCC_Countries = [...ProCC_Countries]
+          console.log('C Countries3:', this.ProCC_Countries )
+        }
+
+        this.countries = [...this.ProCC_Countries]
+      }catch (e) {
+        console.log('getShippingCountryList Err: ', e)
+      }
+    },
     checkDefaultShippingAddress () {
       this.shipToMyAddress = this.hasShippingDetails()
     },
@@ -83,8 +103,9 @@ export const Shipping = {
     },
     saveShippingMethod (brand_id) {
       this.$bus.$emit('modal-hide', 'modal-shipping-method')
-      console.log('this.selectedShippingMethods', this.selectedShippingMethods)
-      this.$bus.$emit('checkout-after-shippingMethodChanged', this.selectedShippingMethods)
+      console.log('saveShippingMethod this.selectedShippingMethods', this.selectedShippingMethods)
+
+      this.$bus.$emit('checkout-after-shippingMethodChanged', { selectedShippingMethods: this.selectedShippingMethods, brand_id_changed: brand_id })
       this.checkSelectedShippingMethod()
     },
     onAfterShippingSet (receivedData) {
@@ -138,7 +159,7 @@ export const Shipping = {
       } else {
         this.shipping = this.checkoutShippingDetails
       }
-      this.changeCountry()
+      // this.changeCountry() // DIsabled By Dan To avoid unneccesary calls
     },
     getShippingMethod () {
       console.log('this.shipping.shippingMethod', this.shipping.shippingMethod)

@@ -29,7 +29,7 @@
         class="product-cover bg-cl-secondary"
         :class="[{ sale: labelsActive && isOnSale }, { new: labelsActive && isNew }]"
       >
-        <!--        // Changes Vinod-->
+        <!--        // Changes Shab-->
         <div class="card relative brdr-none">
           <div class="brand_logo" v-if="isCCStore">
             <img

@@ -253,6 +253,7 @@ export default {
     },
     // created function for get order summary from order
     orderSummary () {
+      // TODO: Fix Order Summary NUMBERS!!
       let summary_data = []
       let sub_total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.products_total; });
       sub_total = (sub_total / 100).toFixed(2)

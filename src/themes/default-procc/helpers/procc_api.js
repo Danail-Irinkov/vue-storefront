@@ -47,9 +47,11 @@ export default (baseURL = '') => {
   )
   api.interceptors.response.use((response) => {
     if (response.data && response.data.token_expired) {
-      store.dispatch('user/logout', { silent: true })
-      localStorage.setItem('redirect', this.$route.path)
-      this.$router.push(localizedRoute('/', currentStoreView().storeCode))
+      console.log('response.data.token_expired', response.data)
+      // DEPRECATED By Dan !! It was not working at all ... why did you put it here Shab?
+      // store.dispatch('user/logout', { silent: true })
+      // localStorage.setItem('redirect', this.$route.path)
+      // this.$router.push(localizedRoute('/', currentStoreView().storeCode))
     }
     return response
   }, (error) => {
@@ -111,28 +113,74 @@ export default (baseURL = '') => {
   const updateTransactionStatus = (data, brandId) => api.post('mangopay/updateTransactionStatusVSF', data, getHeader(brandId))
   const getVSFSizeChartById = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
   const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
+  const getShippingCountriesList = () => api.get('vsf/getShippingCountriesList').then((response) => {
+    console.log('getShippingCountriesList response', response.data)
+    return response.data && response.data.countries ? response.data.countries : response.data
+  })
   const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
+  const updateSelectedRapidoShipmentCost = async (brand_id) => {
+    console.log('updateSelectedRapidoShipmentCost START', brand_id)
+    try {
+      let rapido_cost = await store.dispatch('cart/calculateRapidoShippingFee', { brandId: brand_id })
+      let selectedShippingMethods = {...await store.getters['checkout/getSelectedShippingMethods']}
+
+      for (let key in selectedShippingMethods) {
+        if(!selectedShippingMethods.hasOwnProperty(key)) continue
+
+        console.log('updateSelectedRapidoShipmentCost selectedShippingMethods[key].brand', selectedShippingMethods[key].brand)
+        if(String(selectedShippingMethods[key].brand) === String(brand_id) && selectedShippingMethods[key].isRapido){
+          selectedShippingMethods[key].cost = rapido_cost
+        }
+      }
+      console.log('updateSelectedRapidoShipmentCost brand_id', brand_id)
+      console.log('updateSelectedRapidoShipmentCost rapido_cost', rapido_cost)
+      console.log('updateSelectedRapidoShipmentCost selectedShippingMethods', selectedShippingMethods)
+      await store.dispatch('cart/updateSelectedShippingMethods', {selectedShippingMethods})
+    }catch (e) {
+      console.log('updateSelectedRapidoShipmentCost ERR:', e)
+    }
+  }
   const updateShippingMethodsFromProCC = (data) => api.post(`shipping-method/updateShippingMethodsFromProCC`, data)
     .then(async (result) => {
       let default_shipping_methods = {}
       let shipping_methods = {}
+      let selected_shipping_methods = store.getters['checkout/getSelectedShippingMethods']
+      // console.log('updateShippingMethodsFromProCC result.data.shipping_methods', result.data.shipping_methods)
+      // console.log('updateShippingMethodsFromProCC selected_shipping_methods', selected_shipping_methods)
+
       for (let brand_id in result.data.shipping_methods) {
         let store_data = result.data.shipping_methods[brand_id]
         shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
         let shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
-        if (shipping_method_data && (!shipping_method_data.cost || shipping_method_data.isRapido)) {
-          // shipping_method_data.cost = await store.dispatch('cart/calculateRapidoShippingFee', { brandId: brand_id })
-          shipping_method_data.isRapido = true
-        }
+        // console.log('updateShippingMethodsFromProCC brand_id', brand_id)
+        // console.log('updateShippingMethodsFromProCC selected_shipping_methods[brand_id]', selected_shipping_methods[brand_id])
+
+        // if(selected_shipping_methods && selected_shipping_methods[brand_id]){
+        //   shipping_method_data = selected_shipping_methods[brand_id]
+        // } else {
+        //   shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
+        // }
+
+        // console.log('updateShippingMethodsFromProCC shipping_method_data', shipping_method_data)
+        // console.log('updateShippingMethodsFromProCC (!shipping_method_data.cost || parseFloat(shipping_method_data.cost) == 0 || shipping_method_data.isRapido)', (!shipping_method_data.cost || shipping_method_data.cost == 0 || shipping_method_data.isRapido))
+        // console.log('updateShippingMethodsFromProCC shipping_method_data.cost', shipping_method_data.cost)
+        // console.log('updateShippingMethodsFromProCC parseFloat(shipping_method_data.cost)', parseFloat(shipping_method_data.cost))
+        // if (shipping_method_data && (!shipping_method_data.cost || shipping_method_data.isRapido)) {
+        //   shipping_method_data.cost = null // Resetting the price temporarily until it gets updated by syncTotals
+        //   // updateSelectedRapidoShipmentCost(brand_id)
+        //   // shipping_method_data.isRapido = true
+        // }
+        shipping_method_data.brand = brand_id
         default_shipping_methods[brand_id] = shipping_method_data
       }
-      console.log('store.getters[checkout/getSelectedShippingMethods]', store.getters['checkout/getSelectedShippingMethods'])
+      // console.log('store.getters[checkout/getSelectedShippingMethods]', store.getters['checkout/getSelectedShippingMethods'])
       console.log('default_shipping_methods', default_shipping_methods)
       let shippingMethods = shipping_methods
-      let selectedShippingMethods = defaults(store.getters['checkout/getSelectedShippingMethods'], default_shipping_methods)
+      let selectedShippingMethods = defaults(selected_shipping_methods, default_shipping_methods)
       // let selectedShippingMethods = defaults(default_shipping_methods, store.getters['checkout/getSelectedShippingMethods'])
 
-      console.log('selectedShippingMethods', selectedShippingMethods)
+      // console.log('shippingMethods', shippingMethods)
+      // console.log('selectedShippingMethods', selectedShippingMethods)
       let brandsDetails = map(result.data.shipping_methods, (o) => { return o.brand; })
       await store.dispatch('cart/updateShippingMethods', {shippingMethods})
       await store.dispatch('cart/updateSelectedShippingMethods', {selectedShippingMethods})
@@ -173,6 +221,7 @@ export default (baseURL = '') => {
     VSFOrderPayment,
     updateTransactionStatus,
     updateVsfSyncStatus,
+    getShippingCountriesList,
     saveTransactionInOrder,
     updateShippingMethodsFromProCC,
     getStoreData,

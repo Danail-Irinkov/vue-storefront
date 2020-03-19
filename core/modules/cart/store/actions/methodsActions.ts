@@ -53,10 +53,12 @@ const methodsActions = {
           selectedShippingMethods: rootGetters['checkout/getSelectedShippingMethods']
         })
 
-        if (shippingMethodsData.country) {
-          const { result } = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
-          backendPaymentMethods = result.payment_methods || []
-        }
+        // DISABLED BY DAN -> leading to double call to same API ProCC
+        // if (shippingMethodsData.country) {
+        //   const response = await CartService.setShippingInfo(createShippingInfoData(shippingMethodsData))
+        //   console.log('setShippingInfo response: ', response)
+        //   backendPaymentMethods = response.result && response.result.payment_methods || []
+        // }
       }
       if (!backendPaymentMethods || backendPaymentMethods.length === 0) {
         const { result } = await CartService.getPaymentMethods()
@@ -85,8 +87,8 @@ const methodsActions = {
   },
   // created method for emit updateSelectedShippingMethods in checkout for update selected shipping methods
   async updateSelectedShippingMethods ({ dispatch }, { selectedShippingMethods, commit }) {
-    console.log('selectedShippingMethods: ', selectedShippingMethods)
-    console.log('size(selectedShippingMethods): ', size(selectedShippingMethods))
+    // console.log('selectedShippingMethods: ', selectedShippingMethods)
+    // console.log('size(selectedShippingMethods): ', size(selectedShippingMethods))
     if (selectedShippingMethods && size(selectedShippingMethods) > 0) {
       // for (let key in selectedShippingMethods){
       //   let shipping_method = selectedShippingMethods[key]
@@ -130,6 +132,7 @@ const methodsActions = {
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : {country_id: storeView.tax.defaultCountry}
 
+      console.log('TRIGGER updateShippingMethodsFromProCC address: ', address)
       if (getters.getCartItemsByBrand && !isEmpty(getters.getCartItemsByBrand)) {
         const brand_ids = keys(getters.getCartItemsByBrand);
         const cartId = rootGetters['cart/getCartToken']

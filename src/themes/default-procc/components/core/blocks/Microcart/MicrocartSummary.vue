@@ -22,7 +22,7 @@
       <div class="col-xs">
         {{ segment.title }}
         <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary" class="shipping-method-attributes">
-          <li v-for="(data) in segment.extension_attributes" :key="data.name">
+          <li v-for="(data, key) in segment.extension_attributes" :key="key">
             {{ data.name }} ({{ data.cost | price }})
           </li>
         </ul>

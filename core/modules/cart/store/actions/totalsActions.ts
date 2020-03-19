@@ -7,6 +7,7 @@ import {
   createOrderData,
   createShippingInfoData
 } from '@vue-storefront/core/modules/cart/helpers'
+import store from "core/store";
 
 const totalsActions = {
   async getTotals (context, { addressInformation, hasShippingInformation }) {
@@ -16,7 +17,7 @@ const totalsActions = {
 
     return CartService.getTotals()
   },
-  async overrideServerTotals ({ commit, getters, dispatch }, { addressInformation, hasShippingInformation }) {
+  async overrideServerTotals ({ commit, getters, dispatch }, { forceServerSync, addressInformation, hasShippingInformation }) {
     const { resultCode, result } = await dispatch('getTotals', { addressInformation, hasShippingInformation })
 
     if (resultCode === 200) {
@@ -29,6 +30,36 @@ const totalsActions = {
         const product = { server_item_id: item.item_id, totals: item, qty: item.qty }
         await dispatch('updateItem', { product })
       }
+
+      // UPDATING THE SELECTED SHIPPING METHODS PRICES AFTER RECALCULATION -> Added By Dan
+      console.log('overrideServerTotals START Loop')
+      let selectedShippingMethods = getters.getSelectedShippingMethods
+
+      for (let seg of totals.total_segments){
+        if (seg.code === 'shipping' && seg.extension_attributes && seg.extension_attributes.length > 0){
+          for (let ship_method of seg.extension_attributes){
+            if(ship_method.brandId && ship_method.name === 'Rapido'){
+              // Update currently selected Shipping method
+              let rapido_cost = ship_method.cost
+              let brand_id = ship_method.brandId
+
+              for (let key in selectedShippingMethods) {
+                if(!selectedShippingMethods.hasOwnProperty(key)) continue
+
+                if((!selectedShippingMethods[key].cost || forceServerSync)
+                    && String(key) === String(brand_id)
+                    && selectedShippingMethods[key].isRapido) {
+                  selectedShippingMethods[key].cost = rapido_cost
+                  await dispatch('updateSelectedShippingMethods', {selectedShippingMethods})
+                  break
+                }
+              }
+
+            }
+          }
+        }
+      }
+      // UPDATING THE SELECTED SHIPPING METHODS PRICES AFTER RECALCULATION -> Added By Dan - END
 
       commit(types.CART_UPD_TOTALS, { itemsAfterTotal, totals, platformTotalSegments: totals.total_segments })
       commit(types.CART_SET_TOTALS_SYNC)
@@ -62,6 +93,7 @@ const totalsActions = {
       // console.log('syncTotals shippingMethodsData' , shippingMethodsData)
       if (shippingMethodsData.country) {
         return dispatch('overrideServerTotals', {
+          forceServerSync: payload.forceServerSync,
           hasShippingInformation: shippingMethodsData.selectedShippingMethods && !isEmpty(shippingMethodsData.selectedShippingMethods),
           addressInformation: createShippingInfoData(shippingMethodsData)
         })

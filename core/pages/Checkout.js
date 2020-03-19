@@ -116,12 +116,13 @@ export default {
         }
       })
     }
-    const storeView = currentStoreView()
-    let country = this.$store.state.checkout.shippingDetails.country
-    if (!country) country = storeView.i18n.defaultCountry
-    this.$bus.$emit('checkout-before-shippingMethods', country)
+    // Disabled By Dan
+    // const storeView = currentStoreView()
+    // let country = this.$store.state.checkout.shippingDetails.country
+    // if (!country) country = storeView.i18n.defaultCountry
+    // this.$bus.$emit('checkout-before-shippingMethods', country)
 
-    // Added by Vinod - Not usre why needed
+    // Added by Shab - Not usre why needed
     // this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
   },
   beforeDestroy () {
@@ -152,27 +153,25 @@ export default {
         this.$router.push(this.localizedRoute('/'))
       }
     },
-    async onAfterShippingMethodChanged (shippingMethods) {
+    async onAfterShippingMethodChanged ({selectedShippingMethods, brand_id_changed}) {
       let selectedShippingMethods2 = {}
-      let rapido_price = '0'
-      let rapido_brand_id = '0'
-      for (let brand_id_1 in shippingMethods) {
-        let brand_id = '' + String(brand_id_1)
-        if (!shippingMethods.hasOwnProperty(brand_id)) continue
-        let default_s_m = {...find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === shippingMethods[brand_id] })}
-        // delete default_s_m.cost
-        if (default_s_m) {
-          default_s_m.cost = '' + default_s_m.cost
+      let selectedShippingMethods_current = this.$store.getters['checkout/getSelectedShippingMethods']
+
+      for (let brand_id in selectedShippingMethods) {
+        brand_id = String(brand_id)
+        brand_id_changed = String(brand_id_changed)
+        if (!selectedShippingMethods.hasOwnProperty(brand_id)) continue
+        // console.log('onAfterShippingMethodChanged brand_id_changed', brand_id_changed)
+        // console.log('onAfterShippingMethodChanged brand_id', brand_id)
+
+        selectedShippingMethods2[brand_id] = {...find(this.$store.state.checkout.shippingMethods[brand_id], (s) => { return s._id === selectedShippingMethods[brand_id] })}
+
+        if (brand_id === brand_id_changed && selectedShippingMethods2[brand_id].isRapido) {
+          selectedShippingMethods2[brand_id].cost = null
+        } else if (selectedShippingMethods_current[brand_id] && selectedShippingMethods_current[brand_id]._id === selectedShippingMethods[brand_id]) {
+          selectedShippingMethods2[brand_id].cost = String(selectedShippingMethods_current[brand_id].cost)
         } else {
-          default_s_m = {}
-        }
-        selectedShippingMethods2[brand_id] = cloneDeep(default_s_m)
-        // selectedShippingMethods2[brand_id] = {name: 'Rap', cost: '0'}
-        console.log('onAfterShippingMethodChanged selectedShippingMethods2[brand_id]', selectedShippingMethods2[brand_id])
-        if (selectedShippingMethods2[brand_id] && selectedShippingMethods2[brand_id].cost === '0') {
-          rapido_price = await this.$store.dispatch('cart/calculateRapidoShippingFee', { brandId: brand_id })
-          selectedShippingMethods2[brand_id].cost = '' + rapido_price
-          selectedShippingMethods2[brand_id].isRapido = true
+          selectedShippingMethods2[brand_id].cost = String(selectedShippingMethods2[brand_id].cost)
         }
       }
       // console.log('onAfterShippingMethodChanged shippingMethods', shippingMethods)
@@ -180,6 +179,7 @@ export default {
       this.$bus.$emit('loading-summary', true)
       this.$bus.$emit('loading-order-summary', true)
 
+      // TODO: Can we remove one of these vuex calls Shab  ?
       await this.$store.dispatch('checkout/updateSelectedShippingMethods', selectedShippingMethods2)
       await this.$store.dispatch('cart/updateCartSelectedShippingMethods', selectedShippingMethods2)
       // this.shippingMethods = selectedshippingMethods
@@ -199,9 +199,22 @@ export default {
       })
     },
     async onBeforeShippingMethods (country) {
+      console.log('onBeforeShippingMethods START')
       this.$bus.$emit('loading-order-summary', true)
+
+      // Added By Dan To trigger Rapido Cost Spinners
+      let selectedShippingMethods_current = this.$store.getters['checkout/getSelectedShippingMethods']
+      for (let brand_id in selectedShippingMethods_current) {
+        let sm = selectedShippingMethods_current[brand_id]
+        if (sm.isRapido) {
+          selectedShippingMethods_current[brand_id].cost = null
+        }
+      }
+      await this.$store.dispatch('checkout/updateSelectedShippingMethods', selectedShippingMethods_current)
+      // Added By Dan To trigger Rapido Cost Spinners - END
+
       await this.$store.dispatch('checkout/updatePropValue', ['country', country])
-      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
+      await this.$store.dispatch('cart/syncTotals', { forceServerSync: true }) // Disabled by Dan for too much requests
       this.$forceUpdate()
       this.$bus.$emit('loading-order-summary', false)
     },
@@ -224,7 +237,7 @@ export default {
       this.activateSection(section)
     },
     onBeforePlaceOrder (payload) {
-      // Weird code again with no explaination by Vinod
+      // Weird code again with no explaination by Shab
       // Added by Dan 02-01-2020
       this.$bus.$emit('checkout-do-placeOrder', {})
     },

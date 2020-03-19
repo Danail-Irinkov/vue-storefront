@@ -24,7 +24,7 @@ export default {
     })
   },
   watch: {
-    storeLogo: { // This was done by Vinod -> not sure why
+    storeLogo: { // This was done by Shab -> not sure why
       handler: function (newValue, oldValue) {
         if (newValue !== '') {
           this.logo_loaded = 0
