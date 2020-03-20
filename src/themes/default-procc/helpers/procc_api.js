@@ -213,6 +213,7 @@ export default (baseURL = '') => {
   const resetPassword = (data) => api.post(`auth/resetPassword`, data)
   const calculateShipmentCost = ({cartId, brandId}) => api.get(`cart/calculateRapidoShipmentCost?cartId=${cartId}&brandId=${brandId}`)
   const getStoreDataForVSF = (url) => api.get(`store/getStoreDataForVSF?url=${url}`)
+  const getOrderInvoicePDF = (orderId) => api.get(`invoice/getOrderInvoicePDF/${orderId}`,{responseType: 'arraybuffer'})
 
   return {
     addNewOrder,
@@ -239,6 +240,7 @@ export default (baseURL = '') => {
     forgotPassword,
     resetPassword,
     calculateShipmentCost,
-    getStoreDataForVSF
+    getStoreDataForVSF,
+    getOrderInvoicePDF
   }
 }

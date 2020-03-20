@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex';
-
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 /**
  * Component responsible for displaying user orders. Requires User module.
  */
@@ -15,6 +15,26 @@ export const UserOrders = {
     }
   },
   methods: {
+    getOrderInvoicePDF(orderId) {
+      ProCcApi().getOrderInvoicePDF(orderId)
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: "application/pdf" }))
+          let file_name = orderId + '.pdf'
+          const link = document.createElement('a')
+          link.href = url;
+          // get file name from response
+          const contentDisposition = response.headers['content-disposition']
+          if (contentDisposition) {
+            const fileNameMatch = contentDisposition.match(/filename="(.+)"/)
+            if (fileNameMatch.length === 2)
+              file_name = fileNameMatch[1];
+          }
+          link.setAttribute('download', file_name);
+          document.body.appendChild(link);
+          link.click();
+        })
+    },
+
     async remakeOrder (products) {
       this.$bus.$emit('notification-progress-start', this.$t('Please wait ...'))
       const productsToAdd = []
