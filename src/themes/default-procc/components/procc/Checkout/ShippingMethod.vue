@@ -24,8 +24,8 @@
         </thead>
         <tbody>
           <tr class="brdr-top-1 brdr-cl-bg-secondary" v-for="method in shippingMethods[storeBrandId]" :key="method._id">
-            <td class="fs-medium lh25" :data-th="$t('Product Name')">
-              <div>
+            <td class="fs-medium lh25">
+              <div style="width: 100%; text-align: center">
                 <label class="radioStyled">
                   <input
                     type="radio"
@@ -40,7 +40,7 @@
             <td class="fs-medium lh25" :data-th="$t('Carrier')">
               {{ method.name }}
             </td>
-            <td class="fs-medium lh25" :data-th="$t('Estimated Delivery')" style="width: 180px;">
+            <td class="fs-medium lh25" :data-th="$t('Estimated Delivery')" style="min-width: 180px;">
               {{ method.estimated_delivery_period }} {{ $t('Days') }}
             </td>
             <td class="fs-medium lh25 align-right" :data-th="$t('Cost')">
@@ -48,7 +48,7 @@
               <span v-else-if="getSelectedShippingMethods[storeBrandId].name === method.name && getSelectedShippingMethods[storeBrandId].cost > 0">{{ getSelectedShippingMethods[storeBrandId].cost | price }}</span>
               <span v-else>{{ $t('Calculated') }}</span>
             </td>
-            <td class="fs-medium lh25" :data-th="$t('tracking')">
+            <td class="fs-medium lh25" :data-th="$t('Tracking')">
               <!--     // TODO: add a proper boolean to show if there is tracking for thew shipping method-->
               <i class="material-icons">
                 check
@@ -180,6 +180,9 @@ export default {
             content: attr(data-th) ': ';
             font-weight: 700;
           }
+          &:first-child:before {
+            content: unset;
+          }
         }
 
         &:first-child {
@@ -250,8 +253,7 @@ export default {
     }
   }
 </style>
-<style  lang="scss">
-
+<style lang="scss">
   .modal.modal-shipping-method {
     header.modal-header {
       padding: 0 10px;
@@ -283,6 +285,7 @@ export default {
         }
         table {
           tr {
+            width: 100%;
             @media (max-width: 767px) {
               position: relative;
               display: table;
@@ -312,22 +315,23 @@ export default {
               padding-left: 0;
               padding-right: 0;
             }
-            @media (max-width: 767px) {
-              &:before {
-                display: none;
-              }
-              width: calc(100% - 50px);
-              float: none;
-              padding-left:50px;
-              &:first-child {
-                width: 30px;
-                float:left;
-                padding:0;
-                position: absolute;
-                top: 7px;
-                left: 0
-              }
-            }
+            /*@media (max-width: 767px) {*/
+            /*@media (max-width: 450px) {*/
+            /*  &:before {*/
+            /*    display: none;*/
+            /*  }*/
+            /*  width: calc(100% - 50px);*/
+            /*  float: none;*/
+            /*  padding-left:50px;*/
+            /*  &:first-child {*/
+            /*    width: 30px;*/
+            /*    !*float:left;*!*/
+            /*    padding:0;*/
+            /*    position: absolute;*/
+            /*    top: 7px;*/
+            /*    left: 0*/
+            /*  }*/
+            /*}*/
           }
         }
         span.validation-error {
@@ -355,44 +359,46 @@ export default {
     vertical-align: middle !important;
     max-height: 30px !important;
   }
-  #checkout {
-    .modal.modal-shipping-method {
-      .radioStyled {
-        margin: 0 !important;
-        float: right;
-        @media (max-width: 991px) {
-          padding: 10px !important;
-          float: left;
+  .modal-shipping-method {
+    & .radioStyled {
+      margin: 0 !important;
+      @media (max-width: 767px) {
+        top: 15px!important;
+        right: 23px!important;
+      }
+      @media (max-width: 991px) {
+        padding: 10px !important;
+        float: left;
+      }
+      @media (max-width: 767px) {
+        span.checkmark{
+          left: 15px;
         }
-        @media (max-width: 767px) {
-          span.checkmark{
-            left: 15px;
-          }
+      }
+      input {
+        display: none;
+        &:checked + span.checkmark:after {
+          content: '';
+          display: block;
+          height: 8px;
+          width: 8px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #fff;
         }
-        input {
-          display: none;
-          &:checked + span.checkmark:after {
-            content: '';
-            display: block;
-            height: 8px;
-            width: 8px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-          }
-          &:checked + span.checkmark {
-            background: #000;
-          }
+        &:checked + span.checkmark {
+          background: #000;
         }
-        span.checkmark {
-          height: 20px;
-          width: 20px;
-          right: 0;
-        }
+      }
+      span.checkmark {
+        height: 20px;
+        width: 20px;
+        right: 0;
       }
     }
   }
+
 
 </style>

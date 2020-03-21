@@ -6,7 +6,7 @@
     </h3>
     <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code !== 'grand_total' && segment.code !== 'shipping' && segment.code !== 'tax' && 'Edited by Dan to avoid tax row, not configured'">
       <div class="col-xs">
-        {{ segment.title }}
+        {{ $t(segment.title) }}
         <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
           <i class="material-icons cl-accent">
             close
@@ -20,10 +20,10 @@
     </div>
     <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code === 'shipping'">
       <div class="col-xs">
-        {{ segment.title }}
+        {{ $t(segment.title) }} ({{$t(segment.country)}})
         <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary" class="shipping-method-attributes">
           <li v-for="(data, key) in segment.extension_attributes" :key="key">
-            {{ data.name }} ({{ data.cost | price }})
+            {{ $t(data.name) }} ({{ data.cost | price }})
           </li>
         </ul>
         <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">
