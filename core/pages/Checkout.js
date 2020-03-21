@@ -382,6 +382,9 @@ export default {
     prepareProCCOrder () {
       console.log('this.$store.state.cart.selectedShippingMethods', this.$store.state.cart.selectedShippingMethods)
 
+      const storeView = currentStoreView()
+      const storeCode = storeView.storeCode ? storeView.storeCode : 'failed to find store url'
+
       this.order = {
         customer_user: this.$store.state.user.current ? this.$store.state.user.current._id : '', // edited by shabbir for get customer id
         customer_brand: this.$store.state.user.current && this.$store.state.user.current.user_type.active_brand ? this.$store.state.user.current.user_type.active_brand : '', // edited by shabbir for get customer brand
@@ -390,6 +393,7 @@ export default {
         order_ids: this.procc_order_ids ? this.procc_order_ids : null, // Added by shabbir ProCC
         mp_transaction: this.mangopay_transaction_id ? this.mangopay_transaction_id : null, // Added by shabbir ProCC
         store_brand: this.currentImage.brand,
+        store_code: storeCode,
         // Added by Dan ProCC -> TODO: need to charge 1 shipping fee per brand ordered from and store separate shipping methods for each brand
         shipping_amount: this.$store.state.cart.platformTotalSegments[1].value,
         // Added by Dan ProCC
