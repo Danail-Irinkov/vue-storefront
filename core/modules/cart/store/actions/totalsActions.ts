@@ -91,13 +91,13 @@ const totalsActions = {
       })
 
       // console.log('syncTotals shippingMethodsData' , shippingMethodsData)
-      if (shippingMethodsData.country) {
+      // if (shippingMethodsData.country) {
         return dispatch('overrideServerTotals', {
           forceServerSync: payload.forceServerSync,
           hasShippingInformation: shippingMethodsData.selectedShippingMethods && !isEmpty(shippingMethodsData.selectedShippingMethods),
           addressInformation: createShippingInfoData(shippingMethodsData)
         })
-      }
+      // }
 
       Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
     }

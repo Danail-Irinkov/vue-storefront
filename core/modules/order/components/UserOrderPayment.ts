@@ -60,7 +60,7 @@ export const UserOrderPayment = {
           this.$bus.$emit('notification-progress-stop');
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
-            message: this.$t('Transaction was not done!!!!'),
+            message: this.$t('Transaction failed'),
             action1: { label: this.$t('OK') }
           })
         }
@@ -69,7 +69,7 @@ export const UserOrderPayment = {
         this.$bus.$emit('notification-progress-stop');
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: this.$t('Transaction was not done!!!!'),
+          message: this.$t('Transaction failed'),
           action1: { label: this.$t('OK') }
         })
       })

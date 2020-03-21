@@ -400,7 +400,6 @@ export default {
             country: this.payment.country,
             streetNumber: this.payment.streetAddress,
             streetName: this.payment.apartmentNumber,
-            company: this.payment.company,
             telephone: this.payment.phoneNumber,
             postcode: this.payment.zipCode,
             city: this.payment.city,
@@ -408,7 +407,9 @@ export default {
             lastname: this.payment.lastName,
             email: this.personalDetails.emailAddress,
             region_code: this.payment.region_code ? this.payment.region_code : '',
-            vat_id: this.payment.taxId
+            company: this.payment.company,
+            vat_id: this.payment.taxId,
+            generateInvoice: !!this.payment.taxId
           },
           selected_shipping_methods: this.$store.state.cart.selectedShippingMethods ? this.$store.state.cart.selectedShippingMethods : {},
           payment_method_code: this.getPaymentMethod(),
@@ -416,6 +417,7 @@ export default {
           shippingExtraFields: this.shipping.extraFields
         }
       }
+
       if (!this.isVirtualCart) {
         this.order.addressInformation.shippingAddress = {
           region: this.shipping.state,

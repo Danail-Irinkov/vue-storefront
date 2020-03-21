@@ -189,6 +189,27 @@
             autocomplete="tel"
           />
 
+          <div class="col-xs-12">
+            <h4>
+              {{ $t('Payment method') }}
+            </h4>
+          </div>
+          <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6">
+            <label class="radioStyled"> {{ method.title ? $t(method.title) : $t(method.name) }}
+              <input
+                type="radio"
+                :value="method.code"
+                name="payment-method"
+                v-model="payment.paymentMethod"
+                @change="$v.payment.paymentMethod.$touch(); changePaymentMethod();"
+              >
+              <span class="checkmark" />
+            </label>
+          </div>
+          <span class="validation-error" v-if="!$v.payment.paymentMethod.required">{{ $t('Field is required') }}</span>
+        </div>
+
+        <div class="row">
           <base-checkbox
             class="col-xs-12 mb15"
             id="generateInvoiceCheckbox"
@@ -234,31 +255,13 @@
 
             <div class="col-xs-12 mb25">
               <label class="fs16">
-                {{ $t('We will send you the invoice to given e-mail address') }}
+                {{ $t('We will send you the invoice to ') }} {{ $store.state.checkout.personalDetails.emailAddress }} {{ $t('as soon as you receive the products and rate them') }} :)
               </label>
             </div>
           </template>
-
-          <div class="col-xs-12">
-            <h4>
-              {{ $t('Payment method') }}
-            </h4>
-          </div>
-          <div v-for="(method, index) in paymentMethods" :key="index" class="col-md-6">
-            <label class="radioStyled"> {{ method.title ? $t(method.title) : $t(method.name) }}
-              <input
-                type="radio"
-                :value="method.code"
-                name="payment-method"
-                v-model="payment.paymentMethod"
-                @change="$v.payment.paymentMethod.$touch(); changePaymentMethod();"
-              >
-              <span class="checkmark" />
-            </label>
-          </div>
-          <span class="validation-error" v-if="!$v.payment.paymentMethod.required">{{ $t('Field is required') }}</span>
         </div>
-      </div>
+
+        </div>
     </div>
     <!--modify condition for show address at copy shipping address checked  by shabbir -->
     <div class="row pl20" v-if="sendToShippingAddress">
@@ -284,7 +287,8 @@
               <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
             </div>
             <p v-if="generateInvoice">
-              {{ payment.company }} {{ payment.taxId }}
+              <strong>{{ $t('Invoice to') }}:</strong>
+              <span style="padding-left: 5px">{{ payment.company }}  -  {{ payment.taxId }}</span>
             </p>
             <div class="col-xs-12">
               <h4>{{ $t('Payment method') }}</h4>
@@ -448,18 +452,20 @@ export default {
   },
   mounted () {
     window.callPlaceOrder = (transactionId) => { // ProCC MangoPay Handler
+      console.log('window.callPlaceOrder Payment')
       let BrandId = this.currentImage.brand
       this.transactionId = transactionId
       this.ProCcAPI.updateTransactionStatus({mangopay_transaction_id: transactionId}, BrandId).then((result) => {
+        console.log('Payment callPlaceOrder', result.data)
         this.transactionId = result.data.transaction._id
         if (result.data.message_type === 'success') {
           // emit event for place order in megento by shabbir
-          this.$bus.$emit('place-magento-order', {transactionId})
+          this.$bus.$emit('place-magento-order', {transactionId: this.transactionId})
         } else {
           this.$bus.$emit('notification-progress-stop');
           this.$store.dispatch('notification/spawnNotification', {
             type: 'error',
-            message: this.$t('Transaction was not done!!!!'),
+            message: this.$t('Transaction failed'),
             action1: { label: this.$t('OK') }
           })
         }
@@ -468,7 +474,7 @@ export default {
         this.$bus.$emit('notification-progress-stop');
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: this.$t('Transaction was not done!!!!'),
+          message: this.$t('Transaction failed'),
           action1: { label: this.$t('OK') }
         })
       })

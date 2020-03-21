@@ -92,6 +92,7 @@ export default {
   mixins: [UserOrder],
   mounted () {
     window.callPlaceOrder = (transactionId) => { // ProCC MangoPay Handler
+      console.log('window.callPlaceOrder MyOrders')
       this.updateTransactionStatus(transactionId)
     }
   }

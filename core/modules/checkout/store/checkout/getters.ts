@@ -5,9 +5,9 @@ import { getDefaultShippingMethods } from '@vue-storefront/core/modules/checkout
 
 const getters: GetterTree<CheckoutState, RootState> = {
   getShippingDetails: (state, getters, rootState) => {
-    if (!state.shippingDetails.country) {
-      return { ...state.shippingDetails, country: rootState.storeView.tax.defaultCountry }
-    }
+    // if (!state.shippingDetails.country) {
+    //   return { ...state.shippingDetails, country: rootState.storeView.tax.defaultCountry }
+    // }
 
     return state.shippingDetails
   },

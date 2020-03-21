@@ -26,10 +26,11 @@ const createOrderData = ({
   shippingMethods,
   paymentMethods,
   paymentDetails,
-  taxCountry = currentStoreView().tax.defaultCountry,
+  taxCountry= '', // = currentStoreView().tax.defaultCountry
   selectedShippingMethods
 }: CheckoutData): OrderShippingDetails => {
-  const country = shippingDetails.country ? shippingDetails.country : taxCountry
+  // const country = shippingDetails.country ? shippingDetails.country : taxCountry
+  const country = shippingDetails.country ? shippingDetails.country : '' // Edited By Dan to wait for the actual shipping country
   const payment = getDefaultPaymentMethod(paymentMethods)
 
   return {

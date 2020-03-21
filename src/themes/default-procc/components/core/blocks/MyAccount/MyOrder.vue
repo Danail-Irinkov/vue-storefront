@@ -174,6 +174,7 @@ export default {
   },
   mounted () {
     window.callPlaceOrder = (transactionId) => { // ProCC MangoPay Handler
+      console.log('window.callPlaceOrder MYORDER')
       this.updateTransactionStatus(transactionId)
     }
     this.singleOrderItems.forEach(async item => {

@@ -44,10 +44,10 @@ export const Payment = {
   mounted () {
     if (this.payment.firstName) {
       this.initializeBillingAddress()
-    } else {
-      if (this.payment.company) {
-        this.generateInvoice = true
-      }
+    }
+
+    if (this.payment.company && this.payment.taxId) {
+      this.generateInvoice = true
     }
     this.changePaymentMethod()
   },
@@ -122,7 +122,7 @@ export const Payment = {
                 phoneNumber: addresses[i].telephone,
                 paymentMethod: this.paymentMethods[0].code
               }
-              this.generateInvoice = true
+              // this.generateInvoice = true
               this.sendToBillingAddress = true
               initialized = true
             }
@@ -159,6 +159,7 @@ export const Payment = {
     },
     copyShippingToBillingAddress () {
       this.payment = {
+        ...this.payment,
         firstName: this.shippingDetails.firstName,
         lastName: this.shippingDetails.lastName,
         country: this.shippingDetails.country,
@@ -191,7 +192,10 @@ export const Payment = {
               phoneNumber: addresses[i].telephone,
               paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
             }
-            this.generateInvoice = true
+
+            if (this.payment.company && this.payment.taxId) {
+              this.generateInvoice = true
+            }
           }
         }
         this.sendToShippingAddress = false

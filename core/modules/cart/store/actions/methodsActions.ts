@@ -121,7 +121,7 @@ const methodsActions = {
       Logger.debug('Refreshing shipping methods', 'cart')()
       const shippingDetails = rootGetters['checkout/getShippingDetails']
 
-      // build address data with what we have
+      // build address data with what we have // DEPRECATED By Dan
       const address = (shippingDetails) ? {
         region: shippingDetails.state,
         region_id: shippingDetails.region_id ? shippingDetails.region_id : 0,

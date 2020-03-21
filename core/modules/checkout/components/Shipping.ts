@@ -55,6 +55,12 @@ export const Shipping = {
     }
   },
   watch: {
+    isActive: {
+      handler (val) {
+        if(val)
+          this.changeCountry()
+      }
+    },
     shippingMethods: {
       handler () {
         this.checkSelectedShippingMethod()
@@ -96,7 +102,9 @@ export const Shipping = {
     checkSelectedShippingMethod () {
       // console.log('this.getSelectedShippingMethods1', this.getSelectedShippingMethods)
       for (let brand_id in this.getSelectedShippingMethods) {
-        if (this.getSelectedShippingMethods[brand_id] && this.getSelectedShippingMethods[brand_id]._id) { this.selectedShippingMethods[brand_id] = this.getSelectedShippingMethods[brand_id]._id }
+        if (this.getSelectedShippingMethods[brand_id] && this.getSelectedShippingMethods[brand_id]._id) {
+          this.selectedShippingMethods[brand_id] = this.getSelectedShippingMethods[brand_id]._id
+        }
       }
       this.$forceUpdate()
       // console.log('this.getSelectedShippingMethods2', this.getSelectedShippingMethods)
