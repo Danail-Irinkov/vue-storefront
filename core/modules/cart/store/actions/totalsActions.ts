@@ -7,7 +7,7 @@ import {
   createOrderData,
   createShippingInfoData
 } from '@vue-storefront/core/modules/cart/helpers'
-import store from "core/store";
+import store from 'core/store';
 
 const totalsActions = {
   async getTotals (context, { addressInformation, hasShippingInformation }) {
@@ -35,26 +35,25 @@ const totalsActions = {
       console.log('overrideServerTotals START Loop')
       let selectedShippingMethods = getters.getSelectedShippingMethods
 
-      for (let seg of totals.total_segments){
-        if (seg.code === 'shipping' && seg.extension_attributes && seg.extension_attributes.length > 0){
-          for (let ship_method of seg.extension_attributes){
-            if(ship_method.brandId && ship_method.name === 'Rapido'){
+      for (let seg of totals.total_segments) {
+        if (seg.code === 'shipping' && seg.extension_attributes && seg.extension_attributes.length > 0) {
+          for (let ship_method of seg.extension_attributes) {
+            if (ship_method.brandId && ship_method.name === 'Rapido') {
               // Update currently selected Shipping method
               let rapido_cost = ship_method.cost
               let brand_id = ship_method.brandId
 
               for (let key in selectedShippingMethods) {
-                if(!selectedShippingMethods.hasOwnProperty(key)) continue
+                if (!selectedShippingMethods.hasOwnProperty(key)) continue
 
-                if((!selectedShippingMethods[key].cost || forceServerSync)
-                    && String(key) === String(brand_id)
-                    && selectedShippingMethods[key].isRapido) {
+                if ((!selectedShippingMethods[key].cost || forceServerSync) &&
+                    String(key) === String(brand_id) &&
+                    selectedShippingMethods[key].isRapido) {
                   selectedShippingMethods[key].cost = rapido_cost
                   await dispatch('updateSelectedShippingMethods', {selectedShippingMethods})
                   break
                 }
               }
-
             }
           }
         }
@@ -92,14 +91,14 @@ const totalsActions = {
 
       // console.log('syncTotals shippingMethodsData' , shippingMethodsData)
       // if (shippingMethodsData.country) {
-        return dispatch('overrideServerTotals', {
-          forceServerSync: payload.forceServerSync,
-          hasShippingInformation: shippingMethodsData.selectedShippingMethods && !isEmpty(shippingMethodsData.selectedShippingMethods),
-          addressInformation: createShippingInfoData(shippingMethodsData)
-        })
+      return dispatch('overrideServerTotals', {
+        forceServerSync: payload.forceServerSync,
+        hasShippingInformation: shippingMethodsData.selectedShippingMethods && !isEmpty(shippingMethodsData.selectedShippingMethods),
+        addressInformation: createShippingInfoData(shippingMethodsData)
+      })
       // }
 
-      Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
+      // Logger.error('Please do set the tax.defaultCountry in order to calculate totals', 'cart')()
     }
   },
   async refreshTotals ({ dispatch }, payload) {

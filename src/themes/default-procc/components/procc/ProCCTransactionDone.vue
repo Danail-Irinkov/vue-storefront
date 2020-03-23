@@ -23,7 +23,7 @@ export default {
       console.log('before window.opener.callPlaceOrder')
       window.opener.callPlaceOrder(this.$route.query.transactionId)
 
-      setTimeout(() => { debugger; window.close() }, 3000)
+      setTimeout(() => { window.close() }, 3000)
     }
   }
 }
