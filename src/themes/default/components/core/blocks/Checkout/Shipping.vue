@@ -94,7 +94,7 @@
             class="col-xs-12 mb10"
             type="text"
             name="apartment-number"
-            :placeholder="$t('House/Apartment number *')"
+            :placeholder="$t('House/Apartment')"
             v-model.trim="shipping.apartmentNumber"
             @blur="$v.shipping.apartmentNumber.$touch()"
             autocomplete="address-line2"

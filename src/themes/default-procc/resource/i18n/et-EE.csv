@@ -174,7 +174,7 @@ items,tooted
 "I have a company and want to receive an invoice for every order","Soovin iga tellimusega ettevõttele arvet"
 "Company name *","Ettevõtte *"
 "Street name *","Tänav *"
-"House/Apartment number *","Maja/korter *"
+"House/Apartment","Maja/korter *"
 "City *","Linn *"
 "Zip-code *","Sihtnumber *"
 "Tax ID *","Käibemaksunumber *"

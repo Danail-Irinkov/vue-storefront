@@ -359,7 +359,7 @@ export default {
       // console.log('activateSection anchor: ', anchor)
       let scroll = new SmoothScroll() // Added By Dan
       // Workaround for not being able to select the exact elements
-      let scroll_offset = sectionToActivate === 'shipping' ? 533 : sectionToActivate === 'payment' ? 683 : 0
+      let scroll_offset = sectionToActivate === 'shipping' ? 533 : sectionToActivate === 'payment' ? 783 : 0
       scroll.animateScroll(scroll_offset, null, { // Added By Dan
         durationMin: 1183,
         speed: 1200,
@@ -387,7 +387,7 @@ export default {
 
       this.order = {
         customer_user: this.$store.state.user.current ? this.$store.state.user.current._id : '', // edited by shabbir for get customer id
-        customer_brand: this.$store.state.user.current && this.$store.state.user.current.user_type.active_brand ? this.$store.state.user.current.user_type.active_brand : '', // edited by shabbir for get customer brand
+        customer_brand: this.$store.state.user.current && this.$store.state.user.current.user_type && this.$store.state.user.current.user_type.active_brand ? this.$store.state.user.current.user_type.active_brand : '', // edited by shabbir for get customer brand
         cartId: this.$store.state.cart.cartServerToken ? this.$store.state.cart.cartServerToken.toString() : '',
         products: this.$store.state.cart.cartItems,
         order_ids: this.procc_order_ids ? this.procc_order_ids : null, // Added by shabbir ProCC

@@ -261,7 +261,7 @@ export default {
       total = (total / 100).toFixed(2)
       let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.shipping_fee; });
       shipping_fee = (shipping_fee / 100).toFixed(2)
-      let tax = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.tax; });
+      let tax = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.VAT; });
       tax = (tax / 100).toFixed(2)
       summary_data.push({code: 'subtotal', title: 'Subtotal', value: sub_total})
       summary_data.push({code: 'shipping_fee', title: 'Shipping Fee', value: shipping_fee})

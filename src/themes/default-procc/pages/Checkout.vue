@@ -179,8 +179,8 @@ export default {
         position: absolute;
         top: 0;
         left: 0;
-        height: 25px;
-        width: 25px;
+        height: 26px;
+        width: 26px;
         border-radius: 50%;
         border: 1px solid $color-black;
 
@@ -188,10 +188,10 @@ export default {
           content: "";
           position: absolute;
           display: none;
-          top: 3px;
-          left: 3px;
-          width: 19px;
-          height: 19px;
+          top: 4px;
+          left: 4px;
+          width: 18px;
+          height: 18px;
           border-radius: 50%;
           background: $color-secondary;
         }

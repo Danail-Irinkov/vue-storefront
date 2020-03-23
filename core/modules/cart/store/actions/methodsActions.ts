@@ -107,7 +107,7 @@ const methodsActions = {
     console.log('calculateShipmentCost shipping brandId ', brandId)
     return ProCcApi().calculateShipmentCost({cartId, brandId}).then(async (result) => {
       console.log('calculateShipmentCost', result.data)
-      let cost = parseFloat(result.data.shipping_cost).toFixed(2);
+      let cost = result.data.shipping_cost/100;
       console.log('calculateShipmentCost shipping cost ', cost)
       return cost
     }).catch((error) => {

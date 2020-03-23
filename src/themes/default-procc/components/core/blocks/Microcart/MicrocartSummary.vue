@@ -68,7 +68,7 @@
         <span v-else>{{ segment.value | price }}</span>
       </div>
     </div>
-    <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code === 'tax'">
+    <div v-for="(segment, index) in summaryData" :key="index" class="row p10" style="margin-top: -20px;" v-if="segment.code === 'tax'">
       <!--      // ADDED BY DAN-->
       <div class="col-xs">
         {{ segment.title }}

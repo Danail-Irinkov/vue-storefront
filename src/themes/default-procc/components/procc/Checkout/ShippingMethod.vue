@@ -253,7 +253,7 @@ export default {
     }
   }
 </style>
-<style lang="scss">
+<style scoped lang="scss">
   .modal.modal-shipping-method {
     header.modal-header {
       padding: 0 10px;
@@ -370,11 +370,6 @@ export default {
         padding: 10px !important;
         float: left;
       }
-      @media (max-width: 767px) {
-        span.checkmark{
-          left: 15px;
-        }
-      }
       input {
         display: none;
         &:checked + span.checkmark:after {
@@ -392,10 +387,13 @@ export default {
           background: #000;
         }
       }
-      span.checkmark {
-        height: 20px;
-        width: 20px;
+      span.checkmark{
+        left: 16px;
         right: 0;
+      }
+      &:after {
+        top: 13px;
+        left: 13px;
       }
     }
   }

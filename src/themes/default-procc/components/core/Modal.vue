@@ -20,7 +20,7 @@
             close
           </i>
         </header>
-        <div class="modal-content bg-cl-primary pt30 pb60 px65" v-if="$slots.content">
+        <div class="modal-content bg-cl-primary pt30 pb60" style="padding-left: 20px; padding-right: 20px" v-if="$slots.content">
           <slot name="content" />
         </div>
         <slot />

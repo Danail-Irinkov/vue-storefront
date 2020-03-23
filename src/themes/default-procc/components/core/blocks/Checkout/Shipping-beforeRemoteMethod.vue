@@ -73,55 +73,35 @@
               text: $t('Field is required')
             }]"
           />
+
           <base-input
             class="col-xs-12 mb10"
             type="text"
-            name="phone-number"
-            :placeholder="$t('Phone Number')"
-            v-model.trim="shipping.phoneNumber"
-            autocomplete="tel"
-            :validations="[
-              {
-                condition: !$v.shipping.phoneNumber.required,
-                text: $t('Field is required')
-              }
-            ]"
+            name="street-address"
+            :placeholder="$t('Street name *')"
+            v-model.trim="shipping.streetAddress"
+            @blur="$v.shipping.streetAddress.$touch()"
+            autocomplete="address-line1"
+            :validations="[{
+              condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
+              text: $t('Field is required')
+            }]"
           />
-          <base-select
-            class="col-xs-12 col-sm-6 mb10"
-            name="countries"
-            :options="countryOptions"
-            :selected="shipping.country"
-            :placeholder="$t('Country *')"
-            :validations="[
-              {
-                condition: $v.shipping.country.$error && !$v.shipping.country.required,
-                text: $t('Field is required')
-              }
-            ]"
-            v-model="shipping.country"
-            autocomplete="country-name"
-            @blur="$v.shipping.country.$touch()"
-            @change.native="$v.shipping.country.$touch(); changeCountry();"
-          />
+
           <base-input
-            class="col-xs-12 col-sm-6 mb10"
+            class="col-xs-12 mb10"
             type="text"
-            name="state"
-            :placeholder="$t('State / Province')"
-            v-model.trim="shipping.state"
-            autocomplete="address-level1"
-            :validations="[
-              {
-                condition: $v.shipping.state.$error && !$v.shipping.state.required,
-                text: $t('Field is required')
-              },
-              {
-                condition: !$v.shipping.state.minLength,
-                text: $t('Name must have at least 3 letters.')
-              }
-            ]"
+            name="apartment-number"
+            :placeholder="$t('House/Apartment')"
+            v-model.trim="shipping.apartmentNumber"
+            @blur="$v.shipping.apartmentNumber.$touch()"
+            autocomplete="address-line2"
+            :validations="[{
+              condition: $v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required,
+              text: $t('Field is required')
+            }]"
           />
+
           <base-input
             class="col-xs-12 col-sm-6 mb10"
             type="text"
@@ -145,6 +125,15 @@
           <base-input
             class="col-xs-12 col-sm-6 mb10"
             type="text"
+            name="state"
+            :placeholder="$t('State / Province')"
+            v-model.trim="shipping.state"
+            autocomplete="address-level1"
+          />
+
+          <base-input
+            class="col-xs-12 col-sm-6 mb10"
+            type="text"
             name="zip-code"
             :placeholder="$t('Zip-code *')"
             v-model.trim="shipping.zipCode"
@@ -157,39 +146,43 @@
               },
               {
                 condition: !$v.shipping.zipCode.minLength,
-                text: $t('Code must have at least 3 letters.')
+                text: $t('Name must have at least 3 letters.')
               }
             ]"
           />
 
-          <base-input
-            class="col-xs-12 col-sm-9 mb10"
-            type="text"
-            name="street-address"
-            :placeholder="$t('Street name *')"
-            v-model.trim="shipping.streetAddress"
-            @blur="$v.shipping.streetAddress.$touch()"
-            autocomplete="address-line1"
-            :validations="[{
-              condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
-              text: $t('Field is required')
-            }]"
+          <base-select
+            class="col-xs-12 col-sm-6 mb10"
+            name="countries"
+            :options="countryOptions"
+            :selected="shipping.country"
+            :placeholder="$t('Country *')"
+            :validations="[
+              {
+                condition: $v.shipping.country.$error && !$v.shipping.country.required,
+                text: $t('Field is required')
+              }
+            ]"
+            v-model="shipping.country"
+            autocomplete="country-name"
+            @blur="$v.shipping.country.$touch()"
+            @change.native="$v.shipping.country.$touch(); changeCountry();"
           />
 
           <base-input
-            class="col-xs-12 col-sm-3 mb10"
+            class="col-xs-12 mb10"
             type="text"
-            name="apartment-number"
-            :placeholder="$t('House/Apartment')"
-            v-model.trim="shipping.apartmentNumber"
-            @blur="$v.shipping.apartmentNumber.$touch()"
-            autocomplete="address-line2"
-            :validations="[{
-              condition: $v.shipping.apartmentNumber.$error && !$v.shipping.apartmentNumber.required,
-              text: $t('Field is required')
-            }]"
+            name="phone-number"
+            :placeholder="$t('Phone Number')"
+            v-model.trim="shipping.phoneNumber"
+            autocomplete="tel"
+            :validations="[
+              {
+                condition: !$v.shipping.phoneNumber.required,
+                text: $t('Field is required')
+              }
+            ]"
           />
-
         </div>
       </div>
     </div>
@@ -293,11 +286,6 @@ export default {
       phoneNumber: {
         required
         // TODO: Need to add proper phone validation and maybe sms verification with twilio
-      },
-      state: {
-        required,
-        minLength: minLength(3),
-        unicodeAlphaNum
       },
       zipCode: {
         required,

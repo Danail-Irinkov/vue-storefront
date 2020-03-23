@@ -55,13 +55,15 @@ const actions: ActionTree<UserState, RootState> = {
     console.log('BEFORE UserService.login', email, password)
     // Edited by shabbir for login customer in procc
     const resp = await ProCcApi().VSFCustomerLogin({email: email, password})
+    let user = resp.data.user
     userHooksExecutors.afterUserAuthorize(resp)
     if (!isUndefined(resp.data.email_not_verify) && resp.data.email_not_verify) {
       dispatch('handleResendVerificationEmail', {email: email})
     } else if (resp.data.message_type === 'success') {
       try {
         await dispatch('resetUserInvalidateLock', {}, { root: true })
-        commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: resp.data.user }) // TODO: handle the "Refresh-token" header
+        await dispatch('setCurrentUser', resp.data.user)
+        commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: user }) // TODO: handle the "Refresh-token" header
         await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
       } catch (err) {
         await dispatch('clearCurrentUser')
@@ -113,11 +115,13 @@ const actions: ActionTree<UserState, RootState> = {
    */
   async register ({ commit, dispatch }, { password, ...customer }) {
     // Edited by shabbir for save customer in procc
-    return ProCcApi().createVSFCustomer({ password, ...customer }).then(async (result) => {
+    return ProCcApi().createVSFCustomer({ password, ...customer })
+      .then(async (result) => {
       console.log('result', result)
       if (!isUndefined(customer.requireLogin) && customer.requireLogin && result.data.message_type === 'success' && !isUndefined(result.data.token) && result.data.token) {
         try {
           await dispatch('resetUserInvalidateLock', {}, { root: true })
+          await dispatch('setCurrentUser', result.data.user)
           commit(types.USER_TOKEN_CHANGED, { newToken: result.data.token, meta: result.data.user }) // TODO: handle the "Refresh-token" header
           await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
         } catch (err) {
@@ -188,6 +192,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (resp.status === 200 && resp.data.message_type === 'success') {
       commit(types.USER_INFO_LOADED, resp.data.user) // this also stores the current user to localForage
       await dispatch('setUserGroup', resp.data.user)
+      await dispatch('setCurrentUser', resp.data.user)
     }
     if (!resolvedFromCache && resp.status === 200 && resp.data.message_type === 'success') {
       EventBus.$emit('user-after-loggedin', resp.data.user)

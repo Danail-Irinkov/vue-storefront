@@ -157,7 +157,7 @@
 "I have a company and want to receive an invoice for every order","法人からなので、全ての注文に請求書を発行してください"
 "Company name *","会社名 *"
 "Street name *","住所 *"
-"House/Apartment number *","部屋番号、建物名 *"
+"House/Apartment","部屋番号、建物名 *"
 "City *","市町村 *"
 "Zip-code *","郵便番号 *"
 "Tax ID *","税金ID *"

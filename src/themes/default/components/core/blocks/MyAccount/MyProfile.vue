@@ -178,7 +178,7 @@
           type="text"
           name="apartment-number"
           autocomplete="address-line2"
-          :placeholder="$t('House/Apartment number *')"
+          :placeholder="$t('House/Apartment')"
           v-model.trim="userCompany.house"
           @input="$v.userCompany.house.$touch()"
           :validations="[{

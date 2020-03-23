@@ -151,7 +151,7 @@ export default (baseURL = '') => {
       for (let brand_id in result.data.shipping_methods) {
         let store_data = result.data.shipping_methods[brand_id]
         shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
-        let shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
+        let shipping_method_data = {...find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })}
         // console.log('updateShippingMethodsFromProCC brand_id', brand_id)
         // console.log('updateShippingMethodsFromProCC selected_shipping_methods[brand_id]', selected_shipping_methods[brand_id])
 
@@ -161,7 +161,8 @@ export default (baseURL = '') => {
         //   shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
         // }
 
-        // console.log('updateShippingMethodsFromProCC shipping_method_data', shipping_method_data)
+        console.log('updateShippingMethodsFromProCC shipping_method_data.cost', shipping_method_data)
+        console.log('updateShippingMethodsFromProCC shipping_method_data brand_id', brand_id)
         // console.log('updateShippingMethodsFromProCC (!shipping_method_data.cost || parseFloat(shipping_method_data.cost) == 0 || shipping_method_data.isRapido)', (!shipping_method_data.cost || shipping_method_data.cost == 0 || shipping_method_data.isRapido))
         // console.log('updateShippingMethodsFromProCC shipping_method_data.cost', shipping_method_data.cost)
         // console.log('updateShippingMethodsFromProCC parseFloat(shipping_method_data.cost)', parseFloat(shipping_method_data.cost))
@@ -170,14 +171,21 @@ export default (baseURL = '') => {
         //   // updateSelectedRapidoShipmentCost(brand_id)
         //   // shipping_method_data.isRapido = true
         // }
-        shipping_method_data.brand = brand_id
-        default_shipping_methods[brand_id] = shipping_method_data
+        if (shipping_method_data){
+          shipping_method_data.brand = brand_id
+          shipping_method_data.cost = parseInt(shipping_method_data.cost);
+          default_shipping_methods[brand_id] = shipping_method_data
+        }
       }
       // console.log('store.getters[checkout/getSelectedShippingMethods]', store.getters['checkout/getSelectedShippingMethods'])
       console.log('default_shipping_methods', default_shipping_methods)
+      if(default_shipping_methods[0])
+      console.log('default_shipping_methods.cost', default_shipping_methods[0].cost)
       let shippingMethods = shipping_methods
       let selectedShippingMethods = defaults(selected_shipping_methods, default_shipping_methods)
       // let selectedShippingMethods = defaults(default_shipping_methods, store.getters['checkout/getSelectedShippingMethods'])
+
+      console.log('selectedShippingMethods', selectedShippingMethods)
 
       // console.log('shippingMethods', shippingMethods)
       // console.log('selectedShippingMethods', selectedShippingMethods)
