@@ -2,7 +2,7 @@ import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
-
+import find from 'lodash-es/find'
 export const Shipping = {
   name: 'Shipping',
   props: {
@@ -35,8 +35,24 @@ export const Shipping = {
         city: '',
         street: ['', ''],
         postcode: '',
-        telephone: ''
-      }
+        telephone: '',
+        street_id:'',
+        site_id:'',
+        ISO_code:''
+      },
+      cities: [],
+      streets: [],
+      no_cities_available: false,
+      no_streets_available: false,
+      addressSaved: false,
+      city_loading: false,
+      street_loading: false,
+      disable_all_fields:true,
+      disable_street_fields:true,
+      disable_city_fields:true,
+      streets_filtered_options: [],
+      cities_filtered_options: [],
+      get_cities_request_working: false,
     }
   },
   computed: {
@@ -86,7 +102,9 @@ export const Shipping = {
       try {
         // console.log('C Countries1:', this.countries )
         if (!this.ProCC_Countries) {
-          let ProCC_Countries = await this.ProCcApi.getShippingCountriesList() // Added by Dan to load countries from ProCC shipping list
+          // let ProCC_Countries = await this.ProCcApi.getShippingCountriesList() // Added by Dan to load countries from ProCC shipping list
+          let ProCC_Countries = await this.ProCcApi.getCountriesList() // Added by Dan to load countries from ProCC shipping list
+          ProCC_Countries = ProCC_Countries.data.countries
           this.ProCC_Countries = [...ProCC_Countries]
           console.log('C Countries3:', this.ProCC_Countries )
         }
@@ -220,6 +238,100 @@ export const Shipping = {
         return false
       }
       return true
-    }
+    },
+  //  procc country, city and street
+    selectCountry(selection){
+      if(this.shipping.ISO_code && selection) {
+        let country = find(this.countries, { 'ISO_code': this.shipping.ISO_code })
+        console.log('Selection', selection)
+        this.no_cities_available = !country.cities_available
+        this.no_streets_available = !country.streets_available
+
+        this.shipping.country= country.name;
+        this.shipping.country_id= country._id;
+        this.cities=[]
+        this.shipping.site_id = ''
+        this.shipping.city = ''
+        this.shipping.street_id = ''
+        this.shipping.streetName = ''
+        this.shipping.postalCode = ''
+        this.getCitiesList(selection)
+      }
+    },
+    selectCity(){
+      if(!this.no_streets_available && this.shipping.site_id) {
+        let selected_city = find(this.cities, { 'site_id': this.shipping.site_id });
+        if(selected_city){
+          if(selected_city.post_code)this.shipping.postalCode = selected_city.post_code
+          if(selected_city.city_name){
+            this.shipping.city=selected_city.city_name
+          }
+          if(selected_city.city_type)this.shipping.city_type=selected_city.city_type
+        }else{
+          // this.$refs.postalCode.focus()
+          document.getElementById("postalCode").focus();
+        }
+        this.streets=[]
+        this.shipping.street_id=''
+        this.shipping.streetName=''
+        this.getStreetList(this.shipping.site_id, '')
+      }else{ // if manual input of city
+        this.shipping.city = this.shipping.site_id
+      }
+    },
+    selectStreet(){
+      if(!this.no_streets_available && this.shipping.street_id) {
+        let street = find(this.streets, { 'street_id': this.shipping.street_id})
+        this.selected_street_id=''
+        if(street.streetName){
+          this.shipping.streetName = street.streetName;
+        } else if(street.street_name){
+          this.shipping.streetName = street.street_name;
+        } else {
+          this.shipping.streetName = this.shipping.street_id;
+        }
+        this.shipping.street_type= street.street_type;
+      }else{ // if manual input of street
+        this.shipping.street_id = this.shipping.streetName;
+      }
+      if(this.shipping.streetName && this.shipping.streetName.length > 2 && this.shipping.streetName.length < 35)this.disable_all_fields = false
+    },
+    getCitiesList(country_id, query = null) {
+      if(query)query = query.toUpperCase()
+      // if (this.get_cities_request_working) {
+      //   return false;
+      // }
+      this.city_loading = true;
+      this.get_cities_request_working=true
+      console.log('GETTING CITIES', country_id)
+      return this.ProCcApi.getCitiesList(country_id, query)
+        .then((result) => {
+          this.cities = result.data.cities;
+          this.city_loading = false;
+          this.get_cities_request_working=false
+        })
+    },
+    getStreetList(site_id, query) {
+      this.street_loading=true
+      return this.ProCcApi.getStreetList(site_id, query)
+        .then((result) => {
+          if(result.data.no_streets_available)
+            this.no_streets_available = result.data.no_streets_available
+
+          if(result.data.streets && result.data.streets.length > 0){
+            this.streets = result.data.streets
+            this.street_loading=false
+          }
+          else if(result.data.no_streets_available){
+            this.streets=[{street_id: 0, streetName: this.address.city, street_type: '...'}]
+            this.address.street_id = 0
+          }
+          if(this.selected_street_id)
+            this.$nextTick(() => {
+              this.address.street_id=this.selected_street_id
+            });
+        })
+    },
+
   }
 }

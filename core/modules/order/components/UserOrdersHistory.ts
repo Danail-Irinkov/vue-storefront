@@ -30,7 +30,6 @@ export default {
       ++this.pagination.current
     },
     toggleCancellationOrder(orderId) {
-      console.log("cancelOrder",orderId)
       this.selectedOrderId = orderId
       this.loadOrderCancellationModal = true
     },

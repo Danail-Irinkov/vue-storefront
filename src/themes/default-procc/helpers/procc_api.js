@@ -222,7 +222,10 @@ export default (baseURL = '') => {
   const calculateShipmentCost = ({cartId, brandId}) => api.get(`cart/calculateRapidoShipmentCost?cartId=${cartId}&brandId=${brandId}`)
   const getStoreDataForVSF = (url) => api.get(`store/getStoreDataForVSF?url=${url}`)
   const getOrderInvoicePDF = (orderId) => api.get(`invoice/getOrderInvoicePDF/${orderId}`,{responseType: 'arraybuffer'})
-  const cancelOrder = (data,brand_id,user_id) => api.post(`order/cancelOrder?brand_id=${brand_id}&user_id=${user_id}`,data)
+  const cancelOrder = (data,user_id,brand_id) => api.post(`order/cancelOrder?user_id=${user_id}&brand_id=${brand_id}`,data)
+  const getCountriesList = () => api.get(`country/getCountriesList`)
+  const getCitiesList = (country_id, query) => api.get(`address/getCitiesList`,{country_id, query })
+  const getStreetList = (site_id, query) => api.get(`address/getStreetList`, {site_id, query })
 
   return {
     addNewOrder,
@@ -251,6 +254,9 @@ export default (baseURL = '') => {
     calculateShipmentCost,
     getStoreDataForVSF,
     getOrderInvoicePDF,
-    cancelOrder
+    cancelOrder,
+    getCountriesList,
+    getCitiesList,
+    getStreetList
   }
 }

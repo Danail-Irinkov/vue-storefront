@@ -91,7 +91,7 @@
             class="col-xs-12 col-sm-6 mb10"
             name="countries"
             :options="countryOptions"
-            :selected="shipping.country"
+            :selected="shipping.ISO_code"
             :placeholder="$t('Country *')"
             :validations="[
               {
@@ -99,10 +99,10 @@
                 text: $t('Field is required')
               }
             ]"
-            v-model="shipping.country"
+            v-model="shipping.ISO_code"
             autocomplete="country-name"
-            @blur="$v.shipping.country.$touch()"
-            @change.native="$v.shipping.country.$touch(); changeCountry();"
+            @blur="$v.shipping.ISO_code.$touch()"
+            @change.native="$v.shipping.ISO_code.$touch(); selectCountry();"
           />
           <base-input
             class="col-xs-12 col-sm-6 mb10"
@@ -262,7 +262,7 @@ export default {
     countryOptions () {
       return this.countries.map((item) => {
         return {
-          value: item.name,
+          value: item.ISO_code,
           label: item.name
         }
       })

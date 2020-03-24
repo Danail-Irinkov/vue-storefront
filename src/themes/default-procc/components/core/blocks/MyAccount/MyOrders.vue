@@ -68,10 +68,10 @@
                     <a :href="`${config.PROCC.FRONT_URL}/orderReview/${order.customer_feedback_hash}`" class="no-underline block py10 px15" target="_blank">
                       {{ $t('Order Feedback') }}
                     </a>
-                    <a class="no-underline block py10 px15" @click.prevent="getOrderInvoicePDF(order._id)" v-if="order.status != 'awaiting_payment'">{{ $t('Download Invoice') }}</a>
-                    <a href="#" class="no-underline block py10 px15" @click.prevent="toggleCancellationOrder(order._id)">{{ $t('Order Cancellation') }}</a>
+                    <a href="#" class="no-underline block py10 px15" @click.prevent="toggleCancellationOrder(order._id)" v-if="order.status =='awaiting_pickup' || order.status =='awaiting_shipment'">{{ $t('Order Cancellation') }}</a>
+                    <a class="no-underline block py10 px15" @click.prevent="getOrderInvoicePDF(order._id)" v-if="order.status != 'awaiting_payment' && order.status != 'brand_cancelled' && order.status != 'customer_cancelled'">{{ $t('Download Invoice') }}</a>
                     <a href="#" class="no-underline block py10 px15" @click.prevent="paymentRetry(order)" v-if="order.status =='awaiting_payment'">{{ $t('Retry Payment') }}</a>
-                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>
+<!--                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>-->
                   </div>
                 </span>
               </td>
@@ -90,7 +90,7 @@
 <script>
 import UserOrder from '@vue-storefront/core/modules/order/components/UserOrdersHistory'
 import config from 'config';
-import OrderCancellation from './OrderCancellation';
+import OrderCancellation from 'theme/components/procc/OrderCancellation.vue'
 export default {
   mixins: [UserOrder],
   components: {
