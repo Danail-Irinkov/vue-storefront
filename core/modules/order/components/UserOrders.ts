@@ -15,10 +15,10 @@ export const UserOrders = {
     }
   },
   methods: {
-    getOrderInvoicePDF(orderId) {
+    getOrderInvoicePDF (orderId) {
       ProCcApi().getOrderInvoicePDF(orderId)
         .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data], { type: "application/pdf" }))
+          const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }))
           let file_name = orderId + '.pdf'
           const link = document.createElement('a')
           link.href = url;
@@ -26,8 +26,7 @@ export const UserOrders = {
           const contentDisposition = response.headers['content-disposition']
           if (contentDisposition) {
             const fileNameMatch = contentDisposition.match(/filename="(.+)"/)
-            if (fileNameMatch.length === 2)
-              file_name = fileNameMatch[1];
+            if (fileNameMatch.length === 2) { file_name = fileNameMatch[1]; }
           }
           link.setAttribute('download', file_name);
           document.body.appendChild(link);

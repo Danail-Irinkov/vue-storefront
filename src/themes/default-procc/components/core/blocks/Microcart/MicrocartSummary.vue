@@ -20,7 +20,7 @@
     </div>
     <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code === 'shipping'">
       <div class="col-xs">
-        {{ $t(segment.title) }} ({{$t(segment.country)}})
+        {{ $t(segment.title) }} ({{ $t(segment.country) }})
         <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary" class="shipping-method-attributes">
           <li v-for="(data, key) in segment.extension_attributes" :key="key">
             {{ $t(data.name) }} ({{ data.cost | price }})

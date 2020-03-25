@@ -18,7 +18,7 @@ const quantityActions = {
   },
   async updateQuantity ({ commit, dispatch, getters }, { product, qty, forceServerSilence = false }) {
     let selectedSHMethods = getters['getSelectedShippingMethods']
-    if(selectedSHMethods && selectedSHMethods[product.brand_id] && selectedSHMethods[product.brand_id].isRapido){
+    if (selectedSHMethods && selectedSHMethods[product.brand_id] && selectedSHMethods[product.brand_id].isRapido) {
       selectedSHMethods[product.brand_id].cost = null
     }
     await dispatch('checkout/updateSelectedShippingMethods', selectedSHMethods, { root: true })

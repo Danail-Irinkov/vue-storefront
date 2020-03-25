@@ -11,8 +11,8 @@ export default {
         current: 1,
         enabled: false
       },
-      selectedOrderId:'',
-      loadOrderCancellationModal:false,
+      selectedOrderId: '',
+      loadOrderCancellationModal: false,
       lazyLoadOrdersOnScroll: true
     }
   },
@@ -29,9 +29,10 @@ export default {
     onBottomScroll () {
       ++this.pagination.current
     },
-    toggleCancellationOrder(orderId) {
+    toggleCancellationOrder (orderId) {
+      console.log('cancelOrder', orderId)
       this.selectedOrderId = orderId
       this.loadOrderCancellationModal = true
-    },
+    }
   }
 }

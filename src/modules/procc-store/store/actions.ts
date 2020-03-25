@@ -27,8 +27,7 @@ const actions: ActionTree<StoreDataState, RootState> = {
   async updateCurrentStore ({commit, rootState}) {
     procc_api().getStoreDataForVSF(rootState.storeView.storeCode)
       .then((result) => {
-        if (result.data && result.data.storefront)
-          commit('SET_CURRENT_STORE', result.data.storefront)
+        if (result.data && result.data.storefront) { commit('SET_CURRENT_STORE', result.data.storefront) }
       })
       .catch((error) => {
         console.log(error)

@@ -117,29 +117,29 @@ const actions: ActionTree<UserState, RootState> = {
     // Edited by shabbir for save customer in procc
     return ProCcApi().createVSFCustomer({ password, ...customer })
       .then(async (result) => {
-      console.log('result', result)
-      if (!isUndefined(customer.requireLogin) && customer.requireLogin && result.data.message_type === 'success' && !isUndefined(result.data.token) && result.data.token) {
-        try {
-          await dispatch('resetUserInvalidateLock', {}, { root: true })
-          await dispatch('setCurrentUser', result.data.user)
-          commit(types.USER_TOKEN_CHANGED, { newToken: result.data.token, meta: result.data.user }) // TODO: handle the "Refresh-token" header
-          await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
-        } catch (err) {
-          await dispatch('clearCurrentUser')
-          throw new Error(err)
+        console.log('result', result)
+        if (!isUndefined(customer.requireLogin) && customer.requireLogin && result.data.message_type === 'success' && !isUndefined(result.data.token) && result.data.token) {
+          try {
+            await dispatch('resetUserInvalidateLock', {}, { root: true })
+            await dispatch('setCurrentUser', result.data.user)
+            commit(types.USER_TOKEN_CHANGED, { newToken: result.data.token, meta: result.data.user }) // TODO: handle the "Refresh-token" header
+            await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+          } catch (err) {
+            await dispatch('clearCurrentUser')
+            throw new Error(err)
+          }
+        } else if (result.data.message_type === 'success') {
+          dispatch('handleResendVerificationEmail', {email: customer.email})
+        } else {
+          dispatch('notification/spawnNotification', {
+            type: 'error',
+            message: result.data.message,
+            action1: { label: i18n.t('Ok') },
+            hasNoTimeout: true
+          }, { root: true })
         }
-      } else if (result.data.message_type === 'success') {
-        dispatch('handleResendVerificationEmail', {email: customer.email})
-      } else {
-        dispatch('notification/spawnNotification', {
-          type: 'error',
-          message: result.data.message,
-          action1: { label: i18n.t('Ok') },
-          hasNoTimeout: true
-        }, { root: true })
-      }
-      return result.data
-    })
+        return result.data
+      })
   },
 
   /**

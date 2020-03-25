@@ -88,13 +88,13 @@ export default {
     // const shippingDetails = this.$store.get['checkout/getShippingDetails']
     // console.log('modal  ShippingMethod shippingDetails', shippingDetails)
     // if(shippingDetails.country){ // if customer has set the Country for shipping
-      // this.$store.dispatch('syncShippingMethods', { forceServerSync: false })
+    // this.$store.dispatch('syncShippingMethods', { forceServerSync: false })
     // }
     this.$nextTick(() => {
       this.$bus.$emit('modal-show', 'modal-shipping-method')
     })
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$bus.$emit('modal-hide', 'modal-shipping-method')
   },
   components: {
@@ -397,6 +397,5 @@ export default {
       }
     }
   }
-
 
 </style>

@@ -60,7 +60,7 @@
 import MicrocartProduct from 'theme/components/core/blocks/Microcart/Product'
 import { onlineHelper } from '@vue-storefront/core/helpers'
 import { CartSummary } from '@vue-storefront/core/modules/checkout/components/CartSummary';
-import Spinner from 'theme/components/core/Spinner' //Added By Dan
+import Spinner from 'theme/components/core/Spinner' // Added By Dan
 
 export default {
   components: {

@@ -255,8 +255,7 @@
             </div>
           </template>
         </div>
-
-        </div>
+      </div>
     </div>
     <!--modify condition for show address at copy shipping address checked  by shabbir -->
     <div class="row pl20" v-if="sendToShippingAddress">

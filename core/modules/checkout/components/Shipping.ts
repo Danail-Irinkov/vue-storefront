@@ -23,7 +23,7 @@ export const Shipping = {
     return {
       isFilled: false,
       ProCcApi: ProCcApi(),
-      countries: [], //Edited By Dan
+      countries: [], // Edited By Dan
       shipping: this.$store.state.checkout.shippingDetails,
       shipToMyAddress: false,
       selectedShippingMethods: {},
@@ -124,11 +124,11 @@ export const Shipping = {
           let ProCC_Countries = await this.ProCcApi.getCountriesList() // Added by Dan to load countries from ProCC shipping list
           ProCC_Countries = ProCC_Countries.data.countries
           this.ProCC_Countries = [...ProCC_Countries]
-          console.log('C Countries3:', this.ProCC_Countries )
+          console.log('C Countries3:', this.ProCC_Countries)
         }
 
         this.countries = [...this.ProCC_Countries]
-      }catch (e) {
+      } catch (e) {
         console.log('getShippingCountryList Err: ', e)
       }
     },

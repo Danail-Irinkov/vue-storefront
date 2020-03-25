@@ -471,7 +471,7 @@ function kebabForLink (string) {
     let ret = String(words[0]).toLowerCase();
 
     for (let i = 1, n = words.length; i < n; i++) {
-      if(words[i]){
+      if (words[i]) {
         words[i] = words[i].replace(':', '').replace('?', '').replace('!', '').replace(')', '').replace('(', '').replace('.', '')
         ret += '-' + String(words[i]).toLowerCase();
       }
