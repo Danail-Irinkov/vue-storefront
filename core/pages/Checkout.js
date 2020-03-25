@@ -413,6 +413,12 @@ export default {
             region_code: this.payment.region_code ? this.payment.region_code : '',
             company: this.payment.company,
             vat_id: this.payment.taxId,
+            ISO_code: this.payment.ISO_code ? this.payment.ISO_code : '',
+            country_id: this.payment.country_id ? this.payment.country_id : '',
+            site_id: this.payment.site_id ? this.payment.site_id : '',
+            street_id: this.payment.street_id ? this.payment.street_id : '',
+            street_type: this.payment.street_type ? this.payment.street_type : '',
+            city_type: this.payment.city_type ? this.payment.city_type : '',
             generateInvoice: !!this.payment.taxId
           },
           selected_shipping_methods: this.$store.state.cart.selectedShippingMethods ? this.$store.state.cart.selectedShippingMethods : {},
@@ -436,7 +442,12 @@ export default {
           firstname: this.shipping.firstName,
           lastname: this.shipping.lastName,
           email: this.personalDetails.emailAddress,
-          region_code: this.shipping.region_code ? this.shipping.region_code : ''
+          ISO_code: this.shipping.ISO_code ? this.shipping.ISO_code : '',
+          country_id: this.shipping.country_id ? this.shipping.country_id : '',
+          site_id: this.shipping.site_id ? this.shipping.site_id : '',
+          street_id: this.shipping.street_id ? this.shipping.street_id : '',
+          street_type: this.shipping.street_type ? this.shipping.street_type : '',
+          city_type: this.shipping.city_type ? this.shipping.city_type : ''
         }
       }
       return this.order

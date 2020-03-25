@@ -224,8 +224,8 @@ export default (baseURL = '') => {
   const getOrderInvoicePDF = (orderId) => api.get(`invoice/getOrderInvoicePDF/${orderId}`,{responseType: 'arraybuffer'})
   const cancelOrder = (data,user_id,brand_id) => api.post(`order/cancelOrder?user_id=${user_id}&brand_id=${brand_id}`,data)
   const getCountriesList = () => api.get(`country/getCountriesList`)
-  const getCitiesList = (country_id, query) => api.get(`address/getCitiesList`,{country_id, query })
-  const getStreetList = (site_id, query) => api.get(`address/getStreetList`, {site_id, query })
+  const getCitiesList = (country_id, query) => api.get(`address/getCitiesList`, { params: { country_id, query}})
+  const getStreetList = (site_id, query) => api.get(`address/getStreetList`, {params:{site_id, query }})
 
   return {
     addNewOrder,

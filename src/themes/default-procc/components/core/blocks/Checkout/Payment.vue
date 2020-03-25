@@ -88,31 +88,36 @@
           <base-input
             class="col-xs-12 mb10"
             type="text"
-            name="street-address"
-            :placeholder="$t('Street name *')"
-            v-model.trim="payment.streetAddress"
-            @blur="$v.payment.streetAddress.$touch()"
-            autocomplete="address-line1"
-            :validations="[{
-              condition: $v.payment.streetAddress.$error && !$v.payment.streetAddress.required,
-              text: $t('Field is required')
-            }]"
+            name="phone-number"
+            :placeholder="$t('Phone Number')"
+            v-model.trim="payment.phoneNumber"
+            autocomplete="tel"
           />
-
+          <base-select
+            class="col-xs-12 col-sm-6 mb10"
+            name="countries"
+            :options="countryOptions"
+            :selected="payment.country"
+            :placeholder="$t('Country *')"
+            :validations="[
+              {
+                condition: $v.payment.country.$error && !$v.payment.country.required,
+                text: $t('Field is required')
+              }
+            ]"
+            v-model="payment.country"
+            autocomplete="country-name"
+            @blur="$v.payment.country.$touch()"
+            @change="$v.payment.country.$touch(); changeCountry();"
+          />
           <base-input
-            class="col-xs-12 mb10"
+            class="col-xs-12 col-sm-6 mb10"
             type="text"
-            name="apartment-number"
-            :placeholder="$t('House/Apartment')"
-            v-model.trim="payment.apartmentNumber"
-            @blur="$v.payment.apartmentNumber.$touch()"
-            autocomplete="address-line2"
-            :validations="[{
-              condition: $v.payment.apartmentNumber.$error && !$v.payment.apartmentNumber.required,
-              text: $t('Field is required')
-            }]"
+            name="state"
+            :placeholder="$t('State / Province')"
+            v-model.trim="payment.state"
+            autocomplete="address-level1"
           />
-
           <base-input
             class="col-xs-12 col-sm-6 mb10"
             type="text"
@@ -132,16 +137,6 @@
               }
             ]"
           />
-
-          <base-input
-            class="col-xs-12 col-sm-6 mb10"
-            type="text"
-            name="state"
-            :placeholder="$t('State / Province')"
-            v-model.trim="payment.state"
-            autocomplete="address-level1"
-          />
-
           <base-input
             class="col-xs-12 col-sm-6 mb10"
             type="text"
@@ -162,33 +157,33 @@
             ]"
           />
 
-          <base-select
-            class="col-xs-12 col-sm-6 mb10"
-            name="countries"
-            :options="countryOptions"
-            :selected="payment.country"
-            :placeholder="$t('Country *')"
-            :validations="[
-              {
-                condition: $v.payment.country.$error && !$v.payment.country.required,
-                text: $t('Field is required')
-              }
-            ]"
-            v-model="payment.country"
-            autocomplete="country-name"
-            @blur="$v.payment.country.$touch()"
-            @change="$v.payment.country.$touch(); changeCountry();"
+          <base-input
+            class="col-xs-12 col-sm-9 mb10"
+            type="text"
+            name="street-address"
+            :placeholder="$t('Street name *')"
+            v-model.trim="payment.streetAddress"
+            @blur="$v.payment.streetAddress.$touch()"
+            autocomplete="address-line1"
+            :validations="[{
+              condition: $v.payment.streetAddress.$error && !$v.payment.streetAddress.required,
+              text: $t('Field is required')
+            }]"
           />
 
           <base-input
-            class="col-xs-12 mb10"
+            class="col-xs-12 col-sm-3 mb10"
             type="text"
-            name="phone-number"
-            :placeholder="$t('Phone Number')"
-            v-model.trim="payment.phoneNumber"
-            autocomplete="tel"
+            name="apartment-number"
+            :placeholder="$t('House/Apartment')"
+            v-model.trim="payment.apartmentNumber"
+            @blur="$v.payment.apartmentNumber.$touch()"
+            autocomplete="address-line2"
+            :validations="[{
+              condition: $v.payment.apartmentNumber.$error && !$v.payment.apartmentNumber.required,
+              text: $t('Field is required')
+            }]"
           />
-
           <div class="col-xs-12">
             <h4>
               {{ $t('Payment method') }}

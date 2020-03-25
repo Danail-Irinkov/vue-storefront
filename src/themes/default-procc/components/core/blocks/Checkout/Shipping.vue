@@ -95,7 +95,7 @@
             :placeholder="$t('Country *')"
             :validations="[
               {
-                condition: $v.shipping.country.$error && !$v.shipping.country.required,
+                condition: $v.shipping.ISO_code.$error && !$v.shipping.ISO_code.required,
                 text: $t('Field is required')
               }
             ]"
@@ -122,10 +122,11 @@
               }
             ]"
           />
-          <base-input
+           <base-input v-if="no_cities_available"
             class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="city"
+            :disabled="disable_city_fields"
             :placeholder="$t('City *')"
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
@@ -140,6 +141,24 @@
                 text: $t('Please provide valid city name')
               }
             ]"
+          />
+          <base-select v-else
+            class="col-xs-12 col-sm-6 mb10"
+            name="City"
+            :disabled="disable_city_fields"
+            :options="cityOptions"
+            :selected="shipping.site_id"
+            :placeholder="$t('City *')"
+            :validations="[
+              {
+                condition: $v.shipping.city.$error && !$v.shipping.city.required,
+                text: $t('Field is required')
+              }
+            ]"
+            v-model="shipping.site_id"
+            autocomplete="country-name"
+            @blur="$v.shipping.city.$touch()"
+            @change.native="$v.shipping.city.$touch(); selectCity();"
           />
 
           <base-input
@@ -162,7 +181,7 @@
             ]"
           />
 
-          <base-input
+          <base-input v-if="no_streets_available"
             class="col-xs-12 col-sm-9 mb10"
             type="text"
             name="street-address"
@@ -170,10 +189,29 @@
             v-model.trim="shipping.streetAddress"
             @blur="$v.shipping.streetAddress.$touch()"
             autocomplete="address-line1"
+            :disabled="disable_street_fields"
             :validations="[{
               condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
               text: $t('Field is required')
             }]"
+          />
+          <base-select v-else
+            class="col-xs-12 col-sm-9 mb10"
+            name="street-address"
+            :options="streetsOptions"
+            :selected="shipping.street_id"
+            :disabled="disable_street_fields"
+            :placeholder="$t('Street name *')"
+            :validations="[
+              {
+                condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
+                text: $t('Field is required')
+              }
+            ]"
+            v-model="shipping.street_id"
+            autocomplete="country-name"
+            @blur="$v.shipping.streetAddress.$touch()"
+            @change.native="$v.shipping.streetAddress.$touch(); selectStreet();"
           />
 
           <base-input
@@ -189,7 +227,6 @@
               text: $t('Field is required')
             }]"
           />
-
         </div>
       </div>
     </div>
@@ -266,6 +303,22 @@ export default {
           label: item.name
         }
       })
+    },
+    cityOptions () {
+      return this.cities.map((item) => {
+        return {
+          value: item.site_id,
+          label: this.shipping.site_id === item.site_id ? item.city_type && item.city_type !== 0 ? item.city_type + ' ' + item.city_name : item.city_name : item.city_type && item.city_type !== 0 ? item.city_type + ' ' + item.city_name + ', ' + item.post_code : item.city_name + ', ' + item.post_code
+        }
+      })
+    },
+    streetsOptions () {
+      return this.streets.map((item) => {
+        return {
+          value: item.street_id,
+          label: item && item.street_type ? `${item.street_type} ${item.streetName}` : item.streetName
+        }
+      })
     }
   },
   validations: {
@@ -280,6 +333,9 @@ export default {
         unicodeAlpha
       },
       country: {
+        required
+      },
+      ISO_code: {
         required
       },
       streetAddress: {
