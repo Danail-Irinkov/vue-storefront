@@ -104,6 +104,24 @@
             @blur="$v.shipping.ISO_code.$touch()"
             @change.native="$v.shipping.ISO_code.$touch(); selectCountry();"
           />
+<!--          <base-input-->
+<!--            class="col-xs-12 col-sm-6 mb10"-->
+<!--            type="text"-->
+<!--            name="state"-->
+<!--            :placeholder="$t('State / Province')"-->
+<!--            v-model.trim="shipping.state"-->
+<!--            autocomplete="address-level1"-->
+<!--            :validations="[-->
+<!--              {-->
+<!--                condition: $v.shipping.state.$error && !$v.shipping.state.required,-->
+<!--                text: $t('Field is required')-->
+<!--              },-->
+<!--              {-->
+<!--                condition: !$v.shipping.state.minLength,-->
+<!--                text: $t('Name must have at least 3 letters.')-->
+<!--              }-->
+<!--            ]"-->
+<!--          />-->
           <base-input
             class="col-xs-12 col-sm-6 mb10"
             type="text"
@@ -111,16 +129,6 @@
             :placeholder="$t('State / Province')"
             v-model.trim="shipping.state"
             autocomplete="address-level1"
-            :validations="[
-              {
-                condition: $v.shipping.state.$error && !$v.shipping.state.required,
-                text: $t('Field is required')
-              },
-              {
-                condition: !$v.shipping.state.minLength,
-                text: $t('Name must have at least 3 letters.')
-              }
-            ]"
           />
            <base-input v-if="no_cities_available"
             class="col-xs-12 col-sm-6 mb10"
