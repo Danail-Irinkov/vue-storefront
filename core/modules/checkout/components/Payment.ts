@@ -143,6 +143,12 @@ export const Payment = {
                 zipCode: addresses[i].postcode,
                 taxId: addresses[i].vat_id,
                 phoneNumber: addresses[i].telephone,
+                ISO_code: addresses[i].ISO_code ? addresses[i].ISO_code : '',
+                country_id: addresses[i].country_id ? addresses[i].country_id : '',
+                site_id: addresses[i].site_id ? addresses[i].site_id : '',
+                street_id: addresses[i].street_id ? addresses[i].street_id : '',
+                street_type: addresses[i].street_type ? addresses[i].street_type : '',
+                city_type: addresses[i].city_type ? addresses[i].city_type : '',
                 paymentMethod: this.paymentMethods[0].code
               }
               // this.generateInvoice = true
@@ -166,6 +172,12 @@ export const Payment = {
           zipCode: '',
           phoneNumber: '',
           taxId: '',
+          ISO_code:  '',
+          country_id: '',
+          site_id: '',
+          street_id: '',
+          street_type: '',
+          city_type: '',
           paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
         }
       }
@@ -192,6 +204,12 @@ export const Payment = {
         apartmentNumber: this.shippingDetails.apartmentNumber,
         zipCode: this.shippingDetails.zipCode,
         phoneNumber: this.shippingDetails.phoneNumber,
+        ISO_code: this.shippingDetails.ISO_code ? this.shippingDetails.ISO_code : '',
+        country_id: this.shippingDetails.country_id ? this.shippingDetails.country_id : '',
+        site_id: this.shippingDetails.site_id ? this.shippingDetails.site_id : '',
+        street_id: this.shippingDetails.street_id ? this.shippingDetails.street_id : '',
+        street_type: this.shippingDetails.street_type ? this.shippingDetails.street_type : '',
+        city_type: this.shippingDetails.city_type ? this.shippingDetails.city_type : '',
         paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
       }
     },
@@ -213,6 +231,12 @@ export const Payment = {
               zipCode: addresses[i].postcode,
               taxId: addresses[i].vat_id,
               phoneNumber: addresses[i].telephone,
+              ISO_code: addresses[i].ISO_code ? addresses[i].ISO_code : '',
+              country_id: addresses[i].country_id ? addresses[i].country_id : '',
+              site_id: addresses[i].site_id ? addresses[i].site_id : '',
+              street_id: addresses[i].street_id ? addresses[i].street_id : '',
+              street_type: addresses[i].street_type ? addresses[i].street_type : '',
+              city_type: addresses[i].city_type ? addresses[i].city_type : '',
               paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
             }
 
@@ -236,8 +260,9 @@ export const Payment = {
       }
     },
     getCountryName () {
+      if(this.payment.country) return this.payment.country
       for (let i = 0; i < this.countries.length; i++) {
-        if (this.countries[i].code === this.payment.country) {
+        if (this.countries[i].ISO_code === this.payment.ISO_code) {
           return this.countries[i].name
         }
       }
@@ -312,6 +337,12 @@ export const Payment = {
             ...(this.getShippingDetails.state ? { region: { region: this.getShippingDetails.state } } : {}),
             country: this.getShippingDetails.country,
             postCode: this.getShippingDetails.zipCode,
+            ISO_code: this.getShippingDetails.ISO_code ? this.getShippingDetails.ISO_code : '',
+            country_id: this.getShippingDetails.country_id ? this.getShippingDetails.country_id : '',
+            site_id: this.getShippingDetails.site_id ? this.getShippingDetails.site_id : '',
+            street_id: this.getShippingDetails.street_id ? this.getShippingDetails.street_id : '',
+            street_type: this.getShippingDetails.street_type ? this.getShippingDetails.street_type : '',
+            city_type: this.getShippingDetails.city_type ? this.getShippingDetails.city_type : '',
             ...(this.getShippingDetails.phoneNumber ? { phone: this.getShippingDetails.phoneNumber } : {})
           }]
         });

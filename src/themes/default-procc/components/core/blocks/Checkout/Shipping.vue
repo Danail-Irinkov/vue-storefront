@@ -373,11 +373,11 @@ export default {
         required
         // TODO: Need to add proper phone validation and maybe sms verification with twilio
       },
-      state: {
+      /*state: {
         required,
         minLength: minLength(3),
         unicodeAlphaNum
-      },
+      },*/
       zipCode: {
         required,
         minLength: minLength(3),

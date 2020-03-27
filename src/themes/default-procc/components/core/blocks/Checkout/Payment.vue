@@ -97,18 +97,17 @@
             class="col-xs-12 col-sm-6 mb10"
             name="countries"
             :selectOptions="countryOptions"
-            :selected="String(payment.country)"
-            :value="payment.country"
+            :selected="payment.ISO_code"
             :placeholder="$t('Country *')"
             :validations="[
               {
-                condition: $v.payment.country.$error && !$v.payment.country.required,
+                condition: $v.payment.ISO_code.$error && !$v.payment.ISO_code.required,
                 text: $t('Field is required')
               }
             ]"
-            v-model="payment.site_id"
+            v-model="payment.ISO_code"
             autocomplete="country-name"
-            @blur="$v.payment.country.$touch()"
+            @blur="$v.payment.ISO_code.$touch()"
             @change="changeCountry"
           />
           <base-input
@@ -376,6 +375,9 @@ export default {
           country: {
             required
           },
+          ISO_code: {
+            required
+          },
           streetAddress: {
             required,
             unicodeAlphaNum
@@ -419,6 +421,9 @@ export default {
             minLength: minLength(3)
           },
           country: {
+            required
+          },
+          ISO_code: {
             required
           },
           streetAddress: {
