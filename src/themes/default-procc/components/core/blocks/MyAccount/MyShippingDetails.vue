@@ -68,7 +68,7 @@
         <base-select
           class="col-xs-12 col-sm-6 mb10"
           name="countries"
-          :options="countryOptions"
+          :selectOptions="countryOptions"
           :selected="shippingDetails.ISO_code"
           :placeholder="$t('Country *')"
           :validations="[
@@ -115,7 +115,7 @@
                      class="col-xs-12 col-sm-6 mb10"
                      name="city"
                      :disabled="disable_city_fields"
-                     :options="cityOptions"
+                     :selectOptions="cityOptions"
                      :selected="shippingDetails.site_id"
                      :placeholder="$t('City *')"
                      :validations="[
@@ -175,7 +175,7 @@
         <base-select v-else
                      class="col-xs-12 col-sm-6 mb10"
                      name="street-address"
-                     :options="streetsOptions"
+                     :selectOptions="streetsOptions"
                      :selected="shippingDetails.street_id"
                      :disabled="disable_street_fields"
                      :placeholder="$t('Street name *')"

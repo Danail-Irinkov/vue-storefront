@@ -90,7 +90,7 @@
           <base-select
             class="col-xs-12 col-sm-6 mb10"
             name="countries"
-            :options="countryOptions"
+            :selectOptions="countryOptions"
             :selected="shipping.ISO_code"
             :placeholder="$t('Country *')"
             :validations="[
@@ -102,7 +102,7 @@
             v-model="shipping.ISO_code"
             autocomplete="country-name"
             @blur="$v.shipping.ISO_code.$touch()"
-            @change.native="$v.shipping.ISO_code.$touch(); selectCountry();"
+            @change="selectCountry"
           />
 <!--          <base-input-->
 <!--            class="col-xs-12 col-sm-6 mb10"-->
@@ -134,10 +134,12 @@
             class="col-xs-12 col-sm-6 mb10"
             type="text"
             name="city"
+            id="cityInput"
             :disabled="disable_city_fields"
             :placeholder="$t('City *')"
             v-model.trim="shipping.city"
             @blur="$v.shipping.city.$touch()"
+            @change="$v.shipping.city.$touch()"
             autocomplete="address-level2"
             :validations="[
               {
@@ -153,10 +155,16 @@
           <base-select v-else
             class="col-xs-12 col-sm-6 mb10"
             name="City"
+            id="cityInput2"
             :disabled="disable_city_fields"
-            :options="cityOptions"
-            :selected="shipping.site_id"
+            :selectOptions="cityOptions"
+            :selected="shipping.city"
             :placeholder="$t('City *')"
+            remoteQueryMethod="getCitiesList"
+            @remoteResults="addToCities"
+            selectLabel="city_name"
+            valueKey="site_id"
+            :remoteParentSelected="shipping.ISO_code"
             :validations="[
               {
                 condition: $v.shipping.city.$error && !$v.shipping.city.required,
@@ -166,12 +174,13 @@
             v-model="shipping.site_id"
             autocomplete="country-name"
             @blur="$v.shipping.city.$touch()"
-            @change.native="$v.shipping.city.$touch(); selectCity();"
+            @change="selectCity"
           />
 
           <base-input
             class="col-xs-12 col-sm-6 mb10"
             type="text"
+            id="postalCode"
             name="zip-code"
             :placeholder="$t('Zip-code *')"
             v-model.trim="shipping.zipCode"
@@ -193,6 +202,7 @@
             class="col-xs-12 col-sm-9 mb10"
             type="text"
             name="street-address"
+            id="streetName"
             :placeholder="$t('Street name *')"
             v-model.trim="shipping.streetAddress"
             @blur="$v.shipping.streetAddress.$touch()"
@@ -206,7 +216,8 @@
           <base-select v-else
             class="col-xs-12 col-sm-9 mb10"
             name="street-address"
-            :options="streetsOptions"
+            id="streetName2"
+            :selectOptions="streetsOptions"
             :selected="shipping.street_id"
             :disabled="disable_street_fields"
             :placeholder="$t('Street name *')"
@@ -305,16 +316,20 @@ export default {
   mixins: [Shipping],
   computed: {
     countryOptions () {
-      return this.countries.map((item) => {
-        return {
-          value: item.ISO_code,
-          label: item.name
-        }
-      })
+      let cntrys = []
+      for (let cntry of this.ProCC_Countries){
+        cntrys.push({
+          ...cntry,
+          value: cntry.ISO_code,
+          label: cntry.name
+        })
+      }
+      return cntrys
     },
     cityOptions () {
       return this.cities.map((item) => {
         return {
+          ...item,
           value: item.site_id,
           label: this.shipping.site_id === item.site_id ? item.city_type && item.city_type !== 0 ? item.city_type + ' ' + item.city_name : item.city_name : item.city_type && item.city_type !== 0 ? item.city_type + ' ' + item.city_name + ', ' + item.post_code : item.city_name + ', ' + item.post_code
         }

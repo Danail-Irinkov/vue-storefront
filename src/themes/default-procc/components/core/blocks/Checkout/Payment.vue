@@ -96,8 +96,9 @@
           <base-select
             class="col-xs-12 col-sm-6 mb10"
             name="countries"
-            :options="countryOptions"
-            :selected="payment.country"
+            :selectOptions="countryOptions"
+            :selected="String(payment.country)"
+            :value="payment.country"
             :placeholder="$t('Country *')"
             :validations="[
               {
@@ -105,10 +106,10 @@
                 text: $t('Field is required')
               }
             ]"
-            v-model="payment.country"
+            v-model="payment.site_id"
             autocomplete="country-name"
             @blur="$v.payment.country.$touch()"
-            @change="$v.payment.country.$touch(); changeCountry();"
+            @change="changeCountry"
           />
           <base-input
             class="col-xs-12 col-sm-6 mb10"
@@ -196,7 +197,7 @@
                 :value="method.code"
                 name="payment-method"
                 v-model="payment.paymentMethod"
-                @change="$v.payment.paymentMethod.$touch(); changePaymentMethod();"
+                @change="changePaymentMethod"
               >
               <span class="checkmark" />
             </label>
@@ -348,13 +349,16 @@ export default {
       currentCart: 'carts/getCartToken'
     }),
     countryOptions () {
-      return this.countries.map((item) => {
-        return {
-          value: item.code,
-          label: item.name
-        }
-      })
-    }
+      let cntrys = []
+      for (let cntry of this.ProCC_Countries){
+        cntrys.push({
+          ...cntry,
+          value: cntry.ISO_code,
+          label: cntry.name
+        })
+      }
+      return cntrys
+    },
   },
   validations () {
     if (!this.generateInvoice) {

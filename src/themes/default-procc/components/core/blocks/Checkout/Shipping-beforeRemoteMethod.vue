@@ -154,7 +154,7 @@
           <base-select
             class="col-xs-12 col-sm-6 mb10"
             name="countries"
-            :options="countryOptions"
+            :selectOptions="countryOptions"
             :selected="shipping.country"
             :placeholder="$t('Country *')"
             :validations="[

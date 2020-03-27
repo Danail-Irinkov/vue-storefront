@@ -15,7 +15,8 @@ const applyCurrencySign = (formattedPrice, { currencySign, priceFormat }) => {
  */
 export function price (value) {
   if (isNaN(value)) {
-    return value;
+    // return value;
+    return '?'; // Edited By Dan
   }
   const storeView = currentStoreView();
   if (!storeView.i18n) {

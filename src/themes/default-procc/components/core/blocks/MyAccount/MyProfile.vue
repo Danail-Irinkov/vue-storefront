@@ -239,7 +239,7 @@
         <base-select
           class="col-xs-12 col-md-6 mb10"
           name="countries"
-          :options="countryOptions"
+          :selectOptions="countryOptions"
           :selected="userCompany.country"
           :placeholder="$t('Country *')"
           :validations="[

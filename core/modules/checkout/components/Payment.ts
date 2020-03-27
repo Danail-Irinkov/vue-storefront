@@ -4,6 +4,8 @@ import toString from 'lodash-es/toString'
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
+import find from "lodash-es/find";
 
 export const Payment = {
   name: 'Payment',
@@ -16,7 +18,9 @@ export const Payment = {
   data () {
     return {
       isFilled: false,
+      ProCcApi: ProCcApi(),
       countries: Countries,
+      ProCC_Countries: [], // Edited By Dan
       payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
       sendToShippingAddress: false,
@@ -42,6 +46,7 @@ export const Payment = {
     }
   },
   mounted () {
+    this.getShippingCountryList()
     if (this.payment.firstName) {
       this.initializeBillingAddress()
     }
@@ -83,6 +88,23 @@ export const Payment = {
     }
   },
   methods: {
+    async getShippingCountryList() {
+      try {
+        // console.log('C Countries1:', this.countries )
+        if (this.ProCC_Countries.length === 0) {
+          // let ProCC_Countries = await this.ProCcApi.getShippingCountriesList() // Added by Dan to load countries from ProCC shipping list
+          let ProCC_Countries = await this.ProCcApi.getCountriesList() // Added by Dan to load countries from ProCC shipping list
+          ProCC_Countries = ProCC_Countries.data.countries
+          this.ProCC_Countries = [...ProCC_Countries]
+          console.log('C Countries3:', this.ProCC_Countries)
+        }
+
+        // FORCING ALL COUNTRIES TO BE LOADED FROM HERE DUE TO MISSING SITE_ID
+        this.countries = [...this.ProCC_Countries]
+      } catch (e) {
+        console.log('getShippingCountryList Err: ', e)
+      }
+    },
     sendDataToCheckout () {
       this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
       this.placeOrder() // modify function for call place order function by shabbir
@@ -109,10 +131,11 @@ export const Payment = {
           for (let i = 0; i < addresses.length; i++) {
             if (toString(addresses[i].id) === toString(id)) {
               this.payment = {
+                ...addresses[i],
                 firstName: addresses[i].firstname,
                 lastName: addresses[i].lastname,
                 company: addresses[i].company,
-                country: addresses[i].country_id,
+                country: addresses[i].country,
                 state: addresses[i].region.region ? addresses[i].region.region : '',
                 city: addresses[i].city,
                 streetAddress: addresses[i].street[0],
@@ -240,6 +263,7 @@ export const Payment = {
       return true
     },
     changePaymentMethod () {
+      this.$v.payment.paymentMethod.$touch()
       // reset the additional payment method component container if exists.
       if (document.getElementById('checkout-order-review-additional-container')) {
         document.getElementById('checkout-order-review-additional-container').innerHTML = '<div id="checkout-order-review-additional">&nbsp;</div>' // reset
@@ -249,6 +273,14 @@ export const Payment = {
       this.$bus.$emit('checkout-payment-method-changed', this.payment.paymentMethod)
     },
     changeCountry () {
+      this.$v.payment.country.$touch()
+
+      let country = find(this.ProCC_Countries, { 'name': this.payment.country })
+      console.log('changeCountry COUNTRY: ', country)
+      // this.payment.country = country.name;
+      this.payment.ISO_code = country.ISO_code;
+      this.payment.country_id = country._id;
+
       this.$store.dispatch('checkout/updatePaymentDetails', { country: this.payment.country })
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     },

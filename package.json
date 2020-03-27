@@ -67,6 +67,7 @@
     "body-scroll-lock": "^2.6.4",
     "bodybuilder": "2.2.13",
     "config": "^1.30.0",
+    "vue-select": "^3.9.4",
     "dayjs": "^1.8.15",
     "lodash": "^4.17.15",
     "safer-buffer": "^2.1.2",
