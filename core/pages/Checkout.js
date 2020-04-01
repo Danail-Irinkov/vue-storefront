@@ -510,13 +510,13 @@ export default {
             })
           } else {
             console.log('newWin.onClose Set for payment popUp')
-            let eventBusEmit = (event) => this.$bus.$emit(event);
+            let eventBusEmit = (event) => this.$bus.$emit(event)
             let timer = setInterval(() => {
               if (newWin.closed) {
-                clearInterval(timer);
+                clearInterval(timer)
                 eventBusEmit('notification-progress-stop')
               }
-            }, 500);
+            }, 500)
           }
         } else {
           this.$bus.$emit('notification-progress-stop');

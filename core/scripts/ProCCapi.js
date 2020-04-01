@@ -437,6 +437,7 @@ function kebabForLink (string) {
         words = splitCamelCase(text);
       }
     }
+
     return words;
   }
 
@@ -465,7 +466,7 @@ function kebabForLink (string) {
   function join (words) {
     console.log('join words 3', words)
     if (!words.length) {
-      return '';
+      return '-';
     }
 
     let ret = String(words[0]).toLowerCase();
@@ -490,14 +491,16 @@ function kebabForLink (string) {
       value: join
     }
   });
-
+  // TODO: KEBABCASE FOR ROUTES AND CATEGORY LINKS FIXES
+console.log('TODO: ALLOW KEBABCASE TO WORK WITH CYRILIC CHARACTES')
+console.log('TODO: Find how to use the same kebabcase function also in the VSF\'s core, which creates the Routes')
   return kebabCase(string)
 }
 
 function testKebab () {
   console.time('testKebab took');
-  let array = ['RRrr', 'GG 533', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5 mega', 'GG-5 :)', 'GG 5 my love <3', 'GG5 :)', 'GG5 66.5-7'];
-  let expected = ['rrrr', 'gg-533', 'gg-5-', 'gg-5-5-3', 'gg-55-mega', 'gg-5-', 'gg-5-my-love-3', 'gg5-', 'gg5-665-7'];
+  let array = ['Ирра Спорт','RRrr', 'GG 533', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5 mega', 'GG-5 :)', 'GG 5 my love <3', 'GG5 :)', 'GG5 66.5-7'];
+  let expected = ['--', 'rrrr', 'gg-533', 'gg-5-', 'gg-5-5-3', 'gg-55-mega', 'gg-5-', 'gg-5-my-love-3', 'gg5-', 'gg5-665-7'];
   let result = [];
   for (let key in array) {
     let word1 = array[key];
