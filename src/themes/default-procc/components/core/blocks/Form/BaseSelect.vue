@@ -1,57 +1,59 @@
 <template>
   <div class="select-wrapper relative">
-<!--    <v-select-->
-<!--      :name="name"-->
-<!--      :class="{-->
-<!--        'cl-tertiary' : options.length === 0,-->
-<!--        'empty': !selected-->
-<!--      }"-->
-<!--      :autocomplete="autocomplete"-->
-<!--      @focus="$emit('focus')"-->
-<!--      @blur="$emit('blur')"-->
-<!--      @change="$emit('change', $event.target.value)"-->
-<!--      @input="$emit('input', $event.target.value)"-->
-<!--    >-->
-<!--      <option disabled selected value v-if="!selected" />-->
-<!--      <option-->
-<!--        v-for="(option, key) in options"-->
-<!--        :key="key"-->
-<!--        :value="option.value"-->
-<!--        v-bind="{selected: option.value === selected}"-->
-<!--      >-->
-<!--        {{ option.label }}-->
-<!--      </option>-->
-<!--    </v-select>-->
+    <!--    <v-select-->
+    <!--      :name="name"-->
+    <!--      :class="{-->
+    <!--        'cl-tertiary' : options.length === 0,-->
+    <!--        'empty': !selected-->
+    <!--      }"-->
+    <!--      :autocomplete="autocomplete"-->
+    <!--      @focus="$emit('focus')"-->
+    <!--      @blur="$emit('blur')"-->
+    <!--      @change="$emit('change', $event.target.value)"-->
+    <!--      @input="$emit('input', $event.target.value)"-->
+    <!--    >-->
+    <!--      <option disabled selected value v-if="!selected" />-->
+    <!--      <option-->
+    <!--        v-for="(option, key) in options"-->
+    <!--        :key="key"-->
+    <!--        :value="option.value"-->
+    <!--        v-bind="{selected: option.value === selected}"-->
+    <!--      >-->
+    <!--        {{ option.label }}-->
+    <!--      </option>-->
+    <!--    </v-select>-->
     <v-select
       v-if="remoteQueryMethod"
       :name="name"
+      ref="v_select"
       :id="id"
       class="w-100"
       :class="{
         'cl-tertiary' : options.length === 0,
-        'empty': !selected
+        'empty': !(selected || select_input_focused)
       }"
-      @search:focus="$emit('focus')"
-      @search:blur="$emit('blur')"
+      @search:focus="onFocus"
+      @search:blur="onBlur"
       @input="emit_input"
       :value="selected"
       :label="selectLabel"
       :filterable="true"
       :options="options"
-      @search="onSearch">
-        <template slot="no-options">
-          {{ loading ? $t('Loading...') : $t('No Options') }}
-        </template>
-        <template slot="option" slot-scope="option">
-          <div class="d-center">
-            {{ option[selectLabel] }}
-          </div>
-        </template>
-        <template slot="selected-option" slot-scope="option">
-          <div class="selected d-center">
-            {{ option[selectLabel] }}
-          </div>
-        </template>
+      @search="onSearch"
+    >
+      <template slot="no-options">
+        {{ loading ? $t('Loading...') : $t('No Options') }}
+      </template>
+      <template slot="option" slot-scope="option">
+        <div class="d-center">
+          {{ option[selectLabel] }}
+        </div>
+      </template>
+      <template slot="selected-option" slot-scope="option">
+        <div class="selected d-center">
+          {{ option[selectLabel] }}
+        </div>
+      </template>
     </v-select>
     <select
       v-else
@@ -90,6 +92,7 @@ import 'vue-select/dist/vue-select.css';
 // import "vue-select/src/scss/vue-select.scss";
 import _ from 'lodash';
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
+import translit from 'src/themes/default-procc/helpers/cyrillic_transliteration.js'
 
 export default {
   name: 'BaseSelect',
@@ -97,14 +100,15 @@ export default {
     ValidationMessages,
     vSelect
   },
-  mounted() {
+  mounted () {
     this.options = [...this.selectOptions]
   },
-  data() {
+  data () {
     return {
       ProCcApi: ProCcApi(),
       options: [],
       loading: false,
+      select_input_focused: false
     }
   },
   props: {
@@ -138,7 +142,12 @@ export default {
       required: false,
       default: ''
     },
-    remoteParentSelected: { // Added by Dan
+    remoteCountrySelected: { // Added by Dan for searching cities
+      type: String,
+      required: false,
+      default: ''
+    },
+    remoteCitySelected: { // Added by Dan for searching streets
       type: String,
       required: false,
       default: ''
@@ -164,39 +173,61 @@ export default {
     }
   },
   computed: {
-    has_value(){
+    has_value () {
       return !!this.selected
     }
   },
   watch: {
-    selectOptions(newVal){
+    selectOptions (newVal) {
       this.options = newVal
     }
   },
   methods: {
-    emit_input(value) {
-      console.log('emit_input value', value)
+    emit_input (value) {
+      // console.log('emit_input value', value)
+      // console.log('emit_input value[this.valueKey]', value[this.valueKey])
       let value2 = value && value[this.valueKey] ? value[this.valueKey] : ''
-      console.log('emit_input value2', value2)
+      // console.log('emit_input value2', value2)
       this.$emit('change', value2)
       this.$emit('input', value2)
     },
-    onSearch(search, loading) {
+    onFocus (event) {
+      console.log('onFocus start')
+      this.$emit('focus')
+      this.select_input_focused = true
+    },
+    onBlur (event) {
+      console.log('onBlur start')
+      this.$emit('blur')
+      this.select_input_focused = false
+    },
+    onSearch (search, loading, vm) {
       loading(true)
+      // console.log('search this 1', this.$refs.v_select)
+      // console.log('search Query 1', search)
+      // console.log('search isLat(search) 1', translit.isLat(search))
       this.remoteDataQuery(loading, search, this)
+      // Transliterate cyrillic characters to correct query language, ISO = 100 is Bulgaria
+      let new_query = ''
+      if (this.remoteCountrySelected === '100' && translit.isLat(search))new_query = translit.LatToCyr(search);
+      else if (this.remoteCountrySelected !== '100' && translit.isCyr(search))new_query = translit.CyrToLat(search);
+      if(new_query){
+        // console.log('search Query 2', new_query)
+        this.$refs.v_select.search = new_query.toUpperCase()
+      }
     },
     remoteDataQuery: _.debounce((loading, search, vm) => {
       vm.loading = true
-      vm.ProCcApi[vm.remoteQueryMethod](vm.remoteParentSelected, search)
+      let query_parent_id = vm.remoteQueryMethod === 'getCitiesList' ? vm.remoteCountrySelected : vm.remoteCitySelected
+      vm.ProCcApi[vm.remoteQueryMethod](query_parent_id, search)
         .then(json => {
-          console.log(vm.remoteQueryMethod+' select result data', json.data)
-          let data_key = 'cities'
-          if(vm.remoteQueryMethod === 'getCitiesList')
-            data_key = 'cities'
-          if(vm.remoteQueryMethod === 'getStreetList')
-            data_key = 'streets'
+          console.log(vm.remoteQueryMethod + ' select result data', json.data)
+          let data_key = ''
+          if (vm.remoteQueryMethod === 'getCitiesList') { data_key = 'cities' }
+          if (vm.remoteQueryMethod === 'getStreetList') { data_key = 'streets' }
 
-          if(json.data[data_key]){
+          if (json.data[data_key]) {
+            // console.log('remoteDataQuery data_key', data_key)
             vm.$emit('remoteResults', json.data[data_key])
             // vm.options = [...vm.options, ...json.data[data_key]]
             vm.options = _.unionBy(vm.options, json.data[data_key], vm.valueKey)
@@ -204,7 +235,7 @@ export default {
 
           vm.loading = false
         })
-        loading(false)
+      loading(false)
     }, 350)
   }
 }

@@ -71,7 +71,7 @@
                     <a href="#" class="no-underline block py10 px15" @click.prevent="toggleCancellationOrder(order._id)" v-if="order.status =='awaiting_pickup' || order.status =='awaiting_shipment'">{{ $t('Order Cancellation') }}</a>
                     <a class="no-underline block py10 px15" @click.prevent="getOrderInvoicePDF(order._id)" v-if="order.status != 'awaiting_payment' && order.status != 'brand_cancelled' && order.status != 'customer_cancelled'">{{ $t('Download Invoice') }}</a>
                     <a href="#" class="no-underline block py10 px15" @click.prevent="paymentRetry(order)" v-if="order.status =='awaiting_payment'">{{ $t('Retry Payment') }}</a>
-<!--                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>-->
+                    <!--                    <a href="#" class="no-underline block py10 px15" @click.prevent="remakeOrder(skipGrouped(order.items))">{{ $t('Remake order') }}</a>-->
                   </div>
                 </span>
               </td>

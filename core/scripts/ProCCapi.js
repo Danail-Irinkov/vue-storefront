@@ -494,8 +494,8 @@ function kebabForLink (string) {
     }
   });
   // TODO: KEBABCASE FOR ROUTES AND CATEGORY LINKS FIXES
-console.log('TODO: ALLOW KEBABCASE TO WORK WITH CYRILLIC CHARACTES')
-// console.log('TODO: Find how to use the same kebabcase function also in the VSF\'s core, which creates the Routes')
+  console.log('TODO: ALLOW KEBABCASE TO WORK WITH CYRILLIC CHARACTES')
+  // console.log('TODO: Find how to use the same kebabcase function also in the VSF\'s core, which creates the Routes')
   return kebabCase(string)
 }
 

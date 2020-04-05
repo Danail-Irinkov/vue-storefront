@@ -1,9 +1,9 @@
 import { mapState, mapGetters } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import find from 'lodash-es/find'
-import _ from 'lodash';
+import _ from 'lodash'
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Shipping = {
   name: 'Shipping',
@@ -39,9 +39,9 @@ export const Shipping = {
         street: ['', ''],
         postcode: '',
         telephone: '',
-        street_id:'',
-        site_id:'',
-        ISO_code:''
+        street_id: '',
+        site_id: '',
+        ISO_code: ''
       },
       cities: [],
       streets: [],
@@ -50,13 +50,13 @@ export const Shipping = {
       addressSaved: false,
       city_loading: false,
       street_loading: false,
-      disable_all_fields:true,
-      disable_street_fields:true,
-      disable_city_fields:true,
+      disable_all_fields: true,
+      disable_street_fields: true,
+      disable_city_fields: true,
       streets_filtered_options: [],
       cities_filtered_options: [],
-      selected_street_id:'',
-      get_cities_request_working: false,
+      selected_street_id: '',
+      get_cities_request_working: false
     }
   },
   computed: {
@@ -77,10 +77,8 @@ export const Shipping = {
   watch: {
     isActive: {
       handler (val) {
-        if(val && this.shipping.ISO_code)
-          this.getCitiesList(this.shipping.ISO_code)
-        if(val && this.shipping.site_id)
-          this.getStreetList(this.shipping.site_id, '')
+        if (val && this.shipping.ISO_code) { this.getCitiesList(this.shipping.ISO_code) }
+        if (val && this.shipping.site_id) { this.getStreetList(this.shipping.site_id, '') }
       }
     },
     shippingMethods: {
@@ -95,19 +93,19 @@ export const Shipping = {
       immediate: true
     },
     shipping: {
-      handler: function(newValue) {
+      handler: function (newValue) {
         this.disable_all_fields = !(newValue.street_id && newValue.ISO_code && newValue.site_id);
         this.disable_street_fields = !(newValue.ISO_code && newValue.site_id);
         this.disable_city_fields = !newValue.ISO_code;
 
         // Autofill Post Code
         let post_code
-        for (let city of this.cities){
-          if (city.site_id === newValue.site_id){
+        for (let city of this.cities) {
+          if (city.site_id === newValue.site_id) {
             post_code = city.post_code
           }
         }
-        if(post_code && !this.shipping.zipCode) this.shipping.zipCode = post_code
+        if (post_code && !this.shipping.zipCode) this.shipping.zipCode = post_code
       },
       deep: true
     }
@@ -121,7 +119,7 @@ export const Shipping = {
     this.checkSelectedShippingMethod()
   },
   methods: {
-    async getShippingCountryList() {
+    async getShippingCountryList () {
       try {
         // console.log('C Countries1:', this.countries )
         if (this.ProCC_Countries.length === 0) {
@@ -236,7 +234,7 @@ export const Shipping = {
       }
     },
     getCountryName () {
-      if(this.shipping.country) return this.shipping.country
+      if (this.shipping.country) return this.shipping.country
       for (let i = 0; i < this.countries.length; i++) {
         if (this.countries[i].ISO_code === this.shipping.ISO_code) {
           return this.countries[i].name
@@ -271,20 +269,20 @@ export const Shipping = {
       }
       return true
     },
-  //  procc country, city and street
-    selectCountry(){
+    //  procc country, city and street
+    selectCountry () {
       console.log('selectCountry Started!! selectCountry')
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.$v.shipping.ISO_code.$touch()
-        if(this.shipping.ISO_code) {
+        if (this.shipping.ISO_code) {
           console.log('selectCountry Started!! selectCountry222222')
           let country = find(this.ProCC_Countries, { 'ISO_code': this.shipping.ISO_code })
           this.no_cities_available = !country.cities_available
           this.no_streets_available = !country.streets_available
           this.shipping.country = country.name;
           this.shipping.country_id = country._id;
-          this.cities=[]
-          this.streets=[]
+          this.cities = []
+          this.streets = []
           this.shipping.site_id = ''
           this.shipping.state = ''
           this.shipping.city = ''
@@ -294,117 +292,125 @@ export const Shipping = {
           this.getCitiesList(this.shipping.ISO_code)
           this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
 
-          this.$nextTick(()=>{
-            if(this.no_cities_available)
-              document.getElementById("cityInput").focus();
-            else
-              document.getElementById("cityInput2").focus();
+          this.$nextTick(() => {
+            if (this.no_cities_available) { document.getElementById('cityInput').focus(); } else { document.getElementById('cityInput2').focus(); }
           })
         }
       })
     },
-    addToCities(cities){
+    addToCities (cities) {
       console.log('addToCities cities', cities)
-      for (let city in cities){
+      for (let city in cities) {
         // if(this.cities.findIndex())
       }
       this.cities = _.unionBy(this.cities, cities, 'site_id')
+      console.log('addToCities this.cities', this.cities)
     },
-    selectCity(){
-      this.$nextTick(()=>{
+    addToStreets (streets) {
+      console.log('addToStreets streets', streets)
+      this.streets = _.unionBy(this.streets, streets, 'street_id')
+      // console.log('addToCities this.cities', this.cities)
+    },
+    selectCity () {
+      this.$nextTick(() => {
         this.$v.shipping.city.$touch();
-        if(!this.no_streets_available && this.shipping.site_id) {
-          let selected_city = find(this.cityOptions, { 'site_id': this.shipping.site_id });
-          console.log('selectCity this.shipping.site_id ', this.shipping.site_id )
+        if (!this.no_cities_available && this.shipping.site_id) {
+          let selected_city = find(this.cityOptions, { 'site_id': this.shipping.site_id })
+          console.log('selectCity this.shipping.site_id ', this.shipping.site_id)
           console.log('selectCity selected_city', selected_city)
-          if(selected_city){
-            if(selected_city.post_code){
+          if (selected_city) {
+            if (selected_city.post_code) {
               this.shipping.zipCode = selected_city.post_code
               // this.shipping.postalCode = selected_city.post_code // NOT USED?
             }
-            if(selected_city.region){
+            if (selected_city.region) {
               this.shipping.state = selected_city.region
             }
-            if(selected_city.city_name){
+            if (selected_city.city_name) {
               this.shipping.city = selected_city.city_name
             }
-            if(selected_city.city_type){
+            if (selected_city.city_type) {
               this.shipping.city_type = selected_city.city_type
             }
-          }else{
+          } else {
             // this.$refs.postalCode.focus()
-            if(!this.shipping.zipCode)
-              document.getElementById("postalCode").focus();
-            else {
-              if(this.no_streets_available)
-                document.getElementById("streetName").focus();
-              else
-                document.getElementById("streetName2").focus();
+            if (!this.shipping.zipCode) { document.getElementById('postalCode').focus(); } else {
+              if (this.no_streets_available) { document.getElementById('streetName').focus(); } else { document.getElementById('streetName2').focus(); }
             }
           }
-          this.streets=[]
-          this.shipping.street_id=''
-          this.shipping.streetAddress=''
+          this.streets = []
+          this.shipping.street_id = ''
+          this.shipping.streetAddress = ''
           this.getStreetList(this.shipping.site_id, '')
-        }else{ // if manual input of city
+        } else { // if manual input of city
           this.shipping.city = this.shipping.site_id
         }
+      })
+    },
+    selectStreet () {
+      console.log('selectStreet START ')
+      this.$nextTick(()=>{
+        console.log('selectStreet START 22', !this.no_streets_available)
+        console.log('selectStreet START 23', this.shipping.street_id)
+        this.$v.shipping.streetAddress.$touch();
+        if (!this.no_streets_available && this.shipping.street_id) {
+          let street = find(this.streets, { 'street_id': this.shipping.street_id })
+          console.log('selectStreet street ', street)
+          console.log('selectStreet this.shipping.street_id', this.shipping.street_id)
+          this.selected_street_id = ''
+          if (street && street.label) {
+            this.shipping.streetAddress = street.label
+          } else if (street && street.streetName) {
+            this.shipping.streetAddress = street.streetName
+          } else if (street && street.street_name) {
+            this.shipping.streetAddress = street.street_name
+          } else {
+            this.shipping.streetAddress = this.shipping.street_id
+          }
+          this.shipping.street_type = street.street_type
+        } else { // if manual input of street
+          this.shipping.street_id = this.shipping.streetAddress
+        }
+        if (this.shipping.streetAddress && this.shipping.streetAddress.length > 2 && this.shipping.streetAddress.length < 35) this.disable_all_fields = false
 
       })
     },
-    selectStreet(){
-      if(!this.no_streets_available && this.shipping.street_id) {
-        let street = find(this.streets, { 'street_id': this.shipping.street_id})
-        this.selected_street_id=''
-        if(street.streetName){
-          this.shipping.streetAddress = street.streetName;
-        } else if(street.street_name){
-          this.shipping.streetAddress = street.street_name;
-        } else {
-          this.shipping.streetAddress = this.shipping.street_id;
-        }
-        this.shipping.street_type= street.street_type;
-      }else{ // if manual input of street
-        this.shipping.street_id = this.shipping.streetAddress;
-      }
-      if(this.shipping.streetAddress && this.shipping.streetAddress.length > 2 && this.shipping.streetAddress.length < 35)this.disable_all_fields = false
-    },
-    getCitiesList(country_id, query = null) {
-      if(query)query = query.toUpperCase()
+    getCitiesList (country_id, query = null) {
+      if (query)query = query.toUpperCase()
       // if (this.get_cities_request_working) {
       //   return false;
       // }
       this.city_loading = true;
-      this.get_cities_request_working=true
+      this.get_cities_request_working = true
       console.log('GETTING CITIES', country_id)
       return this.ProCcApi.getCitiesList(country_id, query)
         .then((result) => {
           this.cities = result.data.cities;
+          console.log('GETTING CITIES DATA: ', this.cities)
           this.city_loading = false;
-          this.get_cities_request_working=false
+          this.get_cities_request_working = false
         })
     },
-    getStreetList(site_id, query) {
-      this.street_loading=true
+    getStreetList (site_id, query) {
+      this.street_loading = true
       return this.ProCcApi.getStreetList(site_id, query)
         .then((result) => {
-          if(result.data.no_streets_available)
-            this.no_streets_available = true
-          if(result.data.streets && result.data.streets.length > 0){
+          if (result.data.no_streets_available) { this.no_streets_available = true }
+          if (result.data.streets && result.data.streets.length > 0) {
             this.streets = result.data.streets
-            this.street_loading=false
+            this.street_loading = false
             this.no_streets_available = false
-          }
-          else if(result.data.no_streets_available){
-            this.streets=[{street_id: 0, streetName: this.shipping.streetAddress, street_type: ''}]
+          } else if (result.data.no_streets_available) {
+            this.streets = [{street_id: 0, streetName: this.shipping.streetAddress, street_type: ''}]
             this.shipping.street_id = 0
           }
-          if(this.selected_street_id)
+          if (this.selected_street_id) {
             this.$nextTick(() => {
-              this.shipping.street_id=this.selected_street_id
+              this.shipping.street_id = this.selected_street_id
             });
+          }
         })
-    },
+    }
 
   }
 }

@@ -1,8 +1,10 @@
 import toString from 'lodash-es/toString'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import find from "lodash-es/find";
+import find from 'lodash-es/find'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
+import _ from 'lodash'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
+
 
 export const UserShippingDetails = {
   name: 'MyShippingDetails',
@@ -20,9 +22,9 @@ export const UserShippingDetails = {
         region: '',
         country: '',
         phone: '',
-        street_id:'',
-        site_id:'',
-        ISO_code:''
+        street_id: '',
+        site_id: '',
+        ISO_code: ''
       },
       countries: Countries,
       useCompanyAddress: false,
@@ -36,13 +38,13 @@ export const UserShippingDetails = {
       addressSaved: false,
       city_loading: false,
       street_loading: false,
-      disable_all_fields:true,
-      disable_street_fields:true,
-      disable_city_fields:true,
+      disable_all_fields: true,
+      disable_street_fields: true,
+      disable_city_fields: true,
       streets_filtered_options: [],
       cities_filtered_options: [],
-      selected_street_id:'',
-      get_cities_request_working: false,
+      selected_street_id: '',
+      get_cities_request_working: false
     }
   },
   beforeMount () {
@@ -68,30 +70,25 @@ export const UserShippingDetails = {
       }
     },
     shippingDetails: {
-      handler: function(newValue) {
-        if(newValue.street_id && newValue.ISO_code && newValue.site_id)
-          this.disable_all_fields=false
-        if(newValue.ISO_code && newValue.ISO_code != 100)
-          this.disable_all_fields=false
-        if(newValue.ISO_code && newValue.site_id)
-          this.disable_street_fields=false
-        if(newValue.ISO_code)
-          this.disable_city_fields=false
-        if(newValue)
-          this.disable_city_fields=false
+      handler: function (newValue) {
+        if (newValue.street_id && newValue.ISO_code && newValue.site_id) { this.disable_all_fields = false }
+        if (newValue.ISO_code && newValue.ISO_code !== 100) { this.disable_all_fields = false }
+        if (newValue.ISO_code && newValue.site_id) { this.disable_street_fields = false }
+        if (newValue.ISO_code) { this.disable_city_fields = false }
+        if (newValue) { this.disable_city_fields = false }
       },
       deep: true
     }
   },
   methods: {
-    onLoggedIn() {
+    onLoggedIn () {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
       this.shippingDetails = this.getShippingDetails()
     },
-    edit() {
+    edit () {
       this.isEdited = true
     },
-    objectsEqual(a, b) {
+    objectsEqual (a, b) {
       const aProps = Object.keys(a)
       const bProps = Object.keys(b)
 
@@ -115,7 +112,7 @@ export const UserShippingDetails = {
       }
       return true
     },
-    async updateDetails() {
+    async updateDetails () {
       let updatedShippingDetails
       if (!this.objectsEqual(this.shippingDetails, this.getShippingDetails())) {
         updatedShippingDetails = JSON.parse(JSON.stringify(this.$store.state.user.current))
@@ -157,14 +154,14 @@ export const UserShippingDetails = {
         }
       }
     },
-    onFailure(result) {
+    onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t(result.message ? result.message : result),
         action1: {label: this.$t('OK')}
       })
     },
-    exitSection(event, updatedShippingDetails) {
+    exitSection (event, updatedShippingDetails) {
       if (!updatedShippingDetails) {
         this.shippingDetails = this.getShippingDetails()
         this.useCompanyAddress = false
@@ -174,7 +171,7 @@ export const UserShippingDetails = {
         this.isEdited = false
       }
     },
-    fillCompanyAddress() {
+    fillCompanyAddress () {
       if (this.useCompanyAddress) {
         const companyAddress = this.currentUser.addresses.find((address) => (address.set_as_default))
         if (companyAddress) {
@@ -191,13 +188,11 @@ export const UserShippingDetails = {
         this.shippingDetails = this.getShippingDetails()
       }
     },
-    readShippingDetailsFromCurrentUser(shippingDetails) {
+    readShippingDetailsFromCurrentUser (shippingDetails) {
       for (let address of this.currentUser.addresses) {
         if (address.set_as_default) {
-          if(address.hasOwnProperty('ISO_code') )
-            this.getCitiesList(address.ISO_code)
-          if(address.hasOwnProperty('site_id') )
-            this.getStreetList(address.site_id)
+          if (address.hasOwnProperty('ISO_code')) { this.getCitiesList(address.ISO_code) }
+          if (address.hasOwnProperty('site_id')) { this.getStreetList(address.site_id) }
           return {
             _id: address._id,
             first_name: address.first_name,
@@ -209,15 +204,15 @@ export const UserShippingDetails = {
             region: address.region && address.region.region ? address.region.region : '',
             country: address.country,
             phone: address.hasOwnProperty('phone') ? address.phone : '',
-            ISO_code:address.ISO_code,
-            site_id:address.hasOwnProperty('site_id') ? address.site_id : '',
-            street_id:address.hasOwnProperty('street_id') ? address.street_id : '',
+            ISO_code: address.ISO_code,
+            site_id: address.hasOwnProperty('site_id') ? address.site_id : '',
+            street_id: address.hasOwnProperty('street_id') ? address.street_id : ''
           }
         }
       }
       return shippingDetails
     },
-    getShippingDetails() {
+    getShippingDetails () {
       this.currentUser = Object.assign({}, this.$store.state.user.current)
       let shippingDetails = {
         _id: '',
@@ -230,9 +225,9 @@ export const UserShippingDetails = {
         region: '',
         country: '',
         phone: '',
-        street_id:'',
-        site_id:'',
-        ISO_code:''
+        street_id: '',
+        site_id: '',
+        ISO_code: ''
       }
       if (this.currentUser) {
         if (this.currentUser && this.currentUser.addresses && this.currentUser.addresses.length > 0) {
@@ -245,7 +240,7 @@ export const UserShippingDetails = {
       }
       return shippingDetails;
     },
-    getCountryName() {
+    getCountryName () {
       if (this.shippingDetails.country) return this.shippingDetails.country
       for (let i = 0; i < this.countries.length; i++) {
         if (this.countries[i].ISO_code === this.shippingDetails.ISO_code) {
@@ -254,7 +249,7 @@ export const UserShippingDetails = {
       }
       return ''
     },
-    hasBillingAddress() {
+    hasBillingAddress () {
       if (this.currentUser) {
         if (this.currentUser.hasOwnProperty('default_billing')) {
           return true
@@ -263,7 +258,7 @@ export const UserShippingDetails = {
       return false
     },
     //  get procc country, city and street
-    async getShippingCountryList() {
+    async getShippingCountryList () {
       try {
         // console.log('C Countries1:', this.countries )
         if (!this.ProCC_Countries) {
@@ -279,64 +274,114 @@ export const UserShippingDetails = {
         console.log('getShippingCountryList Err: ', e)
       }
     },
-    selectCountry() {
-      if (this.shippingDetails.ISO_code) {
-        let country = find(this.countries, {'ISO_code': this.shippingDetails.ISO_code})
-        this.no_cities_available = !country.cities_available
-        this.no_streets_available = !country.streets_available
-        this.shippingDetails.country = country.name;
-        this.shippingDetails.country_id = country._id;
-        this.cities = []
-        this.streets = []
-        this.shippingDetails.site_id = ''
-        this.shippingDetails.city = ''
-        this.shippingDetails.street_id = ''
-        this.shippingDetails.streetName = ''
-        this.shippingDetails.postalCode = ''
-        this.getCitiesList(this.shippingDetails.ISO_code)
-        this.$bus.$emit('checkout-before-shippingMethods', this.shippingDetails.country)
-      }
+    //  procc country, city and street
+    selectCountry () {
+      console.log('selectCountry Started!! selectCountry')
+      this.$nextTick(() => {
+        this.$v.shipping.ISO_code.$touch()
+        if (this.shipping.ISO_code) {
+          console.log('selectCountry Started!! selectCountry222222')
+          let country = find(this.ProCC_Countries, { 'ISO_code': this.shipping.ISO_code })
+          this.no_cities_available = !country.cities_available
+          this.no_streets_available = !country.streets_available
+          this.shipping.country = country.name;
+          this.shipping.country_id = country._id;
+          this.cities = []
+          this.streets = []
+          this.shipping.site_id = ''
+          this.shipping.state = ''
+          this.shipping.city = ''
+          this.shipping.street_id = ''
+          this.shipping.streetAddress = ''
+          this.shipping.zipCode = ''
+          this.getCitiesList(this.shipping.ISO_code)
+          this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
+
+          this.$nextTick(() => {
+            if (this.no_cities_available) { document.getElementById('cityInput').focus(); } else { document.getElementById('cityInput2').focus(); }
+          })
+        }
+      })
     },
-    selectCity() {
-      if (!this.no_streets_available && this.shippingDetails.site_id) {
-        let selected_city = find(this.cities, {'site_id': this.shippingDetails.site_id});
-        if (selected_city) {
-          if (selected_city.post_code) this.shippingDetails.postalCode = selected_city.post_code
-          if (selected_city.city_name) {
-            this.shippingDetails.city = selected_city.city_name
+    addToCities (cities) {
+      console.log('addToCities cities', cities)
+      for (let city in cities) {
+        // if(this.cities.findIndex())
+      }
+      this.cities = _.unionBy(this.cities, cities, 'site_id')
+      console.log('addToCities this.cities', this.cities)
+    },
+    addToStreets (streets) {
+      console.log('addToStreets streets', streets)
+      this.streets = _.unionBy(this.streets, streets, 'street_id')
+      // console.log('addToCities this.cities', this.cities)
+    },
+    selectCity () {
+      this.$nextTick(() => {
+        this.$v.shipping.city.$touch();
+        if (!this.no_cities_available && this.shipping.site_id) {
+          let selected_city = find(this.cityOptions, { 'site_id': this.shipping.site_id })
+          console.log('selectCity this.shipping.site_id ', this.shipping.site_id)
+          console.log('selectCity selected_city', selected_city)
+          if (selected_city) {
+            if (selected_city.post_code) {
+              this.shipping.zipCode = selected_city.post_code
+              // this.shipping.postalCode = selected_city.post_code // NOT USED?
+            }
+            if (selected_city.region) {
+              this.shipping.state = selected_city.region
+            }
+            if (selected_city.city_name) {
+              this.shipping.city = selected_city.city_name
+            }
+            if (selected_city.city_type) {
+              this.shipping.city_type = selected_city.city_type
+            }
+          } else {
+            // this.$refs.postalCode.focus()
+            if (!this.shipping.zipCode) { document.getElementById('postalCode').focus(); } else {
+              if (this.no_streets_available) { document.getElementById('streetName').focus(); } else { document.getElementById('streetName2').focus(); }
+            }
           }
-          if (selected_city.city_type) this.shippingDetails.city_type = selected_city.city_type
-        } else {
-          // this.$refs.postalCode.focus()
-          document.getElementById("postalCode").focus();
+          this.streets = []
+          this.shipping.street_id = ''
+          this.shipping.streetAddress = ''
+          this.getStreetList(this.shipping.site_id, '')
+        } else { // if manual input of city
+          this.shipping.city = this.shipping.site_id
         }
-        this.streets = []
-        this.shippingDetails.street_id = ''
-        this.shippingDetails.streetName = ''
-        this.getStreetList(this.shippingDetails.site_id, '')
-      } else { // if manual input of city
-        this.shippingDetails.city = this.shippingDetails.site_id
-      }
+      })
     },
-    selectStreet() {
-      if (!this.no_streets_available && this.shippingDetails.street_id) {
-        let street = find(this.streets, {'street_id': this.shippingDetails.street_id})
-        this.selected_street_id = ''
-        if (street.streetName) {
-          this.shippingDetails.streetName = street.streetName;
-        } else if (street.street_name) {
-          this.shippingDetails.streetName = street.street_name;
-        } else {
-          this.shippingDetails.streetName = this.shippingDetails.street_id;
+    selectStreet () {
+      console.log('selectStreet START ')
+      this.$nextTick(()=>{
+        console.log('selectStreet START 22', !this.no_streets_available)
+        console.log('selectStreet START 23', this.shipping.street_id)
+        this.$v.shipping.streetAddress.$touch();
+        if (!this.no_streets_available && this.shipping.street_id) {
+          let street = find(this.streets, { 'street_id': this.shipping.street_id })
+          console.log('selectStreet street ', street)
+          console.log('selectStreet this.shipping.street_id', this.shipping.street_id)
+          this.selected_street_id = ''
+          if (street && street.label) {
+            this.shipping.streetAddress = street.label
+          } else if (street && street.streetName) {
+            this.shipping.streetAddress = street.streetName
+          } else if (street && street.street_name) {
+            this.shipping.streetAddress = street.street_name
+          } else {
+            this.shipping.streetAddress = this.shipping.street_id
+          }
+          this.shipping.street_type = street.street_type
+        } else { // if manual input of street
+          this.shipping.street_id = this.shipping.streetAddress
         }
-        this.shippingDetails.street_type = street.street_type;
-      } else { // if manual input of street
-        this.shippingDetails.street_id = this.shippingDetails.streetName;
-      }
-      if (this.shippingDetails.streetName && this.shippingDetails.streetName.length > 2 && this.shippingDetails.streetName.length < 35) this.disable_all_fields = false
+        if (this.shipping.streetAddress && this.shipping.streetAddress.length > 2 && this.shipping.streetAddress.length < 35) this.disable_all_fields = false
+
+      })
     },
-    getCitiesList(country_id, query = null) {
-      if (query) query = query.toUpperCase()
+    getCitiesList (country_id, query = null) {
+      if (query)query = query.toUpperCase()
       // if (this.get_cities_request_working) {
       //   return false;
       // }
@@ -346,16 +391,16 @@ export const UserShippingDetails = {
       return this.ProCcApi.getCitiesList(country_id, query)
         .then((result) => {
           this.cities = result.data.cities;
+          console.log('GETTING CITIES DATA: ', this.cities)
           this.city_loading = false;
           this.get_cities_request_working = false
         })
     },
-    getStreetList(site_id, query) {
+    getStreetList (site_id, query) {
       this.street_loading = true
       return this.ProCcApi.getStreetList(site_id, query)
         .then((result) => {
-          if (result.data.no_streets_available)
-            this.no_streets_available = true
+          if (result.data.no_streets_available) { this.no_streets_available = true }
           if (result.data.streets && result.data.streets.length > 0) {
             this.streets = result.data.streets
             this.street_loading = false
@@ -364,11 +409,12 @@ export const UserShippingDetails = {
             this.streets = [{street_id: 0, streetName: this.address.city, street_type: '...'}]
             this.shippingDetails.street_id = 0
           }
-          if (this.selected_street_id)
+          if (this.selected_street_id) {
             this.$nextTick(() => {
               this.shippingDetails.street_id = this.selected_street_id
             });
+          }
         })
-    },
+    }
   }
 }

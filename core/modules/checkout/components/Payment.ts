@@ -3,9 +3,9 @@ import RootState from '@vue-storefront/core/types/RootState'
 import toString from 'lodash-es/toString'
 import i18n from '@vue-storefront/i18n'
 import { Logger } from '@vue-storefront/core/lib/logger'
-const Countries = require('@vue-storefront/i18n/resource/countries.json')
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
-import find from "lodash-es/find";
+import find from 'lodash-es/find';
+const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
 export const Payment = {
   name: 'Payment',
@@ -88,7 +88,7 @@ export const Payment = {
     }
   },
   methods: {
-    async getShippingCountryList() {
+    async getShippingCountryList () {
       try {
         // console.log('C Countries1:', this.countries )
         if (this.ProCC_Countries.length === 0) {
@@ -172,7 +172,7 @@ export const Payment = {
           zipCode: '',
           phoneNumber: '',
           taxId: '',
-          ISO_code:  '',
+          ISO_code: '',
           country_id: '',
           site_id: '',
           street_id: '',
@@ -260,7 +260,7 @@ export const Payment = {
       }
     },
     getCountryName () {
-      if(this.payment.country) return this.payment.country
+      if (this.payment.country) return this.payment.country
       for (let i = 0; i < this.countries.length; i++) {
         if (this.countries[i].ISO_code === this.payment.ISO_code) {
           return this.countries[i].name

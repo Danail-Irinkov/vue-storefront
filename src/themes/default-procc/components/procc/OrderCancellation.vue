@@ -58,7 +58,7 @@ export default {
       ProCcApi().cancelOrder({order_id: this.orderId, cancellation_message: this.cancellation_message, status: 'customer_cancelled'}, this.$store.state.user.current._id, this.$store.state.user.current.user_type.active_brand)
         .then(async (response) => {
           this.process_running = false
-          if (response.data.message_type ==='success') { this.$bus.$emit('modal-hide', 'modal-order-cancellation') }
+          if (response.data.message_type === 'success') { this.$bus.$emit('modal-hide', 'modal-order-cancellation') }
           this.$store.dispatch('notification/spawnNotification', {
             type: response.data.message_type === 'success' ? 'success' : 'error',
             message: response.data.message,

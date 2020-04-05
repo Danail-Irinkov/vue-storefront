@@ -96,7 +96,7 @@
           <base-select
             class="col-xs-12 col-sm-6 mb10"
             name="countries"
-            :selectOptions="countryOptions"
+            :select-options="countryOptions"
             :selected="payment.ISO_code"
             :placeholder="$t('Country *')"
             :validations="[
@@ -349,7 +349,7 @@ export default {
     }),
     countryOptions () {
       let cntrys = []
-      for (let cntry of this.ProCC_Countries){
+      for (let cntry of this.ProCC_Countries) {
         cntrys.push({
           ...cntry,
           value: cntry.ISO_code,
@@ -357,7 +357,7 @@ export default {
         })
       }
       return cntrys
-    },
+    }
   },
   validations () {
     if (!this.generateInvoice) {

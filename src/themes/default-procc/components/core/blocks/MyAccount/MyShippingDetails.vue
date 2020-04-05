@@ -68,7 +68,7 @@
         <base-select
           class="col-xs-12 col-sm-6 mb10"
           name="countries"
-          :selectOptions="countryOptions"
+          :select-options="countryOptions"
           :selected="shippingDetails.ISO_code"
           :placeholder="$t('Country *')"
           :validations="[
@@ -92,42 +92,49 @@
           v-model.trim="shippingDetails.region"
         />
         <base-input v-if="no_cities_available"
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          name="city"
-          :disabled="disable_city_fields"
-          autocomplete="address-level2"
-          :placeholder="`${$t('City')} *`"
-          v-model.trim="shippingDetails.city"
-          @input="$v.shippingDetails.city.$touch()"
-          :validations="[
-            {
-              condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
-              text: $t('Field is required')
-            },
-            {
-              condition: $v.shippingDetails.city.$error && $v.shippingDetails.city.required,
-              text: $t('Please provide valid city name')
-            }
-          ]"
+                    class="col-xs-12 col-sm-6 mb10"
+                    type="text"
+                    name="city"
+                    :disabled="disable_city_fields"
+                    autocomplete="address-level2"
+                    :placeholder="`${$t('City')} *`"
+                    v-model.trim="shippingDetails.city"
+                    @input="$v.shippingDetails.city.$touch()"
+                    :validations="[
+                      {
+                        condition: !$v.shippingDetails.city.required && $v.shippingDetails.city.$error,
+                        text: $t('Field is required')
+                      },
+                      {
+                        condition: $v.shippingDetails.city.$error && $v.shippingDetails.city.required,
+                        text: $t('Please provide valid city name')
+                      }
+                    ]"
         />
         <base-select v-else
                      class="col-xs-12 col-sm-6 mb10"
-                     name="city"
+                     name="City"
+                     id="cityInput2"
                      :disabled="disable_city_fields"
-                     :selectOptions="cityOptions"
-                     :selected="shippingDetails.site_id"
+                     :select-options="cityOptions"
+                     :selected="shipping.city"
                      :placeholder="$t('City *')"
+                     remote-query-method="getCitiesList"
+                     @remoteResults="addToCities"
+                     select-label="city_name"
+                     value-key="site_id"
+                     :remote-country-selected="shipping.ISO_code"
                      :validations="[
-              {
-                condition: $v.shippingDetails.city.$error && !$v.shippingDetails.city.required,
-                text: $t('Field is required')
-              }
-            ]"
-                     v-model="shippingDetails.site_id"
+                         {
+                           condition: $v.shipping.city.$error && !$v.shipping.city.required,
+                           text: $t('Field is required')
+                         }
+                       ]"
+                     v-model="shipping.site_id"
                      autocomplete="country-name"
-                     @blur="$v.shippingDetails.city.$touch()"
-                     @change.native="$v.shippingDetails.city.$touch(); selectCity();"
+                     @blur="$v.shipping.city.$touch()"
+                     @change="selectCity"
+        />
         />
         <base-input
           class="col-xs-12 col-sm-6 mb10"
@@ -158,37 +165,43 @@
         </base-checkbox>
 
         <base-input v-if="no_streets_available"
-          class="col-xs-12 col-sm-6 mb10"
-          type="text"
-          :disabled="disable_street_fields"
-          name="street-address"
-          autocomplete="address-line1"
-          :placeholder="`${$t('Street name')} *`"
-          v-model.trim="shippingDetails.streetName"
-          @input="$v.shippingDetails.streetName.$touch()"
-          :validations="[{
-            condition: !$v.shippingDetails.streetName.required && $v.shippingDetails.streetName.$error,
-            text: $t('Field is required')
-          }]"
+                    class="col-xs-12 col-sm-6 mb10"
+                    type="text"
+                    :disabled="disable_street_fields"
+                    name="street-address"
+                    autocomplete="address-line1"
+                    :placeholder="`${$t('Street name')} *`"
+                    v-model.trim="shippingDetails.streetName"
+                    @input="$v.shippingDetails.streetName.$touch()"
+                    :validations="[{
+                      condition: !$v.shippingDetails.streetName.required && $v.shippingDetails.streetName.$error,
+                      text: $t('Field is required')
+                    }]"
         />
-
         <base-select v-else
-                     class="col-xs-12 col-sm-6 mb10"
+                     class="col-xs-12 col-sm-9 mb10"
                      name="street-address"
-                     :selectOptions="streetsOptions"
-                     :selected="shippingDetails.street_id"
+                     id="streetName2"
+                     :select-options="streetsOptions"
+                     :selected="shipping.streetAddress"
                      :disabled="disable_street_fields"
                      :placeholder="$t('Street name *')"
+                     remote-query-method="getStreetList"
+                     @remoteResults="addToStreets"
+                     select-label="label"
+                     value-key="value"
+                     :remote-country-selected="shipping.ISO_code"
+                     :remote-city-selected="shipping.site_id"
                      :validations="[
-              {
-                condition: $v.shippingDetails.streetName.$error && !$v.shippingDetails.streetName.required,
-                text: $t('Field is required')
-              }
-            ]"
-                     v-model="shippingDetails.street_id"
+                         {
+                           condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
+                           text: $t('Field is required')
+                         }
+                       ]"
+                     v-model="shipping.street_id"
                      autocomplete="country-name"
-                     @blur="$v.shippingDetails.streetName.$touch()"
-                     @change.native="$v.shippingDetails.streetName.$touch(); selectStreet();"
+                     @blur="$v.shipping.streetAddress.$touch()"
+                     @change="selectStreet"
         />
         <base-input
           class="col-xs-12 col-sm-6 mb10"
