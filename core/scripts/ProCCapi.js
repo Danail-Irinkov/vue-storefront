@@ -72,7 +72,7 @@ module.exports = (config, app) => {
   app.post('/category-link', async (req, res) => {
     console.log('/category-link STARTED');
     let storeData;
-    console.log('storeData = req.body;', req.body)
+    // console.log('storeData = req.body;', req.body)
     if (req.body.storefront_url && req.body.store_categories) { // DEPRECATED
       storeData = req.body;
     } else if (req.body.storeCode && req.body.brand_id) {
@@ -276,8 +276,8 @@ function setCategoryBanner (config, storeData) {
         });
       }
     }
-    console.log(mainBanners, ' mainBanners data');
-    console.log(smallBanners, ' smallBanners data');
+    // console.log(mainBanners, ' mainBanners data');
+    // console.log(smallBanners, ' smallBanners data');
 
     // Reset the file to avoid bad config
     if (StoreBanners && StoreBanners.get('mainBanners'))StoreBanners.del('mainBanners');
@@ -479,7 +479,9 @@ function kebabForLink (string) {
         ret += (i > 0 ? '-' : '') + String(words[i]).toLowerCase();
       }
     }
-
+    if (!ret) {
+      return '-';
+    }
     return ret;
   }
 

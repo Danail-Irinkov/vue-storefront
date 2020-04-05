@@ -498,7 +498,8 @@ export function populateProductConfigurationAsync (context, { product, selectedV
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
-  console.log('findConfigurableChildAsync product1', product)
+  // console.log('findConfigurableChildAsync product1', product)
+  console.log('findConfigurableChildAsync product1')
   if (product === null) product = context.getters.getCurrentProduct // Added by Dan, maybe not needed
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
   const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0) // Added by Dan
