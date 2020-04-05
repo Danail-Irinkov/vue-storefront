@@ -46,12 +46,12 @@
       </template>
       <template slot="option" slot-scope="option">
         <div class="d-center">
-          {{ option[selectLabel] }}
+          {{ option[selectLabel] }} {{ option['post_code'] ? '('+option['post_code']+')' : ''}}
         </div>
       </template>
       <template slot="selected-option" slot-scope="option">
         <div class="selected d-center">
-          {{ option[selectLabel] }}
+          {{ option[selectLabel] }} {{ option['post_code'] ? '('+option['post_code']+')' : ''}}
         </div>
       </template>
     </v-select>
