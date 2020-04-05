@@ -145,8 +145,8 @@ export default (baseURL = '') => {
       let default_shipping_methods = {}
       let shipping_methods = {}
       let selected_shipping_methods = store.getters['checkout/getSelectedShippingMethods']
-      // console.log('updateShippingMethodsFromProCC result.data.shipping_methods', result.data.shipping_methods)
-      // console.log('updateShippingMethodsFromProCC selected_shipping_methods', selected_shipping_methods)
+      console.log('updateShippingMethodsFromProCC result.data.shipping_methods.length', result.data.shipping_methods.length)
+      console.log('updateShippingMethodsFromProCC selected_shipping_methods.length', selected_shipping_methods.length)
 
       for (let brand_id in result.data.shipping_methods) {
         let store_data = result.data.shipping_methods[brand_id]

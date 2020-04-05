@@ -332,20 +332,41 @@ export const Shipping = {
             if (selected_city.city_type) {
               this.shipping.city_type = selected_city.city_type
             }
-          } else {
-            // this.$refs.postalCode.focus()
-            if (!this.shipping.zipCode) { document.getElementById('postalCode').focus(); } else {
-              if (this.no_streets_available) { document.getElementById('streetName').focus(); } else { document.getElementById('streetName2').focus(); }
-            }
           }
+
           this.streets = []
           this.shipping.street_id = ''
           this.shipping.streetAddress = ''
           this.getStreetList(this.shipping.site_id, '')
+          this.focusStreetInput()
         } else { // if manual input of city
           this.shipping.city = this.shipping.site_id
+
+          // Focus Postal Code
+          let postal_input = this.$refs.postal_code
+          if (!this.shipping.zipCode && postal_input) { postal_input.setFocus('zip-code'); }
         }
       })
+    },
+    async focusStreetInput () {
+      await this.sleep(500)
+      let input1 = this.$refs.street_name
+      console.log('focusStreetInput1', input1)
+      if(input1){
+        input1.setFocus('street-address')
+      }else{
+        let input2 = this.$refs.street_name2
+        console.log('focusStreetInput2', input2)
+        input2.setFocus()
+      }
+    },
+    async focusStreetNumberInput () {
+      await this.sleep(500)
+      let inputS1 = this.$refs.apartment_number
+      console.log('focusStreetNumberInput', inputS1)
+      if (inputS1) {
+        inputS1.setFocus('apartment-number')
+      }
     },
     selectStreet () {
       console.log('selectStreet START ')
@@ -371,7 +392,10 @@ export const Shipping = {
         } else { // if manual input of street
           this.shipping.street_id = this.shipping.streetAddress
         }
-        if (this.shipping.streetAddress && this.shipping.streetAddress.length > 2 && this.shipping.streetAddress.length < 35) this.disable_all_fields = false
+        if (this.shipping.streetAddress && this.shipping.streetAddress.length > 2 && this.shipping.streetAddress.length < 35) {
+          this.disable_all_fields = false
+          this.focusStreetNumberInput()
+        }
 
       })
     },

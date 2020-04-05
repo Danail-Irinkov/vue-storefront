@@ -181,6 +181,7 @@
             class="col-xs-12 col-sm-6 mb10"
             type="text"
             id="postalCode"
+            ref="postal_code"
             name="zip-code"
             :placeholder="$t('Zip-code *')"
             v-model.trim="shipping.zipCode"
@@ -202,7 +203,7 @@
                       class="col-xs-12 col-sm-9 mb10"
                       type="text"
                       name="street-address"
-                      id="streetName"
+                      ref="street_name"
                       :placeholder="$t('Street name *')"
                       v-model.trim="shipping.streetAddress"
                       @blur="$v.shipping.streetAddress.$touch()"
@@ -216,7 +217,7 @@
           <base-select v-else
                        class="col-xs-12 col-sm-9 mb10"
                        name="street-address"
-                       id="streetName2"
+                       ref="street_name2"
                        :select-options="streetsOptions"
                        :selected="shipping.streetAddress"
                        :disabled="disable_street_fields"
@@ -242,6 +243,7 @@
           <base-input
             class="col-xs-12 col-sm-3 mb10"
             type="text"
+            ref="apartment_number"
             name="apartment-number"
             :placeholder="$t('House/Apartment')"
             v-model.trim="shipping.apartmentNumber"

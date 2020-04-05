@@ -38,6 +38,13 @@ once('__VUE_EXTEND_RR__', () => {
   Vue.use(VueRouter)
 })
 
+// ProCC sleep function by Dan
+Vue.prototype.sleep = function (ms){
+  return new Promise(resolve=>{
+    setTimeout(resolve,ms)
+  })
+}
+
 const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
   router = createRouter()
   routerProxy = createRouterProxy(router)

@@ -59,6 +59,7 @@
       v-else
       :name="name"
       :id="id"
+      :ref="'normal_select'"
       :class="{
         'cl-tertiary' : options.length === 0,
         'empty': !selected
@@ -190,6 +191,18 @@ export default {
       // console.log('emit_input value2', value2)
       this.$emit('change', value2)
       this.$emit('input', value2)
+    },
+    // setFocus sets focus on a field which has a value of 'ref' tag equal to fieldName
+    setFocus (fieldName) {
+      let inp1 = this.$refs.v_select
+      console.log('setFocusS1', inp1)
+      if(inp1){
+        inp1.searchEl.focus()
+      }else{
+        let inp2 = this.$refs.normal_select
+        if(inp2)
+          inp2.searchEl.focus()
+      }
     },
     onFocus (event) {
       console.log('onFocus start')
