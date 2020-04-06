@@ -7,7 +7,6 @@ import {
   createOrderData,
   createShippingInfoData
 } from '@vue-storefront/core/modules/cart/helpers'
-import store from 'core/store';
 
 const totalsActions = {
   async getTotals (context, { addressInformation, hasShippingInformation }) {
@@ -70,6 +69,9 @@ const totalsActions = {
       }
 
       return
+    }
+    else {
+      Logger.warn('The "cart/totalsActions" action is deprecated and will not be shipping price', 'cart')()
     }
 
     Logger.error(result, 'cart')()

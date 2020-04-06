@@ -329,7 +329,7 @@ export default {
         cntrys.push({
           ...cntry,
           value: cntry.ISO_code,
-          label: cntry.name
+          label: this.$t(cntry.name)
         })
       }
       return cntrys
