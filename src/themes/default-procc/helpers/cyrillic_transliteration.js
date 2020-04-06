@@ -30,7 +30,7 @@ const _preset = 'uk'; // Original code had this _preset thing, but not planning 
 const _firstLetterAssociations = {
   'а': 'a',
   'б': 'b',
-  'в': 'v',
+  // 'в': 'v',
   '###в': 'w', /// '###' is special character to allow duplicate object keys, is removed at the end
   'ґ': 'g',
   'г': 'g',
@@ -39,6 +39,7 @@ const _firstLetterAssociations = {
   // "ё": "e",
   // "є": "ye",
   'ж': 'zh',
+  '###ж': 'v',
   'з': 'z',
   'и': 'i',
   // "і": "i",
