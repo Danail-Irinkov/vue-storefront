@@ -117,24 +117,23 @@
                      id="cityInput2"
                      :disabled="disable_city_fields"
                      :select-options="cityOptions"
-                     :selected="shipping.city"
+                     :selected="shippingDetails.city"
                      :placeholder="$t('City *')"
                      remote-query-method="getCitiesList"
                      @remoteResults="addToCities"
                      select-label="city_name"
                      value-key="site_id"
-                     :remote-country-selected="shipping.ISO_code"
+                     :remote-country-selected="shippingDetails.ISO_code"
                      :validations="[
                          {
-                           condition: $v.shipping.city.$error && !$v.shipping.city.required,
+                           condition: $v.shippingDetails.city.$error && !$v.shippingDetails.city.required,
                            text: $t('Field is required')
                          }
                        ]"
-                     v-model="shipping.site_id"
+                     v-model="shippingDetails.site_id"
                      autocomplete="country-name"
-                     @blur="$v.shipping.city.$touch()"
+                     @blur="$v.shippingDetails.city.$touch()"
                      @change="selectCity"
-        />
         />
         <base-input
           class="col-xs-12 col-sm-6 mb10"
@@ -165,7 +164,7 @@
         </base-checkbox>
 
         <base-input v-if="no_streets_available"
-                    class="col-xs-12 col-sm-6 mb10"
+                    class="col-xs-12 col-sm-9 mb10"
                     type="text"
                     :disabled="disable_street_fields"
                     name="street-address"
@@ -183,28 +182,28 @@
                      name="street-address"
                      id="streetName2"
                      :select-options="streetsOptions"
-                     :selected="shipping.streetAddress"
+                     :selected="shippingDetails.streetName"
                      :disabled="disable_street_fields"
                      :placeholder="$t('Street name *')"
                      remote-query-method="getStreetList"
                      @remoteResults="addToStreets"
                      select-label="label"
                      value-key="value"
-                     :remote-country-selected="shipping.ISO_code"
-                     :remote-city-selected="shipping.site_id"
+                     :remote-country-selected="shippingDetails.ISO_code"
+                     :remote-city-selected="shippingDetails.site_id"
                      :validations="[
                          {
-                           condition: $v.shipping.streetAddress.$error && !$v.shipping.streetAddress.required,
+                           condition: $v.shippingDetails.streetName.$error && !$v.shippingDetails.streetName.required,
                            text: $t('Field is required')
                          }
                        ]"
-                     v-model="shipping.street_id"
+                     v-model="shippingDetails.street_id"
                      autocomplete="country-name"
-                     @blur="$v.shipping.streetAddress.$touch()"
+                     @blur="$v.shippingDetails.streetName.$touch()"
                      @change="selectStreet"
         />
         <base-input
-          class="col-xs-12 col-sm-6 mb10"
+          class="col-xs-12 col-sm-3 mb10"
           type="text"
           name="apartment-number"
           autocomplete="address-line2"
@@ -216,7 +215,7 @@
             text: $t('Field is required')
           }]"
         />
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-xs-12 col-sm-3">
           <button-full
             @click.native="updateDetails"
             :disabled="$v.$invalid"
@@ -297,7 +296,7 @@ export default {
       return this.countries.map((item) => {
         return {
           value: item.ISO_code,
-          label: item.name
+          label: this.$t(item.name)
         }
       })
     },
