@@ -32,18 +32,17 @@
           <base-checkbox
             class="col-sm-12 bg-cl-secondary p15 ml10"
             id="storePaymentInfo"
-            v-model="storePaymentInfo"
-          >
+            v-model="storePaymentInfo">
             {{ $t("Save my Payment Information in accordance with ProCC's Privacy Policy") }}
           </base-checkbox>
         </div>
         <div class="col-md-8 animated fadeInDown bg-cl-secondary"
              v-if="storePersonalInfo || storePaymentInfo"
-             style="padding-left: 15px;margin: 1rem -28px 0 18px;"
-        >
+             style="padding-left: 15px;margin: 1rem -28px 0 18px;">
+          {{$t("Registration email is")}} <strong>{{email}}</strong>
           <base-input
             class=""
-            style="width: calc(100% - 28px); padding-top: 22px"
+            style="width: calc(100% - 128px); padding-top: 22px"
             type="password"
             name="password"
             v-model="password"
@@ -57,15 +56,13 @@
         </div>
         <div class="col-md-4 animated fadeInDown bg-cl-secondary"
              v-if="storePersonalInfo || storePaymentInfo"
-             style="padding-left: 15px; margin-top: 1rem"
-        >
+             style="padding-left: 15px; margin-top: 1rem">
           <button-full
             @click.native="saveUserAccount"
             data-testid="orderReviewSubmit"
             class="place-order-btn"
             style="margin-top: 10px;"
-            :disabled="$v.password.$invalid"
-          >
+            :disabled="$v.password.$invalid">
             {{ $t('Save to Account') }}
           </button-full>
         </div>
@@ -248,8 +245,8 @@ export default {
       if (isServer || !('Notification' in window)) return false
       return Notification.permission === 'granted'
     },
-    checkoutPersonalEmailAddress () {
-      return this.$store.state.checkout.personalDetails.emailAddress
+    email () {
+      return this.lastOrderConfirmation.orders && this.lastOrderConfirmation.orders[0].customer_user.email
     },
     // created function for get order summary from order
     orderSummary () {
@@ -260,12 +257,12 @@ export default {
       let total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.total; });
       total = (total / 100).toFixed(2)
       let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.shipping_fee; });
-      shipping_fee = (shipping_fee / 100).toFixed(2)
+      shipping_fee = (shipping_fee).toFixed(2)
       let VAT = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.VAT; });
       VAT = (VAT / 100).toFixed(2)
       summary_data.push({code: 'subtotal', title: 'Subtotal', value: sub_total})
       summary_data.push({code: 'shipping_fee', title: 'Shipping Fee', value: shipping_fee})
-      summary_data.push({code: 'VAT', title: 'VAT', value: VAT})
+      summary_data.push({code: 'VAT', title: 'VAT (Included)', value: VAT})
       summary_data.push({code: 'grand_total', title: 'Grand Total', value: total})
       return summary_data
     },
@@ -285,7 +282,7 @@ export default {
   methods: {
     saveUserAccount () { // Added by Dan
       // TODO: Create an user account, OR save the selected address and/or payment data to the current user's account
-      console.log('saveUserAccount Mock Started', this.lastOrderConfirmation.orders)
+      console.log('saveUserAccount Mock Started', this.lastOrderConfirmation.orders[0].customer_user)
       if (this.lastOrderConfirmation.orders && this.lastOrderConfirmation.orders[0].customer_user) {
         console.log('this.password', this.password, this.lastOrderConfirmation.orders[0].customer_user._id)
         const result = this.$store.dispatch('user/setCustomerPassword', {
@@ -308,11 +305,11 @@ export default {
       }
     },
     sendFeedback () {
-      console.log('this.checkoutPersonalEmailAddress', this.checkoutPersonalEmailAddress)
+      console.log('this.email', this.email)
       console.log('this.mailerElements', this.mailerElements)
       this.sendEmail(
         {
-          sourceAddress: this.checkoutPersonalEmailAddress,
+          sourceAddress: this.email,
           targetAddress: this.mailerElements,
           subject: this.$t('What can we improve?'),
           emailText: this.feedback
@@ -331,7 +328,7 @@ export default {
         this.sendEmail(
           {
             sourceAddress: this.mailerElements,
-            targetAddress: this.checkoutPersonalEmailAddress,
+            targetAddress: this.email,
             subject: this.$t('Confirmation of receival'),
             emailText: this.$t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),
             confirmation: true

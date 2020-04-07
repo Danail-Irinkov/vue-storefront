@@ -13,6 +13,7 @@
         :value="value"
         :autofocus="autofocus"
         :ref="name"
+        :disabled="disabled"
         @input="$emit('input', $event.target.value)"
         @blur="$emit('blur')"
         @keyup.enter="$emit('keyup.enter', $event.target.value)"
@@ -82,6 +83,11 @@ export default {
       default: false
     },
     autofocus: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       required: false,
       default: false
@@ -168,7 +174,7 @@ export default {
 
   .icon {
     right: 6px;
-    top: 10px;
+    top: 30px;
     &:hover,
     &:focus {
       color: $color-hover;
