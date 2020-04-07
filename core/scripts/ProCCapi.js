@@ -346,7 +346,6 @@ function setMapStoreUrlsFor (storeData) {
 
 function setStoreData (config, storeData) {
   let store_data = getDefaultStoreData(config, storeData);
-
   storefrontConfig.set(`storeViews.${storeData.storefront_url}`, store_data);
 }
 
@@ -354,6 +353,7 @@ function getDefaultStoreData (config, storeData) {
   // TODO: Dynamicly change this data according to origin of the owner of the store (country)
   return {
     store_brand_id: storeData.brand._id,
+    is_test: storeData.is_test,
     storeCode: storeData.storefront_url,
     storeName: _.startCase(storeData.magento_store_name),
     disabled: false,

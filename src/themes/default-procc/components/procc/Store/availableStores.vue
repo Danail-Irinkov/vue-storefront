@@ -74,7 +74,17 @@ export default {
   },
   computed: {
     storeViews () {
-      return store.state.config.storeViews
+      let store_views = {};
+      for (let key in store.state.config.storeViews){
+        if(store.state.config.storeViews.hasOwnProperty(key)) {
+          if(store.state.config.storeViews[key] && store.state.config.storeViews[key].is_test) {
+            // continue
+          }else{
+            store_views[key] = store.state.config.storeViews[key]
+          }
+        }
+      }
+      return store_views
     }
   }
 }
