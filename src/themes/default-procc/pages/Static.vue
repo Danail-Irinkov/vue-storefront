@@ -33,16 +33,23 @@
 <script>
 import i18n from '@vue-storefront/i18n'
 import Breadcrumbs from 'theme/components/core/Breadcrumbs'
-import StaticExample from 'theme/components/theme/blocks/Static/Example'
-import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
+// import StaticExample from 'theme/components/theme/blocks/Static/Example'
+// import StaticShortExample from 'theme/components/theme/blocks/Static/Short'
+import AboutUs from 'theme/components/procc/StoreInfo/AboutUs.vue'
+import Delivery from 'theme/components/procc/StoreInfo/Delivery.vue'
+import Privacy from 'theme/components/procc/StoreInfo/Privacy.vue'
+import Warranty from 'theme/components/procc/StoreInfo/Warranty.vue'
+import Contacts from 'theme/components/procc/StoreInfo/Contacts.vue'
 import { getPathForStaticPage } from 'theme/helpers'
 import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 
 export default {
+  name: 'StaticSwapper',
   components: {
     Breadcrumbs
   },
   metaInfo () {
+
     return {
       title: this.$route.meta.title || this.$props.title,
       meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
@@ -60,14 +67,14 @@ export default {
   },
   computed: {
     activeComponent () {
-      const matchedNav = this.navigation.find(nav => nav.link.includes(this.$route.path))
+      const matchedNav = this.navigation.find(nav => this.$route.path.includes(nav.link)) // Edited by Dan
       return matchedNav ? matchedNav.component : null
     }
   },
   data () {
     return {
       navigation: [
-        // { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: StaticExample },
+        { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: AboutUs },
         // { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
         // { title: i18n.t('Store locator'), link: localizedRoute('/store-locator'), component: StaticExample },
         // { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
@@ -75,10 +82,10 @@ export default {
         // { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticShortExample },
         // { title: i18n.t('Size guide'), link: '/size-guide', component: StaticExample },
         // { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
-        { title: i18n.t('Shipping policy'), link: '/shipping', component: StaticExample },
-        { title: i18n.t('Privacy policy'), link: '/privacy', component: StaticExample },
-        { title: i18n.t('Warranty policy'), link: '/warranty', component: StaticExample },
-        { title: i18n.t('Contact us'), link: '/contact', component: StaticExample }
+        { title: i18n.t('Delivery'), link: getPathForStaticPage('/delivery'), component: Delivery },
+        { title: i18n.t('Privacy'), link: getPathForStaticPage('/privacy'), component: Privacy },
+        { title: i18n.t('Warranty'), link: getPathForStaticPage('/warranty'), component: Warranty },
+        { title: i18n.t('Contacts'), link: getPathForStaticPage('/contact'), component: Contacts }
       ]
     }
   }

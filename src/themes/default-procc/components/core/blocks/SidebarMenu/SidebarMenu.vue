@@ -119,14 +119,14 @@
               :id="'foo'"
               @click.native="closeMenu"
             />
-            <a
-              v-if="!currentUser && isCurrentMenuShowed"
-              href="#"
-              @click.prevent="closeMenu"
-              class="block w-100 px25 py20 cl-accent no-underline fs-medium-small"
-            >
-              {{ $t('My account') }}
-            </a>
+<!--            <a-->
+<!--              v-if="!currentUser && isCurrentMenuShowed"-->
+<!--              href="#"-->
+<!--              @click.prevent="closeMenu"-->
+<!--              class="block w-100 px25 py20 cl-accent no-underline fs-medium-small"-->
+<!--            >-->
+<!--              {{ $t('My account') }}-->
+<!--            </a>-->
           </li>
         </ul>
       </div>

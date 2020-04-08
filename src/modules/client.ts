@@ -17,7 +17,6 @@ import {PaymentCashOnDeliveryModule} from './payment-cash-on-delivery'
 import {NewsletterModule} from '@vue-storefront/core/modules/newsletter'
 // Procc Modules
 import {ProCCStore} from './procc-store';
-import {StorePolicies} from './store-policies';
 import {registerModule} from '@vue-storefront/core/lib/modules'
 // Procc Modules - END
 
@@ -25,7 +24,6 @@ import {registerModule} from '@vue-storefront/core/lib/modules'
 export function registerClientModules () {
   // Procc Modules
   registerModule(ProCCStore);
-  registerModule(StorePolicies);
   // Procc Modules - END
   registerModule(UrlModule);
   registerModule(CatalogModule);

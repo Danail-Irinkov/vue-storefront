@@ -12,44 +12,42 @@
           >
             <div class="start-md">
               <h3 class="cl-accent weight-400">
-                {{ $t('Orders') }}
+                {{ $t('Store') }}
               </h3>
               <div class="mt15">
-                <router-link v-show="isLogged" class="cl-secondary" :to="localizedRoute('/my-account')" exact>
-                  {{ $t('My account') }}
+                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
+                  {{ $t('About us') }}
                 </router-link>
-                <a v-show="!isLogged" class="cl-secondary" href="#" @click.prevent="goToAccount">
-                  {{ $t('My account') }}
-                </a>
               </div>
+<!--              // TODO: Connect this "Customer service" with ProCC chat with an admin via websocket-->
+<!--              <div class="mt15">-->
+<!--                <router-link class="cl-secondary" :to="localizedRoute('/customer-service')" exact>-->
+<!--                  {{ $t('Customer service') }}-->
+<!--                </router-link>-->
+<!--              </div>-->
+              <div class="mt15">
+                <router-link class="cl-secondary" :to="localizedRoute('/contact')" exact>
+                  {{ $t('Contact us') }}
+                </router-link>
+              </div>
+            </div>
+            <div class="start-md">
+              <h3 class="cl-accent weight-400">
+                {{ $t('Policy') }}
+              </h3>
               <div class="mt15">
                 <router-link class="cl-secondary" :to="localizedRoute('/delivery')" exact>
                   {{ $t('Delivery') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/returns')" exact>
-                  {{ $t('Return policy') }}
-                </router-link>
-              </div>
-            </div>
-            <div class="start-md">
-              <h3 class="cl-accent weight-400">
-                {{ $t('Help') }}
-              </h3>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/customer-service')" exact>
-                  {{ $t('Customer service') }}
+                <router-link class="cl-secondary" :to="localizedRoute('/warranty')" exact>
+                  {{ $t('Warranty') }}
                 </router-link>
               </div>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/size-guide')" exact>
-                  {{ $t('Size guide') }}
-                </router-link>
-              </div>
-              <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/contact')" exact>
-                  {{ $t('Contact us') }}
+                <router-link class="cl-secondary" :to="localizedRoute('/privacy')" exact>
+                  {{ $t('Privacy') }}
                 </router-link>
               </div>
             </div>

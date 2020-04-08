@@ -1,5 +1,3 @@
-import isObject from "lodash-es/isObject";
-
 const path = require('path');
 const bodyParser = require('body-parser');
 const apiStatus = require('./utils/api-status');
@@ -348,11 +346,12 @@ function setMapStoreUrlsFor (storeData) {
 
 function setStoreData (config, storeData) {
   let store_data = getDefaultStoreData(config, storeData);
+  console.log('setStoreData store_data', store_data)
   storefrontConfig.set(`storeViews.${storeData.storefront_url}`, store_data);
 }
 
 function stringifyTags (tags_obj) {
-  if (!isObject(tags_obj)) return tags_obj;
+  if (!_.isObject(tags_obj)) return tags_obj;
 
   let tags_string = ''
   for (let key in tags_obj) {
@@ -365,7 +364,6 @@ function stringifyTags (tags_obj) {
   return tags_string
 }
 function getDefaultStoreData (config, storeData) {
-  // TODO: Dynamicly change this data according to origin of the owner of the store (country)
   return {
     store_brand_id: storeData.brand._id,
     store_brand_name: storeData.brand.name,

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import {mapActions, mapState} from 'vuex'
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
 const MinimalLayout = () => import(/* webpackChunkName: "vsf-layout-minimal" */ './layouts/Minimal')
@@ -17,6 +17,14 @@ export default {
     return {
       ordersData: []
     }
+  },
+  mounted() {
+    this.updateCurrentStore()
+  },
+  methods: {
+    ...mapActions({
+      updateCurrentStore: 'procc/updateCurrentStore'
+    }),
   },
   computed: {
     ...mapState({
