@@ -88,3 +88,4 @@
 "not authorized","not authorized"
 "password","password"
 "to account","to account"
+"Account for {email} already exists.","Account for {email} already exists."

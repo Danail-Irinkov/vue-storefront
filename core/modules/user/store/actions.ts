@@ -81,9 +81,25 @@ const actions: ActionTree<UserState, RootState> = {
     console.log('BEFORE setCustomerPassword', customerId, password)
     // Edited by shabbir for login customer in procc
     const resp = await ProCcApi().setCustomerPassword({customerId, password})
-    console.log(resp.data)
-    if (resp.data.message_type === 'success') {
-      dispatch('handleResendVerificationEmail', {email: resp.data.user.email})
+    console.log("resetPasswordMessage aaa ",resp.data.resetPasswordMessage)
+    if (resp.data.resetPasswordMessage) {
+      dispatch('handleResetPasswordMessage', {email: resp.data.user.email})
+    }
+    else if(resp.data.message_type === 'success'  && resp.data.user && resp.data.token){
+      try {
+        await dispatch('resetUserInvalidateLock', {}, { root: true })
+        await dispatch('setCurrentUser', resp.data.user)
+        commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: resp.data.user })
+        await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+        dispatch('notification/spawnNotification', {
+          type: 'success',
+          message: i18n.t('Successful Login'),
+          action1: { label: i18n.t('OK') }
+        }, { root: true })
+      } catch (err) {
+        await dispatch('clearCurrentUser')
+        throw new Error(err)
+      }
     }
 
     return resp.data
@@ -297,6 +313,28 @@ const actions: ActionTree<UserState, RootState> = {
         }
       },
       action2: { label: i18n.t('No') },
+      hasNoTimeout: true
+    }, { root: true })
+  },
+  async handleResetPasswordMessage ({ dispatch }, { email }) {
+    console.log("email---------",email)
+    dispatch('notification/spawnNotification', {
+      type: 'warning',
+      message: i18n.t('Account for {email} already exists.', { email: email}),
+      action2: { label: i18n.t('Reset Password'),
+        action: () => {
+            console.log('Reset Password ')
+            dispatch('forgotPassword', { email: email }).then((result) => {
+              console.log('result ', result)
+              dispatch('notification/spawnNotification', {
+                type: result.message_type,
+                message: result.message_type=='success'?i18n.t('Password reset email sent, Please check email'):i18n.t('OK'),
+                action1: { label: i18n.t('OK') }
+              }, { root: true })
+            })
+        }
+      },
+      action1: { label: i18n.t('Retry') },
       hasNoTimeout: true
     }, { root: true })
   },
