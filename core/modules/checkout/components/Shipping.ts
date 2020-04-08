@@ -352,9 +352,9 @@ export const Shipping = {
       await this.sleep(500)
       let input1 = this.$refs.street_name
       console.log('focusStreetInput1', input1)
-      if(input1){
+      if (input1) {
         input1.setFocus('street-address')
-      }else{
+      } else {
         let input2 = this.$refs.street_name2
         console.log('focusStreetInput2', input2)
         input2.setFocus()
@@ -370,7 +370,7 @@ export const Shipping = {
     },
     selectStreet () {
       console.log('selectStreet START ')
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         console.log('selectStreet START 22', !this.no_streets_available)
         console.log('selectStreet START 23', this.shipping.street_id)
         this.$v.shipping.streetAddress.$touch();
@@ -396,7 +396,6 @@ export const Shipping = {
           this.disable_all_fields = false
           this.focusStreetNumberInput()
         }
-
       })
     },
     getCitiesList (country_id, query = null) {

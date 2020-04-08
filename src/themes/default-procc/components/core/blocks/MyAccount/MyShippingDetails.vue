@@ -125,11 +125,11 @@
                      value-key="site_id"
                      :remote-country-selected="shippingDetails.ISO_code"
                      :validations="[
-                         {
-                           condition: $v.shippingDetails.city.$error && !$v.shippingDetails.city.required,
-                           text: $t('Field is required')
-                         }
-                       ]"
+                       {
+                         condition: $v.shippingDetails.city.$error && !$v.shippingDetails.city.required,
+                         text: $t('Field is required')
+                       }
+                     ]"
                      v-model="shippingDetails.site_id"
                      autocomplete="country-name"
                      @blur="$v.shippingDetails.city.$touch()"
@@ -192,11 +192,11 @@
                      :remote-country-selected="shippingDetails.ISO_code"
                      :remote-city-selected="shippingDetails.site_id"
                      :validations="[
-                         {
-                           condition: $v.shippingDetails.streetName.$error && !$v.shippingDetails.streetName.required,
-                           text: $t('Field is required')
-                         }
-                       ]"
+                       {
+                         condition: $v.shippingDetails.streetName.$error && !$v.shippingDetails.streetName.required,
+                         text: $t('Field is required')
+                       }
+                     ]"
                      v-model="shippingDetails.street_id"
                      autocomplete="country-name"
                      @blur="$v.shippingDetails.streetName.$touch()"

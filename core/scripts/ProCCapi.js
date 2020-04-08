@@ -1,3 +1,5 @@
+import isObject from "lodash-es/isObject";
+
 const path = require('path');
 const bodyParser = require('body-parser');
 const apiStatus = require('./utils/api-status');
@@ -349,13 +351,29 @@ function setStoreData (config, storeData) {
   storefrontConfig.set(`storeViews.${storeData.storefront_url}`, store_data);
 }
 
+function stringifyTags (tags_obj) {
+  if (!isObject(tags_obj)) return tags_obj;
+
+  let tags_string = ''
+  for (let key in tags_obj) {
+    const tcat = tags_obj[key]
+    for (let tag of tcat) {
+      if (tags_string) tags_string += ' '
+      tags_string += tag
+    }
+  }
+  return tags_string
+}
 function getDefaultStoreData (config, storeData) {
   // TODO: Dynamicly change this data according to origin of the owner of the store (country)
   return {
     store_brand_id: storeData.brand._id,
+    store_brand_name: storeData.brand.name,
+    store_brand_tags: stringifyTags(storeData.brand.tags),
     is_test: storeData.is_test,
     storeCode: storeData.storefront_url,
-    storeName: _.startCase(storeData.magento_store_name),
+    // storeName: _.startCase(storeData.magento_store_name),
+    storeName: storeData.brand.name,
     disabled: false,
     storeId: parseInt(storeData.magento_store_id),
     name: _.startCase(storeData.magento_store_name),

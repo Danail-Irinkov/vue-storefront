@@ -5,7 +5,6 @@ import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 import _ from 'lodash'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
 
-
 export const UserShippingDetails = {
   name: 'MyShippingDetails',
   data () {
@@ -354,7 +353,7 @@ export const UserShippingDetails = {
     },
     selectStreet () {
       console.log('selectStreet START ')
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         console.log('selectStreet START 22', !this.no_streets_available)
         console.log('selectStreet START 23', this.shipping.street_id)
         this.$v.shipping.streetAddress.$touch();
@@ -377,7 +376,6 @@ export const UserShippingDetails = {
           this.shipping.street_id = this.shipping.streetAddress
         }
         if (this.shipping.streetAddress && this.shipping.streetAddress.length > 2 && this.shipping.streetAddress.length < 35) this.disable_all_fields = false
-
       })
     },
     getCitiesList (country_id, query = null) {

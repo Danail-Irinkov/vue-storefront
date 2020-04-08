@@ -599,7 +599,26 @@ export default {
     }
   },
   metaInfo () {
-    const storeView = currentStoreView()
+    // ProCC product Description Meta by Dan
+    let productDescription = ''
+    if (this.getCurrentProduct && this.getCurrentProduct.description) {
+      productDescription += this.getCurrentProduct.description
+    }
+    if (this.getCurrentProduct && this.getCurrentProduct.tags) {
+      for (let tcat of this.getCurrentProduct.tags) {
+        for (let tag of tcat) {
+          if (productDescription) productDescription += ', '
+          productDescription += tag
+        }
+      }
+      console.log('productDescription:', productDescription)
+    } else {
+      console.log('NO PRODUCT TAGS')
+    }
+
+    const currentStoreBrand = this.$store.getters['procc/currentStoreBrand']
+    let currentBrandName = currentStoreBrand.name
+    // console.log('currentBrandName:', currentBrandName)
     return {
       link: [
         { rel: 'amphtml',
@@ -613,8 +632,8 @@ export default {
           }, storeView.storeCode)).href
         }
       ],
-      title: htmlDecode(this.getCurrentProduct.meta_title || this.getCurrentProduct.name),
-      meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description) }] : []
+      title: htmlDecode(this.getCurrentProduct.meta_title || currentBrandName + ' - ' + this.getCurrentProduct.name),
+      meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description || productDescription) }] : []
     }
   },
   validations: {

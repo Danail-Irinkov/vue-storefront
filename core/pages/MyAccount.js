@@ -1,8 +1,8 @@
 import i18n from '@vue-storefront/i18n'
-
 import Composite from '@vue-storefront/core/mixins/composite'
 import { Logger } from '@vue-storefront/core/lib/logger'
 import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import {htmlDecode} from '../filters';
 
 export default {
   name: 'MyAccount',
@@ -51,8 +51,12 @@ export default {
     }
   },
   metaInfo () {
+    const currentStoreBrand = this.$store.getters['procc/currentStoreBrand']
+    let currentBrandName = currentStoreBrand.name
+
     return {
-      title: this.$route.meta.title || i18n.t('My Account'),
+      title: htmlDecode(currentBrandName + ' - ' + i18n.t('My Account')), // Added by Dan
+      // title: this.$route.meta.title || i18n.t('My Account'),
       meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
     }
   },

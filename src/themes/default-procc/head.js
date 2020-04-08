@@ -1,12 +1,18 @@
 export default {
-  title: 'Default Theme',
-  titleTemplate: '%s - Vue Storefront',
+  title: 'Pro Content Creators Stores',
+  titleTemplate: '%s - ProCC',
   htmlAttrs: {
     lang: 'en'
   },
   meta: [
     { charset: 'utf-8' },
-    { vmid: 'description', name: 'description', content: 'Vue Storefront is a standalone PWA storefront for your eCommerce, possible to connect with any eCommerce backend (eg. Magento, Prestashop or Shopware) through the API.' },
+    {
+      vmid: 'description',
+      name: 'description',
+      content: 'ProCC is a marketplace of content creators\' Favourite Product picks from different brands, ' +
+        'but the Vendors process the shipping and customer support. Browse your favourite influencer\'s stores, ' +
+        'support your favourite Content Creators by purchasing their favourite clothes, apparel, cosmetics and more'
+    },
     { name: 'viewport', content: 'width=device-width, initial-scale=1, minimal-ui' },
     { name: 'robots', content: 'index, follow' },
     { name: 'mobile-web-app-capable', content: 'yes' },

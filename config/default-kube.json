@@ -714,7 +714,7 @@
   "theme": "@vue-storefront/theme-default-procc",
   "themeDir": "./src/themes/default-procc",
   "analytics": {
-    "id": false
+    "id": "G-MPR00HXFB6"
   },
   "googleTagManager": {
     "id": false,

@@ -39,9 +39,9 @@ once('__VUE_EXTEND_RR__', () => {
 })
 
 // ProCC sleep function by Dan
-Vue.prototype.sleep = function (ms){
-  return new Promise(resolve=>{
-    setTimeout(resolve,ms)
+Vue.prototype.sleep = function (ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms)
   })
 }
 

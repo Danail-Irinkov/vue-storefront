@@ -194,18 +194,35 @@ export default {
   metaInfo () {
     const storeView = currentStoreView()
     const { meta_title, meta_description, name, slug } = this.getCurrentCategory
+    // console.log('meta_title, meta_description, name, slug:', meta_title, meta_description, name, slug)
+
+    // ProCC category Description Meta by Dan
+    let categoryDescription = ''
+    for (let product of this.getCategoryProducts) {
+      if (product.name) {
+        if (categoryDescription) categoryDescription += ', '
+        categoryDescription += product.name
+      }
+    }
+    console.log('categoryDescription:', categoryDescription)
     const meta = meta_description ? [
       { vmid: 'description', name: 'description', content: htmlDecode(meta_description) }
-    ] : []
+    ] : categoryDescription ? [
+      { vmid: 'description', name: 'description', content: htmlDecode(categoryDescription) }
+    ]
+      : []
     const categoryLocaliedLink = localizedRoute({
       name: 'category-amp',
       params: { slug }
     }, storeView.storeCode)
     const ampCategoryLink = this.$router.resolve(categoryLocaliedLink).href
 
+    const currentStoreBrand = this.$store.getters['procc/currentStoreBrand']
+    let currentBrandName = currentStoreBrand.name
+    console.log('currentBrandName:', currentBrandName)
     return {
       link: [ { rel: 'amphtml', href: ampCategoryLink } ],
-      title: htmlDecode(meta_title || name),
+      title: htmlDecode(meta_title || currentBrandName + ' - ' + name),
       meta
     }
   }

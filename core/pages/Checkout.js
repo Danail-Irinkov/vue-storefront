@@ -10,6 +10,7 @@ import { Logger } from '@vue-storefront/core/lib/logger';
 import find from 'lodash-es/find';
 import cloneDeep from 'lodash-es/cloneDeep';
 import SmoothScroll from 'src/themes/default-procc/resource/smooth-scroll.polyfills.min.js'
+import {htmlDecode} from '../filters';
 
 export default {
   name: 'Checkout',
@@ -566,8 +567,12 @@ export default {
     }
   },
   metaInfo () {
+    const currentStoreBrand = this.$store.getters['procc/currentStoreBrand']
+    let currentBrandName = currentStoreBrand.name
+
     return {
-      title: this.$route.meta.title || i18n.t('Checkout'),
+      title: htmlDecode(currentBrandName + ' - ' + i18n.t('Checkout')), // Added by Dan
+      // title: this.$route.meta.title || i18n.t('Checkout'),
       meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
     }
   },

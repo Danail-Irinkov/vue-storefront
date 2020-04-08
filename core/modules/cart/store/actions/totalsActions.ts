@@ -69,8 +69,7 @@ const totalsActions = {
       }
 
       return
-    }
-    else {
+    } else {
       Logger.warn('The "cart/totalsActions" action is deprecated and will not be shipping price', 'cart')()
     }
 

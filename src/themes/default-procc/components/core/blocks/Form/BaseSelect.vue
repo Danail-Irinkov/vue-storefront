@@ -46,12 +46,12 @@
       </template>
       <template slot="option" slot-scope="option">
         <div class="d-center">
-          {{ option[selectLabel] }} {{ option['post_code'] ? '('+option['post_code']+')' : ''}}
+          {{ option[selectLabel] }} {{ option['post_code'] ? '('+option['post_code']+')' : '' }}
         </div>
       </template>
       <template slot="selected-option" slot-scope="option">
         <div class="selected d-center">
-          {{ option[selectLabel] }} {{ option['post_code'] ? '('+option['post_code']+')' : ''}}
+          {{ option[selectLabel] }} {{ option['post_code'] ? '('+option['post_code']+')' : '' }}
         </div>
       </template>
     </v-select>
@@ -196,12 +196,11 @@ export default {
     setFocus (fieldName) {
       let inp1 = this.$refs.v_select
       console.log('setFocusS1', inp1)
-      if(inp1){
+      if (inp1) {
         inp1.searchEl.focus()
-      }else{
+      } else {
         let inp2 = this.$refs.normal_select
-        if(inp2)
-          inp2.searchEl.focus()
+        if (inp2) { inp2.searchEl.focus() }
       }
     },
     onFocus (event) {
@@ -224,7 +223,7 @@ export default {
       let new_query = ''
       if (this.remoteCountrySelected === '100' && translit.isLat(search))new_query = translit.LatToCyr(search);
       else if (this.remoteCountrySelected !== '100' && translit.isCyr(search))new_query = translit.CyrToLat(search);
-      if(new_query){
+      if (new_query) {
         // console.log('search Query 2', new_query)
         this.$refs.v_select.search = new_query.toUpperCase()
       }
