@@ -19,7 +19,7 @@
         <h4 class="bg-cl-secondary" style="width: 100%; text-align: center; margin: 0 8px 1rem 18px!important;padding: 20px 0 20px 0">
           {{ $t("Store your order's details in your ProCC Account") }}
         </h4>
-        <div class="col-md-6">
+        <div class="col-md-12">
           <base-checkbox
             class="col-sm-12 bg-cl-secondary p15 ml10"
             id="storePersonalInfo"
@@ -28,7 +28,7 @@
             {{ $t("Save my Personal Information in accordance with ProCC's Privacy Policy") }}
           </base-checkbox>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 hidden">
           <base-checkbox
             class="col-sm-12 bg-cl-secondary p15 ml10"
             id="storePaymentInfo"
@@ -38,11 +38,11 @@
         </div>
         <div class="col-md-8 animated fadeInDown bg-cl-secondary"
              v-if="storePersonalInfo || storePaymentInfo"
-             style="padding-left: 15px;margin: 1rem -28px 0 18px;">
+             style="padding-left: 15px;">
           {{$t("Registration email is")}} <strong>{{email}}</strong>
           <base-input
             class=""
-            style="width: calc(100% - 128px); padding-top: 22px"
+            style="width: calc(100% - 28px); padding-top: 22px"
             type="password"
             name="password"
             v-model="password"
@@ -56,7 +56,7 @@
         </div>
         <div class="col-md-4 animated fadeInDown bg-cl-secondary"
              v-if="storePersonalInfo || storePaymentInfo"
-             style="padding-left: 15px; margin-top: 1rem">
+             style="margin-top: 1rem">
           <button-full
             @click.native="saveUserAccount"
             data-testid="orderReviewSubmit"

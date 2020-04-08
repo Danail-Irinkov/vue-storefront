@@ -317,15 +317,24 @@ const actions: ActionTree<UserState, RootState> = {
     }, { root: true })
   },
   async handleResetPasswordMessage ({ dispatch }, { email }) {
+    console.log("email---------",email)
     dispatch('notification/spawnNotification', {
       type: 'warning',
-      message: i18n.t("Account for {{email}} already exists.", email),
-      action1: { label: i18n.t('Reset Password'),
+      message: i18n.t('Account for {email} already exists.', { email: email}),
+      action2: { label: i18n.t('Reset Password'),
         action: () => {
             console.log('Reset Password ')
+            dispatch('forgotPassword', { email: email }).then((result) => {
+              console.log('result ', result)
+              dispatch('notification/spawnNotification', {
+                type: result.message_type,
+                message: result.message_type=='success'?i18n.t('Password reset email sent, Please check email'):i18n.t('OK'),
+                action1: { label: i18n.t('OK') }
+              }, { root: true })
+            })
         }
       },
-      action2: { label: i18n.t('No') },
+      action1: { label: i18n.t('Retry') },
       hasNoTimeout: true
     }, { root: true })
   },
