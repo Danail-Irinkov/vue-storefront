@@ -31,7 +31,7 @@ const invokeClientEntry = async () => {
   }
 
   await store.dispatch('procc/updateHeadImage')
-  await store.dispatch('policies/updateStorePolicies')
+  // await store.dispatch('policies/updateStorePolicies')
   await store.dispatch('url/registerDynamicRoutes')
   RouterManager.flushRouteQueue()
 

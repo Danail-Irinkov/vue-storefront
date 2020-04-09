@@ -298,6 +298,7 @@ import {Tab, Tabs} from 'vue-tabs-component'
 import SizeChartView from 'theme/components/procc/Product/SizeChartView.vue'
 import {minValue} from 'vuelidate/lib/validators'
 // import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
+import isObject from 'lodash-es/isObject'
 
 export default {
   components: {
@@ -596,27 +597,37 @@ export default {
     },
     handleQuantityError (error) {
       this.quantityError = error
+    },
+    stringifyTags (tags_obj) {
+      if (!isObject(tags_obj)) return String(tags_obj);
+
+      console.log('stringifyTags tags_obj', tags_obj)
+      let tags_string = ''
+      for (let key in tags_obj) {
+        const tcat = tags_obj[key]
+        for (let tag of tcat) {
+          if (tags_string) tags_string += ' '
+          tags_string += tag
+        }
+      }
+      return tags_string
     }
   },
   metaInfo () {
     // ProCC product Description Meta by Dan
+    const storeView = currentStoreView()
     let productDescription = ''
     if (this.getCurrentProduct && this.getCurrentProduct.description) {
       productDescription += this.getCurrentProduct.description
     }
     if (this.getCurrentProduct && this.getCurrentProduct.tags) {
-      for (let tcat of this.getCurrentProduct.tags) {
-        for (let tag of tcat) {
-          if (productDescription) productDescription += ', '
-          productDescription += tag
-        }
-      }
-      console.log('productDescription:', productDescription)
+      productDescription += ' ' + this.stringifyTags(this.getCurrentProduct.tags)
     } else {
       console.log('NO PRODUCT TAGS')
     }
+    // console.log('productDescription:', productDescription)
 
-    const currentStoreBrand = this.$store.getters['procc/currentStoreBrand']
+    const currentStoreBrand = this.$store.getters['procc/getCurrentStoreBrand']
     let currentBrandName = currentStoreBrand.name
     // console.log('currentBrandName:', currentBrandName)
     return {
@@ -633,7 +644,7 @@ export default {
         }
       ],
       title: htmlDecode(this.getCurrentProduct.meta_title || currentBrandName + ' - ' + this.getCurrentProduct.name),
-      meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description || productDescription) }] : []
+      meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description) }] : productDescription ? [{ vmid: 'description', name: 'description', content: htmlDecode(productDescription) }] : []
     }
   },
   validations: {

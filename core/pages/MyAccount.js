@@ -51,7 +51,7 @@ export default {
     }
   },
   metaInfo () {
-    const currentStoreBrand = this.$store.getters['procc/currentStoreBrand']
+    const currentStoreBrand = this.$store.getters['procc/getCurrentStoreBrand']
     let currentBrandName = currentStoreBrand.name
 
     return {

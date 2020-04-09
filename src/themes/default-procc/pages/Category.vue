@@ -204,7 +204,7 @@ export default {
         categoryDescription += product.name
       }
     }
-    console.log('categoryDescription:', categoryDescription)
+    // console.log('categoryDescription:', categoryDescription)
     const meta = meta_description ? [
       { vmid: 'description', name: 'description', content: htmlDecode(meta_description) }
     ] : categoryDescription ? [
@@ -217,9 +217,9 @@ export default {
     }, storeView.storeCode)
     const ampCategoryLink = this.$router.resolve(categoryLocaliedLink).href
 
-    const currentStoreBrand = this.$store.getters['procc/currentStoreBrand']
+    const currentStoreBrand = this.$store.getters['procc/getCurrentStoreBrand']
     let currentBrandName = currentStoreBrand.name
-    console.log('currentBrandName:', currentBrandName)
+    // console.log('currentBrandName:', currentBrandName)
     return {
       link: [ { rel: 'amphtml', href: ampCategoryLink } ],
       title: htmlDecode(meta_title || currentBrandName + ' - ' + name),

@@ -351,7 +351,7 @@ function setStoreData (config, storeData) {
 }
 
 function stringifyTags (tags_obj) {
-  if (!_.isObject(tags_obj)) return tags_obj;
+  if (!isObject(tags_obj)) return String(tags_obj);
 
   let tags_string = ''
   for (let key in tags_obj) {

@@ -13,7 +13,7 @@ export default {
   mixins: [Composite],
   methods: {
     stringifyTags (tags_obj) {
-      if (!isObject(tags_obj)) return tags_obj;
+      if (!isObject(tags_obj)) return String(tags_obj);
 
       console.log('stringifyTags tags_obj', tags_obj)
       let tags_string = ''
@@ -57,12 +57,12 @@ export default {
   metaInfo () {
     const storeView = currentStoreView()
     const currentStore = this.$store.getters['procc/getCurrentStore']
-    console.log('Home currentStore', currentStore)
+    // console.log('Home currentStore', currentStore)
     const about_text = currentStore && currentStore.storefront_setting && currentStore.storefront_setting.about_text ? currentStore.storefront_setting.about_text : storeView.about_text ? storeView.about_text : ''
     const tags = currentStore && currentStore.brand && currentStore.brand.tags ? this.stringifyTags(currentStore.brand.tags) : storeView.store_brand_tags ? storeView.store_brand_tags : ''
 
-    console.log('Home about_text', about_text)
-    console.log('Home tags', tags)
+    // console.log('Home about_text', about_text)
+    // console.log('Home tags', tags)
 
     let isMainProCCStore = storeView.storeCode === ''
     let currentBrandName = currentStore && currentStore.brand && currentStore.brand.name ? currentStore.brand.name : storeView.store_brand_name ? storeView.store_brand_name : ''
