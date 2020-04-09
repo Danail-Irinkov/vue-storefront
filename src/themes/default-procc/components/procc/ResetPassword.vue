@@ -76,8 +76,8 @@ export default {
           // this.passwordSent = true
           this.newPassword = ''
           this.password_reset_code = ''
-          message = response.message
-          // this.$router.push(this.localizedRoute('/'))
+          message = i18n.t('Password successfully changed')
+          this.$router.push(this.localizedRoute('/'))
         } else {
           message_type = 'error'
           message = response.message || i18n.t('Error while sending reset password e-mail')

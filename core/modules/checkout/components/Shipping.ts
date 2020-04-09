@@ -378,7 +378,7 @@ export const Shipping = {
           let street = find(this.streets, { 'street_id': this.shipping.street_id })
           console.log('selectStreet street ', street)
           console.log('selectStreet this.shipping.street_id', this.shipping.street_id)
-          this.selected_street_id = ''
+          // this.selected_street_id = ''
           if (street && street.label) {
             this.shipping.streetAddress = street.label
           } else if (street && street.streetName) {
