@@ -222,7 +222,7 @@ export default {
     // console.log('currentBrandName:', currentBrandName)
     return {
       link: [ { rel: 'amphtml', href: ampCategoryLink } ],
-      title: htmlDecode(meta_title || currentBrandName + ' - ' + name),
+      title: htmlDecode(meta_title || ((currentBrandName ? currentBrandName + ' - ' : '') + name)),
       meta
     }
   }

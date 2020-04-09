@@ -643,7 +643,7 @@ export default {
           }, storeView.storeCode)).href
         }
       ],
-      title: htmlDecode(this.getCurrentProduct.meta_title || currentBrandName + ' - ' + this.getCurrentProduct.name),
+      title: htmlDecode(this.getCurrentProduct.meta_title || ((currentBrandName ? currentBrandName + ' - ' : '') + this.getCurrentProduct.name)),
       meta: this.getCurrentProduct.meta_description ? [{ vmid: 'description', name: 'description', content: htmlDecode(this.getCurrentProduct.meta_description) }] : productDescription ? [{ vmid: 'description', name: 'description', content: htmlDecode(productDescription) }] : []
     }
   },

@@ -55,7 +55,7 @@ export default {
     let currentBrandName = currentStoreBrand.name
 
     return {
-      title: htmlDecode(currentBrandName + ' - ' + i18n.t('My Account')), // Added by Dan
+      title: htmlDecode((currentBrandName ? currentBrandName + ' - ' : '') + i18n.t('My Account')), // Added by Dan
       // title: this.$route.meta.title || i18n.t('My Account'),
       meta: this.$route.meta.description ? [{ vmid: 'description', name: 'description', content: this.$route.meta.description }] : []
     }

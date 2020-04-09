@@ -67,7 +67,7 @@ export default {
     let isMainProCCStore = storeView.storeCode === ''
     let currentBrandName = currentStore && currentStore.brand && currentStore.brand.name ? currentStore.brand.name : storeView.store_brand_name ? storeView.store_brand_name : ''
 
-    let title = isMainProCCStore ? i18n.t('All Stores') : currentBrandName + ' - ' + i18n.t('Home')
+    let title = isMainProCCStore ? i18n.t('All Stores') : (currentBrandName ? (currentBrandName + ' - ') : '') + i18n.t('Home')
     let description = isMainProCCStore ? i18n.t('List of the available ProCC Store Brands') : about_text + ' - ' + tags
     return {
       title: this.$route.meta.title || title,
