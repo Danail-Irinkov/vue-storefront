@@ -11,6 +11,7 @@ import find from 'lodash-es/find';
 import cloneDeep from 'lodash-es/cloneDeep';
 import SmoothScroll from 'src/themes/default-procc/resource/smooth-scroll.polyfills.min.js'
 import {htmlDecode} from '../filters';
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 
 export default {
   name: 'Checkout',
@@ -360,7 +361,8 @@ export default {
       // console.log('activateSection anchor: ', anchor)
       let scroll = new SmoothScroll() // Added By Dan
       // Workaround for not being able to select the exact elements
-      let scroll_offset = sectionToActivate === 'shipping' ? 533 : sectionToActivate === 'payment' ? 783 : 0
+      // TODO: GET ACCURATE PIXEL LOCATIONS FOR THE SCROLLS -> NOW FAILS WITH MANY PRODUCTS
+      let scroll_offset = sectionToActivate === 'shipping' ? 833 : sectionToActivate === 'payment' ? 1183 : 0
       scroll.animateScroll(scroll_offset, null, { // Added By Dan
         durationMin: 1183,
         speed: 1200,
@@ -380,7 +382,7 @@ export default {
       }
       return paymentMethod
     },
-    prepareProCCOrder () {
+    async prepareProCCOrder () {
       console.log('this.$store.state.cart.selectedShippingMethods', this.$store.state.cart.selectedShippingMethods)
 
       const storeView = currentStoreView()
@@ -423,12 +425,38 @@ export default {
             city_type: this.payment.city_type ? this.payment.city_type : '',
             generateInvoice: !!this.payment.taxId
           },
-          selected_shipping_methods: this.$store.state.cart.selectedShippingMethods ? this.$store.state.cart.selectedShippingMethods : {},
+          selected_shipping_methods: this.$store.state.cart.selectedShippingMethods ? {...this.$store.state.cart.selectedShippingMethods} : {},
           payment_method_code: this.getPaymentMethod(),
           payment_method_additional: this.payment.paymentMethodAdditional,
           shippingExtraFields: this.shipping.extraFields
         }
       }
+
+      // Workaround for missing shipping methods -> cant find where the method disappears but it happens when a product from a second brand is added to the cart and Default shipping method is choosen, and not changed by the user
+      try {
+        for (let key in this.order.products) {
+          let product = this.order.products[key]
+          console.log('prepareProCCOrder product', product.brand_id)
+          if (!this.order.selected_shipping_methods || !this.order.selected_shipping_methods[product.brand_id]) {
+            // Update Shipping methods from ProCC
+            let brand_ids = []
+            for (let key2 in this.order.products) {
+              brand_ids.push(this.order.products[key2].brand_id)
+            }
+            console.log('prepareProCCOrder brand_ids', brand_ids)
+            console.log('prepareProCCOrder this.order.cartId', this.order.cartId)
+            await ProCcApi().updateShippingMethodsFromProCC({brand_ids, cartId: this.order.cartId})
+            console.log('prepareProCCOrder Updated Shipping Methods', this.$store.state.cart.selectedShippingMethods)
+            await this.sleep(500)
+            this.order.selected_shipping_methods = this.$store.state.cart.selectedShippingMethods ? {...this.$store.state.cart.selectedShippingMethods} : {}
+            console.log('prepareProCCOrder SHIPPING METHODS UPDATED', this.order.selected_shipping_methods)
+            break
+          }
+        }
+      } catch (e) {
+        console.log('Workaround for missing shipping methods Error: ', e)
+      }
+      // Workaround - END
 
       if (!this.isVirtualCart) {
         this.order.addressInformation.shippingAddress = {
@@ -460,7 +488,7 @@ export default {
         this.checkConnection({ online: typeof navigator !== 'undefined' ? navigator.onLine : true })
         // if (this.checkStocks()) {
         if (await this.checkStocksProCC()) { // Added By Dan
-          this.placeProCCOrder()
+          await this.placeProCCOrder()
         } else {
           console.log('notifyNotAvailable placeOrder')
           this.notifyNotAvailable()
@@ -470,25 +498,25 @@ export default {
       }
     },
     // Created function by Shabbir for place order in ProCC
-    placeProCCOrder () {
-      let order_data = this.prepareProCCOrder()
-      this.ProCcAPI.addNewOrder(order_data, order_data.store_brand)
-        .then((result) => {
-          if (result.data.message_type === 'success') {
-            this.procc_order_ids = result.data.order_ids
-            this.ProCCOrderPayment(result.data.order_ids)
-          } else {
-            throw new Error(result.data.message)
-          }
-        }).catch(err => {
-          Logger.error(err, 'Transaction was not Done!!')
-          this.$bus.$emit('notification-progress-stop');
-          this.$store.dispatch('notification/spawnNotification', {
-            type: 'error',
-            message: this.$t('Placing the order failed, please contact support!'),
-            action1: { label: this.$t('OK') }
-          })
+    async placeProCCOrder () {
+      try {
+        let order_data = await this.prepareProCCOrder()
+        let result = await this.ProCcAPI.addNewOrder(order_data, order_data.store_brand)
+        if (result.data.message_type === 'success') {
+          this.procc_order_ids = result.data.order_ids
+          this.ProCCOrderPayment(result.data.order_ids)
+        } else {
+          throw new Error(result.data.message)
+        }
+      } catch (e) {
+        console.log('placeProCCOrder Err', e)
+        this.$bus.$emit('notification-progress-stop');
+        this.$store.dispatch('notification/spawnNotification', {
+          type: 'error',
+          message: this.$t('Placing the order failed, please contact support!'),
+          action1: { label: this.$t('OK') }
         })
+      }
     },
     // Created function by shabbir for make payment
     ProCCOrderPayment (order_ids) {
@@ -537,12 +565,16 @@ export default {
         })
       })
     },
-    // Created function by shabbir for place order in magento
-    PlaceMagentoOrder (payment_data) {
-      if (payment_data && payment_data.transactionId) {
-        this.mangopay_transaction_id = payment_data.transactionId
+    // Created function by Shabbir for place order in magento
+    async PlaceMagentoOrder (payment_data) {
+      try {
+        if (payment_data && payment_data.transactionId) {
+          this.mangopay_transaction_id = payment_data.transactionId
+        }
+        await this.$store.dispatch('checkout/placeOrder', {order: await this.prepareProCCOrder()})
+      } catch (e) {
+        console.log('PlaceMagentoOrder Error', e)
       }
-      this.$store.dispatch('checkout/placeOrder', {order: this.prepareProCCOrder()})
     },
     savePersonalDetails () {
       this.$store.dispatch('checkout/savePersonalDetails', this.personalDetails)

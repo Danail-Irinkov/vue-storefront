@@ -24,9 +24,9 @@ const actions: ActionTree<OrderState, RootState> = {
    */
   async placeOrder ({ commit, getters, dispatch }, newOrder: Order) {
     // Check if order is already processed/processing
+    console.log('placeOrder newOrder', newOrder)
     const optimizedOrder = optimizeOrder(newOrder)
-    console.log('newOrder', newOrder)
-    console.log('optimizedOrder', optimizedOrder)
+    console.log('placeOrder optimizedOrder', optimizedOrder)
     const currentOrderHash = sha3_224(JSON.stringify(optimizedOrder))
     const isAlreadyProcessed = getters.getSessionOrderHashes.includes(currentOrderHash)
     if (isAlreadyProcessed) return

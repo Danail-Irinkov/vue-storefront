@@ -52,7 +52,7 @@ const actions: ActionTree<UserState, RootState> = {
    * Login user and return user profile and current token
    */
   async login ({ commit, dispatch }, { email, password }) {
-    console.log('BEFORE UserService.login', email, password)
+    // console.log('BEFORE UserService.login', email, password)
     // Edited by shabbir for login customer in procc
     const resp = await ProCcApi().VSFCustomerLogin({email: email, password})
     let user = resp.data.user

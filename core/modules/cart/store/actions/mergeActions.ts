@@ -130,7 +130,31 @@ const mergeActions = {
   },
   async mergeClientItems ({ dispatch }, { clientItems, serverItems, forceClientState, dryRun }) {
     const diffLog = createDiffLog()
-    for (const clientItem of clientItems) {
+
+    // Added by Dan to merge the quantities of same SKU items added separately
+    let cl_items_sofar = {}
+    for (let clientItem of clientItems) {
+      if (cl_items_sofar[clientItem.procc_product_id]
+        && cl_items_sofar[clientItem.procc_product_id].procc_product_id === clientItem.procc_product_id
+        && cl_items_sofar[clientItem.procc_product_id].sku === clientItem.sku
+        && cl_items_sofar[clientItem.procc_product_id].price === clientItem.price
+        && cl_items_sofar[clientItem.procc_product_id].size === clientItem.size
+      ){
+        console.log('Merging clientItem1', cl_items_sofar[clientItem.procc_product_id])
+        console.log('Merging clientItem2', clientItem)
+        //Update 1st CartItem's quantity + product2.qty
+        cl_items_sofar[clientItem.procc_product_id].qty += clientItem.qty
+        forceClientState = true
+        // Remove 2nd from cart
+        dispatch('cart/removeItem', { product: clientItem })
+
+        // Merge change to clientItem1
+        clientItem = cl_items_sofar[clientItem.procc_product_id]
+      } else {
+        cl_items_sofar[clientItem.procc_product_id] = clientItem
+      }
+      // Added by Dan to merge the quantities of same SKU items added separately - END
+
       try {
         const mergeClientItemDiffLog = await dispatch('mergeClientItem', { clientItem, serverItems, forceClientState, dryRun })
         diffLog.merge(mergeClientItemDiffLog)
