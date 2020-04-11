@@ -218,6 +218,7 @@ import BaseCheckbox from 'theme/components/core/blocks/Form/BaseCheckbox'
 import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import { required, minLength } from 'vuelidate/lib/validators'
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 
 export default {
   name: 'ThankYouPage',
@@ -257,7 +258,7 @@ export default {
       let total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.total; });
       total = (total / 100).toFixed(2)
       let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.shipping_fee; });
-      shipping_fee = (shipping_fee).toFixed(2)
+      shipping_fee = (shipping_fee / 100).toFixed(2)
       let VAT = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.VAT; });
       VAT = (VAT / 100).toFixed(2)
       summary_data.push({code: 'subtotal', title: 'Subtotal', value: sub_total})
@@ -307,16 +308,14 @@ export default {
     sendFeedback () {
       console.log('this.email', this.email)
       console.log('this.mailerElements', this.mailerElements)
-      this.sendEmail(
-        {
-          sourceAddress: this.email,
-          targetAddress: this.mailerElements,
-          subject: this.$t('What can we improve?'),
-          emailText: this.feedback
-        },
-        this.onSuccess,
-        this.onFailure
-      )
+      ProCcApi().saveFeedback({
+        customer_id: this.lastOrderConfirmation.orders[0].customer_user._id,
+        message: this.feedback
+      }).then((result) => {
+        this.onSuccess()
+      }).catch((err) => {
+        this.onFailure()
+      })
     },
     onSuccess (message) {
       this.$store.dispatch('notification/spawnNotification', {

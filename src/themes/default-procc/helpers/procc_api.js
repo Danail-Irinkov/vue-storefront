@@ -226,6 +226,7 @@ export default (baseURL = '') => {
   const getCountriesList = () => api.get(`country/getCountriesList`)
   const getCitiesList = (country_id, query) => api.get(`address/getCitiesList`, { params: { country_id, query}})
   const getStreetList = (site_id, query) => api.get(`address/getStreetList`, {params:{site_id, query }})
+  const saveFeedback = (data) => api.post(`feedback/saveFeedback`,data)
 
   return {
     addNewOrder,
@@ -257,6 +258,7 @@ export default (baseURL = '') => {
     cancelOrder,
     getCountriesList,
     getCitiesList,
-    getStreetList
+    getStreetList,
+    saveFeedback
   }
 }
