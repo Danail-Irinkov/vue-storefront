@@ -1,4 +1,4 @@
-import { price } from './price'
+import { price, mangopay_price } from './price'
 import { htmlDecode } from './html-decode'
 import { date } from './date'
 import { capitalize } from './capitalize'
@@ -8,6 +8,7 @@ import { stripHTML } from './strip-html'
 
 export {
   price,
+  mangopay_price,
   htmlDecode,
   date,
   capitalize,

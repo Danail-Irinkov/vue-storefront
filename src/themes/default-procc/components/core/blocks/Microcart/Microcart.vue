@@ -80,7 +80,7 @@
           {{ segment.title }}
           <ul style="font-size: 14px" v-if="segment.value">
             <li v-for="data in segment.value" :key="data.id">
-              {{ data.name }} ({{ data.cost | price }})
+              {{ data.name }} ({{ data.cost | mangopay_price }})
             </li>
           </ul>
           <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">

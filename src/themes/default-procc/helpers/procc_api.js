@@ -142,10 +142,11 @@ export default (baseURL = '') => {
   }
   const updateShippingMethodsFromProCC = (data) => api.post(`shipping-method/updateShippingMethodsFromProCC`, data)
     .then(async (result) => {
+      // console.log('updateShippingMethodsFromProCC result', result)
       let default_shipping_methods = {}
       let shipping_methods = {}
       let selected_shipping_methods = store.getters['checkout/getSelectedShippingMethods']
-      console.log('updateShippingMethodsFromProCC result.data.shipping_methods.length', result.data.shipping_methods.length)
+        console.log('updateShippingMethodsFromProCC result.data.shipping_methods.length', result.data.shipping_methods)
       console.log('updateShippingMethodsFromProCC selected_shipping_methods.length', selected_shipping_methods.length)
 
       for (let brand_id in result.data.shipping_methods) {
@@ -178,6 +179,7 @@ export default (baseURL = '') => {
         }
       }
       // console.log('store.getters[checkout/getSelectedShippingMethods]', store.getters['checkout/getSelectedShippingMethods'])
+      console.log('selected_shipping_methods', selected_shipping_methods)
       console.log('default_shipping_methods', default_shipping_methods)
       if(default_shipping_methods[0])
       console.log('default_shipping_methods.cost', default_shipping_methods[0].cost)

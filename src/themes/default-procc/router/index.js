@@ -38,7 +38,7 @@ let routes = [
   // Store Routes
   { name: 'about-us', path: '/about-us', component: Static, props: {page: 'about-us', title: 'About us'} },
   { name: 'delivery', path: '/delivery', component: Static, props: {page: 'delivery', title: 'Delivery'} },
-  { name: 'warranty', path: '/privacy', component: Static, props: {page: 'privacy', title: 'Privacy'} },
+  { name: 'privacy', path: '/privacy', component: Static, props: {page: 'privacy', title: 'Privacy'} },
   { name: 'warranty', path: '/warranty', component: Static, props: {page: 'warranty', title: 'Warranty'} },
   { name: 'contact', path: '/contact', component: Static, props: {page: 'contact', title: 'Contact'} },
   // { name: 'customer-service', path: '/customer-service', component: Static, props: {page: 'lorem', title: 'Customer service'} },

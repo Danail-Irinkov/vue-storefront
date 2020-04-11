@@ -44,8 +44,8 @@
               {{ method.estimated_delivery_period }} {{ $t('Days') }}
             </td>
             <td class="fs-medium lh25 align-right" :data-th="$t('Cost')">
-              <span v-if="method.cost > 0">{{ method.cost | price }}</span>
-              <span v-else-if="getSelectedShippingMethods[storeBrandId].name === method.name && getSelectedShippingMethods[storeBrandId].cost > 0">{{ getSelectedShippingMethods[storeBrandId].cost | price }}</span>
+              <span v-if="method.cost > 0">{{ method.cost | mangopay_price }}</span>
+              <span v-else-if="getSelectedShippingMethods[storeBrandId].name === method.name && getSelectedShippingMethods[storeBrandId].cost > 0">{{ getSelectedShippingMethods[storeBrandId].cost | mangopay_price }}</span>
               <span v-else>{{ $t('Calculated') }}</span>
             </td>
             <td class="fs-medium lh25" :data-th="$t('Tracking')">
