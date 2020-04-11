@@ -33,3 +33,12 @@ export function price (value) {
     return '-' + valueWithSign;
   }
 }
+
+/**
+ * Converts number to price string
+ * @param {Number} value
+ */
+export function mangopay_price (value) {
+  let mangopay_edited_value = value / 100
+  return price(mangopay_edited_value)
+}

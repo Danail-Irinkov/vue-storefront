@@ -23,7 +23,7 @@
         {{ $t(segment.title) }} ({{ $t(segment.country) }})
         <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary" class="shipping-method-attributes">
           <li v-for="(data, key) in segment.extension_attributes" :key="key">
-            {{ $t(data.name) }} ({{ data.cost | price }})
+            {{ $t(data.name) }} ({{ data.cost | mangopay_price }})
           </li>
         </ul>
         <button v-if="appliedCoupon && segment.code === 'discount'" type="button" class="p0 brdr-none bg-cl-transparent close delete-button ml10" @click="clearCoupon">

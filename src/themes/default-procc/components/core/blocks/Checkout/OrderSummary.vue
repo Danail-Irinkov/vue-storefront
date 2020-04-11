@@ -18,7 +18,7 @@
         {{ segment.title }}
         <ul style="font-size: 14px" v-if="segment.extension_attributes && !loadingSummary" class="shipping-method-attributes">
           <li v-for="(data, key) in segment.extension_attributes" :key="key">
-            {{ data.name }} ({{ data.cost | price }})
+            {{ data.name }} ({{ data.cost | mangopay_price }})
           </li>
         </ul>
       </div>
