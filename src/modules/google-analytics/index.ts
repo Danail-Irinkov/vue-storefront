@@ -14,9 +14,9 @@ const googleAnalyticsStore = {
 export const GoogleAnalyticsModule: StorefrontModule = function ({store, router, appConfig}) {
   // console.log('GoogleAnalyticsModule appConfig', appConfig)
   // console.log('Google Analytics Starting up with id1: ', appConfig.analytics.id)
-  if (appConfig.analytics.id && !isServer && process.env.NODE_ENV === 'development') {
+  if (appConfig.analytics.id && !isServer && process.env.NODE_ENV === 'production') {
     once('__VUE_EXTEND_ANALYTICS__', () => {
-      console.log('Google Analytics Starting up with id2: ', appConfig.analytics.id)
+      // console.log('Google Analytics Starting up with id2: ', appConfig.analytics.id)
       Vue.use(VueAnalytics, {
         id: appConfig.analytics.id,
         router,
