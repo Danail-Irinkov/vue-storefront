@@ -717,7 +717,7 @@
     "id": "G-MPR00HXFB6"
   },
   "googleTagManager": {
-    "id": false,
+    "id": "GTM-NJH7FK8",
     "debug": true,
     "product_attributes": [
       "name",
@@ -732,7 +732,7 @@
     ]
   },
   "hotjar": {
-    "id": false
+    "id": "1765559"
   },
   "cms": {
     "endpoint": "https://store.procc.co/api/ext/cms-data/cms{{type}}/{{cmsId}}",
