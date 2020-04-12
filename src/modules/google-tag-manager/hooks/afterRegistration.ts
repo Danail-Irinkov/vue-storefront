@@ -10,7 +10,7 @@ export const isEnabled = (gtmId: string | null) => {
 
 export function afterRegistration (config, store: Store<any>) {
   if (isEnabled(config.googleTagManager.id)) {
-    const GTM: VueGtm = (Vue as any).gtm
+    const GTM: VueGtm = (Vue as any).gtm || (Vue as any).$gtm
 
     const storeView = currentStoreView()
     const currencyCode = storeView.i18n.currencyCode
@@ -42,7 +42,7 @@ export function afterRegistration (config, store: Store<any>) {
 
     store.subscribe(({ type, payload }, state) => {
       // Adding a Product to a Shopping Cart
-      if (type === 'cart/cart/ADD') {
+      if (type === 'cart/cart/ADD' && GTM && GTM.trackEvent) {
         GTM.trackEvent({
           event: 'addToCart',
           ecommerce: {
@@ -55,7 +55,7 @@ export function afterRegistration (config, store: Store<any>) {
       }
 
       // Removing a Product from a Shopping Cart
-      if (type === 'cart/cart/DEL') {
+      if (type === 'cart/cart/DEL' && GTM && GTM.trackEvent) {
         GTM.trackEvent({
           event: 'removeFromCart',
           ecommerce: {
@@ -67,7 +67,7 @@ export function afterRegistration (config, store: Store<any>) {
       }
 
       // Measuring Views of Product Details
-      if (type === 'product/product/SET_PRODUCT_CURRENT') {
+      if (type === 'product/product/SET_PRODUCT_CURRENT' && GTM && GTM.trackEvent) {
         GTM.trackEvent({
           ecommerce: {
             detail: {
@@ -88,7 +88,7 @@ export function afterRegistration (config, store: Store<any>) {
         ).then(() => {
           const orderHistory = state.user.orders_history
           const order = orderHistory.items.find((order) => order['entity_id'].toString() === orderId)
-          if (order) {
+          if (order && GTM && GTM.trackEvent) {
             GTM.trackEvent({
               'ecommerce': {
                 'purchase': {
