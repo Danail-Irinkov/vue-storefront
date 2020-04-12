@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 // const jwtPrivateKey = require('../../config/jwt.jst')
 const config = require('config')
 let jwt_token = require('../../config/jwt_es5')()
-console.log('procc_api_es5 config', config)
+// console.log('procc_api_es5 config', config)
 // console.log('jwt_token', jwt_token)
 // const jwt_token = require('@vue-storefront/config/jwt_es5')
 const SBuffer = require('safer-buffer')
@@ -49,7 +49,7 @@ module.exports = (baseURL = '') => {
     private_key = Buff.toString('ascii')
     /* eslint-disable */
   }
-  console.log('private_key after ENV: ', private_key)
+  // console.log('private_key after ENV: ', private_key)
   if (!private_key || private_key === 'NO TOKEN') throw new Error('No JWT API TOKEN SUPPLIED')
   const createToken = (brandId) => jwt.sign({ brand_id: brandId },
     private_key, {
