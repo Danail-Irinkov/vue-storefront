@@ -40,7 +40,7 @@ module.exports = (config, app) => {
     // set Store Policies
     setStorePolicies(config, storeData);
     // set Main Image
-    console.log('setStoreMainImage', storeData, 'setStoreMainImage')
+    // console.log('setStoreMainImage', storeData, 'setStoreMainImage')
     setStoreMainImage(config, storeData);
 
     // set Store Categories - DISABLED DUE TO also running it separately in /category-link
@@ -351,7 +351,7 @@ function setStoreData (config, storeData) {
 }
 
 function stringifyTags (tags_obj) {
-  if (!isObject(tags_obj)) return String(tags_obj);
+  if (!_.isObject(tags_obj)) return String(tags_obj);
 
   let tags_string = ''
   for (let key in tags_obj) {
