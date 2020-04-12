@@ -11,8 +11,6 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { RouterManager } from './lib/router-manager';
 import queryString from 'query-string'
 
-console.log('server- entry config', config)
-
 function _commonErrorHandler (err, reject) {
   if (err.message.indexOf('query returned empty result') > 0) {
     reject(new HttpError(err.message, 404))
