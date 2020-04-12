@@ -15,7 +15,7 @@
       </div>
       <div v-if="segment.value != null" class="col-xs align-right">
         <spinner v-if="loadingSummary" />
-        <span v-else>{{ segment.value | price }}</span>
+        <span v-else>{{ segment.value | mangopay_price }}</span>
       </div>
     </div>
     <div v-for="(segment, index) in summaryData" :key="index" class="row p10" v-if="segment.code === 'shipping'">
@@ -34,7 +34,7 @@
       </div>
       <div class="col-xs align-right">
         <spinner v-if="loadingSummary" />
-        <span v-else>{{ segment.value | price }}</span>
+        <span v-else>{{ segment.value | mangopay_price }}</span>
       </div>
     </div>
 
@@ -65,7 +65,7 @@
       </div>
       <div class="col-xs align-right h2 total-price-value">
         <spinner v-if="loadingSummary" />
-        <span v-else>{{ segment.value | price }}</span>
+        <span v-else>{{ segment.value | mangopay_price }}</span>
       </div>
     </div>
     <div v-for="(segment, index) in summaryData" :key="index" class="row p10" style="margin-top: -20px;" v-if="segment.code === 'tax'">
@@ -75,7 +75,7 @@
       </div>
       <div v-if="segment.value != null" class="col-xs align-right">
         <spinner v-if="loadingSummary" />
-        <span v-else>{{ segment.value | price }}</span>
+        <span v-else>{{ segment.value | mangopay_price }}</span>
       </div>
     </div>
   </div>

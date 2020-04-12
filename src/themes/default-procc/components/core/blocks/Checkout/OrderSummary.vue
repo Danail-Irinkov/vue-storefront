@@ -9,7 +9,7 @@
       </div>
       <div v-if="segment.value != null" class="col-xs align-right cl-accent h4">
         <spinner v-if="loadingSummary" />
-        <span v-else>{{ segment.value | price }}</span>
+        <span v-else>{{ segment.value | mangopay_price }}</span>
       </div>
     </div>
 
@@ -24,7 +24,7 @@
       </div>
       <div v-if="segment.value != null" class="col-xs align-right cl-accent h4">
         <spinner v-if="loadingSummary" />
-        <span v-else>{{ segment.value | price }}</span>
+        <span v-else>{{ segment.value | mangopay_price }}</span>
       </div>
     </div>
 
@@ -37,7 +37,7 @@
       <div class="col-xs align-right">
         <h3 class="order-sum">
           <spinner v-if="loadingSummary" />
-          <span v-else>{{ segment.value | price }}</span>
+          <span v-else>{{ segment.value | mangopay_price }}</span>
         </h3>
       </div>
     </div>

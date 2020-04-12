@@ -73,9 +73,9 @@
       <div class="row">
         <div class="col-md-6 address">
           <div class="bg-cl-secondary p10" style="min-height: 212px">
-            <h4 class="m0">
+            <h3 class="m0 p10 mb10 weight-400 summary-heading">
               {{ $t("Shipping Address") }}
-            </h4>
+            </h3>
             <address-block class-name="px10" :address="lastOrderConfirmation.orders[0].address" v-if="lastOrderConfirmation.orders[0] && lastOrderConfirmation.orders[0].address" />
           </div>
         </div>
@@ -254,13 +254,13 @@ export default {
       // TODO: Fix Order Summary NUMBERS!!
       let summary_data = []
       let sub_total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.products_total; });
-      sub_total = (sub_total / 100).toFixed(2)
+      // sub_total = (sub_total / 100).toFixed(2)
       let total = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.total; });
-      total = (total / 100).toFixed(2)
+      // total = (total / 100).toFixed(2)
       let shipping_fee = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.shipping_fee; });
-      shipping_fee = (shipping_fee / 100).toFixed(2)
+
       let VAT = _.sumBy(this.lastOrderConfirmation.orders, (o) => { return o.VAT; });
-      VAT = (VAT / 100).toFixed(2)
+      // VAT = (VAT / 100).toFixed(2)
       summary_data.push({code: 'subtotal', title: 'Subtotal', value: sub_total})
       summary_data.push({code: 'shipping_fee', title: 'Shipping Fee', value: shipping_fee})
       summary_data.push({code: 'VAT', title: 'VAT (Included)', value: VAT})
@@ -295,7 +295,7 @@ export default {
     getShipmentData (orderData) {
       let shipment_data = orderData.shipping_method
       if (!shipment_data.cost) {
-        shipment_data.cost = (parseFloat(orderData.shipping_fee) / 100).toFixed(2)
+        shipment_data.cost = orderData.shipping_fee
       }
       return shipment_data
     },
