@@ -37,7 +37,7 @@ const storeCodeFromRoute = (matchedRouteOrUrl: LocalizedRoute | RawLocation | st
 
   for (let storeCode of config.storeViews.mapStoreUrlsFor) {
     const store = config.storeViews[storeCode]
-
+    if (!store) continue // Added By dan
     if (isMatchingByPath(matchedRouteOrUrl, store) || isMatchingByDomainAndPath(matchedRouteOrUrl, store)) {
       return storeCode
     }

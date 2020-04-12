@@ -12,7 +12,7 @@ const googleAnalyticsStore = {
 }
 
 export const GoogleAnalyticsModule: StorefrontModule = function ({store, router, appConfig}) {
-  if (appConfig.analytics.id && !isServer) {
+  if (appConfig.analytics.id && !isServer && process.env.NODE_ENV === 'production') {
     once('__VUE_EXTEND_ANALYTICS__', () => {
       Vue.use(VueAnalytics, {
         id: appConfig.analytics.id,

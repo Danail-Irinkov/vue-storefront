@@ -15,15 +15,17 @@ import {AmpRendererModule} from './amp-renderer';
 import {PaymentBackendMethodsModule} from './payment-backend-methods'
 import {PaymentCashOnDeliveryModule} from './payment-cash-on-delivery'
 import {NewsletterModule} from '@vue-storefront/core/modules/newsletter'
+import {registerModule} from '@vue-storefront/core/lib/modules'
 // Procc Modules
 import {ProCCStore} from './procc-store';
-import {registerModule} from '@vue-storefront/core/lib/modules'
+import {GoogleAnalyticsModule} from './google-analytics';
 // Procc Modules - END
 
 // TODO:distributed across proper pages BEFORE 1.11
 export function registerClientModules () {
   // Procc Modules
   registerModule(ProCCStore);
+  registerModule(GoogleAnalyticsModule);
   // Procc Modules - END
   registerModule(UrlModule);
   registerModule(CatalogModule);
