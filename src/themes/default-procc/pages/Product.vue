@@ -601,7 +601,7 @@ export default {
     stringifyTags (tags_obj) {
       if (!isObject(tags_obj)) return String(tags_obj);
 
-      console.log('stringifyTags tags_obj', tags_obj)
+      // console.log('stringifyTags tags_obj', tags_obj)
       let tags_string = ''
       for (let key in tags_obj) {
         const tcat = tags_obj[key]

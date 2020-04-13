@@ -9,6 +9,11 @@ const ProCCAPI = require('./procc_api_es5.js')();
 console.log('ProCCAPI.getStoreData', ProCCAPI.getStoreData)
 // !!!!! CORE MODULES AREN'T TRIGGERING HOT-RELOAD !!!!!
 
+// CSV PROCESSING
+const csv = require('csv-parser');
+const fs = require('fs');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+
 let storefrontConfig;
 if (process.env.NODE_ENV === 'development') {
   storefrontConfig = new Store({path: path.resolve('./config/local.json')});
@@ -18,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 console.log('START process.env.NODE_ENV: ', process.env.NODE_ENV);
 // console.log('START storefrontConfig: ', storefrontConfig.clone());
 console.log('START storefrontConfig: ');
-
+let fileWritePromise = null
 module.exports = (config, app) => {
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
@@ -26,6 +31,107 @@ module.exports = (config, app) => {
   app.get('/health', (req, res) => {
     try {
       return apiStatus(res, 'ProCC VSF Online', 200);
+    } catch (e) {
+      return apiStatus(res, e, 502);
+    }
+  });
+
+  app.get('/translateTranslation', async (req, res) => {
+    try {
+      let file_name = './docker/out.csv'
+
+      let data = []
+      fs.createReadStream(file_name)
+        .pipe(csv())
+        .on('data', (row) => {
+          // console.log('ProCCMissingTranslationHandler row', row);
+          for (let key in row){
+            let value
+            if (row[key].indexOf('"') <= 0)
+              value = '"'+row[key]+'"'
+            else
+              value = row[key]
+
+            if (value){
+              data.push({key: value, value})
+            }
+          }
+        })
+        .on('end', async () => {
+          console.log('CSV file reading done', data);
+
+          let translated_data = await ProCCAPI.translateJSONArray(data)
+          const csvWriter = createCsvWriter({
+            path: './docker/out_translated.csv',
+            alwaysQuote : true,
+            header: [
+              {id: 'key', title: 'keys'},
+              {id: 'value', title: 'values'},
+            ]
+          })
+
+          return csvWriter()
+            .writeRecords(translated_data)
+            .then(() => {
+              console.log('The CSV file was written')
+              resolve(apiStatus(res, 'Translation Translated and Saved', 200))
+            })
+        })
+    } catch (e) {
+      return apiStatus(res, e, 502);
+    }
+  });
+
+  app.post('/fillInMissingTranslation', async (req, res) => {
+    try {
+      const oldPromise = _.cloneDeep(fileWritePromise)
+      fileWritePromise = new Promise(async (resolve, reject) => {
+        if(oldPromise) await oldPromise
+        try {
+          let locale = req.body.locale
+          let missingText = req.body.missingText
+          console.log('MissingTranslation input', locale, missingText)
+          let file_path = './core/i18n/resource/i18n/'
+          let input_file_path = file_path + locale + '.csv'
+          let output_file_path = './docker/out.csv'
+          let original_data = await convertCSVToJSON(input_file_path)
+          let extracted_data = [{value: 'asd'}]
+
+          if(fs.existsSync('./docker/out.csv')){
+            extracted_data = await convertCSVToJSON(output_file_path)
+          }
+          let append_data = []
+
+          if(!_.some(original_data, (node)=> node.value === missingText)
+            && !_.some(extracted_data, (node)=> node.value === missingText)) {
+            append_data.push({
+              key: String(missingText),
+              value: String(missingText)
+            })
+            const csvWriter = createCsvWriter({
+              path: output_file_path,
+              alwaysQuote: true,
+              append: true,
+              header: [
+                {id: 'key', title: 'keys'},
+                {id: 'value', title: 'values'},
+              ]
+            })
+
+            return csvWriter
+              .writeRecords(append_data)
+              .then(() => {
+                // console.log('The CSV file was written')
+                resolve(apiStatus(res, 'Translation Added', 200))
+              })
+          } else {
+            resolve(apiStatus(res, 'Translation Skipped', 200))
+          }
+        }catch (e) {
+          console.log('Error: failed to write csv')
+          reject(e)
+        }
+      })
     } catch (e) {
       return apiStatus(res, e, 502);
     }
@@ -538,4 +644,25 @@ testKebab();
 function restartVueStorefrontDevDocker () {
   console.log(' == RESTARTING Vuestorefront Docker Dev ==');
   return exec('pm2', [ 'restart', '0' ], { shell: true });
+}
+
+function convertCSVToJSON (file_name) {
+  let data = []
+  return new Promise(async (resolve, reject) => {
+    fs.createReadStream(file_name)
+      .pipe(csv())
+      .on('data', (row) => {
+        // console.log('ProCCMissingTranslationHandler row', row);
+        for (let key in row){
+          let value = String(row[key])
+          data.push({key: value, value})
+        }
+      })
+      .on('end', () => {
+        resolve(data)
+      })
+      .on('error', (e) => {
+        reject(e)
+      })
+  })
 }

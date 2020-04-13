@@ -71,6 +71,7 @@ module.exports = (baseURL = '') => {
   // const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
   // const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
   const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
+  const translateJSONArray = (data) => api.post('translateJSONArray', data)
 
   return {
     // addNewOrder,
@@ -80,6 +81,7 @@ module.exports = (baseURL = '') => {
     // updateTransactionStatus,
     // updateVsfSyncStatus,
     // saveTransactionInOrder,
-    getStoreData
+    getStoreData,
+    translateJSONArray
   }
 }
