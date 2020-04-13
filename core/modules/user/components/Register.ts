@@ -30,13 +30,9 @@ export const Register = {
         Logger.debug(result, 'user')()
         // TODO Move to theme
         this.$bus.$emit('notification-progress-stop')
-
         // Edited by shabbir for display proper message after customer register
         if (result.message_type === 'success') {
-          this.onSuccess()
           this.close()
-        } else {
-          this.onFailure({result: result.message})
         }
       }).catch(err => {
         // TODO Move to theme
