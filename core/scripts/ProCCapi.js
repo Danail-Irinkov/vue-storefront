@@ -38,45 +38,31 @@ module.exports = (config, app) => {
 
   app.get('/translateTranslation', async (req, res) => {
     try {
-      let file_name = './docker/out.csv'
+      if (process.env.NODE_ENV === 'development') {
+        let file_name = './temp/out.csv'
+        let lang = 'bg'
+        let source_array = await convertCSVToJSONArray(file_name)
+        let translated_data = (await ProCCAPI.translateJSONArray({lang, source_array})).data.translated_data
 
-      let data = []
-      fs.createReadStream(file_name)
-        .pipe(csv())
-        .on('data', (row) => {
-          // console.log('ProCCMissingTranslationHandler row', row);
-          for (let key in row){
-            let value
-            if (row[key].indexOf('"') <= 0)
-              value = '"'+row[key]+'"'
-            else
-              value = row[key]
-
-            if (value){
-              data.push({key: value, value})
-            }
-          }
+        let output_path = './temp/out_translated.csv'
+        if (fs.existsSync(output_path)) {
+          output_path = output_path.replace('.csv', '_' + Math.random().toFixed(3) * 1000 + '.csv')
+        }
+        const csvWriter = createCsvWriter({
+          path: output_path,
+          alwaysQuote: true,
+          header: [
+            {id: 'key', title: 'keys'},
+            {id: 'value', title: 'values'},
+          ]
         })
-        .on('end', async () => {
-          console.log('CSV file reading done', data);
 
-          let translated_data = await ProCCAPI.translateJSONArray(data)
-          const csvWriter = createCsvWriter({
-            path: './docker/out_translated.csv',
-            alwaysQuote : true,
-            header: [
-              {id: 'key', title: 'keys'},
-              {id: 'value', title: 'values'},
-            ]
-          })
-
-          return csvWriter()
-            .writeRecords(translated_data)
-            .then(() => {
-              console.log('The CSV file was written')
-              resolve(apiStatus(res, 'Translation Translated and Saved', 200))
-            })
-        })
+        await csvWriter.writeRecords(translated_data)
+        console.log('The CSV file was written')
+        apiStatus(res, 'Translation Translated and Saved', 200)
+      } else {
+        return apiStatus(res, 'Not working in Production', 502);
+      }
     } catch (e) {
       return apiStatus(res, e, 502);
     }
@@ -93,12 +79,12 @@ module.exports = (config, app) => {
           console.log('MissingTranslation input', locale, missingText)
           let file_path = './core/i18n/resource/i18n/'
           let input_file_path = file_path + locale + '.csv'
-          let output_file_path = './docker/out.csv'
-          let original_data = await convertCSVToJSON(input_file_path)
+          let output_file_path = './temp/out.csv'
+          let original_data = await convertCSVToJSONArray(input_file_path)
           let extracted_data = [{value: 'asd'}]
 
-          if(fs.existsSync('./docker/out.csv')){
-            extracted_data = await convertCSVToJSON(output_file_path)
+          if(fs.existsSync('./temp/out.csv')){
+            extracted_data = await convertCSVToJSONArray(output_file_path)
           }
           let append_data = []
 
@@ -646,7 +632,7 @@ function restartVueStorefrontDevDocker () {
   return exec('pm2', [ 'restart', '0' ], { shell: true });
 }
 
-function convertCSVToJSON (file_name) {
+function convertCSVToJSONArray (file_name) {
   let data = []
   return new Promise(async (resolve, reject) => {
     fs.createReadStream(file_name)

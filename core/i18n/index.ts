@@ -21,18 +21,19 @@ once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)
 })
 
-const loadedLanguages = ['en-US']
+const loadedLanguages = ['en-US', 'bg-BG']
 //VueI18n.MissingHandler
 const ProCCMissingTranslationHandler = (locale: string, missingText: string): void => {
-  console.log('Translation Missing', missingText)
-  console.log('Translation Locale', locale)
-  api.post('fillInMissingTranslation', {locale, missingText})
-    .then((res)=>{
-      console.log('fillInMissingTranslation RES: ', res.status)
-    })
-    .catch((e)=>{
-      console.log('fillInMissingTranslation Error', e)
-    })
+  console.log('Translation Translation', locale, missingText)
+  if (process.env.NODE_ENV === 'development') {
+    api.post('fillInMissingTranslation', {locale, missingText})
+      .then((res)=>{
+        console.log('fillInMissingTranslation RES: ', res.status)
+      })
+      .catch((e)=>{
+        console.log('fillInMissingTranslation Error', e)
+      })
+  }
 }
 const i18n = new VueI18n({
   locale: config.i18n.bundleAllStoreviewLanguages ? config.i18n.defaultLocale : 'en-US', // set locale

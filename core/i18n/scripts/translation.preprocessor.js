@@ -8,7 +8,8 @@ const { currentBuildLocales } = require('../helpers')
  *  Converts an Array to an Object
  */
 function convertToObject (array) {
-  const obj = []
+  // console.log('convertToObject array', array)
+  const obj = {} // Modified by Dan ProCC
   array.forEach((element, index, array) => {
     obj[element[0]] = element[1]
   })

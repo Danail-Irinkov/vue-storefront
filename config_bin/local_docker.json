@@ -711,6 +711,7 @@
     "defaultLanguage": "EN",
     "availableLocale": [
       "en-US",
+      "bg-BG",
       "de-DE",
       "fr-FR",
       "es-ES",
@@ -723,8 +724,8 @@
       "cs-CZ"
     ],
     "defaultLocale": "en-US",
-    "currencyCode": "USD",
-    "currencySign": "$",
+    "currencyCode": "EUR",
+    "currencySign": "€",
     "priceFormat": "{sign}{amount}",
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "United States",

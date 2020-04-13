@@ -675,6 +675,7 @@
     "defaultLanguage": "EN",
     "availableLocale": [
       "en-US",
+      "bg-BG",
       "de-DE",
       "fr-FR",
       "es-ES",

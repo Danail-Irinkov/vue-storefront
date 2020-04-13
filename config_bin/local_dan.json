@@ -2,7 +2,7 @@
   "PROCC": {
     "API": "http://localhost:8081",
     "URL": "http://localhost:8081",
-    "FRONT_URL": "http://procc.co"
+    "FRONT_URL": "http://localhost:8443"
   },
   "server": {
     "url": "http://localhost:3000",
@@ -92,8 +92,8 @@
   },
   "elasticsearch": {
     "httpAuth": "",
-    "host": "/api/catalog",
-    "host_backend": "http://localhost:8080/api/catalog",
+    "host": "http://localhost:8080/api/catalog",
+    "host_backend": "http://localhost:8080",
     "index": "vue_storefront_catalog",
     "min_score": 0.02,
     "csrTimeout": 5000,
@@ -205,8 +205,9 @@
     "multistore": true,
     "commonCache": true,
     "dev": {
+      "store_brand_id": "5dfd22ae43f1670037a23fac",
+      "store_brand_tags": "undefined",
       "storeCode": "dev",
-      "storeName": "Dev Acc Store",
       "disabled": false,
       "storeId": 72,
       "name": "Dev Acc Store",
@@ -225,7 +226,37 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "Bulgaria",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "ali": {
+      "store_brand_id": "5e207aec4af97200369e834c",
+      "storeCode": "ali",
+      "storeName": "Alina Volkanova Store",
+      "disabled": false,
+      "storeId": 86,
+      "name": "Alina Volkanova Store",
+      "url": "/ali",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_ali"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -234,6 +265,7 @@
       }
     },
     "judy": {
+      "store_brand_id": "5d90a9d22299492798f443ef",
       "storeCode": "judy",
       "storeName": "Test Judy Store",
       "disabled": false,
@@ -246,7 +278,7 @@
         "index": "vue_storefront_catalog_judy"
       },
       "tax": {
-        "defaultCountry": "Bulgaria",
+        "defaultCountry": "BG",
         "defaultRegion": "",
         "calculateServerSide": true,
         "sourcePriceIncludesTax": false
@@ -254,7 +286,7 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
-        "defaultCountry": "Bulgaria",
+        "defaultCountry": "BG",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -262,22 +294,21 @@
         "dateFormat": "HH:mm D-M-YYYY"
       }
     },
-    "mapStoreUrlsFor": [
-      "dev",
-      "judy",
-      "aa"
-    ],
-    "aa": {
-      "storeCode": "aa",
-      "storeName": "Mashup Store",
+    "vent": {
+      "store_brand_id": "5e17d096328f5f4168a7096a",
+      "store_brand_name": "VenT",
+      "store_brand_tags": "male",
+      "is_test": false,
+      "storeCode": "vent",
+      "storeName": "VenT",
       "disabled": false,
-      "storeId": 68,
-      "name": "Mashup Store",
-      "url": "/aa",
+      "storeId": 75,
+      "name": "Ven T Store",
+      "url": "/vent",
       "appendStoreCode": true,
       "elasticsearch": {
         "host": "http://localhost:8080/api/catalog",
-        "index": "vue_storefront_catalog_aa"
+        "index": "vue_storefront_catalog_vent"
       },
       "tax": {
         "defaultCountry": "Bulgaria",
@@ -288,7 +319,366 @@
       "i18n": {
         "fullCountryName": "Bulgaria",
         "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "volkky": {
+      "store_brand_id": "5d750b32f9761526e6a642a4",
+      "storeCode": "volkky",
+      "storeName": "Volkyyz Store",
+      "disabled": false,
+      "storeId": 71,
+      "name": "Volkyyz Store",
+      "url": "/volkky",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_volkky"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "judysstore": {
+      "store_brand_id": "5d90a9d22299492798f443ef",
+      "storeCode": "judysstore",
+      "storeName": "Test Judy Store",
+      "disabled": false,
+      "storeId": 87,
+      "name": "Test Judy Store",
+      "url": "/judysstore",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_judysstore"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "alina": {
+      "store_brand_id": "5e207aec4af97200369e834c",
+      "storeCode": "alina",
+      "storeName": "Alina Volkanova Store",
+      "disabled": false,
+      "storeId": 88,
+      "name": "Alina Volkanova Store",
+      "url": "/alina",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_alina"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "yolo_2": {
+      "store_brand_id": "5e1b25c746e32d003778f0ff",
+      "store_brand_name": "Yolo",
+      "store_brand_tags": "female",
+      "is_test": false,
+      "storeCode": "yolo_2",
+      "storeName": "Yolo",
+      "disabled": false,
+      "storeId": 82,
+      "name": "Yolo Store",
+      "url": "/yolo_2",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_yolo_2"
+      },
+      "tax": {
         "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "svet": {
+      "store_brand_id": "5e58282695fb9b405cf0879b",
+      "storeCode": "svet",
+      "storeName": "Svet Store",
+      "disabled": false,
+      "storeId": 89,
+      "name": "Svet Store",
+      "url": "/svet",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_svet"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "tina": {
+      "store_brand_id": "5e653b9930425a0037422f2c",
+      "storeCode": "tina",
+      "storeName": "Tinka Staneva Store",
+      "disabled": false,
+      "storeId": 92,
+      "name": "Tinka Staneva Store",
+      "url": "/tina",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_tina"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "volk": {
+      "store_brand_id": "5e8258c47336ee5c6443b0ef",
+      "store_brand_name": "Volkky",
+      "store_brand_tags": "male female",
+      "is_test": true,
+      "storeCode": "volk",
+      "storeName": "Volkky",
+      "disabled": false,
+      "storeId": 93,
+      "name": "Volkky Store",
+      "url": "/volk",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_volk"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "dva": {
+      "store_brand_id": "5e7fb6c9e15ffd4b38b33f51",
+      "storeCode": "dva",
+      "storeName": "Dv Apparel Store",
+      "disabled": false,
+      "storeId": 101,
+      "name": "Dv Apparel Store",
+      "url": "/dva",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_dva"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "irra": {
+      "store_brand_id": "5e7faa78e3aafa00361950a3",
+      "store_brand_name": "Alina Irinkova",
+      "store_brand_tags": "female contentcreator influencer model",
+      "is_test": false,
+      "storeCode": "irra",
+      "storeName": "Alina Irinkova",
+      "disabled": false,
+      "storeId": 102,
+      "name": "Alina Irinkova Store",
+      "url": "/irra",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_irra"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "test": {
+      "store_brand_id": "5d8dcbf5781ec61454fc7873",
+      "storeCode": "test",
+      "storeName": "Pro Cc Store",
+      "disabled": false,
+      "storeId": 103,
+      "name": "Pro Cc Store",
+      "url": "/test",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_test"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "mapStoreUrlsFor": [
+      "dev",
+      "ali",
+      "judy",
+      "vent",
+      "volkky",
+      "judysstore",
+      "alina",
+      "yolo_2",
+      "svet",
+      "tina",
+      "volk",
+      "dva",
+      "irra",
+      "test",
+      "dashing"
+    ],
+    "dashing": {
+      "store_brand_id": "5e7fb99ee3aafa00361950f3",
+      "store_brand_name": "Dashing",
+      "store_brand_tags": "undefined",
+      "is_test": true,
+      "storeCode": "dashing",
+      "storeName": "Dashing",
+      "disabled": false,
+      "storeId": 99,
+      "name": "Dashing Store",
+      "url": "/dashing",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "http://localhost:8080/api/catalog",
+        "index": "vue_storefront_catalog_dashing"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
         "defaultLanguage": "EN",
         "defaultLocale": "en-US",
         "currencyCode": "EUR",
@@ -770,6 +1160,7 @@
     "defaultLanguage": "EN",
     "availableLocale": [
       "en-US",
+      "bg-BG",
       "de-DE",
       "fr-FR",
       "es-ES",
@@ -782,8 +1173,8 @@
       "cs-CZ"
     ],
     "defaultLocale": "en-US",
-    "currencyCode": "USD",
-    "currencySign": "$",
+    "currencyCode": "EUR",
+    "currencySign": "€",
     "priceFormat": "{sign}{amount}",
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "United States",
@@ -812,7 +1203,7 @@
     "id": false
   },
   "googleTagManager": {
-    "id": false,
+    "id": "GTM-NJH7FK8",
     "debug": true,
     "product_attributes": [
       "name",
