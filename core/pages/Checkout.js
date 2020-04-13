@@ -501,6 +501,7 @@ export default {
     async placeProCCOrder () {
       try {
         let order_data = await this.prepareProCCOrder()
+        console.log('order_data------------ placeProCCOrder', order_data)
         let result = await this.ProCcAPI.addNewOrder(order_data, order_data.store_brand)
         if (result.data.message_type === 'success') {
           this.procc_order_ids = result.data.order_ids

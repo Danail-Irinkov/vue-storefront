@@ -75,41 +75,10 @@ const actions: ActionTree<UserState, RootState> = {
   },
 
   /**
-   * set customer password user and return message
-   */
-  async setCustomerPassword ({ commit, dispatch }, { customerId, password }) {
-    console.log('BEFORE setCustomerPassword', customerId, password)
-    // Edited by shabbir for login customer in procc
-    const resp = await ProCcApi().setCustomerPassword({customerId, password})
-    console.log("resetPasswordMessage aaa ",resp.data.resetPasswordMessage)
-    if (resp.data.resetPasswordMessage) {
-      dispatch('handleResetPasswordMessage', {email: resp.data.user.email})
-    }
-    else if(resp.data.message_type === 'success'  && resp.data.user && resp.data.token){
-      try {
-        await dispatch('resetUserInvalidateLock', {}, { root: true })
-        await dispatch('setCurrentUser', resp.data.user)
-        commit(types.USER_TOKEN_CHANGED, { newToken: resp.data.token, meta: resp.data.user })
-        await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
-        dispatch('notification/spawnNotification', {
-          type: 'success',
-          message: i18n.t('Successful Login'),
-          action1: { label: i18n.t('OK') }
-        }, { root: true })
-      } catch (err) {
-        await dispatch('clearCurrentUser')
-        throw new Error(err)
-      }
-    }
-
-    return resp.data
-  },
-
-  /**
    * reset customer password user and return token
    */
   async resetPassword ({ commit, dispatch }, { password_reset_code, password }) {
-    console.log('BEFORE setCustomerPassword', password_reset_code, password)
+    console.log('BEFORE rest CustomerPassword', password_reset_code, password)
     // Edited by shabbir for login customer in procc
     const resp = await ProCcApi().resetPassword({password_reset_code, password})
     console.log(resp.data)
@@ -133,26 +102,25 @@ const actions: ActionTree<UserState, RootState> = {
     // Edited by shabbir for save customer in procc
     return ProCcApi().createVSFCustomer({ password, ...customer })
       .then(async (result) => {
-        console.log('result', result)
-        if (!isUndefined(customer.requireLogin) && customer.requireLogin && result.data.message_type === 'success' && !isUndefined(result.data.token) && result.data.token) {
+        console.log("resetPasswordMessage aaa ",result)
+        if (result.data.resetPasswordMessage) {
+          dispatch('handleResetPasswordMessage', {email: result.data.user.email})
+        }
+        else if(result.data.message_type === 'success'  && result.data.user && result.data.token){
           try {
             await dispatch('resetUserInvalidateLock', {}, { root: true })
             await dispatch('setCurrentUser', result.data.user)
-            commit(types.USER_TOKEN_CHANGED, { newToken: result.data.token, meta: result.data.user }) // TODO: handle the "Refresh-token" header
+            commit(types.USER_TOKEN_CHANGED, { newToken: result.data.token, meta: result.data.user })
             await dispatch('sessionAfterAuthorized', { refresh: true, useCache: false })
+            dispatch('notification/spawnNotification', {
+              type: 'success',
+              message: i18n.t('Successful Login'),
+              action1: { label: i18n.t('OK') }
+            }, { root: true })
           } catch (err) {
             await dispatch('clearCurrentUser')
             throw new Error(err)
           }
-        } else if (result.data.message_type === 'success') {
-          dispatch('handleResendVerificationEmail', {email: customer.email})
-        } else {
-          dispatch('notification/spawnNotification', {
-            type: 'error',
-            message: result.data.message,
-            action1: { label: i18n.t('Ok') },
-            hasNoTimeout: true
-          }, { root: true })
         }
         return result.data
       })
@@ -325,7 +293,7 @@ const actions: ActionTree<UserState, RootState> = {
         action: () => {
             console.log('Reset Password ')
             dispatch('forgotPassword', { email: email }).then((result) => {
-              console.log('result ', result)
+              console.log('forgotPassword result ', result)
               dispatch('notification/spawnNotification', {
                 type: result.message_type,
                 message: result.message_type=='success'?i18n.t('Password reset email sent, Please check email'):i18n.t('OK'),

@@ -218,7 +218,6 @@ export default (baseURL = '') => {
   const updateCustomerAddress = (token, data) => api.post(`address/updateCustomerAddress`, data)
   const verifyCustomerEmail = (data) => api.post(`customer/verifyCustomerEmail`, data)
   const resendVerificationEmail = (data) => api.post(`customer/resendVerificationEmail`, data)
-  const setCustomerPassword = (data) => api.post(`customer/setCustomerPassword`, data)
   const forgotPassword = (data) => api.post(`auth/forgotPassword`, data)
   const resetPassword = (data) => api.post(`auth/resetPassword`, data)
   const calculateShipmentCost = ({cartId, brandId}) => api.get(`cart/calculateRapidoShipmentCost?cartId=${cartId}&brandId=${brandId}`)
@@ -251,7 +250,6 @@ export default (baseURL = '') => {
     updateCustomerAddress,
     verifyCustomerEmail,
     resendVerificationEmail,
-    setCustomerPassword,
     forgotPassword,
     resetPassword,
     calculateShipmentCost,

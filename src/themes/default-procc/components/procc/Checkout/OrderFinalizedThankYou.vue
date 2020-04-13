@@ -219,6 +219,8 @@ import BaseInput from 'theme/components/core/blocks/Form/BaseInput'
 import ButtonFull from 'theme/components/theme/ButtonFull'
 import { required, minLength } from 'vuelidate/lib/validators'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
+import i18n from '@vue-storefront/i18n'
+import {Logger} from '@vue-storefront/core/lib/logger'
 
 export default {
   name: 'ThankYouPage',
@@ -286,9 +288,14 @@ export default {
       console.log('saveUserAccount Mock Started', this.lastOrderConfirmation.orders[0].customer_user)
       if (this.lastOrderConfirmation.orders && this.lastOrderConfirmation.orders[0].customer_user) {
         console.log('this.password', this.password, this.lastOrderConfirmation.orders[0].customer_user._id)
-        const result = this.$store.dispatch('user/setCustomerPassword', {
-          customerId: this.lastOrderConfirmation.orders[0].customer_user._id || this.lastOrderConfirmation.orders[0].customer_user,
-          password: this.password
+        this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
+        this.$store.dispatch('user/register', { email: this.lastOrderConfirmation.orders[0].customer_user.email, password: this.password, firstname: '', lastname: '' }).then((result) => {
+          Logger.debug(result, 'user')()
+          this.$bus.$emit('notification-progress-stop')
+        }).catch(err => {
+          this.onFailure({ result: 'Unexpected authorization error. Check your Network conection.' })
+          this.$bus.$emit('notification-progress-stop')
+          Logger.error(err, 'user')()
         })
       }
     },
