@@ -17,6 +17,7 @@ import {PaymentCashOnDeliveryModule} from './payment-cash-on-delivery'
 import {NewsletterModule} from '@vue-storefront/core/modules/newsletter'
 import {registerModule} from '@vue-storefront/core/lib/modules'
 import {GoogleAnalyticsModule} from './google-analytics';
+import {HotjarModule} from './hotjar';
 // Procc Modules
 import {ProCCStore} from './procc-store';
 // Procc Modules - END
@@ -26,6 +27,7 @@ export function registerClientModules () {
   // Procc Modules
   registerModule(ProCCStore);
   registerModule(GoogleAnalyticsModule);
+  registerModule(HotjarModule);
   // Procc Modules - END
   registerModule(UrlModule);
   registerModule(CatalogModule);
