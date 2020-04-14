@@ -76,7 +76,6 @@ module.exports = (config, app) => {
         try {
           let locale = req.body.locale
           let missingText = req.body.missingText
-          console.log('MissingTranslation input', locale, missingText)
           let file_path = './core/i18n/resource/i18n/'
           let input_file_path = file_path + locale + '.csv'
           let output_file_path = './temp/out.csv'
@@ -90,6 +89,7 @@ module.exports = (config, app) => {
 
           if(!_.some(original_data, (node)=> node.value === missingText)
             && !_.some(extracted_data, (node)=> node.value === missingText)) {
+            console.log('MissingTranslation input', locale, missingText)
             append_data.push({
               key: String(missingText),
               value: String(missingText)

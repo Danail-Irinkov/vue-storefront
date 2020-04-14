@@ -21,14 +21,14 @@ once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)
 })
 
-const loadedLanguages = ['en-US', 'bg-BG']
+const loadedLanguages = ['en-US','de-DE', 'bg-BG', 'fr-FR', 'es-ES', 'nl-NL', 'ja-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ']
 //VueI18n.MissingHandler
 const ProCCMissingTranslationHandler = (locale: string, missingText: string): void => {
-  console.log('Translation Translation', locale, missingText)
+  console.log('Translation Missing for ', locale, missingText)
   if (process.env.NODE_ENV === 'development') {
     api.post('fillInMissingTranslation', {locale, missingText})
       .then((res)=>{
-        console.log('fillInMissingTranslation RES: ', res.status)
+        // console.log('fillInMissingTranslation RES: ', res.status)
       })
       .catch((e)=>{
         console.log('fillInMissingTranslation Error', e)

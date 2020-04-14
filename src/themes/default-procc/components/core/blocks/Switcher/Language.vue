@@ -1,7 +1,7 @@
 <template>
-  <modal name="modal-switcher" :width="650">
-    <p slot="header">
-      {{ $t('Choose your country') }}
+  <modal name="modal-switcher" :width="250">
+    <p slot="header" style="font-size: 22px; margin-left: 1rem">
+      {{ $t('Language') }}
     </p>
     <div slot="content">
       <div :class="{ 'columns': enableColumns }">
@@ -14,7 +14,11 @@
         <div class="country country-available" v-for="country in country_list" :key="country.name">
 <!--          <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>-->
           <ul>
-            <li><a >{{ $t(country.lang_name) }}</a></li>
+            <li style="text-align: center; width: 100%; margin-left: 0px">
+              <a style="cursor: pointer; margin-left: auto;margin-right: auto" @click="changeLanguage(country)">
+                {{ $t(country.lang_name) }}
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -25,6 +29,7 @@
 import Modal from 'theme/components/core/Modal.vue'
 import {countries} from 'src/themes/default-procc/helpers/countries.js'
 import config from 'config'
+import {loadLanguageAsync} from "@vue-storefront/i18n";
 export default {
   components: {
     Modal
@@ -65,6 +70,17 @@ export default {
     })
   },
   methods: {
+    changeLanguage (country) {
+      console.log('Changing Lang to: ', country)
+      // i18n.locale = country.language
+      loadLanguageAsync(country.language)
+        .then((res)=>{
+          console.log('changeLanguage RES:', res)
+        })
+        .catch((e)=>{
+          console.log('changeLanguage Error:', e)
+      })
+    },
     close () {
       this.$bus.$emit('modal-hide', 'modal-switcher')
     },
@@ -76,6 +92,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  ::v-deep .modal-close .material-icons {
+    margin: 0px 0 47px 39px!important;
+  }
+  ::v-deep .modal-header  {
+    padding: 10px 10px 20px 10px!important;
+  }
   h3 {
     margin-top: 0;
     margin-bottom: 0.5em;
