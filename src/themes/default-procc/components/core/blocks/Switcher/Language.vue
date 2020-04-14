@@ -5,16 +5,16 @@
     </p>
     <div slot="content">
       <div :class="{ 'columns': enableColumns }">
-        <div class="country country-current">
+        <!--<div class="country country-current">
           <h3>{{ $t(fullCountryName) }}</h3>
           <ul>
             <li><a href="/">{{ $t(fullLanguageName) }}</a></li>
           </ul>
-        </div>
-        <div class="country country-available" v-for="(storeView, storeCode) in storeViews" :key="storeCode">
-          <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>
+        </div>-->
+        <div class="country country-available" v-for="country in country_list" :key="country.name">
+<!--          <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>-->
           <ul>
-            <li><a :href="storeView.url">{{ $t(storeView.i18n.fullLanguageName) }}</a></li>
+            <li><a >{{ $t(country.lang_name) }}</a></li>
           </ul>
         </div>
       </div>
@@ -23,6 +23,7 @@
 </template>
 <script>
 import Modal from 'theme/components/core/Modal.vue'
+import {countries} from 'src/themes/default-procc/helpers/countries.js'
 import config from 'config'
 export default {
   components: {
@@ -31,7 +32,8 @@ export default {
   data () {
     return {
       minCountryPerColumn: 3,
-      componentLoaded: false
+      componentLoaded: false,
+      country_list: countries
     }
   },
   computed: {
@@ -46,6 +48,8 @@ export default {
       return enableStoreViews.length > this.minCountryPerColumn
     },
     storeViews () {
+      console.log('config.storeViews', config.storeViews)
+      console.log('config.i18n', config.i18n)
       return Object.keys(config.storeViews).reduce((storeViews, storeCode) => {
         if (this.isValidStoreCode(storeCode)) {
           storeViews[storeCode] = config.storeViews[storeCode]
