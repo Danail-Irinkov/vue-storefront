@@ -29,6 +29,7 @@
               <compare-icon class="p15 icon hidden-xs pointer" />
               <microcart-icon class="p15 icon pointer" />
               <account-icon class="p15 icon hidden-xs pointer" />
+              <language-selection class="p15 icon hidden-xs pointer"></language-selection>
             </div>
           </div>
         </div>
@@ -68,6 +69,7 @@
 import { mapState } from 'vuex'
 import CurrentPage from 'theme/mixins/currentPage'
 import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
+import LanguageSelection from 'src/themes/default-procc/components/procc/LanguageSelection'
 import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
 import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
 import Logo from 'theme/components/core/Logo'
@@ -84,7 +86,8 @@ export default {
     Logo,
     MicrocartIcon,
     SearchIcon,
-    WishlistIcon
+    WishlistIcon,
+    LanguageSelection
   },
   mixins: [CurrentPage],
   data () {

@@ -24,19 +24,25 @@ const actions: ActionTree<StoreDataState, RootState> = {
       Logger.debug('Unable to load headImage' + err)()
     }
   },
+  async updateLanguage ({commit, rootState}, lang) {
+    commit('SET_LANGUAGE', lang)
+  },
   async updateCurrentStore ({commit, rootState}) {
     console.log('updateCurrentStore START')
-    return await procc_api().getStoreDataForVSF(rootState.storeView.storeCode)
-      .then((result) => {
-        if (result.data && result.data.storefront) {
-          // console.log('updateCurrentStore RESULT', result.data.storefront)
-          console.log('updateCurrentStore RESULT')
-          commit('SET_CURRENT_STORE', result.data.storefront)
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    if(rootState.storeView && rootState.storeView.storeCode) {
+      return await procc_api().getStoreDataForVSF(rootState.storeView.storeCode)
+        .then((result) => {
+          if (result.data && result.data.storefront) {
+            // console.log('updateCurrentStore RESULT', result.data.storefront)
+            console.log('updateCurrentStore RESULT')
+            commit('SET_CURRENT_STORE', result.data.storefront)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    } else
+      return null
   }
 }
 

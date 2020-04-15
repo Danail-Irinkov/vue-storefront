@@ -14,7 +14,8 @@ export const module: Module<StoreDataState, RootState> = {
       productBanners: []
     },
     currentStore: {},
-    headImage: null
+    headImage: null,
+    i18n_language: 'en-US'
   },
   getters,
   actions,

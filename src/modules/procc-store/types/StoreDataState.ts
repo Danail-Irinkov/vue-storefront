@@ -5,5 +5,6 @@ export default interface StoreDataState {
     productBanners: any[]
   },
   currentStore: any,
-  headImage: Record<string, any>
+  headImage: Record<string, any>,
+  i18n_language: string
 }

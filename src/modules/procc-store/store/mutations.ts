@@ -10,6 +10,9 @@ const mutations: MutationTree<StoreDataState> = {
   },
   SET_CURRENT_STORE (state, data) {
     state.currentStore = data
+  },
+  SET_LANGUAGE (state, lang) {
+    state.i18n_language = lang
   }
 }
 

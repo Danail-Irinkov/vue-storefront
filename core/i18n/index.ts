@@ -4,6 +4,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import { once } from '@vue-storefront/core/helpers'
 import config from 'config'
 import axios from 'axios'
+import store from '@vue-storefront/core/store'
 
 const api = axios.create({
   // base URL is read from the "constructor"
@@ -24,7 +25,7 @@ once('__VUE_EXTEND_I18N__', () => {
 const loadedLanguages = ['en-US','de-DE', 'bg-BG', 'fr-FR', 'es-ES', 'nl-NL', 'ja-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ']
 //VueI18n.MissingHandler
 const ProCCMissingTranslationHandler = (locale: string, missingText: string): void => {
-  console.log('Translation Missing for ', locale, missingText)
+  // console.log('Translation Missing for ', locale, missingText)
   if (process.env.NODE_ENV === 'development') {
     api.post('fillInMissingTranslation', {locale, missingText})
       .then((res)=>{
@@ -46,6 +47,7 @@ const i18n = new VueI18n({
 
 function setI18nLanguage (lang: string): string {
   i18n.locale = lang
+  store.dispatch('procc/updateLanguage', lang)
   return lang
 }
 
@@ -56,13 +58,16 @@ function setI18nLanguage (lang: string): string {
 const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
   let localeCode = lang.toLocaleLowerCase()
   try { // try to load full locale name
-    await import(/* webpackChunkName: "dayjs-locales-[request]" */ `dayjs/locale/${localeCode}`)
+    const msgs =   await import(/* webpackChunkName: "dayjs-locales-[request]" */ `dayjs/locale/${localeCode}`)
+    console.log("messages for i18n", msgs)
   } catch (e) { // load simplified locale name, example: de-DE -> de
+    console.log("loadDateLocales e",e)
     const separatorIndex = localeCode.indexOf('-')
     if (separatorIndex) {
       localeCode = separatorIndex ? localeCode.substr(0, separatorIndex) : localeCode
       try {
-        await import(/* webpackChunkName: "dayjs-locales-[request]" */ `dayjs/locale/${localeCode}`)
+        const msgs = await import(/* webpackChunkName: "dayjs-locales-[request]" */ `dayjs/locale/${localeCode}`)
+        console.log("messages for i18n", msgs)
       } catch (err) {
         Logger.debug('Unable to load translation from dayjs')()
       }

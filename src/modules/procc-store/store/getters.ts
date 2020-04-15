@@ -17,6 +17,7 @@ const getters: GetterTree<StoreDataState, RootState> = {
     return policies
   },
   getHeadImage: state => state.headImage,
+  getI18nLanguage: state => state.i18n_language,
   getStoreLogo: state => {
     return state.headImage && state.headImage.logo ? _.get(state.headImage, 'logo') : '/assets/logo.svg'
   },
