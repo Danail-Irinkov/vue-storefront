@@ -13,6 +13,7 @@
         <p
           :style="{color: currentImage.subtitle_color}"
           data-testid="mainSliderSubtitle"
+          style="margin-top: 4px"
           class="subtitle mb0 serif h3 procc-title-style text-shadow"
         >
           {{ currentImage.subtitle }}

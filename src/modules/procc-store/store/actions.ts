@@ -26,7 +26,7 @@ const actions: ActionTree<StoreDataState, RootState> = {
   },
   async updateCurrentStore ({commit, rootState}) {
     console.log('updateCurrentStore START')
-    return await procc_api().getStoreDataForVSF(rootState.storeView.storeCode)
+    return await procc_api().getStoreData(rootState.storeView.storeCode, rootState.storeView.procc_brand_id)
       .then((result) => {
         if (result.data && result.data.storefront) {
           // console.log('updateCurrentStore RESULT', result.data.storefront)
