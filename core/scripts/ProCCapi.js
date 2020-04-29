@@ -6,7 +6,7 @@ const _ = require('lodash');
 const request = require('request');
 // const ProCCAPI = require('../../src/themes/default-procc/helpers/procc_api.js'); // NOT WORKING DUE TO ES6 syntax...
 const ProCCAPI = require('./procc_api_es5.js')();
-console.log('ProCCAPI.getStoreData', ProCCAPI.getStoreData)
+// console.log('ProCCAPI.getStoreData', ProCCAPI.getStoreData)
 // !!!!! CORE MODULES AREN'T TRIGGERING HOT-RELOAD !!!!!
 
 // CSV PROCESSING

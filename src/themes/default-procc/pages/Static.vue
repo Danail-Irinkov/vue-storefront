@@ -42,6 +42,7 @@ import Warranty from 'theme/components/procc/StoreInfo/Warranty.vue'
 import Contacts from 'theme/components/procc/StoreInfo/Contacts.vue'
 import { getPathForStaticPage } from 'theme/helpers'
 import { localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'StaticSwapper',
@@ -49,7 +50,6 @@ export default {
     Breadcrumbs
   },
   metaInfo () {
-
     return {
       title: this.$route.meta.title || this.$props.title,
       meta: this.$route.meta.description ? [{vmid: 'description', description: this.$route.meta.description}] : []
@@ -65,7 +65,30 @@ export default {
       required: true
     }
   },
+  watch: {
+    'getCurrentStore': {
+      handler: function (value) {
+        const about_link_index = this.navigation.findIndex((link) => { return link.title === i18n.t('About us') })
+        const contacts_link_index = this.navigation.findIndex((link) => { return link.title === i18n.t('Contacts') })
+        delete this.navigation[about_link_index]
+        delete this.navigation[contacts_link_index]
+        if (value.storefront_setting && value.storefront_setting.about_text) {
+          this.navigation.push({ title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: AboutUs })
+        }
+        if (value.storefront_setting && value.storefront_setting.contact_information) {
+          this.navigation.push({ title: i18n.t('Contacts'), link: getPathForStaticPage('/contact'), component: Contacts })
+        }
+        this.$forceUpdate()
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   computed: {
+    ...mapGetters({
+      isLogged: 'user/isLoggedIn',
+      getCurrentStore: 'procc/getCurrentStore'
+    }),
     activeComponent () {
       const matchedNav = this.navigation.find(nav => this.$route.path.includes(nav.link)) // Edited by Dan
       return matchedNav ? matchedNav.component : null
@@ -74,7 +97,6 @@ export default {
   data () {
     return {
       navigation: [
-        { title: i18n.t('About us'), link: getPathForStaticPage('/about-us'), component: AboutUs },
         // { title: i18n.t('Customer service'), link: getPathForStaticPage('/customer-service'), component: StaticShortExample },
         // { title: i18n.t('Store locator'), link: localizedRoute('/store-locator'), component: StaticExample },
         // { title: i18n.t('Delivery'), link: '/delivery', component: StaticShortExample },
@@ -85,7 +107,6 @@ export default {
         { title: i18n.t('Delivery'), link: getPathForStaticPage('/delivery'), component: Delivery },
         { title: i18n.t('Privacy'), link: getPathForStaticPage('/privacy'), component: Privacy },
         { title: i18n.t('Warranty'), link: getPathForStaticPage('/warranty'), component: Warranty },
-        { title: i18n.t('Contacts'), link: getPathForStaticPage('/contact'), component: Contacts }
       ]
     }
   }
