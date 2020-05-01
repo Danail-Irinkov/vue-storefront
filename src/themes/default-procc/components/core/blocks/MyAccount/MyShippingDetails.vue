@@ -121,8 +121,8 @@
                      :placeholder="$t('City *')"
                      remote-query-method="getCitiesList"
                      @remoteResults="addToCities"
-                     select-label="city_name"
-                     value-key="site_id"
+                     select-label="label"
+                     value-key="value"
                      :remote-country-selected="shippingDetails.ISO_code"
                      :validations="[
                        {
@@ -138,6 +138,7 @@
         <base-input
           class="col-xs-12 col-sm-6 mb10"
           type="text"
+          id="postalCode"
           name="zip-code"
           autocomplete="postal-code"
           :placeholder="`${$t('Zip-code')} *`"
@@ -188,7 +189,7 @@
                      remote-query-method="getStreetList"
                      @remoteResults="addToStreets"
                      select-label="label"
-                     value-key="value"
+                     value-key="street_id"
                      :remote-country-selected="shippingDetails.ISO_code"
                      :remote-city-selected="shippingDetails.site_id"
                      :validations="[
@@ -223,7 +224,7 @@
             {{ $t('Update my shipping details') }}
           </button-full>
         </div>
-        <div class="col-xs-12 col-sm-6 flex middle-xs py10">
+        <div class="col-xs-12 col-sm-6 flex middle-xs py10" style="justify-content: center">
           <a href="#" @click="exitSection" class="h4 cl-accent">
             {{ $t('Cancel') }}
           </a>
@@ -303,6 +304,7 @@ export default {
     cityOptions () {
       return this.cities.map((item) => {
         return {
+          ...item,
           value: item.site_id,
           label: this.shippingDetails.site_id === item.site_id ? item.city_type && item.city_type !== 0 ? item.city_type + ' ' + item.city_name : item.city_name : item.city_type && item.city_type !== 0 ? item.city_type + ' ' + item.city_name + ', ' + item.post_code : item.city_name + ', ' + item.post_code
         }
@@ -311,6 +313,7 @@ export default {
     streetsOptions () {
       return this.streets.map((item) => {
         return {
+          ...item,
           value: item.street_id,
           label: item && item.street_type ? `${item.street_type} ${item.streetName}` : item.streetName
         }

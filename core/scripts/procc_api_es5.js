@@ -70,7 +70,7 @@ module.exports = (baseURL = '') => {
   // const getVSFSizeChartById = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
   // const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
   // const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
-  const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
+  const getStoreDataVSF = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
   const translateJSONArray = (data, DEVBrandId='5d8dcbf5781ec61454fc7873') => api.post('translateJSONArray', data, getHeader(DEVBrandId))
 
   return {
@@ -81,7 +81,7 @@ module.exports = (baseURL = '') => {
     // updateTransactionStatus,
     // updateVsfSyncStatus,
     // saveTransactionInOrder,
-    getStoreData,
+    getStoreDataVSF,
     translateJSONArray
   }
 }

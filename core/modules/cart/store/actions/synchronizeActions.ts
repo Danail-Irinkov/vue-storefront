@@ -48,10 +48,10 @@ const synchronizeActions = {
     return dispatch('sync', { forceClientState, dryRun })
   },
   async sync ({ getters, rootGetters, commit, dispatch, state }, { forceClientState = false, dryRun = false }) {
-    // console.log('SyncCartActionTime Start')
+    console.log('SyncCartActionTime Start')
     // console.time('SyncCartActionTime')
 
-    const shouldUpdateClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
+    const shouldForceClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
     if (!canUpdateMethods || !isSyncRequired) return createDiffLog()
     commit(types.CART_SET_SYNC)
@@ -59,12 +59,13 @@ const synchronizeActions = {
 
     const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result.cartItems })
 
+    console.log('SyncCartActionTime resultCode', resultCode)
     if (resultCode === 200) {
       const diffLog = await dispatch('merge', {
         dryRun,
         serverItems,
         clientItems,
-        forceClientState: shouldUpdateClientState
+        forceClientState: shouldForceClientState
       })
       cartHooksExecutors.afterSync(diffLog)
       // console.timeEnd('SyncCartActionTime')

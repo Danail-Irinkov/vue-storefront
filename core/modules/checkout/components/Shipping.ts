@@ -95,7 +95,7 @@ export const Shipping = {
     shipping: {
       handler: function (newValue) {
         this.disable_all_fields = !(newValue.street_id && newValue.ISO_code && newValue.site_id);
-        this.disable_street_fields = !(newValue.ISO_code && newValue.site_id);
+        this.disable_street_fields = !(newValue.ISO_code && (newValue.site_id || this.no_cities_available));
         this.disable_city_fields = !newValue.ISO_code;
 
         // Autofill Post Code
@@ -275,8 +275,8 @@ export const Shipping = {
       this.$nextTick(() => {
         this.$v.shipping.ISO_code.$touch()
         if (this.shipping.ISO_code) {
-          console.log('selectCountry Started!! selectCountry222222')
           let country = find(this.ProCC_Countries, { 'ISO_code': this.shipping.ISO_code })
+          console.log('selectCountry Started!! country', country)
           this.no_cities_available = !country.cities_available
           this.no_streets_available = !country.streets_available
           this.shipping.country = country.name;

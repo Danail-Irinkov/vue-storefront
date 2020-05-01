@@ -54,7 +54,6 @@ export default {
       getTotals: 'cart/getTotals',
       isVirtualCart: 'cart/isVirtualCart',
       getCartItemsByBrand: 'cart/getCartItemsByBrand',
-      productsInCartByBrand: 'cart/getCartItemsByBrand',
       currentImage: 'procc/getHeadImage', // by ProCC
       isThankYouPage: 'checkout/isThankYouPage'
     })

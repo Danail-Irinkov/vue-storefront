@@ -21,6 +21,7 @@ export const Payment = {
       ProCcApi: ProCcApi(),
       countries: Countries,
       ProCC_Countries: [], // Edited By Dan
+      VATEnabledStores: [], // Edited By Dan
       payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
       sendToShippingAddress: false,
@@ -36,9 +37,15 @@ export const Payment = {
       paymentMethods: 'checkout/getPaymentMethods',
       paymentDetails: 'checkout/getPaymentDetails',
       isVirtualCart: 'cart/isVirtualCart',
+      currentImage: 'procc/getHeadImage', // by ProCC
       getShippingDetails: 'checkout/getShippingDetails',
       getPersonalDetails: 'checkout/getPersonalDetails'
-    })
+    }),
+    customerIsInEU(){
+      let customer_country = 'BG'
+      let EU_countries = ['BG']
+      return EU_countries.indexOf(customer_country) !== -1
+    }
   },
   created () {
     if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
@@ -46,6 +53,7 @@ export const Payment = {
     }
   },
   mounted () {
+    this.verifyStoreVATStatus()
     this.getShippingCountryList()
     if (this.payment.firstName) {
       this.initializeBillingAddress()
@@ -107,7 +115,7 @@ export const Payment = {
     },
     sendDataToCheckout () {
       this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
-      this.placeOrder() // modify function for call place order function by shabbir
+      this.placeOrderAtPayment() // modify function for call place order function by shabbir
     },
     edit () {
       if (this.isFilled) {
@@ -253,6 +261,84 @@ export const Payment = {
         this.generateInvoice = false
       }
     },
+    async verifyStoreVATStatus () { // Added By Dan
+      try {
+        for (let store_brand_id in this.getCartItemsByBrand) {
+          let verification = { valid: false }
+          if (this.VATEnabledStores.indexOf(store_brand_id) === -1) {
+            verification = (await this.ProCcApi.validateVATNumber({brand_id: store_brand_id}, this.currentImage.brand)).data.validation
+          }
+
+            console.log('verifyStoreVATStatus', verification)
+          // if (verification.valid) { // DISABLED FOR TESTING!!!
+            this.VATEnabledStores.push(store_brand_id)
+          // }
+        }
+      } catch (e) {
+        console.log('verifyStoreVATStatus error', e)
+      }
+    },
+    async verifyVATNumber () { // Added By Dan
+      try {
+        this.$v.payment.taxId.$touch()
+        console.log('verifyVATNumber Start')
+
+        if (this.VATEnabledStores.length > 0){
+          let verification = { valid: false, company_name: null }
+          if (this.customerIsInEU){
+            let VAT_number = this.payment.taxId
+            verification = (await this.ProCcApi.validateVATNumber({VAT_number}, this.currentImage.brand)).data.validation
+            console.log('verifyVATNumber', verification)
+          }
+          if ((verification && verification.valid) || !this.customerIsInEU){
+            // Show Company VAT enabled -> for name and address under the input
+            if (verification.company_name) {
+            // if company name is different than provided, replace it with the received one
+              this.payment.company = verification.company_name
+              // TODO: maybe also do similar for address if provided in the validation
+            }
+
+            // reduce the VAT amount from the total
+            for (let item of this.getCartItems) {
+              console.log('verifyVATNumber cart Item', item)
+              let product = {
+                ...item
+              }
+              if (this.VATEnabledStores.indexOf(item.procc_brand_id) !== -1) {
+                // deduct VAT from order_item
+                product.deduct_VAT = true
+              } else {
+                product.deduct_VAT = false
+              }
+              console.log('verifyVATNumber updateItem VAT: ', product)
+              await this.$store.dispatch('cart/updateItem', { product })
+            }
+            this.$store.dispatch('cart/sync', { forceClientState: true })
+
+            await this.$store.dispatch('notification/spawnNotification', {
+              type: 'success',
+              message: this.$t('VAT deducted, please account for VAT according to your local law'),
+              action1: { label: i18n.t('OK') }
+            })
+          } else {
+            // if not valid -> show warning that Company Id is not VAT enabled
+            await this.$store.dispatch('notification/spawnNotification', {
+              type: 'warning',
+              message: this.$t('This is not a valid EU VAT Number'),
+              action1: { label: i18n.t('OK') }
+            })
+          }
+        }
+      } catch (e) {
+        // Show failed to verify VAT Number
+        console.log('verifyVATNumber ERR: ', e)
+        return this.$store.dispatch('notification/spawnNotification', {
+          type: 'warning',
+          message: this.$t('Server failed to verify EU VAT Number'),
+          action1: { label: i18n.t('OK') }
+        })
+      }
+    },
     useGenerateInvoice () {
       if (!this.generateInvoice) {
         this.payment.company = ''
@@ -310,7 +396,7 @@ export const Payment = {
       this.$store.dispatch('cart/syncPaymentMethods', { forceServerSync: true })
     },
     // added function for place order by shabbir
-    placeOrder () { // Edited by Dan to verify transaction has passed
+    placeOrderAtPayment () { // Edited by Dan to verify transaction has passed
       if (this.getPersonalDetails.createAccount) {
         this.register()
       } else {

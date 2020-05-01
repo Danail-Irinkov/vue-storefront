@@ -55,7 +55,7 @@ export default (baseURL = '') => {
     }
     return response
   }, (error) => {
-    console.log('tokenexpite error', error)
+    console.log('token Expired error', error)
     return Promise.reject(error)
   })
 
@@ -107,6 +107,7 @@ export default (baseURL = '') => {
     }
   })
 
+  const validateVATNumber = (data, brandId) => api.post('payment/validateVATNumber', data, getHeader(brandId))
   const addNewOrder = (orderData, brandId) => api.post('order/addNewOrder', orderData, getHeader(brandId))
   const saveTransactionInOrder = (orderData, brandId) => api.post('order/saveTransactionInOrder', orderData, getHeader(brandId))
   const VSFOrderPayment = (data, brandId) => api.post('mangopay/VSFOrderPayment', data, getHeader(brandId))
@@ -206,13 +207,13 @@ export default (baseURL = '') => {
       return Promise.reject(err)
     })
 
-  const getStoreData = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
+  const getStoreDataVSF = (storeCode, brandId) => api.get('storefront/getStoreDataVSF/' + storeCode, getHeader(brandId))
   const checkProductQty = (data, brandId) => api.post(`product/checkProductQty`, data, getHeader(brandId))
   // Customer
   const createVSFCustomer = (data) => api.post(`customer/createVSFCustomer`, data)
   const VSFCustomerLogin = (data) => api.post(`customer/VSFCustomerLogin`, data)
   const getCustomer = (token) => api.get(`customer/getCustomer`)
-  const getCustomerOrders = (token, pageSize, currentPage) => api.post(`order/getCustomerOrders`, {pageSize, currentPage})
+  const getCustomerOrders = (token, pageSize, currentPage) => api.post(`order/getCustomerOrders`, {pageSize, currentPage}, getHeaderWithToken(token))
   const updateCustomerProfile = (token, data) => api.post(`customer/updateCustomerProfile`, data)
   const changePassword = (token, data) => api.post(`customer/changePassword`, data)
   const updateCustomerAddress = (token, data) => api.post(`address/updateCustomerAddress`, data)
@@ -229,6 +230,7 @@ export default (baseURL = '') => {
   const saveFeedback = (data) => api.post(`feedback/saveFeedback`,data)
 
   return {
+    validateVATNumber,
     addNewOrder,
     getProductDeliveryPolicy,
     getVSFSizeChartById,
@@ -238,7 +240,7 @@ export default (baseURL = '') => {
     getShippingCountriesList,
     saveTransactionInOrder,
     updateShippingMethodsFromProCC,
-    getStoreData,
+    getStoreDataVSF,
     checkProductQty,
     createVSFCustomer,
     VSFCustomerLogin,

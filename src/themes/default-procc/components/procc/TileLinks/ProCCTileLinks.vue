@@ -33,14 +33,6 @@ export default {
     ...mapGetters({
       banners: 'procc/getStoreBanners'
     })
-  },
-  async created () {
-    await this.updateStoreBanners()
-  },
-  methods: {
-    ...mapActions({
-      updateStoreBanners: 'procc/updateStoreBanners'
-    })
   }
 }
 </script>

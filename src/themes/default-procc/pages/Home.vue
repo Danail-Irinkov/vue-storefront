@@ -55,7 +55,7 @@ import HeadImage from 'theme/components/core/blocks/MainSlider/HeadImage'
 // import PromotedOffers from 'theme/components/theme/blocks/PromotedOffers/PromotedOffers'
 // import TileLinks from 'theme/components/theme/blocks/TileLinks/TileLinks'
 import {Logger} from '@vue-storefront/core/lib/logger'
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import config from 'config'
 import {registerModule} from '@vue-storefront/core/lib/modules'
 import {RecentlyViewedModule} from '@vue-storefront/core/modules/recently-viewed'
@@ -104,6 +104,14 @@ export default {
   },
   beforeCreate () {
     registerModule(RecentlyViewedModule)
+  },
+  async created () {
+    await this.updateStoreBanners()
+  },
+  methods: {
+    ...mapActions({
+      updateStoreBanners: 'procc/updateStoreBanners'
+    })
   },
   async beforeMount () {
     if (this.$store.state.__DEMO_MODE__) {

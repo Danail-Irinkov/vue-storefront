@@ -26,17 +26,20 @@ const actions: ActionTree<StoreDataState, RootState> = {
   },
   async updateCurrentStore ({commit, rootState}) {
     console.log('updateCurrentStore START')
-    return await procc_api().getStoreData(rootState.storeView.storeCode, rootState.storeView.procc_brand_id)
-      .then((result) => {
-        if (result.data && result.data.storefront) {
-          // console.log('updateCurrentStore RESULT', result.data.storefront)
-          console.log('updateCurrentStore RESULT')
-          commit('SET_CURRENT_STORE', result.data.storefront)
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    try {
+      if(!(rootState && rootState.storeView && rootState.storeView.procc_brand_id)){
+        return
+      }
+
+      let result = await procc_api().getStoreDataVSF(rootState.storeView.storeCode, rootState.storeView.procc_brand_id)
+      if (result.data && result.data.storefront) {
+        // console.log('updateCurrentStore RESULT', result.data.storefront)
+        console.log('updateCurrentStore RESULT')
+        commit('SET_CURRENT_STORE', result.data.storefront)
+      }
+    }catch(error) {
+      console.log(error)
+    }
   }
 }
 

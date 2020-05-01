@@ -204,6 +204,37 @@
           <span class="validation-error" v-if="!$v.payment.paymentMethod.required">{{ $t('Field is required') }}</span>
         </div>
 
+        <!--modify condition for show address at copy shipping address checked  by shabbir -->
+        <div class="row pl20" v-if="sendToShippingAddress">
+          <div class="hidden-xs col-sm-2 col-md-1" />
+          <div class="col-xs-12 col-sm-9 col-md-11">
+            <div class="row fs16 mb35">
+              <div class="col-xs-12 h4">
+                <p>
+                  {{ payment.firstName }} {{ payment.lastName }}
+                </p>
+                <p>
+                  {{ payment.streetAddress }} {{ payment.apartmentNumber }}
+                </p>
+                <p>
+                  {{ payment.city }} {{ payment.zipCode }}
+                </p>
+                <p>
+                  <span v-if="payment.state">{{ payment.state }}, </span>
+                  <span>{{ getCountryName() }}</span>
+                </p>
+                <div v-if="payment.phoneNumber">
+                  <span class="pr15">{{ payment.phoneNumber }}</span>
+                  <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
+                </div>
+                <p v-if="generateInvoice">
+                  <strong>{{ $t('Invoice to') }}:</strong>
+                  <span style="padding-left: 5px">{{ payment.company }}  -  {{ payment.taxId }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <base-checkbox
             class="col-xs-12 mb15"
@@ -214,6 +245,26 @@
           </base-checkbox>
 
           <template v-if="generateInvoice">
+            <base-input
+              class="col-xs-12 mb10"
+              type="text"
+              name="tax-id"
+              :placeholder="$t('Tax identification number *')"
+              v-model.trim="payment.taxId"
+              @blur="verifyVATNumber"
+              autocomplete="tax-id"
+              :validations="[
+                {
+                  condition: $v.payment.taxId.$error && !$v.payment.taxId.required,
+                  text: $t('Field is required')
+                },
+                {
+                  condition: !$v.payment.taxId.minLength,
+                  text: $t('Tax identification number must have at least 3 letters.')
+                }
+              ]"
+            />
+
             <base-input
               class="col-xs-12 mb10"
               type="text"
@@ -228,71 +279,23 @@
               }]"
             />
 
-            <base-input
-              class="col-xs-12 mb10"
-              type="text"
-              name="tax-id"
-              :placeholder="$t('Tax identification number *')"
-              v-model.trim="payment.taxId"
-              @blur="$v.payment.taxId.$touch()"
-              autocomplete="tax-id"
-              :validations="[
-                {
-                  condition: $v.payment.taxId.$error && !$v.payment.taxId.required,
-                  text: $t('Field is required')
-                },
-                {
-                  condition: !$v.payment.taxId.minLength,
-                  text: $t('Tax identification number must have at least 3 letters.')
-                }
-              ]"
-            />
-
             <div class="col-xs-12 mb25">
               <label class="fs16">
-                {{ $t('We will send you the invoice to ') }} {{ $store.state.checkout.personalDetails.emailAddress }} {{ $t('as soon as you receive the products and rate them') }} :)
+                {{ $t('We will send you the invoice to ') }} {{ $store.state.checkout.personalDetails.emailAddress }} {{ $t('as soon as you receive the products and submit a review') }} :)
               </label>
             </div>
           </template>
         </div>
-      </div>
-    </div>
-    <!--modify condition for show address at copy shipping address checked  by shabbir -->
-    <div class="row pl20" v-if="sendToShippingAddress">
-      <div class="hidden-xs col-sm-2 col-md-1" />
-      <div class="col-xs-12 col-sm-9 col-md-11">
-        <div class="row fs16 mb35">
-          <div class="col-xs-12 h4">
-            <p>
-              {{ payment.firstName }} {{ payment.lastName }}
-            </p>
-            <p>
-              {{ payment.streetAddress }} {{ payment.apartmentNumber }}
-            </p>
-            <p>
-              {{ payment.city }} {{ payment.zipCode }}
-            </p>
-            <p>
-              <span v-if="payment.state">{{ payment.state }}, </span>
-              <span>{{ getCountryName() }}</span>
-            </p>
-            <div v-if="payment.phoneNumber">
-              <span class="pr15">{{ payment.phoneNumber }}</span>
-              <tooltip>{{ $t('Phone number may be needed by carrier') }}</tooltip>
-            </div>
-            <p v-if="generateInvoice">
-              <strong>{{ $t('Invoice to') }}:</strong>
-              <span style="padding-left: 5px">{{ payment.company }}  -  {{ payment.taxId }}</span>
-            </p>
-            <div class="col-xs-12">
-              <h4>{{ $t('Payment method') }}</h4>
-            </div>
-            <div class="col-md-6 mb15">
-              <label class="radioStyled"> {{ getPaymentMethod().title }}
-                <input type="radio" value="" checked disabled name="chosen-payment-method">
-                <span class="checkmark" />
-              </label>
-            </div>
+        <div class="row">
+
+          <div class="col-xs-12">
+            <h4>{{ $t('Payment method') }}</h4>
+          </div>
+          <div class="col-md-6 mb15">
+            <label class="radioStyled"> {{ getPaymentMethod().title }}
+              <input type="radio" value="" checked disabled name="chosen-payment-method">
+              <span class="checkmark" />
+            </label>
           </div>
         </div>
       </div>
@@ -345,6 +348,8 @@ export default {
     ...mapGetters({
       getTotals: 'cart/getTotals',
       currentImage: 'procc/getHeadImage',
+      getCartItems: 'cart/getCartItems',
+      getCartItemsByBrand: 'cart/getCartItemsByBrand',
       currentCart: 'carts/getCartToken'
     }),
     countryOptions () {

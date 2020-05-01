@@ -6,7 +6,7 @@ const _ = require('lodash');
 const request = require('request');
 // const ProCCAPI = require('../../src/themes/default-procc/helpers/procc_api.js'); // NOT WORKING DUE TO ES6 syntax...
 const ProCCAPI = require('./procc_api_es5.js')();
-console.log('ProCCAPI.getStoreData', ProCCAPI.getStoreData)
+console.log('ProCCAPI.getStoreDataVSF', ProCCAPI.getStoreDataVSF)
 // !!!!! CORE MODULES AREN'T TRIGGERING HOT-RELOAD !!!!!
 
 // CSV PROCESSING
@@ -168,7 +168,7 @@ module.exports = (config, app) => {
     if (req.body.storefront_url && req.body.store_categories) { // DEPRECATED
       storeData = req.body;
     } else if (req.body.storeCode && req.body.brand_id) {
-      const storeData_res = await ProCCAPI.getStoreData(req.body.storeCode, req.body.brand_id)
+      const storeData_res = await ProCCAPI.getStoreDataVSF(req.body.storeCode, req.body.brand_id)
       // console.log('storeData_res.data.storeData', storeData_res.data.storeData)
       storeData = storeData_res.data.storeData
     } else {
@@ -295,22 +295,22 @@ function setStoreMainImage (config, storeData) {
   return mainImage.get('image');
 }
 
-function getStoreData (config, storeCode) {
-  return new Promise(async (resolve, reject) => {
-    request({
-      uri: config.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode,
-      method: 'GET'
-    }, (_err, _res, _resBody) => {
-      console.log('GETTING URL: ', config.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode);
-      // console.log('_resBody', _resBody)
-      if (_err) reject(_err);
-      let obj
-      if (_resBody) { obj = JSON.parse(_resBody); }
-      // console.log('getStoreData _resBody', obj)
-      resolve(obj.storeData);
-    })
-  });
-}
+// function getStoreData (config, storeCode) {
+//   return new Promise(async (resolve, reject) => {
+//     request({
+//       uri: config.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode,
+//       method: 'GET'
+//     }, (_err, _res, _resBody) => {
+//       console.log('GETTING URL: ', config.PROCC.API + '/api/storefront/getStoreDataVSF/' + storeCode);
+//       // console.log('_resBody', _resBody)
+//       if (_err) reject(_err);
+//       let obj
+//       if (_resBody) { obj = JSON.parse(_resBody); }
+//       // console.log('getStoreData _resBody', obj)
+//       resolve(obj.storeData);
+//     })
+//   });
+// }
 
 function setCategoryBanner (config, storeData) {
   let storeCode = storeData.storefront_url;
