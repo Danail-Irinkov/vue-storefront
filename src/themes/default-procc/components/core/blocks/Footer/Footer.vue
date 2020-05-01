@@ -2,7 +2,7 @@
   <footer :class="{ 'brdr-top-1 brdr-cl-secondary': isCheckoutPage }" class="mt20">
     <newsletter class=" flex brdr-bottom-1 brdr-cl-secondary" v-if="!isCheckoutPage" />
     <div
-      class="footer-links flex pt30 pb60 px40 bg-cl-secondary"
+      class="footer-links flex pt30 pb60 px40 bg-cl-secondary" id="footer-links"
       v-if="!isCheckoutPage"
     >
       <div class="container w-100" style="max-width: 500px !important;margin-left: 0!important;">
@@ -15,18 +15,18 @@
                 {{ $t('Store') }}
               </h3>
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/about-us')" exact v-if="aboutExistInStore">
                   {{ $t('About us') }}
                 </router-link>
               </div>
-<!--              // TODO: Connect this "Customer service" with ProCC chat with an admin via websocket-->
-<!--              <div class="mt15">-->
-<!--                <router-link class="cl-secondary" :to="localizedRoute('/customer-service')" exact>-->
-<!--                  {{ $t('Customer service') }}-->
-<!--                </router-link>-->
-<!--              </div>-->
+              <!--              // TODO: Connect this "Customer service" with ProCC chat with an admin via websocket-->
+              <!--              <div class="mt15">-->
+              <!--                <router-link class="cl-secondary" :to="localizedRoute('/customer-service')" exact>-->
+              <!--                  {{ $t('Customer service') }}-->
+              <!--                </router-link>-->
+              <!--              </div>-->
               <div class="mt15">
-                <router-link class="cl-secondary" :to="localizedRoute('/contact')" exact>
+                <router-link class="cl-secondary" :to="localizedRoute('/contact')" exact v-if="contactExistInStore">
                   {{ $t('Contact us') }}
                 </router-link>
               </div>
@@ -182,13 +182,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLogged: 'user/isLoggedIn'
+      isLogged: 'user/isLoggedIn',
+      getCurrentStore: 'procc/getCurrentStore'
     }),
     multistoreEnabled () {
       return config.storeViews.multistore
     },
     getVersionInfo () {
       return `v${process.env.__APPVERSION__} ${process.env.__BUILDTIME__}`
+    },
+    aboutExistInStore () {
+      return !!(this.getCurrentStore.storefront_setting && this.getCurrentStore.storefront_setting.about_text)
+    },
+    contactExistInStore () {
+      return !!(this.getCurrentStore.storefront_setting && this.getCurrentStore.storefront_setting.contact_information)
     }
   },
   components: {

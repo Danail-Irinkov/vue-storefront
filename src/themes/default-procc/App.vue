@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import {mapActions, mapState} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 const DefaultLayout = () => import(/* webpackChunkName: "vsf-layout-default" */ './layouts/Default')
 const EmptyLayout = () => import(/* webpackChunkName: "vsf-layout-empty" */ './layouts/Empty')
 const MinimalLayout = () => import(/* webpackChunkName: "vsf-layout-minimal" */ './layouts/Minimal')
@@ -18,13 +18,19 @@ export default {
       ordersData: []
     }
   },
-  mounted() {
+  mounted () {
     this.updateCurrentStore()
+    this.$bus.$on('update-theme', this.updateTheme)
   },
   methods: {
     ...mapActions({
       updateCurrentStore: 'procc/updateCurrentStore'
     }),
+    updateTheme (color) {
+      const app = document.getElementById('app')
+      app.className = color.toLowerCase()
+      document.getElementById('footer-links').className += ` ${color.toLowerCase()}`
+    }
   },
   computed: {
     ...mapState({
@@ -34,6 +40,9 @@ export default {
       return `${(this.$route.meta.layout || 'default')}-layout`
     }
   },
+  beforeDestroy () {
+    this.$bus.$off('update-theme', this.updateTheme)
+  },
   components: {
     DefaultLayout,
     EmptyLayout,
@@ -41,3 +50,17 @@ export default {
   }
 }
 </script>
+<style>
+  #footer-links.pink,
+  #app.pink{
+    background-color: #fff6fe !important;
+  }
+  #footer-links.grey,
+  #app.grey{
+    background-color: #f4f4f4 !important;
+  }
+  #footer-links.blue,
+  #app.blue{
+    background-color: #ebefff !important;
+  }
+</style>
