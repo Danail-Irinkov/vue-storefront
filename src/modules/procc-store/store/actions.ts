@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import StoreDataState from '../types/StoreDataState'
 import { Logger } from '@vue-storefront/core/lib/logger'
-import procc_api from '@vue-storefront/theme-default-procc/helpers/procc_api'
+import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 const actions: ActionTree<StoreDataState, RootState> = {
@@ -28,9 +28,9 @@ const actions: ActionTree<StoreDataState, RootState> = {
   async updateCurrentStore ({commit, rootState}) {
     console.log('updateCurrentStore START')
     if (rootState.storeView && rootState.storeView.storeCode) {
-      return procc_api().getStoreData(rootState.storeView.storeCode, rootState.storeView.procc_brand_id)
+      return ProCcApi().getStoreDataVSF(rootState.storeView.storeCode, rootState.storeView.procc_brand_id)
         .then((result) => {
-          console.log('updateCurrentStore RESULT', result.data)
+          console.log('updateCurrentStore RESULT', result.data.message_type)
           if (result.data && result.data.storeData) {
             commit('SET_CURRENT_STORE', result.data.storeData)
             if (result.data.storeData.storefront_setting && result.data.storeData.storefront_setting.template) {

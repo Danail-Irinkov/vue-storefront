@@ -78,6 +78,7 @@ const mergeActions = {
       if (dryRun) return diffLog
       // console.log("forceClientState", forceClientState)
       if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
+        console.log("updateServerItem Start sync")
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: false })
 
         // console.timeEnd('synchronizeServerItem1')
@@ -88,7 +89,7 @@ const mergeActions = {
       return diffLog
     }
 
-    if (serverItem.qty !== clientItem.qty) {
+    if (serverItem.qty !== clientItem.qty || serverItem.deduct_VAT !== clientItem.deduct_VAT ) { // edited by Dan to addd VAT check
       Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
       if (dryRun) return diffLog

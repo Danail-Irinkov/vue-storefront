@@ -31,7 +31,11 @@ const getters: GetterTree<CartState, RootState> = {
   getCoupon: ({ platformTotals }): AppliedCoupon | false =>
     !(platformTotals && platformTotals.hasOwnProperty('coupon_code')) ? false : { code: platformTotals.coupon_code, discount: platformTotals.discount_amount },
   isVirtualCart: ({ cartItems }) => cartItems.every(itm => itm.type_id === 'downloadable' || itm.type_id === 'virtual'),
-  canUpdateMethods: (state, getters) => getters.isCartSyncEnabled && getters.isCartConnected,
+  canUpdateMethods: (state, getters) => {
+    console.log('getters.isCartSyncEnabled', getters.isCartSyncEnabled)
+    console.log('getters.isCartConnected', getters.isCartConnected)
+    return getters.isCartSyncEnabled && getters.isCartConnected
+  },
   canSyncTotals: (state, getters) => getters.isTotalsSyncEnabled && getters.isCartConnected,
   isCartEmpty: state => state.cartItems.length === 0,
   bypassCounter: state => state.connectBypassCount,

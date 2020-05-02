@@ -4,6 +4,7 @@ import CartItemOption from './CartItemOption'
 import CartItemTotals from './CartItemTotals'
 
 export default interface CartItem extends Product {
+  deduct_VAT: any;
   qty: number,
   procc_product_id: string,
   options: CartItemOption[],

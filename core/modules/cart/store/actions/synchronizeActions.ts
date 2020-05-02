@@ -53,7 +53,11 @@ const synchronizeActions = {
 
     const shouldForceClientState = rootGetters['checkout/isUserInCheckout'] || forceClientState
     const { getCartItems, canUpdateMethods, isSyncRequired, bypassCounter } = getters
+    console.log('SyncCartActionTime before canUpdateMethods', canUpdateMethods)
+    console.log('SyncCartActionTime before isSyncRequired', isSyncRequired)
     if (!canUpdateMethods || !isSyncRequired) return createDiffLog()
+    // if (!forceClientState && (!canUpdateMethods || !isSyncRequired)) return createDiffLog() // Edited By dan, because of VAT boolean not triggering the hash function
+    console.log('SyncCartActionTime after createDiffLog')
     commit(types.CART_SET_SYNC)
     const { result, resultCode } = await CartService.getItems()
 

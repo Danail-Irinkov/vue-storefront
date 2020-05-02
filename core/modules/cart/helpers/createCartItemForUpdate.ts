@@ -6,7 +6,9 @@ const createCartItemForUpdate = (clientItem: CartItem, serverItem: any, updateId
   const sku = clientItem.sku ? clientItem.sku : clientItem.parentSku // Edited by dan to fix create order issue when product variants are not synced 30-12-2019
   console.log('createCartItemForUpdate', clientItem)
   const cartItem = {
+    // ...clientItem,
     sku,
+    deduct_VAT: clientItem.deduct_VAT,
     qty: clientItem.qty,
     product_option: clientItem.product_option,
     procc_product_id: clientItem.procc_product_id, // Edited by shabbir for save product id in cart session

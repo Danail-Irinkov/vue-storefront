@@ -6,6 +6,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 import find from 'lodash-es/find';
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 
 export const Payment = {
   name: 'Payment',
@@ -22,6 +23,7 @@ export const Payment = {
       countries: Countries,
       ProCC_Countries: [], // Edited By Dan
       VATEnabledStores: [], // Edited By Dan
+      taxId_prev: '', // Edited By Dan
       payment: this.$store.getters['checkout/getPaymentDetails'],
       generateInvoice: false,
       sendToShippingAddress: false,
@@ -42,8 +44,15 @@ export const Payment = {
       getPersonalDetails: 'checkout/getPersonalDetails'
     }),
     customerIsInEU(){
-      let customer_country = 'BG'
-      let EU_countries = ['BG']
+      let customer_country = this.payment.country
+      let EU_countries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus',
+        'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France',
+        'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia',
+        'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland',
+        'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden']
+      // TODO: NEED to USE the this.ProCC_Countries for checking
+      // TODO: NEED to add boolean in the countries model for which countries are from the EU
+      // TODO: Need to verify that the Company TAX ID prefix is matching the country of the billing address
       return EU_countries.indexOf(customer_country) !== -1
     }
   },
@@ -57,6 +66,9 @@ export const Payment = {
     this.getShippingCountryList()
     if (this.payment.firstName) {
       this.initializeBillingAddress()
+      if(this.payment.taxId){
+        this.verifyVATNumber()
+      }
     }
 
     if (this.payment.company && this.payment.taxId) {
@@ -114,6 +126,7 @@ export const Payment = {
       }
     },
     sendDataToCheckout () {
+      this.verifyVATNumber()
       this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
       this.placeOrderAtPayment() // modify function for call place order function by shabbir
     },
@@ -280,47 +293,61 @@ export const Payment = {
     },
     async verifyVATNumber () { // Added By Dan
       try {
-        this.$v.payment.taxId.$touch()
+        if(this.$v && this.$v.payment && this.$v.payment.taxId)
+          this.$v.payment.taxId.$touch()
         console.log('verifyVATNumber Start')
 
-        if (this.VATEnabledStores.length > 0){
           let verification = { valid: false, company_name: null }
-          if (this.customerIsInEU){
+          if (this.customerIsInEU && this.payment.taxId){
             let VAT_number = this.payment.taxId
             verification = (await this.ProCcApi.validateVATNumber({VAT_number}, this.currentImage.brand)).data.validation
-            console.log('verifyVATNumber', verification)
+            // console.log('verifyVATNumber verification', verification)
           }
-          if ((verification && verification.valid) || !this.customerIsInEU){
-            // Show Company VAT enabled -> for name and address under the input
-            if (verification.company_name) {
-            // if company name is different than provided, replace it with the received one
-              this.payment.company = verification.company_name
-              // TODO: maybe also do similar for address if provided in the validation
-            }
 
-            // reduce the VAT amount from the total
-            for (let item of this.getCartItems) {
-              console.log('verifyVATNumber cart Item', item)
-              let product = {
-                ...item
-              }
-              if (this.VATEnabledStores.indexOf(item.procc_brand_id) !== -1) {
-                // deduct VAT from order_item
-                product.deduct_VAT = true
-              } else {
-                product.deduct_VAT = false
-              }
-              console.log('verifyVATNumber updateItem VAT: ', product)
-              await this.$store.dispatch('cart/updateItem', { product })
-            }
-            this.$store.dispatch('cart/sync', { forceClientState: true })
+          if (verification && verification.company_name) {
+          // if company name is different than provided, replace it with the received one
+            this.payment.company = verification.company_name
+            if(this.$v && this.$v.payment && this.$v.payment.company)
+            this.$v.payment.company.$touch()
+            // TODO: maybe also do similar for address if provided in the validation
+          }
 
+          // SET the VAT amount from the total
+          let cart_items1 = await this.getCartItems
+          console.log('test cart_items1', cart_items1[0].deduct_VAT)
+          for (let item of this.getCartItems) {
+            // console.log('verifyVATNumber cart Item', item)
+            let product = {
+              ...item
+            }
+            if (this.VATEnabledStores.indexOf(item.procc_brand_id) !== -1 && verification && verification.valid) {
+              // deduct VAT from order_item
+              product.deduct_VAT = true
+            } else {
+              product.deduct_VAT = false
+            }
+            // console.log('verifyVATNumber updateItem VAT: ', product)
+            await this.$store.dispatch('cart/updateItem', { product })
+            EventBus.$emit('cart-after-itemchanged', { item: product })
+          }
+          let cart_items2 = await this.getCartItems
+          console.log('test cart_items2', cart_items2[0].deduct_VAT)
+          let sync_res = await this.$store.dispatch('cart/sync', { forceClientState: true })
+          console.log('test sync_res', sync_res)
+          await this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
+
+          // SUCCESS NOTIFICATION
+          if (verification && verification.valid && this.payment.taxId && this.payment.taxId !== this.taxId_prev) {
+            this.taxId_prev = this.payment.taxId
             await this.$store.dispatch('notification/spawnNotification', {
               type: 'success',
               message: this.$t('VAT deducted, please account for VAT according to your local law'),
-              action1: { label: i18n.t('OK') }
+              action1: { label: this.$t('OK') }
             })
-          } else {
+          }
+
+          // INVALID VAT NUMBER NOTIFICATION
+          if(!(verification && verification.valid) && this.payment.taxId && this.payment.taxId.length > 0) {
             // if not valid -> show warning that Company Id is not VAT enabled
             await this.$store.dispatch('notification/spawnNotification', {
               type: 'warning',
@@ -328,14 +355,13 @@ export const Payment = {
               action1: { label: i18n.t('OK') }
             })
           }
-        }
       } catch (e) {
         // Show failed to verify VAT Number
         console.log('verifyVATNumber ERR: ', e)
         return this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
           message: this.$t('Server failed to verify EU VAT Number'),
-          action1: { label: i18n.t('OK') }
+          action1: { label: this.$t('OK') }
         })
       }
     },
@@ -343,6 +369,7 @@ export const Payment = {
       if (!this.generateInvoice) {
         this.payment.company = ''
         this.payment.taxId = ''
+        this.verifyVATNumber()
       }
     },
     getCountryName () {

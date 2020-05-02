@@ -271,7 +271,7 @@
               name="company-name"
               :placeholder="$t('Company name *')"
               v-model.trim="payment.company"
-              @blur="$v.payment.company.$touch()"
+              @input="$v.payment.company.$touch()"
               autocomplete="organization"
               :validations="[{
                 condition: $v.payment.company.$error && !$v.payment.company.required,
@@ -418,12 +418,12 @@ export default {
             unicodeAlpha
           },
           company: {
-            required,
-            unicodeAlphaNum
+            // unicodeAlphaNum, // DIsabled by dan due to cyrilic names
+            required
           },
           taxId: {
             required,
-            minLength: minLength(3)
+            minLength: minLength(6)
           },
           country: {
             required
