@@ -102,11 +102,10 @@ const actions: ActionTree<UserState, RootState> = {
     // Edited by shabbir for save customer in procc
     return ProCcApi().createVSFCustomer({ password, ...customer })
       .then(async (result) => {
-        console.log("resetPasswordMessage aaa ",result)
+        console.log('resetPasswordMessage aaa ', result)
         if (result.data.resetPasswordMessage) {
           dispatch('handleResetPasswordMessage', {email: result.data.user.email})
-        }
-        else if(result.data.message_type === 'success'  && result.data.user && result.data.token){
+        } else if (result.data.message_type === 'success' && result.data.user && result.data.token) {
           try {
             await dispatch('resetUserInvalidateLock', {}, { root: true })
             await dispatch('setCurrentUser', result.data.user)
@@ -285,21 +284,21 @@ const actions: ActionTree<UserState, RootState> = {
     }, { root: true })
   },
   async handleResetPasswordMessage ({ dispatch }, { email }) {
-    console.log("email---------",email)
+    console.log('email---------', email)
     dispatch('notification/spawnNotification', {
       type: 'warning',
-      message: i18n.t('Account for {email} already exists.', { email: email}),
+      message: i18n.t('Account for {email} already exists.', { email: email }),
       action2: { label: i18n.t('Reset Password'),
         action: () => {
-            console.log('Reset Password ')
-            dispatch('forgotPassword', { email: email }).then((result) => {
-              console.log('forgotPassword result ', result)
-              dispatch('notification/spawnNotification', {
-                type: result.message_type,
-                message: result.message_type=='success'?i18n.t('Password reset email sent, Please check email'):i18n.t('OK'),
-                action1: { label: i18n.t('OK') }
-              }, { root: true })
-            })
+          console.log('Reset Password ')
+          dispatch('forgotPassword', { email: email }).then((result) => {
+            console.log('forgotPassword result ', result)
+            dispatch('notification/spawnNotification', {
+              type: result.message_type,
+              message: result.message_type === 'success' ? i18n.t('Password reset email sent, Please check email') : i18n.t('OK'),
+              action1: { label: i18n.t('OK') }
+            }, { root: true })
+          })
         }
       },
       action1: { label: i18n.t('Retry') },

@@ -32,14 +32,16 @@
           <base-checkbox
             class="col-sm-12 bg-cl-secondary p15 ml10"
             id="storePaymentInfo"
-            v-model="storePaymentInfo">
+            v-model="storePaymentInfo"
+          >
             {{ $t("Save my Payment Information in accordance with ProCC's Privacy Policy") }}
           </base-checkbox>
         </div>
         <div class="col-md-8 animated fadeInDown bg-cl-secondary"
              v-if="storePersonalInfo || storePaymentInfo"
-             style="padding-left: 15px;">
-          {{$t("Registration email is")}} <strong>{{email}}</strong>
+             style="padding-left: 15px;"
+        >
+          {{ $t("Registration email is") }} <strong>{{ email }}</strong>
           <base-input
             class=""
             style="width: calc(100% - 28px); padding-top: 22px"
@@ -56,13 +58,15 @@
         </div>
         <div class="col-md-4 animated fadeInDown bg-cl-secondary"
              v-if="storePersonalInfo || storePaymentInfo"
-             style="margin-top: 1rem">
+             style="margin-top: 1rem"
+        >
           <button-full
             @click.native="saveUserAccount"
             data-testid="orderReviewSubmit"
             class="place-order-btn"
             style="margin-top: 10px;"
-            :disabled="$v.password.$invalid">
+            :disabled="$v.password.$invalid"
+          >
             {{ $t('Save to Account') }}
           </button-full>
         </div>

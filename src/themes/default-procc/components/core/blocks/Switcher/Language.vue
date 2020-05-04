@@ -12,7 +12,7 @@
           </ul>
         </div>-->
         <div class="country country-available" v-for="country in country_list" :key="country.name">
-<!--          <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>-->
+          <!--          <h3>{{ $t(storeView.i18n.fullCountryName) }}</h3>-->
           <ul>
             <li style="text-align: center; width: 100%; margin-left: 0px">
               <a style="cursor: pointer; margin-left: auto;margin-right: auto" @click="changeLanguage(country)">
@@ -29,7 +29,7 @@
 import Modal from 'theme/components/core/Modal.vue'
 import {countries} from 'src/themes/default-procc/helpers/countries.js'
 import config from 'config'
-import {loadLanguageAsync} from "@vue-storefront/i18n";
+import {loadLanguageAsync} from '@vue-storefront/i18n';
 export default {
   components: {
     Modal
@@ -74,12 +74,12 @@ export default {
       console.log('Changing Lang to: ', country)
       // i18n.locale = country.language
       loadLanguageAsync(country.language)
-        .then((res)=>{
+        .then((res) => {
           console.log('changeLanguage RES:', res)
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.log('changeLanguage Error:', e)
-      })
+        })
     },
     close () {
       this.$bus.$emit('modal-hide', 'modal-switcher')

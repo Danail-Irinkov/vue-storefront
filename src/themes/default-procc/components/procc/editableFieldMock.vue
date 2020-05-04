@@ -1,49 +1,49 @@
 <template>
-    <div :style="fieldStyle" :class="className" :id="fieldId" style="display: inline-block">
-      {{ inputValue }}
-    </div>
+  <div :style="fieldStyle" :class="className" :id="fieldId" style="display: inline-block">
+    {{ inputValue }}
+  </div>
 </template>
 
 <script>
-  // import { mixin as clickaway } from 'vue-clickaway'
+// import { mixin as clickaway } from 'vue-clickaway'
 
-  export default {
-    name: "editable-field-mock",
-    // mixins: [ clickaway ],
-    components: {
+export default {
+  name: 'EditableFieldMock',
+  // mixins: [ clickaway ],
+  components: {
 
-    },
-      props: ['inputValue','enable','dottedMode','textAreaMode','className','fieldId', 'fieldStyle', 'inputStyle', 'selectOptions','databaseDropdown'],
-        data() {
-            return {
-                newValue: null,
-                editing: false
-            }
-        },
-        mounted(){
-        },
-        computed: {
-          wrapperStyle(){
-            return this.fieldStyle + ';max-width: 80px'
-          }
-        },
-        methods: {
-            enableEditing: function (mouseEvent) {
-                if(this.enable) {
-                    this.newValue = this.inputValue
-                    this.editing = true
-                }
-            },
-            disableEditing: function () {
-                this.newValue = null;
-                this.editing = false;
-            },
-            saveEdit: function () {
-                this.$emit('input', this.newValue)
-                this.disableEditing();
-            }
-        }
+  },
+  props: ['inputValue', 'enable', 'dottedMode', 'textAreaMode', 'className', 'fieldId', 'fieldStyle', 'inputStyle', 'selectOptions', 'databaseDropdown'],
+  data () {
+    return {
+      newValue: null,
+      editing: false
     }
+  },
+  mounted () {
+  },
+  computed: {
+    wrapperStyle () {
+      return this.fieldStyle + ';max-width: 80px'
+    }
+  },
+  methods: {
+    enableEditing: function (mouseEvent) {
+      if (this.enable) {
+        this.newValue = this.inputValue
+        this.editing = true
+      }
+    },
+    disableEditing: function () {
+      this.newValue = null;
+      this.editing = false;
+    },
+    saveEdit: function () {
+      this.$emit('input', this.newValue)
+      this.disableEditing();
+    }
+  }
+}
 </script>
 
 <style>

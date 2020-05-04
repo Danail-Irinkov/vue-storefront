@@ -53,7 +53,7 @@ module.exports = (config, app) => {
           alwaysQuote: true,
           header: [
             {id: 'key', title: 'keys'},
-            {id: 'value', title: 'values'},
+            {id: 'value', title: 'values'}
           ]
         })
 
@@ -72,7 +72,7 @@ module.exports = (config, app) => {
     try {
       const oldPromise = _.cloneDeep(fileWritePromise)
       fileWritePromise = new Promise(async (resolve, reject) => {
-        if(oldPromise) await oldPromise
+        if (oldPromise) await oldPromise
         try {
           let locale = req.body.locale
           let missingText = req.body.missingText
@@ -82,13 +82,13 @@ module.exports = (config, app) => {
           let original_data = await convertCSVToJSONArray(input_file_path)
           let extracted_data = [{value: 'asd'}]
 
-          if(fs.existsSync('./temp/out.csv')){
+          if (fs.existsSync('./temp/out.csv')) {
             extracted_data = await convertCSVToJSONArray(output_file_path)
           }
           let append_data = []
 
-          if(!_.some(original_data, (node)=> node.value === missingText)
-            && !_.some(extracted_data, (node)=> node.value === missingText)) {
+          if (!_.some(original_data, (node) => node.value === missingText) &&
+            !_.some(extracted_data, (node) => node.value === missingText)) {
             console.log('MissingTranslation input', locale, missingText)
             append_data.push({
               key: String(missingText),
@@ -100,7 +100,7 @@ module.exports = (config, app) => {
               append: true,
               header: [
                 {id: 'key', title: 'keys'},
-                {id: 'value', title: 'values'},
+                {id: 'value', title: 'values'}
               ]
             })
 
@@ -113,7 +113,7 @@ module.exports = (config, app) => {
           } else {
             resolve(apiStatus(res, 'Translation Skipped', 200))
           }
-        }catch (e) {
+        } catch (e) {
           console.log('Error: failed to write csv')
           reject(e)
         }
@@ -640,7 +640,7 @@ function convertCSVToJSONArray (file_name) {
       .pipe(csv())
       .on('data', (row) => {
         // console.log('ProCCMissingTranslationHandler row', row);
-        for (let key in row){
+        for (let key in row) {
           let value = String(row[key])
           data.push({key: value, value})
         }

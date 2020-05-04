@@ -11,7 +11,7 @@ const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentM
   const shippingTax = shippingMethod ? sumBy(totalByShippingMethod, (s) => { return s.cost }) : 0
   const subTotal = sumBy(cartItems, (p) => {
     if (p.deduct_VAT) { // VAT adjustment VAT calculation
-      return p.qty * p.price_incl_tax*0.82 // TODO NEED TO ACTUALLY CALCULATE THE ACTUAL COST
+      return p.qty * p.price_incl_tax * 0.82 // TODO NEED TO ACTUALLY CALCULATE THE ACTUAL COST
     } else {
       return p.qty * p.price_incl_tax
     }
@@ -64,10 +64,10 @@ function getShippingCostByBrand (shippingMethods, cartItems) {
       if (cartItemByBrand[0].deduct_VAT) {
         is_VAT_deducted = true
       }
-      let shipping_method_cost = is_VAT_deducted ? method.cost*0.82 : method.cost // TODO: actually calculate the minus VFAT price according to Country VAT rate
+      let shipping_method_cost = is_VAT_deducted ? method.cost * 0.82 : method.cost // TODO: actually calculate the minus VFAT price according to Country VAT rate
       total_shipping.push({
         name: method.name,
-        cost: method.isPerProduct ? cartItemByBrand.length * shipping_method_cost : shipping_method_cost}) //modified by Dan
+        cost: method.isPerProduct ? cartItemByBrand.length * shipping_method_cost : shipping_method_cost}) // modified by Dan
     }
   }
   return total_shipping

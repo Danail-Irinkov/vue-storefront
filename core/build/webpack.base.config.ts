@@ -61,7 +61,7 @@ const isProd = process.env.NODE_ENV === 'production'
 // todo: usemultipage-webpack-plugin for multistore
 export default {
   node: {
-    fs: "empty"
+    fs: 'empty'
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/dayjs[/\\]locale$/, buildLocaleIgnorePattern()),

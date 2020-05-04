@@ -287,7 +287,6 @@
           </template>
         </div>
         <div class="row">
-
           <div class="col-xs-12">
             <h4>{{ $t('Payment method') }}</h4>
           </div>

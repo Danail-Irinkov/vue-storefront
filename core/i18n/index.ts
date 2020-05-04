@@ -21,16 +21,16 @@ once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)
 })
 
-const loadedLanguages = ['en-US','de-DE', 'bg-BG', 'fr-FR', 'es-ES', 'nl-NL', 'ja-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ']
-//VueI18n.MissingHandler
+const loadedLanguages = ['en-US', 'de-DE', 'bg-BG', 'fr-FR', 'es-ES', 'nl-NL', 'ja-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ']
+// VueI18n.MissingHandler
 const ProCCMissingTranslationHandler = (locale: string, missingText: string): void => {
   console.log('Translation Missing for ', locale, missingText)
   if (process.env.NODE_ENV === 'development') {
     api.post('fillInMissingTranslation', {locale, missingText})
-      .then((res)=>{
+      .then((res) => {
         // console.log('fillInMissingTranslation RES: ', res.status)
       })
-      .catch((e)=>{
+      .catch((e) => {
         console.log('fillInMissingTranslation Error', e)
       })
   }
@@ -48,7 +48,6 @@ function setI18nLanguage (lang: string): string {
   i18n.locale = lang
   return lang
 }
-
 
 /**
  * Lazy load date locales file for current switched language.

@@ -106,7 +106,7 @@ export default {
         // { title: i18n.t('Contact us'), link: '/contact', component: StaticShortExample }
         { title: i18n.t('Delivery'), link: getPathForStaticPage('/delivery'), component: Delivery },
         { title: i18n.t('Privacy'), link: getPathForStaticPage('/privacy'), component: Privacy },
-        { title: i18n.t('Warranty'), link: getPathForStaticPage('/warranty'), component: Warranty },
+        { title: i18n.t('Warranty'), link: getPathForStaticPage('/warranty'), component: Warranty }
       ]
     }
   }

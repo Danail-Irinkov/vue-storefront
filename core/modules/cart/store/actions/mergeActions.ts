@@ -78,7 +78,7 @@ const mergeActions = {
       if (dryRun) return diffLog
       // console.log("forceClientState", forceClientState)
       if (forceClientState || !config.cart.serverSyncCanRemoveLocalItems) {
-        console.log("updateServerItem Start sync")
+        console.log('updateServerItem Start sync')
         const updateServerItemDiffLog = await dispatch('updateServerItem', { clientItem, serverItem, updateIds: false })
 
         // console.timeEnd('synchronizeServerItem1')
@@ -89,7 +89,7 @@ const mergeActions = {
       return diffLog
     }
 
-    if (serverItem.qty !== clientItem.qty || serverItem.deduct_VAT !== clientItem.deduct_VAT ) { // edited by Dan to addd VAT check
+    if (serverItem.qty !== clientItem.qty || serverItem.deduct_VAT !== clientItem.deduct_VAT) { // edited by Dan to addd VAT check
       Logger.log('Wrong qty for ' + clientItem.sku, clientItem.qty, serverItem.qty)()
       diffLog.pushServerParty({ sku: clientItem.sku, status: 'wrong-qty', 'client-qty': clientItem.qty, 'server-qty': serverItem.qty })
       if (dryRun) return diffLog
@@ -135,15 +135,15 @@ const mergeActions = {
     // Added by Dan to merge the quantities of same SKU items added separately
     let cl_items_sofar = {}
     for (let clientItem of clientItems) {
-      if (cl_items_sofar[clientItem.procc_product_id]
-        && cl_items_sofar[clientItem.procc_product_id].procc_product_id === clientItem.procc_product_id
-        && cl_items_sofar[clientItem.procc_product_id].sku === clientItem.sku
-        && cl_items_sofar[clientItem.procc_product_id].price === clientItem.price
-        && cl_items_sofar[clientItem.procc_product_id].size === clientItem.size
-      ){
+      if (cl_items_sofar[clientItem.procc_product_id] &&
+        cl_items_sofar[clientItem.procc_product_id].procc_product_id === clientItem.procc_product_id &&
+        cl_items_sofar[clientItem.procc_product_id].sku === clientItem.sku &&
+        cl_items_sofar[clientItem.procc_product_id].price === clientItem.price &&
+        cl_items_sofar[clientItem.procc_product_id].size === clientItem.size
+      ) {
         console.log('Merging clientItem1', cl_items_sofar[clientItem.procc_product_id])
         console.log('Merging clientItem2', clientItem)
-        //Update 1st CartItem's quantity + product2.qty
+        // Update 1st CartItem's quantity + product2.qty
         cl_items_sofar[clientItem.procc_product_id].qty += clientItem.qty
         forceClientState = true
         // Remove 2nd from cart

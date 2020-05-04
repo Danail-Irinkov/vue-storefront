@@ -9,31 +9,31 @@
           <div
             class="row m0 col-lg-7 col-md-8 col-xs-12 start-md between-md between-xs no-mobile"
           >
-<!--            <div class="start-md">-->
-<!--              <h3 class="cl-accent weight-400">-->
-<!--                {{ $t('Departments') }}-->
-<!--              </h3>-->
-<!--              <div class="mt15">-->
-<!--                <router-link class="cl-secondary" :to="localizedRoute('/women/women-20')" exact>-->
-<!--                  {{ $t('Women fashion') }}-->
-<!--                </router-link>-->
-<!--              </div>-->
-<!--              <div class="mt15">-->
-<!--                <router-link class="cl-secondary" :to="localizedRoute('/men/men-11')" exact>-->
-<!--                  {{ $t("Men's fashion") }}-->
-<!--                </router-link>-->
-<!--              </div>-->
-<!--              <div class="mt15">-->
-<!--                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>-->
-<!--                  {{ $t('Kidswear') }}-->
-<!--                </router-link>-->
-<!--              </div>-->
-<!--              <div class="mt15">-->
-<!--                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>-->
-<!--                  {{ $t('Home') }}-->
-<!--                </router-link>-->
-<!--              </div>-->
-<!--            </div>-->
+            <!--            <div class="start-md">-->
+            <!--              <h3 class="cl-accent weight-400">-->
+            <!--                {{ $t('Departments') }}-->
+            <!--              </h3>-->
+            <!--              <div class="mt15">-->
+            <!--                <router-link class="cl-secondary" :to="localizedRoute('/women/women-20')" exact>-->
+            <!--                  {{ $t('Women fashion') }}-->
+            <!--                </router-link>-->
+            <!--              </div>-->
+            <!--              <div class="mt15">-->
+            <!--                <router-link class="cl-secondary" :to="localizedRoute('/men/men-11')" exact>-->
+            <!--                  {{ $t("Men's fashion") }}-->
+            <!--                </router-link>-->
+            <!--              </div>-->
+            <!--              <div class="mt15">-->
+            <!--                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>-->
+            <!--                  {{ $t('Kidswear') }}-->
+            <!--                </router-link>-->
+            <!--              </div>-->
+            <!--              <div class="mt15">-->
+            <!--                <router-link class="cl-secondary" :to="localizedRoute('/')" exact>-->
+            <!--                  {{ $t('Home') }}-->
+            <!--                </router-link>-->
+            <!--              </div>-->
+            <!--            </div>-->
             <div class="start-md">
               <h3 class="cl-accent weight-400">
                 {{ $t('Store') }}
