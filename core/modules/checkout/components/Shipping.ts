@@ -27,7 +27,7 @@ export const Shipping = {
       ProCcApi: ProCcApi(),
       ProCC_Countries: [], // Edited By Dan
       countries: [], // Edited By Dan
-      shipping: this.$store.state.checkout.shippingDetails,
+      shipping: {},
       shipToMyAddress: false,
       selectedShippingMethods: {},
       myAddressDetails: {
@@ -50,9 +50,6 @@ export const Shipping = {
       addressSaved: false,
       city_loading: false,
       street_loading: false,
-      disable_all_fields: true,
-      disable_street_fields: true,
-      disable_city_fields: true,
       streets_filtered_options: [],
       cities_filtered_options: [],
       selected_street_id: '',
@@ -70,6 +67,9 @@ export const Shipping = {
     checkoutShippingDetails () {
       return this.$store.state.checkout.shippingDetails
     },
+    disable_all_fields () { return !(this.shipping && this.shipping.street_id && this.shipping.ISO_code && this.shipping.site_id) },
+    disable_street_fields () { return !(this.shipping && this.shipping.ISO_code && (this.shipping.site_id || this.no_cities_available)) },
+    disable_city_fields () { return !(this.shipping && this.shipping.ISO_code) },
     paymentMethod () {
       return this.$store.getters['checkout/getPaymentMethods']
     }
@@ -94,10 +94,6 @@ export const Shipping = {
     },
     shipping: {
       handler: function (newValue) {
-        this.disable_all_fields = !(newValue.street_id && newValue.ISO_code && newValue.site_id);
-        this.disable_street_fields = !(newValue.ISO_code && (newValue.site_id || this.no_cities_available));
-        this.disable_city_fields = !newValue.ISO_code;
-
         // Autofill Post Code
         let post_code
         for (let city of this.cities) {
@@ -117,6 +113,8 @@ export const Shipping = {
     this.getShippingCountryList()
     this.checkDefaultShippingAddress()
     this.checkSelectedShippingMethod()
+    this.shipping = {...this.$store.state.checkout.shippingDetails}
+    this.selectCountry()
   },
   methods: {
     async getShippingCountryList () {
@@ -294,6 +292,7 @@ export const Shipping = {
 
           this.$nextTick(() => {
             if (this.no_cities_available) { document.getElementById('cityInput').focus(); } else { document.getElementById('cityInput2').focus(); }
+            // this.$forceUpdate()
           })
         }
       })

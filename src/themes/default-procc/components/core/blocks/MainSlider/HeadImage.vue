@@ -71,7 +71,7 @@ export default {
         title_color: '#f4def2',
         subtitle: 'Can you make better product photos? Register as a CC?',
         subtitle_color: '#f4def2',
-        link: 'https://procc.co/signup/cc',
+        link: 'https://work.procc.co/signup/cc',
         button_text: 'Sign Up'
       },
       currentImage: null

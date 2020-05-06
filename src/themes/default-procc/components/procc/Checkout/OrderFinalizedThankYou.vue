@@ -7,7 +7,7 @@
         <!--          :routes="[]"-->
         <!--          :active-route="this.$t('Order confirmation')"-->
         <!--        />-->
-        <img src="https://procc.co/static/img/check-mark-circle.png" class="order-confirm-header" style="opacity: 0.6;">
+        <img src="https://work.procc.co/static/img/check-mark-circle.png" class="order-confirm-header" style="opacity: 0.6;">
         <h4 class="category-title">
           {{ $t('Thank you for your purchase') }}
         </h4>
@@ -93,7 +93,7 @@
           <li v-if="lastOrderConfirmation.orders[0].customer_user">
             {{ $t('You will receive an email at') }} <strong>{{ lastOrderConfirmation.orders[0].customer_user.email }}</strong> {{ $t('confirming your order.') }}
           </li>
-          <li>{{ $t('You will receive another confirmation email at shipping. If you have any questions, see our') }} <a href="https://procc.co/faq" target="_blank">{{ $t("FAQ") }}</a> </li>
+          <li>{{ $t('You will receive another confirmation email at shipping. If you have any questions, see our') }} <a href="https://work.procc.co/faq" target="_blank">{{ $t("FAQ") }}</a> </li>
         </ol>
         <p>{{ $t("You can check the status of the order using your account's Order History") }}</p>
       </div>
