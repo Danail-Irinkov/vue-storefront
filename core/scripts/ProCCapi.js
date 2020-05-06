@@ -175,7 +175,7 @@ module.exports = (config, app) => {
       return apiStatus(res, 'Bad Data Input', 400);
     }
     // set Store Categories
-    console.log(storeData, 'setCategoryBanner DATA:');
+    // console.log(storeData, 'setCategoryBanner DATA:');
     setCategoryBanner(config, storeData);
 
     apiStatus(res, 'Vue Storefront: /category-link Success', 200);
@@ -323,6 +323,8 @@ function setCategoryBanner (config, storeData) {
   let countCategories = top3Categories.length;
   let mainBanners = [];
   let smallBanners = [];
+  console.log('storefrontConfig top3Categories', top3Categories);
+  console.log('storefrontConfig top3Categories');
   if (countCategories >= 1 && top3Categories[0] && top3Categories[0].cover_photo) {
     mainBanners = [
       {
