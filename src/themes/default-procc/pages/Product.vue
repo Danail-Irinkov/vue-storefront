@@ -66,7 +66,7 @@
                   {{ getCurrentProduct.errors | formatProductMessages }}
                 </div>
                 <div class="h5" v-for="option in getProductOptions" :key="option.id">
-                  <div class="variants-label" data-testid="variantsLabel">
+                  <div class="variants-label" data-testid="variantsLabel" v-if="(option.label == 'Size' && !isDefaultProductSize) || option.label !== 'Size'">
                     {{ option.label }}
                     <span
                       class="weight-700"
@@ -82,7 +82,7 @@
                         @change="changeFilter"
                       />
                     </div>
-                    <div class="sizes" v-else-if="option.label == 'Size'">
+                    <div class="sizes" v-else-if="option.label == 'Size'" v-show="!isDefaultProductSize">
                       <size-selector
                         class="mr10 mb10"
                         v-for="filter in getAvailableFilters[option.attribute_code]"
@@ -104,7 +104,7 @@
                       />
                     </div>
                     <span
-                      v-if="option.label == 'Size'"
+                      v-if="option.label == 'Size' && !isDefaultProductSize"
                       @click="openSizeGuide"
                       class="p0 ml30 inline-flex middle-xs no-underline h5 action size-guide pointer cl-secondary"
                     >
@@ -190,10 +190,10 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row" v-if="!isDefaultProductSize">
                 <h3>Size Chart</h3>
               </div>
-              <div class="row mb10">
+              <div class="row mb10" v-if="!isDefaultProductSize">
                 <size-chart-view class="align-center" :product="getCurrentProduct" />
               </div>
             </div>
@@ -412,7 +412,13 @@ export default {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
     getSelectedFilters () {
+      console.log('this.getCurrentProduct', this.getCurrentProduct)
+      console.log('this.getCurrentProductConfiguration', this.getCurrentProductConfiguration)
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
+    },
+    isDefaultProductSize () { // check if the size option is default
+      const available_filters = getAvailableFiltersByProduct(this.getCurrentProduct)
+      return !!((available_filters.size && available_filters.size.length === 1 && available_filters.size[0].label.toLowerCase() === 'default'))
     },
     isSimpleOrConfigurable () {
       return ['simple', 'configurable'].includes(this.getCurrentProduct.type_id)
@@ -463,6 +469,15 @@ export default {
         console.log('getCurrentProduct Variant set3', this.ProCCCurrentProductVariant.size_label)
         console.log('getCurrentProduct Variant set4', product.size_label)
         if (product.size_label && product.sku !== this.ProCCCurrentProductVariant.sku) { this.ProCCCurrentProductVariant = product }
+      },
+      immediate: true
+    },
+    isDefaultProductSize: {
+      async handler (value) {
+        const available_filters = this.getAvailableFilters
+        if (value && value === true && available_filters.size && available_filters.size[0]) {
+          this.changeFilter(available_filters.size[0])
+        }
       },
       immediate: true
     }
@@ -589,7 +604,7 @@ export default {
             qty: this.ProCCCurrentProductVariant.qty // Edited by dan
           })
           // added code for get quantity from  vuex
-          this.maxQuantity = res.qty[variant.label]
+          this.maxQuantity = res.qty[variant.label] || res.qty[variant.label.toLowerCase()]
         }
       } finally {
         this.isStockInfoLoading = false
