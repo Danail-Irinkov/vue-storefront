@@ -50,6 +50,7 @@ export const Shipping = {
       addressSaved: false,
       city_loading: false,
       street_loading: false,
+      disable_apartment_no: false,
       streets_filtered_options: [],
       cities_filtered_options: [],
       selected_street_id: '',
@@ -173,6 +174,9 @@ export const Shipping = {
         this.$bus.$emit('checkout-before-edit', 'shipping')
       }
     },
+    checkApartmentNoIsDisable () {
+      this.disable_apartment_no = !(this.shipping && this.shipping.site_id && this.shipping.street_id && this.shipping.streetAddress)
+    },
     hasShippingDetails () {
       if (this.currentUser) {
         if (this.currentUser.addresses && this.currentUser.addresses.length > 0) {
@@ -289,7 +293,7 @@ export const Shipping = {
           this.shipping.zipCode = ''
           this.getCitiesList(this.shipping.ISO_code)
           this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
-
+          this.checkApartmentNoIsDisable()
           this.$nextTick(() => {
             if (this.no_cities_available) { document.getElementById('cityInput').focus(); } else { document.getElementById('cityInput2').focus(); }
             // this.$forceUpdate()
@@ -358,6 +362,7 @@ export const Shipping = {
         console.log('focusStreetInput2', input2)
         input2.setFocus()
       }
+      this.checkApartmentNoIsDisable()
     },
     async focusStreetNumberInput () {
       await this.sleep(500)
@@ -366,6 +371,7 @@ export const Shipping = {
       if (inputS1) {
         inputS1.setFocus('apartment-number')
       }
+      this.checkApartmentNoIsDisable()
     },
     selectStreet () {
       console.log('selectStreet START ')
@@ -387,12 +393,13 @@ export const Shipping = {
           } else {
             this.shipping.streetAddress = this.shipping.street_id
           }
+          this.no_streets_available=!this.no_streets_available
           this.shipping.street_type = street.street_type
+          this.no_streets_available=!this.no_streets_available
         } else { // if manual input of street
           this.shipping.street_id = this.shipping.streetAddress
         }
         if (this.shipping.streetAddress && this.shipping.streetAddress.length > 2 && this.shipping.streetAddress.length < 35) {
-          this.disable_all_fields = false
           this.focusStreetNumberInput()
         }
       })

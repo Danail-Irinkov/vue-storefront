@@ -246,7 +246,7 @@
             type="text"
             ref="apartment_number"
             name="apartment-number"
-            :disabled="disable_street_fields"
+            :disabled="disable_apartment_no"
             :placeholder="$t('House/Apartment')"
             v-model.trim="shipping.apartmentNumber"
             @blur="$v.shipping.apartmentNumber.$touch()"
