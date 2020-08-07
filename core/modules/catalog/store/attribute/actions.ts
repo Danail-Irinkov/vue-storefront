@@ -38,7 +38,7 @@ const actions: ActionTree<AttributeState, RootState> = {
     }
 
     const attributes = await prefetchCachedAttributes(filterField, filterValues)
-
+    console.log('loadCachedAttributes prefetchCachedAttributes', attributes)
     if (attributes) {
       await dispatch('updateAttributes', { attributes })
     }
@@ -74,8 +74,14 @@ const actions: ActionTree<AttributeState, RootState> = {
       onlyDefinedByUser: only_user_defined,
       onlyVisible: only_visible
     })
+    console.log('createAttributesListQuery query', query)
+    console.log('createAttributesListQuery includeFields', includeFields)
+    console.log('createAttributesListQuery includeFields', start)
+    console.log('createAttributesListQuery includeFields', size)
     const resp = await quickSearchByQuery({ entityType: 'attribute', query, includeFields, start, size })
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
+    console.log('createAttributesListQuery resp', resp)
+    console.log('createAttributesListQuery attributes', attributes)
 
     dispatch('updateBlacklist', { filterValues, filterField, attributes })
     await dispatch('updateAttributes', { attributes })
