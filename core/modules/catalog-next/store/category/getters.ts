@@ -64,6 +64,8 @@ const getters: GetterTree<CategoryState, RootState> = {
             }
           }
 
+          console.log('optionLabel rootState', rootState)
+          console.log('optionLabel attrToFilter', attrToFilter)
           uniqueFilterValues.forEach(key => {
             const label = optionLabel(rootState.attribute, { attributeKey: attrToFilter, optionId: key })
             if (trim(label) !== '') { // is there any situation when label could be empty and we should still support it?

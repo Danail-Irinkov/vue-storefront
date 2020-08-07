@@ -8,6 +8,10 @@ import toString from 'lodash-es/toString'
 
 export function optionLabel (state, { attributeKey, searchBy = 'code', optionId }) {
   let attrCache = state.labels[attributeKey];
+  console.log('optionLabel state', state)
+  console.log('optionLabel attributeKey', attributeKey)
+  console.log('optionLabel searchBy', searchBy)
+  console.log('optionLabel optionId', optionId)
   console.log('optionLabel attrCache', attrCache)
   if (attrCache) {
     let label = attrCache[optionId];
