@@ -173,8 +173,9 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('loadAvailableFiltersFrom', {aggregations, category})
   },
   async loadAvailableFiltersFrom ({ commit, getters }, {aggregations, category, filters = {}}) {
+    console.log('aggregationFilters aggregations', aggregations)
     const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
-    console.log('aggregationFilters', aggregationFilters)
+    console.log('aggregationFilters aggregationFilters', aggregationFilters)
     const currentCategory = category || getters.getCurrentCategory
     const categoryMappedFilters = getters.getFiltersMap[currentCategory.id]
     let resultFilters = aggregationFilters
