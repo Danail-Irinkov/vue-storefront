@@ -14,14 +14,20 @@ import reduceAttributesLists from './../../helpers/reduceAttributesLists'
 
 const actions: ActionTree<AttributeState, RootState> = {
   async updateAttributes ({ commit, getters }, { attributes }) {
+    console.log('updateAttributes Start 1 labels', getters.attributeListByCode)
+    console.log('updateAttributes Start 1 attributes', attributes)
+    console.log('updateAttributes Start 1 StorageManager.attributes', StorageManager.get('attributes'))
     const idsList = getters.getAttributeListById
     const codesList = getters.getAttributeListByCode
 
+    console.log('updateAttributes Start 2 idsList', idsList)
+    console.log('updateAttributes Start 2 codesList', codesList)
     for (let attr of attributes) {
       if (attr && !config.attributes.disablePersistentAttributesCache) {
         const attrCollection = StorageManager.get('attributes')
 
         try {
+          console.log('updateAttributes Start 3 setItem attr', attr.attribute_code)
           await attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr)
           await attrCollection.setItem(entityKeyName('attribute_id', attr.attribute_id.toString()), attr)
         } catch (e) {
@@ -30,6 +36,7 @@ const actions: ActionTree<AttributeState, RootState> = {
       }
     }
 
+    console.log('updateAttributes Start 4 idsList', reduceAttributesLists({ codesList, idsList, attributes }))
     commit(types.ATTRIBUTE_UPD_ATTRIBUTES, reduceAttributesLists({ codesList, idsList, attributes }))
   },
   async loadCachedAttributes ({ dispatch }, { filterField, filterValues }) {
@@ -78,14 +85,11 @@ const actions: ActionTree<AttributeState, RootState> = {
       onlyVisible: only_visible
     })
     console.log('createAttributesListQuery query', query)
-    console.log('createAttributesListQuery includeFields', includeFields)
-    console.log('createAttributesListQuery start', start)
-    console.log('createAttributesListQuery size', size)
     const resp = await quickSearchByQuery({ entityType: 'attribute', query, includeFields, start, size })
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
-    console.log('createAttributesListQuery resp', resp)
-    console.log('createAttributesListQuery attributes', attributes)
-    // debugger
+    // console.log('createAttributesListQuery resp', resp)
+    // console.log('createAttributesListQuery attributes', attributes)
+    console.log('ATTRIBUTES LIST 5 DISPATCHING')
     dispatch('updateBlacklist', { filterValues, filterField, attributes })
     await dispatch('updateAttributes', { attributes })
 

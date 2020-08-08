@@ -64,7 +64,7 @@ const getters: GetterTree<CategoryState, RootState> = {
             }
           }
 
-          console.log('optionLabel rootState', rootState)
+          console.log('optionLabel rootState.attribute', rootState.attribute)
           console.log('optionLabel attrToFilter', attrToFilter)
           uniqueFilterValues.forEach(key => {
             const label = optionLabel(rootState.attribute, { attributeKey: attrToFilter, optionId: key })
