@@ -85,7 +85,7 @@ const actions: ActionTree<AttributeState, RootState> = {
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
     console.log('createAttributesListQuery resp', resp)
     console.log('createAttributesListQuery attributes', attributes)
-    debugger
+    // debugger
     dispatch('updateBlacklist', { filterValues, filterField, attributes })
     await dispatch('updateAttributes', { attributes })
 
