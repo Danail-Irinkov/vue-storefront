@@ -56,18 +56,21 @@ const actions: ActionTree<AttributeState, RootState> = {
    * @param {Array} attrCodes attribute codes to load
    */
   async list ({ getters, dispatch }, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null }) {
+    console.log('ATTRIBUTES LIST 1')
     const blacklist = getters.getBlacklist
     const idsList = getters.getAttributeListById
     const codesList = getters.getAttributeListByCode
     const orgFilterValues = filterValues || []
-
+    console.log('ATTRIBUTES LIST 2')
     await dispatch('loadCachedAttributes', { filterField, filterValues })
+    console.log('ATTRIBUTES LIST 3')
 
     if (areAttributesAlreadyLoaded({ filterValues, filterField, blacklist, idsList, codesList })) {
       Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField })()
       return { items: Object.values(codesList) }
     }
 
+    console.log('ATTRIBUTES LIST 4')
     const query = createAttributesListQuery({
       filterValues,
       filterField,
@@ -76,13 +79,13 @@ const actions: ActionTree<AttributeState, RootState> = {
     })
     console.log('createAttributesListQuery query', query)
     console.log('createAttributesListQuery includeFields', includeFields)
-    console.log('createAttributesListQuery includeFields', start)
-    console.log('createAttributesListQuery includeFields', size)
+    console.log('createAttributesListQuery start', start)
+    console.log('createAttributesListQuery size', size)
     const resp = await quickSearchByQuery({ entityType: 'attribute', query, includeFields, start, size })
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
     console.log('createAttributesListQuery resp', resp)
     console.log('createAttributesListQuery attributes', attributes)
-
+    debugger
     dispatch('updateBlacklist', { filterValues, filterField, attributes })
     await dispatch('updateAttributes', { attributes })
 

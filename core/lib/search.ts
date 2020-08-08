@@ -35,6 +35,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
 
   return new Promise((resolve, reject) => {
     const storeView = currentStoreView()
+    console.log('quickSearchByQuery size', storeView)
     const Request: SearchRequest = {
       store: storeCode || storeView.storeCode, // TODO: add grouped product and bundled product support
       type: entityType,
@@ -45,6 +46,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       from: start,
       sort: sort
     }
+    console.log('quickSearchByQuery Request', Request)
 
     if (excludeFields) Request._sourceExclude = excludeFields
     if (includeFields) Request._sourceInclude = includeFields
@@ -53,6 +55,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       Request.groupId = rootStore.state.user.groupId
     }
 
+    console.log('quickSearchByQuery StorageManager')
     const cache = StorageManager.get('elasticCache') // switch to appcache?
     // console.log('quickSearchByQuery cache', cache)
     let servedFromCache = false
@@ -60,6 +63,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
     const benchmarkTime = new Date()
 
     cache.getItem(cacheKey, (err, res) => {
+      console.log('quickSearchByQuery cache.getItem', res)
       if (err) console.log(err)
       if (res !== null) {
         res.cache = true
@@ -87,11 +91,15 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       throw new Error('No entity type registered for ' + Request.type)
     }
 
+    console.log('quickSearchByQuery before searchAdapter.search')
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
       const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
+      console.log('quickSearchByQuery after searchAdapter.res', res)
+      console.log('quickSearchByQuery after searchAdapter.servedFromCache', servedFromCache)
 
       if (res) { // otherwise it can be just a offline mode
         cache.setItem(cacheKey, res, null, config.elasticsearch.disablePersistentQueriesCache).catch((err) => { console.error('Cannot store cache for ' + cacheKey + ', ' + err) })
+        console.log('quickSearchByQuery after searchAdapter.servedFromCache2', servedFromCache)
         if (!servedFromCache) { // if navigator onLine == false means ES is unreachable and probably this will return false; sometimes returned false faster than indexedDb cache returns result ...
           Logger.debug('Result from ES for ' + cacheKey + ' (' + entityType + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()))()
           res.cache = false
