@@ -181,7 +181,7 @@ module.exports = (config, app) => {
     apiStatus(res, 'Vue Storefront: /category-link Success', 200);
     // end set to product banners
   });
-  app.post('/product-link', (req, res) => {
+  app.post('/setProductBanners', (req, res) => {
     // start set to product banners link in vue storefront
     let products = req.body.products;
     let storeCode = req.body.storeCode;

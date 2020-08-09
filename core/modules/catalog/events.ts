@@ -18,8 +18,8 @@ export const filterChangedProduct = async (filterOption, store, router) => {
   EventBus.$emit('product-before-configure', { filterOption: filterOption, configuration: store.getters['product/getCurrentProductConfiguration'] })
   const prevOption = store.getters['product/getCurrentProductConfiguration'][filterOption.attribute_code]
   let changedConfig = Object.assign({}, store.getters['product/getCurrentProductConfiguration'], {[filterOption.attribute_code]: filterOption})
-  console.log('filterChangedProduct prod:', store.getters['product/getCurrentProduct'])
-  console.log('filterChangedProduct changedConfig:', changedConfig)
+  // console.log('filterChangedProduct prod:', store.getters['product/getCurrentProduct'])
+  // console.log('filterChangedProduct changedConfig:', changedConfig)
 
   const selectedVariant = await store.dispatch('product/configure', {
     product: store.getters['product/getCurrentProduct'],

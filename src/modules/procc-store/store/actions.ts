@@ -30,7 +30,7 @@ const actions: ActionTree<StoreDataState, RootState> = {
     if (rootState.storeView && rootState.storeView.storeCode) {
       return ProCcApi().getStoreDataVSF(rootState.storeView.storeCode, rootState.storeView.procc_brand_id)
         .then((result) => {
-          console.log('updateCurrentStore RESULT', result.data.message_type)
+          // console.log('updateCurrentStore RESULT', result.data.message_type)
           if (result.data && result.data.storeData) {
             commit('SET_CURRENT_STORE', result.data.storeData)
             if (result.data.storeData.storefront_setting && result.data.storeData.storefront_setting.template) {

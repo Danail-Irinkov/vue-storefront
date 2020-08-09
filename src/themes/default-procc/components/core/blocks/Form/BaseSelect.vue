@@ -195,7 +195,7 @@ export default {
     // setFocus sets focus on a field which has a value of 'ref' tag equal to fieldName
     setFocus (fieldName) {
       let inp1 = this.$refs.v_select
-      console.log('setFocusS1', inp1)
+      // console.log('setFocusS1', inp1)
       if (inp1) {
         inp1.searchEl.focus()
       } else {
@@ -233,7 +233,7 @@ export default {
       let query_parent_id = vm.remoteQueryMethod === 'getCitiesList' ? vm.remoteCountrySelected : vm.remoteCitySelected
       vm.ProCcApi[vm.remoteQueryMethod](query_parent_id, search)
         .then(json => {
-          console.log(vm.remoteQueryMethod + ' select result data', json.data)
+          // console.log(vm.remoteQueryMethod + ' select result data', json.data)
           let data_key = ''
           if (vm.remoteQueryMethod === 'getCitiesList') { data_key = 'cities' }
           if (vm.remoteQueryMethod === 'getStreetList') { data_key = 'streets' }

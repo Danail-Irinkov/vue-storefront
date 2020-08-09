@@ -53,8 +53,8 @@ export default {
   methods: {
     async cancelOrder () {
       this.process_running = true
-      console.log('this.$store 11', this.$store.state.user.current._id)
-      console.log('this.$store', this.$store.state.user.current.user_type.active_brand)
+      // console.log('this.$store 11', this.$store.state.user.current._id)
+      // console.log('this.$store', this.$store.state.user.current.user_type.active_brand)
       ProCcApi().cancelOrder({order_id: this.orderId, cancellation_message: this.cancellation_message, status: 'customer_cancelled'}, this.$store.state.user.current._id, this.$store.state.user.current.user_type.active_brand)
         .then(async (response) => {
           this.process_running = false

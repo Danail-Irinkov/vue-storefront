@@ -18,7 +18,7 @@ export const UserOrderPayment = {
   methods: {
     paymentRetry (order) {
       this.$bus.$emit('notification-progress-start', i18n.t('Processing Transaction...'))
-      console.log('this.getTotals: ', order)
+      // console.log('this.getTotals: ', order)
       let data = {order_ids: [order._id]}
       this.selected_order = order
       this.ProCcAPI.VSFOrderPayment(data, order.customer_brand._id).then(async (response) => {

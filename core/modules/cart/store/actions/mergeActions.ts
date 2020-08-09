@@ -141,8 +141,8 @@ const mergeActions = {
         cl_items_sofar[clientItem.procc_product_id].price === clientItem.price &&
         cl_items_sofar[clientItem.procc_product_id].size === clientItem.size
       ) {
-        console.log('Merging clientItem1', cl_items_sofar[clientItem.procc_product_id])
-        console.log('Merging clientItem2', clientItem)
+        // console.log('Merging clientItem1', cl_items_sofar[clientItem.procc_product_id])
+        // console.log('Merging clientItem2', clientItem)
         // Update 1st CartItem's quantity + product2.qty
         cl_items_sofar[clientItem.procc_product_id].qty += clientItem.qty
         forceClientState = true
@@ -171,7 +171,7 @@ const mergeActions = {
     // console.log('mergeActions.ts mergeServerItem serverItem', serverItem)
     const diffLog = createDiffLog()
     const clientItem = clientItems.find(itm => productsEquals(itm, serverItem))
-    console.log('mergeServerItem clientItem', clientItem)
+    // console.log('mergeServerItem clientItem', clientItem)
     if (clientItem) return diffLog
     Logger.info('No client item for' + serverItem.sku, 'cart')()
     diffLog.pushClientParty({ sku: serverItem.sku, status: 'no-item' })
@@ -185,7 +185,7 @@ const mergeActions = {
         item_id: serverItem.item_id,
         quote_id: serverItem.quote_id
       } as any as CartItem
-      console.log('mergeServerItem cartItem', cartItem)
+      // console.log('mergeServerItem cartItem', cartItem)
       const resp = await CartService.deleteItem(getters.getCartToken, cartItem)
       console.log('mergeServerItem resp', resp)
       return diffLog.pushServerResponse({ status: resp.resultCode, sku: serverItem.sku, result: resp })
@@ -198,7 +198,7 @@ const mergeActions = {
       Logger.debug('Product variant for given serverItem has not found', 'cart', serverItem)()
     }
 
-    console.log('mergeServerItem diffLog', diffLog)
+    // console.log('mergeServerItem diffLog', diffLog)
     return diffLog
   },
   async mergeServerItems ({ dispatch }, { serverItems, clientItems, forceClientState, dryRun }) {
@@ -239,8 +239,8 @@ const mergeActions = {
     // console.time('mergeClientItems')
     const mergeClientItemsDiffLog = await dispatch('mergeClientItems', mergeParameters)
     // console.timeEnd('mergeClientItems')
-    console.log('mergeServerItems', serverItems)
-    console.log('mergeServer mergeParameters', mergeParameters)
+    // console.log('mergeServerItems', serverItems)
+    // console.log('mergeServer mergeParameters', mergeParameters)
     // console.time('mergeServerItems')
     const mergeServerItemsDiffLog = await dispatch('mergeServerItems', mergeParameters)
     // console.timeEnd('mergeServerItems')

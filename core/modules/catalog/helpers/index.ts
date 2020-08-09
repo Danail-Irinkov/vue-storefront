@@ -116,7 +116,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
           context.state.current_options[optionKey] = optionsAvailable
         }
       }
-      console.log('_filterChildrenByStockitem prod:', product)
+      // console.log('_filterChildrenByStockitem prod:', product)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
       if (totalOptions === 0) {
@@ -408,11 +408,11 @@ function _internalMapOptions (productOption) {
 }
 
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
-  console.log('populateProductConfigurationAsync product: ', product.size_label)
-  console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant.size_label)
+  // console.log('populateProductConfigurationAsync product: ', product.size_label)
+  // console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant.size_label)
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
-      console.log('populateProductConfigurationAsync option', option)
+      // console.log('populateProductConfigurationAsync option', option)
       let attribute_code
       let attribute_label
       if (option.attribute_code) {
@@ -438,7 +438,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
           return (a.attribute_code.toString() === attribute_code.toString())
         })
       } else {
-        console.log('selectedVariant 2222: ', selectedVariant.size_label, '===', attribute_code, '===', selectedVariant[attribute_code])
+        // console.log('selectedVariant 2222: ', selectedVariant.size_label, '===', attribute_code, '===', selectedVariant[attribute_code])
         selectedOption = {
           attribute_code: attribute_code,
           value: selectedVariant[attribute_code]
@@ -449,13 +449,13 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         // Edited by shabbir for try to fix size issue
 
         if (attribute_code === 'size') {
-          console.log('option.values', option.values)
-          console.log('selectedVariant[attribute_code]', selectedVariant[attribute_code])
-          console.log('selectedVariant[attribute_code] type ', typeof selectedVariant[attribute_code])
+          // console.log('option.values', option.values)
+          // console.log('selectedVariant[attribute_code]', selectedVariant[attribute_code])
+          // console.log('selectedVariant[attribute_code] type ', typeof selectedVariant[attribute_code])
           let selected_size = option.values.find((s) => {
             return (s.value_index === selectedVariant[attribute_code])
           })
-          console.log('selected_size', selected_size)
+          // console.log('selected_size', selected_size)
           // Added By Dan ProCC
           if (selected_size && selected_size.label) {
             selectedOption.label = selected_size.label

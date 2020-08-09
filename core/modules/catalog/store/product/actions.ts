@@ -264,7 +264,7 @@ const actions: ActionTree<ProductState, RootState> = {
         }
         context.commit(types.PRODUCT_SET_CURRENT_OPTIONS, productOptions)
         let selectedVariant = context.getters.getCurrentProduct
-        console.log('populateProductConfigurationAsync setupVariants')
+        // console.log('populateProductConfigurationAsync setupVariants')
         populateProductConfigurationAsync(context, { selectedVariant: selectedVariant, product: product })
       }).catch(err => {
         Logger.error(err)()
@@ -397,7 +397,7 @@ const actions: ActionTree<ProductState, RootState> = {
    * @param {Object} options
    */
   async single (context, { options, setCurrentProduct = true, selectDefaultVariant = true, assignDefaultVariant = false, key = 'sku', skipCache = false }) {
-    console.log('Setting Up current Product !! options ', options)
+    // console.log('Setting Up current Product !! options ', options)
     if (!options[key]) {
       throw Error('Please provide the search key ' + key + ' for product/single action!')
     }
@@ -408,7 +408,7 @@ const actions: ActionTree<ProductState, RootState> = {
       const cache = StorageManager.get('elasticCache')
 
       const setupProduct = (prod) => {
-        console.log('setupProduct  prod ', prod)
+        // console.log('setupProduct  prod ', prod)
         // set product quantity to 1
         if (!prod.qty) {
           prod.qty = 1
@@ -427,7 +427,7 @@ const actions: ActionTree<ProductState, RootState> = {
         if (prod.type_id === 'configurable' && hasConfigurableChildren) {
           // set first available configuration
           // todo: probably a good idea is to change this [0] to specific id
-          console.log('setupProduct prod: ', prod)
+          // console.log('setupProduct prod: ', prod)
           const selectedVariant = configureProductAsync(context, { product: prod, configuration: { sku: options.childSku }, selectDefaultVariant: selectDefaultVariant, setProductErorrs: true })
           if (selectedVariant && assignDefaultVariant) {
             prod = Object.assign({}, prod, selectedVariant)
@@ -442,7 +442,7 @@ const actions: ActionTree<ProductState, RootState> = {
       const syncProducts = () => {
         let searchQuery = new SearchQuery()
         searchQuery = searchQuery.applyFilter({key: key, value: {'eq': options[key]}})
-        console.log('searchQuery', searchQuery)
+        // console.log('searchQuery', searchQuery)
         return context.dispatch('list', { // product list syncs the platform price on it's own
           query: searchQuery,
           prefetchGroupProducts: false,

@@ -15,9 +15,9 @@ const productActions = {
   async getProductVariant ({ dispatch }, { serverItem }) {
     try {
       const options = await dispatch('findProductOption', { serverItem })
-      console.log('getProductVariant options', options)
+      // console.log('getProductVariant options', options)
       const singleProduct = await dispatch('product/single', { options, assignDefaultVariant: true, setCurrentProduct: false, selectDefaultVariant: false }, { root: true })
-      console.log('getProductVariant singleProduct', singleProduct)
+      // console.log('getProductVariant singleProduct', singleProduct)
       return {
         ...singleProduct,
         server_item_id: serverItem.item_id,

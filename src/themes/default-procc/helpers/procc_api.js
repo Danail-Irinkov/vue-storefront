@@ -47,7 +47,7 @@ export default (baseURL = '') => {
   )
   api.interceptors.response.use((response) => {
     if (response.data && response.data.token_expired) {
-      console.log('response.data.token_expired', response.data)
+      // console.log('response.data.token_expired', response.data)
       // DEPRECATED By Dan !! It was not working at all ... why did you put it here Shab?
       // store.dispatch('user/logout', { silent: true })
       // localStorage.setItem('redirect', this.$route.path)
@@ -115,12 +115,12 @@ export default (baseURL = '') => {
   const getVSFSizeChartById = (product, brandId) => api.get(`sizeChart/getVSFSizeChartById/${product}?brand_id=${brandId}`, getHeader(brandId))
   const updateVsfSyncStatus = (brandData) => api.post('vsf/updateVsfSyncStatus', {brandData}, getHeader(brandData.brand_id))
   const getShippingCountriesList = () => api.get('vsf/getShippingCountriesList').then((response) => {
-    console.log('getShippingCountriesList response', response.data)
+    // console.log('getShippingCountriesList response', response.data)
     return response.data && response.data.countries ? response.data.countries : response.data
   })
   const getProductDeliveryPolicy = () => api.get('policy/getProductDeliveryPolicy')
   const updateSelectedRapidoShipmentCost = async (brand_id) => {
-    console.log('updateSelectedRapidoShipmentCost START', brand_id)
+    // console.log('updateSelectedRapidoShipmentCost START', brand_id)
     try {
       let rapido_cost = await store.dispatch('cart/calculateRapidoShippingFee', { brandId: brand_id })
       let selectedShippingMethods = {...await store.getters['checkout/getSelectedShippingMethods']}
@@ -128,14 +128,14 @@ export default (baseURL = '') => {
       for (let key in selectedShippingMethods) {
         if(!selectedShippingMethods.hasOwnProperty(key)) continue
 
-        console.log('updateSelectedRapidoShipmentCost selectedShippingMethods[key].brand', selectedShippingMethods[key].brand)
+        // console.log('updateSelectedRapidoShipmentCost selectedShippingMethods[key].brand', selectedShippingMethods[key].brand)
         if(String(selectedShippingMethods[key].brand) === String(brand_id) && selectedShippingMethods[key].isRapido){
           selectedShippingMethods[key].cost = rapido_cost
         }
       }
-      console.log('updateSelectedRapidoShipmentCost brand_id', brand_id)
-      console.log('updateSelectedRapidoShipmentCost rapido_cost', rapido_cost)
-      console.log('updateSelectedRapidoShipmentCost selectedShippingMethods', selectedShippingMethods)
+      // console.log('updateSelectedRapidoShipmentCost brand_id', brand_id)
+      // console.log('updateSelectedRapidoShipmentCost rapido_cost', rapido_cost)
+      // console.log('updateSelectedRapidoShipmentCost selectedShippingMethods', selectedShippingMethods)
       await store.dispatch('cart/updateSelectedShippingMethods', {selectedShippingMethods})
     }catch (e) {
       console.log('updateSelectedRapidoShipmentCost ERR:', e)

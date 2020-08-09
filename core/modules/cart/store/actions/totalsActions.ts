@@ -11,7 +11,9 @@ import {
 const totalsActions = {
   async getTotals (context, { addressInformation, hasShippingInformation }) {
     if (hasShippingInformation) {
-      return CartService.setShippingInfo(addressInformation)
+      let new_shipping = await CartService.setShippingInfo(addressInformation)
+      // console.log('getTotals new_shipping', new_shipping.result.totals)
+      return new_shipping
     }
 
     return CartService.getTotals()
@@ -77,7 +79,7 @@ const totalsActions = {
   },
   async syncTotals ({ dispatch, getters, rootGetters }, payload: { forceServerSync: boolean, methodsData?: any } = { forceServerSync: false, methodsData: null }) {
     const methodsData = payload ? payload.methodsData : null
-    console.log('pullMethods payload.forceServerSync', payload.forceServerSync)
+    // console.log('pullMethods payload.forceServerSync', payload.forceServerSync)
 
     await dispatch('pullMethods', { forceServerSync: payload.forceServerSync })
 

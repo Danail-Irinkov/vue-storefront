@@ -14,20 +14,20 @@ import reduceAttributesLists from './../../helpers/reduceAttributesLists'
 
 const actions: ActionTree<AttributeState, RootState> = {
   async updateAttributes ({ commit, getters }, { attributes }) {
-    console.log('updateAttributes Start 1 labels', getters.attributeListByCode)
-    console.log('updateAttributes Start 1 attributes', attributes)
-    console.log('updateAttributes Start 1 StorageManager.attributes', StorageManager.get('attributes'))
+    // console.log('updateAttributes Start 1 labels', getters.attributeListByCode)
+    // console.log('updateAttributes Start 1 attributes', attributes)
+    // console.log('updateAttributes Start 1 StorageManager.attributes', StorageManager.get('attributes'))
     const idsList = getters.getAttributeListById
     const codesList = getters.getAttributeListByCode
 
-    console.log('updateAttributes Start 2 idsList', idsList)
-    console.log('updateAttributes Start 2 codesList', codesList)
+    // console.log('updateAttributes Start 2 idsList', idsList)
+    // console.log('updateAttributes Start 2 codesList', codesList)
     for (let attr of attributes) {
       if (attr && !config.attributes.disablePersistentAttributesCache) {
         const attrCollection = StorageManager.get('attributes')
 
         try {
-          console.log('updateAttributes Start 3 setItem attr', attr.attribute_code)
+          // console.log('updateAttributes Start 3 setItem attr', attr.attribute_code)
           await attrCollection.setItem(entityKeyName('attribute_code', attr.attribute_code.toLowerCase()), attr)
           await attrCollection.setItem(entityKeyName('attribute_id', attr.attribute_id.toString()), attr)
         } catch (e) {
@@ -36,7 +36,6 @@ const actions: ActionTree<AttributeState, RootState> = {
       }
     }
 
-    console.log('updateAttributes Start 4 idsList', reduceAttributesLists({ codesList, idsList, attributes }))
     commit(types.ATTRIBUTE_UPD_ATTRIBUTES, reduceAttributesLists({ codesList, idsList, attributes }))
   },
   async loadCachedAttributes ({ dispatch }, { filterField, filterValues }) {
@@ -45,7 +44,7 @@ const actions: ActionTree<AttributeState, RootState> = {
     }
 
     const attributes = await prefetchCachedAttributes(filterField, filterValues)
-    console.log('loadCachedAttributes prefetchCachedAttributes', attributes)
+    // console.log('loadCachedAttributes prefetchCachedAttributes', attributes)
     if (attributes) {
       await dispatch('updateAttributes', { attributes })
     }
@@ -63,12 +62,12 @@ const actions: ActionTree<AttributeState, RootState> = {
    * @param {Array} attrCodes attribute codes to load
    */
   async list ({ getters, dispatch }, { filterValues = null, filterField = 'attribute_code', only_user_defined = false, only_visible = false, size = 150, start = 0, includeFields = config.entities.optimize ? config.entities.attribute.includeFields : null }) {
-    console.log('ATTRIBUTES LIST 1')
+    // console.log('ATTRIBUTES LIST 1')
     const blacklist = getters.getBlacklist
     const idsList = getters.getAttributeListById
     const codesList = getters.getAttributeListByCode
     const orgFilterValues = filterValues || []
-    console.log('ATTRIBUTES LIST 2')
+    // console.log('ATTRIBUTES LIST 2')
     await dispatch('loadCachedAttributes', { filterField, filterValues })
     console.log('ATTRIBUTES LIST 3')
 

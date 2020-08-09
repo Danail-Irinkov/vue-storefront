@@ -53,7 +53,7 @@ module.exports = (baseURL = '') => {
   if (!private_key || private_key === 'NO TOKEN') throw new Error('No JWT API TOKEN SUPPLIED')
   const createToken = (brandId) => jwt.sign({ brand_id: brandId },
     private_key, {
-      expiresIn: 15000,
+      expiresIn: '7d',
       algorithm: 'RS256'
     })
 

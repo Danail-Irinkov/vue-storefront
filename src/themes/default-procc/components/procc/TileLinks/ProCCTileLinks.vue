@@ -19,7 +19,7 @@
     </div>
     <div v-if="(!banners.productBanners) || (banners.productBanners.length === 0)">
       <h3 class="align-center cl-accent">
-        {{ $t('Product will available soon for you :)') }}
+        {{ $t('Available soon') }}
       </h3>
     </div>
   </div>

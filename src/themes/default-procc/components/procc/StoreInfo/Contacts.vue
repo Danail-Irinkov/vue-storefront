@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted () {
-    console.log('StoreAboutUs MOUNTED!')
+    // console.log('StoreContactUs MOUNTED!')
   },
   methods: {
   },

@@ -63,7 +63,7 @@ const synchronizeActions = {
 
     const { serverItems, clientItems } = cartHooksExecutors.beforeSync({ clientItems: getCartItems, serverItems: result.cartItems })
 
-    console.log('SyncCartActionTime resultCode', resultCode)
+    // console.log('SyncCartActionTime resultCode', resultCode)
     if (resultCode === 200) {
       const diffLog = await dispatch('merge', {
         dryRun,

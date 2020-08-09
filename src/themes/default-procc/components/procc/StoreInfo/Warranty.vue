@@ -104,7 +104,7 @@ export default {
     }
   },
   mounted () {
-    console.log('StoreWarranty MOUNTED!')
+    // console.log('StoreWarranty MOUNTED!')
   },
   methods: {
     getKey (condition_part) {

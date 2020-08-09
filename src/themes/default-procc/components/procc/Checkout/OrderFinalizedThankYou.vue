@@ -289,9 +289,9 @@ export default {
   methods: {
     saveUserAccount () { // Added by Dan
       // TODO: Create an user account, OR save the selected address and/or payment data to the current user's account
-      console.log('saveUserAccount Mock Started', this.lastOrderConfirmation.orders[0].customer_user)
+      // console.log('saveUserAccount Mock Started', this.lastOrderConfirmation.orders[0].customer_user)
       if (this.lastOrderConfirmation.orders && this.lastOrderConfirmation.orders[0].customer_user) {
-        console.log('this.password', this.password, this.lastOrderConfirmation.orders[0].customer_user._id)
+        // console.log('this.password', this.password, this.lastOrderConfirmation.orders[0].customer_user._id)
         this.$bus.$emit('notification-progress-start', i18n.t('Registering the account ...'))
         this.$store.dispatch('user/register', { email: this.lastOrderConfirmation.orders[0].customer_user.email, password: this.password, firstname: '', lastname: '' }).then((result) => {
           Logger.debug(result, 'user')()
@@ -317,8 +317,8 @@ export default {
       }
     },
     sendFeedback () {
-      console.log('this.email', this.email)
-      console.log('this.mailerElements', this.mailerElements)
+      // console.log('this.email', this.email)
+      // console.log('this.mailerElements', this.mailerElements)
       ProCcApi().saveFeedback({
         customer_id: this.lastOrderConfirmation.orders[0].customer_user._id,
         message: this.feedback

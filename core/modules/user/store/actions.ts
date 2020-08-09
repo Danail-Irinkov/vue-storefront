@@ -78,10 +78,9 @@ const actions: ActionTree<UserState, RootState> = {
    * reset customer password user and return token
    */
   async resetPassword ({ commit, dispatch }, { password_reset_code, password }) {
-    console.log('BEFORE rest CustomerPassword', password_reset_code, password)
+    // console.log('BEFORE rest CustomerPassword', password_reset_code, password)
     // Edited by shabbir for login customer in procc
     const resp = await ProCcApi().resetPassword({password_reset_code, password})
-    console.log(resp.data)
     if (resp.data.message_type === 'success' && !isUndefined(resp.data.token) && resp.data.token) {
       try {
         await dispatch('resetUserInvalidateLock', {}, { root: true })
@@ -274,7 +273,7 @@ const actions: ActionTree<UserState, RootState> = {
       action1: { label: i18n.t('Yes'),
         action: () => {
           dispatch('resendVerificationEmail', { email: email }).then((result) => {
-            console.log('result ', result)
+            // console.log('result ', result)
             dispatch('handleResendVerificationEmail', {email, message: result.message})
           })
         }

@@ -82,7 +82,7 @@ export default {
   watch: {
     'getSelectedShippingMethods': {
       handler: function (value) {
-        console.log('getSelectedShippingMethods watcher', value);
+        // console.log('getSelectedShippingMethods watcher', value);
         // this.$forceUpdate()
       },
       deep: true,

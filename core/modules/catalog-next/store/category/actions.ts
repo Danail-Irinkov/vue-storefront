@@ -32,7 +32,7 @@ const actions: ActionTree<CategoryState, RootState> = {
     if (!categoryMappedFilters && areFiltersInQuery) { // loading all filters only when some filters are currently chosen and category has no available filters yet
       await dispatch('loadCategoryFilters', searchCategory)
     }
-    console.log('categoryMappedFilters', categoryMappedFilters)
+    // console.log('categoryMappedFilters', categoryMappedFilters)
     const searchQuery = getters.getCurrentFiltersFrom(route[products.routerFiltersSource], categoryMappedFilters)
     let filterQr = buildFilterProductsQuery(searchCategory, searchQuery.filters)
     const {items, perPage, start, total, aggregations} = await quickSearchByQuery({
@@ -173,14 +173,14 @@ const actions: ActionTree<CategoryState, RootState> = {
     await dispatch('loadAvailableFiltersFrom', {aggregations, category})
   },
   async loadAvailableFiltersFrom ({ commit, getters }, {aggregations, category, filters = {}}) {
-    console.log('aggregationFilters aggregations', aggregations)
+    // console.log('aggregationFilters aggregations', aggregations)
     const aggregationFilters = getters.getAvailableFiltersFrom(aggregations)
-    console.log('aggregationFilters aggregationFilters', aggregationFilters)
+    // console.log('aggregationFilters aggregationFilters', aggregationFilters)
     const currentCategory = category || getters.getCurrentCategory
     const categoryMappedFilters = getters.getFiltersMap[currentCategory.id]
     let resultFilters = aggregationFilters
     const filtersKeys = Object.keys(filters)
-    console.log('resultFilters', resultFilters)
+    // console.log('resultFilters', resultFilters)
 
     if (categoryMappedFilters && filtersKeys.length) {
       resultFilters = Object.assign(cloneDeep(categoryMappedFilters), cloneDeep(omit(aggregationFilters, filtersKeys)))

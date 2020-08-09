@@ -372,7 +372,7 @@ export default {
     }),
     getOptionLabel () {
       return (option) => {
-        console.log('this.ProCCCurrentProductVariant.size_label', this.ProCCCurrentProductVariant.size_label)
+        // console.log('this.ProCCCurrentProductVariant.size_label', this.ProCCCurrentProductVariant.size_label)
         return this.ProCCCurrentProductVariant.size_label // Added By Dan To dynamically change the selected Size
         // const configName = option.attribute_code ? option.attribute_code : option.label.toLowerCase()
         // return this.getCurrentProductConfiguration[configName] ? this.getCurrentProductConfiguration[configName].label : configName
@@ -412,8 +412,8 @@ export default {
       return getAvailableFiltersByProduct(this.getCurrentProduct)
     },
     getSelectedFilters () {
-      console.log('this.getCurrentProduct', this.getCurrentProduct)
-      console.log('this.getCurrentProductConfiguration', this.getCurrentProductConfiguration)
+      // console.log('this.getCurrentProduct', this.getCurrentProduct)
+      // console.log('this.getCurrentProductConfiguration', this.getCurrentProductConfiguration)
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isDefaultProductSize () { // check if the size option is default
@@ -439,7 +439,7 @@ export default {
     }
   },
   async asyncData ({ store, route }) {
-    console.log('product/loadProduct asyncData Product.vue')
+    // console.log('product/loadProduct asyncData Product.vue')
     const product = await store.dispatch('product/loadProduct', { parentSku: route.params.parentSku, childSku: route && route.params && route.params.childSku ? route.params.childSku : null })
     const loadBreadcrumbsPromise = store.dispatch('product/loadProductBreadcrumbs', { product })
     if (isServer) await loadBreadcrumbsPromise
@@ -464,9 +464,9 @@ export default {
     },
     getCurrentProduct: {
       async handler (product) {
-        console.log('getCurrentProduct Variant set1', product.sku)
-        console.log('getCurrentProduct Variant set2', this.ProCCCurrentProductVariant.sku)
-        console.log('getCurrentProduct Variant set3', this.ProCCCurrentProductVariant.size_label)
+        // console.log('getCurrentProduct Variant set1', product.sku)
+        // console.log('getCurrentProduct Variant set2', this.ProCCCurrentProductVariant.sku)
+        // console.log('getCurrentProduct Variant set3', this.ProCCCurrentProductVariant.size_label)
         console.log('getCurrentProduct Variant set4', product.size_label)
         if (product.size_label && product.sku !== this.ProCCCurrentProductVariant.sku) { this.ProCCCurrentProductVariant = product }
       },

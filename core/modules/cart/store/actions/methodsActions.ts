@@ -103,12 +103,12 @@ const methodsActions = {
   },
   async calculateRapidoShippingFee ({ rootGetters }, {brandId}) {
     const cartId = rootGetters['cart/getCartToken']
-    console.log('calculateShipmentCost shipping cartId ', cartId)
-    console.log('calculateShipmentCost shipping brandId ', brandId)
+    // console.log('calculateShipmentCost shipping cartId ', cartId)
+    // console.log('calculateShipmentCost shipping brandId ', brandId)
     return ProCcApi().calculateShipmentCost({cartId, brandId}).then(async (result) => {
-      console.log('calculateShipmentCost', result.data)
+      // console.log('calculateShipmentCost', result.data)
       let cost = result.data.shipping_cost / 100;
-      console.log('calculateShipmentCost shipping cost ', cost)
+      // console.log('calculateShipmentCost shipping cost ', cost)
       return cost
     }).catch((error) => {
       console.error('error', error)
@@ -132,7 +132,7 @@ const methodsActions = {
         region_code: shippingDetails.region_code ? shippingDetails.region_code : ''
       } : {country_id: storeView.tax.defaultCountry}
 
-      console.log('TRIGGER updateShippingMethodsFromProCC address: ', address)
+      // console.log('TRIGGER updateShippingMethodsFromProCC address: ', address)
       if (getters.getCartItemsByBrand && !isEmpty(getters.getCartItemsByBrand)) {
         const brand_ids = keys(getters.getCartItemsByBrand);
         const cartId = rootGetters['cart/getCartToken']

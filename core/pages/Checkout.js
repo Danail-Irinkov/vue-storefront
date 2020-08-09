@@ -106,7 +106,7 @@ export default {
             for (let chp of checkedProducts) {
               if (chp && chp.stock) {
                 if (!chp.stock.is_in_stock) {
-                  console.log('chp.stock.is_in_stock', chp.stock)
+                  // console.log('chp.stock.is_in_stock', chp.stock)
                   this.stockCheckOK = false
                   chp.errors.stock = i18n.t('Out of stock!')
                   this.notifyOutStock(chp)
@@ -382,7 +382,7 @@ export default {
       return paymentMethod
     },
     async prepareProCCOrder () {
-      console.log('this.$store.state.cart.selectedShippingMethods', this.$store.state.cart.selectedShippingMethods)
+      // console.log('this.$store.state.cart.selectedShippingMethods', this.$store.state.cart.selectedShippingMethods)
 
       const storeView = currentStoreView()
       const storeCode = storeView.storeCode ? storeView.storeCode : 'failed to find store url'

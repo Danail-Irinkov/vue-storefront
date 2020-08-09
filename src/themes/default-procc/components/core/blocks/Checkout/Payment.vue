@@ -235,54 +235,60 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" key="invoice-input">
           <base-checkbox
             class="col-xs-12 mb15"
+            key="invoice-input-checkbox"
             id="generateInvoiceCheckbox"
             v-model="generateInvoice"
           >
             {{ $t('I want an invoice for my company') }}
+            {{ this.VATEnabledStores.length === 0 ? '(' + $t('VAT free') + ')' : ''}}
           </base-checkbox>
 
-          <template v-if="generateInvoice">
-            <base-input
-              class="col-xs-12 mb10"
-              type="text"
-              name="tax-id"
-              :placeholder="$t('Tax identification number *')"
-              v-model.trim="payment.taxId"
-              @blur="verifyVATNumber"
-              autocomplete="tax-id"
-              :validations="[
-                {
-                  condition: $v.payment.taxId.$error && !$v.payment.taxId.required,
+          <template>
+            <div key="taxid-input-wrapper" v-if="generateInvoice">
+              <base-input
+                class="col-xs-12 mb10"
+                type="text"
+                key="taxid-input"
+                name="tax-id"
+                :placeholder="$t('Tax identification number *')"
+                v-model.trim="payment.taxId"
+                @blur="verifyVATNumber"
+                autocomplete="tax-id"
+                :validations="[
+                  {
+                    condition: $v.payment.taxId.$error && !$v.payment.taxId.required,
+                    text: $t('Field is required')
+                  },
+                  {
+                    condition: !$v.payment.taxId.minLength,
+                    text: $t('Tax identification number must have at least 3 letters.')
+                  }
+                ]"
+              />
+
+              <base-input
+                class="col-xs-12 mb10"
+                type="text"
+                key="company-name-input"
+                name="company-name"
+                :placeholder="$t('Company name *')"
+                v-model.trim="payment.company"
+                @input="$v.payment.company.$touch()"
+                autocomplete="organization"
+                :validations="[{
+                  condition: $v.payment.company.$error && !$v.payment.company.required,
                   text: $t('Field is required')
-                },
-                {
-                  condition: !$v.payment.taxId.minLength,
-                  text: $t('Tax identification number must have at least 3 letters.')
-                }
-              ]"
-            />
+                }]"
+              />
 
-            <base-input
-              class="col-xs-12 mb10"
-              type="text"
-              name="company-name"
-              :placeholder="$t('Company name *')"
-              v-model.trim="payment.company"
-              @input="$v.payment.company.$touch()"
-              autocomplete="organization"
-              :validations="[{
-                condition: $v.payment.company.$error && !$v.payment.company.required,
-                text: $t('Field is required')
-              }]"
-            />
-
-            <div class="col-xs-12 mb25">
-              <label class="fs16">
-                {{ $t('We will send you the invoice to ') }} {{ $store.state.checkout.personalDetails.emailAddress }} {{ $t('as soon as you receive the products and submit a review') }} :)
-              </label>
+              <div class="col-xs-12 mb25">
+                <label class="fs16">
+                  {{ $t('We will send you the invoice to ') }} {{ $store.state.checkout.personalDetails.emailAddress }} {{ $t('as soon as you receive the products and submit a review') }} :)
+                </label>
+              </div>
             </div>
           </template>
         </div>
@@ -463,7 +469,7 @@ export default {
       let BrandId = this.currentImage.brand
       this.transactionId = transactionId
       this.ProCcAPI.updateTransactionStatus({mangopay_transaction_id: transactionId}, BrandId).then((result) => {
-        console.log('Payment callPlaceOrder', result.data)
+        // console.log('Payment callPlaceOrder', result.data)
         this.transactionId = result.data.transaction._id
         if (result.data.message_type === 'success') {
           // emit event for place order in megento by shabbir

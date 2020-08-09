@@ -53,8 +53,8 @@ export default {
       return enableStoreViews.length > this.minCountryPerColumn
     },
     storeViews () {
-      console.log('config.storeViews', config.storeViews)
-      console.log('config.i18n', config.i18n)
+      // console.log('config.storeViews', config.storeViews)
+      // console.log('config.i18n', config.i18n)
       return Object.keys(config.storeViews).reduce((storeViews, storeCode) => {
         if (this.isValidStoreCode(storeCode)) {
           storeViews[storeCode] = config.storeViews[storeCode]
@@ -71,11 +71,11 @@ export default {
   },
   methods: {
     changeLanguage (country) {
-      console.log('Changing Lang to: ', country)
+      // console.log('Changing Lang to: ', country)
       // i18n.locale = country.language
       loadLanguageAsync(country.language)
         .then((res) => {
-          console.log('changeLanguage RES:', res)
+          // console.log('changeLanguage RES:', res)
         })
         .catch((e) => {
           console.log('changeLanguage Error:', e)

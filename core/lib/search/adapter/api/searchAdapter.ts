@@ -72,7 +72,9 @@ export class SearchAdapter {
     }
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
-    console.log('ES query ULR:', url)
+
+    if(url.indexOf('/attribute') !== -1)
+      // console.log('ES query ULR:', url)
     return fetch(url, { method: config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {

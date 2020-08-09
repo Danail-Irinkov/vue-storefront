@@ -11,13 +11,13 @@ const mutations: MutationTree<AttributeState> = {
    * @param {Array} attributes
    */
   async [types.ATTRIBUTE_UPD_ATTRIBUTES] (state, { attrHashByCode, attrHashById }) {
-    console.log('ATTRIBUTE_UPD_ATTRIBUTES attrHashByCode', attrHashByCode)
+    // console.log('ATTRIBUTE_UPD_ATTRIBUTES attrHashByCode', attrHashByCode)
     Vue.set(state, 'list_by_code', attrHashByCode)
     Vue.set(state, 'list_by_id', attrHashById)
     EventBus.$emit('product-after-attributes-loaded')
   },
   [types.ATTRIBUTE_UPD_BLACKLIST] (state, blacklist) {
-    console.log('ATTRIBUTE_UPD_BLACKLIST blacklist', blacklist)
+    // console.log('ATTRIBUTE_UPD_BLACKLIST blacklist', blacklist)
     state.blacklist = state.blacklist.concat(blacklist)
   }
 }

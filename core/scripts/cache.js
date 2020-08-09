@@ -10,7 +10,7 @@ program
       console.error('error: tag must be specified')
       process.exit(1)
     } else {
-      console.log(`Clear cache request for [${cmd.tag}]`)
+      // console.log(`Clear cache request for [${cmd.tag}]`)
       let tags = []
       if (cmd.tag === '*') {
         tags = config.server.availableCacheTags
@@ -23,7 +23,7 @@ program
           return tag.indexOf(t) === 0
         })) {
           subPromises.push(cache.invalidate(tag).then(() => {
-            console.log(`Tags invalidated successfully for [${tag}]`)
+            // console.log(`Tags invalidated successfully for [${tag}]`)
           }))
         } else {
           console.error(`Invalid tag name ${tag}`)

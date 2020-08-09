@@ -50,7 +50,6 @@ export const Shipping = {
       addressSaved: false,
       city_loading: false,
       street_loading: false,
-      disable_apartment_no: false,
       streets_filtered_options: [],
       cities_filtered_options: [],
       selected_street_id: '',
@@ -67,6 +66,9 @@ export const Shipping = {
     }),
     checkoutShippingDetails () {
       return this.$store.state.checkout.shippingDetails
+    },
+    disable_apartment_no () {
+      return !(this.shipping && this.shipping.city && this.shipping.streetAddress)
     },
     disable_all_fields () { return !(this.shipping && this.shipping.street_id && this.shipping.ISO_code && this.shipping.site_id) },
     disable_street_fields () { return !(this.shipping && this.shipping.ISO_code && (this.shipping.site_id || this.no_cities_available)) },
@@ -110,12 +112,14 @@ export const Shipping = {
   created () {
     this.countries = [...Countries]
   },
-  mounted () {
-    this.getShippingCountryList()
+  async mounted () {
+    await this.getShippingCountryList()
     this.checkDefaultShippingAddress()
     this.checkSelectedShippingMethod()
     this.shipping = {...this.$store.state.checkout.shippingDetails}
-    this.selectCountry()
+    this.$nextTick(()=>{
+      this.selectCountry()
+    })
   },
   methods: {
     async getShippingCountryList () {
@@ -173,9 +177,6 @@ export const Shipping = {
       if (this.isFilled) {
         this.$bus.$emit('checkout-before-edit', 'shipping')
       }
-    },
-    checkApartmentNoIsDisable () {
-      this.disable_apartment_no = !(this.shipping && this.shipping.site_id && this.shipping.street_id && this.shipping.streetAddress)
     },
     hasShippingDetails () {
       if (this.currentUser) {
@@ -278,11 +279,13 @@ export const Shipping = {
         this.$v.shipping.ISO_code.$touch()
         if (this.shipping.ISO_code) {
           let country = find(this.ProCC_Countries, { 'ISO_code': this.shipping.ISO_code })
+          console.log('selectCountry Started!! this.shipping.ISO_code', this.shipping.ISO_code)
+          console.log('selectCountry Started!! this.ProCC_Countries', this.ProCC_Countries.length)
           console.log('selectCountry Started!! country', country)
-          this.no_cities_available = !country.cities_available
-          this.no_streets_available = !country.streets_available
-          this.shipping.country = country.name;
-          this.shipping.country_id = country._id;
+          this.no_cities_available = !country || !country.cities_available
+          this.no_streets_available = !country || !country.streets_available
+          this.shipping.country = country ? country.name : '';
+          this.shipping.country_id = country ? country._id : '';
           this.cities = []
           this.streets = []
           this.shipping.site_id = ''
@@ -293,9 +296,14 @@ export const Shipping = {
           this.shipping.zipCode = ''
           this.getCitiesList(this.shipping.ISO_code)
           this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
-          this.checkApartmentNoIsDisable()
-          this.$nextTick(() => {
-            if (this.no_cities_available) { document.getElementById('cityInput').focus(); } else { document.getElementById('cityInput2').focus(); }
+          this.$nextTick(async () => {
+            console.log('this.no_cities_available', this.no_cities_available)
+            await this.sleep(500)
+            if (this.no_cities_available && document.getElementById('cityInput')) {
+              document.getElementById('cityInput').focus();
+            } else if (document.getElementById('cityInput2')) {
+              document.getElementById('cityInput2').focus();
+            }
             // this.$forceUpdate()
           })
         }
@@ -362,7 +370,6 @@ export const Shipping = {
         console.log('focusStreetInput2', input2)
         input2.setFocus()
       }
-      this.checkApartmentNoIsDisable()
     },
     async focusStreetNumberInput () {
       await this.sleep(500)
@@ -371,7 +378,6 @@ export const Shipping = {
       if (inputS1) {
         inputS1.setFocus('apartment-number')
       }
-      this.checkApartmentNoIsDisable()
     },
     selectStreet () {
       console.log('selectStreet START ')

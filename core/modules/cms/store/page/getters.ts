@@ -5,7 +5,7 @@ import { Logger } from '@vue-storefront/core/lib/logger'
 
 const getters: GetterTree<CmsPageState, RootState> = {
   cmsPages: (state, getters) => {
-    Logger.error('The getter cmsPage/cmsPages has been deprecated please change to cmsPage/getCmsPages')()
+    // Logger.error('The getter cmsPage/cmsPages has been deprecated please change to cmsPage/getCmsPages')()
 
     return getters.getCmsPages
   },

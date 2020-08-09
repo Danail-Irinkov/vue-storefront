@@ -29,12 +29,12 @@ const host = process.env.HOST || config.server.host
 const start = () => {
   app.listen(port, host)
     .on('listening', () => {
-      console.log(`Vue Storefront Static Server started at http://${host}:${port}`)
+      // console.log(`Vue Storefront Static Server started at http://${host}:${port}`)
     })
     .on('error', (e: { code: string }) => {
       if (e.code === 'EADDRINUSE') {
         port = parseInt(port) + 1
-        console.log(`The port is already in use, trying ${port}`)
+        // console.log(`The port is already in use, trying ${port}`)
         start()
       }
     })

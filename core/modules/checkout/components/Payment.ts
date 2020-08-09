@@ -19,12 +19,32 @@ export const Payment = {
   data () {
     return {
       isFilled: false,
+      hideCompanyName: false,
       ProCcApi: ProCcApi(),
       countries: Countries,
       ProCC_Countries: [], // Edited By Dan
       VATEnabledStores: [], // Edited By Dan
       taxId_prev: '', // Edited By Dan
-      payment: this.$store.getters['checkout/getPaymentDetails'],
+      payment: {
+        ISO_code:"",
+        apartmentNumber:"",
+        city:"",
+        city_type:"",
+        company:"",
+        country:"",
+        country_id:"",
+        firstName:"",
+        lastName:"",
+        paymentMethod:"",
+        phoneNumber:"",
+        site_id:"",
+        state:"",
+        streetAddress:"",
+        street_id:"",
+        street_type:"",
+        taxId:"",
+        zipCode:""
+      },
       generateInvoice: false,
       sendToShippingAddress: false,
       sendToBillingAddress: false
@@ -60,6 +80,7 @@ export const Payment = {
     if (!this.payment.paymentMethod || this.notInMethods(this.payment.paymentMethod)) {
       this.payment.paymentMethod = this.paymentMethods.length > 0 ? this.paymentMethods[0].code : 'cashondelivery'
     }
+    this.payment = {...this.payment, ...this.paymentDetails}
   },
   mounted () {
     this.verifyStoreVATStatus()
@@ -116,19 +137,27 @@ export const Payment = {
           let ProCC_Countries = await this.ProCcApi.getCountriesList() // Added by Dan to load countries from ProCC shipping list
           ProCC_Countries = ProCC_Countries.data.countries
           this.ProCC_Countries = [...ProCC_Countries]
-          console.log('C Countries3:', this.ProCC_Countries)
+          // console.log('C Countries3:', this.ProCC_Countries)
         }
 
         // FORCING ALL COUNTRIES TO BE LOADED FROM HERE DUE TO MISSING SITE_ID
         this.countries = [...this.ProCC_Countries]
       } catch (e) {
-        console.log('getShippingCountryList Err: ', e)
+        // console.log('getShippingCountryList Err: ', e)
       }
     },
-    sendDataToCheckout () {
-      this.verifyVATNumber()
-      this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
-      this.placeOrderAtPayment() // modify function for call place order function by shabbir
+    async sendDataToCheckout () {
+      try {
+        let VAT_verification = await this.verifyVATNumber()
+        console.log('VAT_verification', VAT_verification)
+        if(!this.generateInvoice || !!VAT_verification){
+          this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
+          this.placeOrderAtPayment() // modify function for call place order function by shabbir
+        }
+      } catch (e) {
+        console.log('sendDataToCheckout err', e)
+        // return Promise.reject(e)
+      }
     },
     edit () {
       if (this.isFilled) {
@@ -155,7 +184,7 @@ export const Payment = {
                 ...addresses[i],
                 firstName: addresses[i].firstname,
                 lastName: addresses[i].lastname,
-                company: addresses[i].company,
+                company: addresses[i].company ? addresses[i].company : '',
                 country: addresses[i].country,
                 state: addresses[i].region.region ? addresses[i].region.region : '',
                 city: addresses[i].city,
@@ -180,7 +209,7 @@ export const Payment = {
         }
       }
       if (!initialized) {
-        this.payment = this.paymentDetails || {
+        this.payment =  {
           firstName: '',
           lastName: '',
           company: '',
@@ -199,7 +228,8 @@ export const Payment = {
           street_id: '',
           street_type: '',
           city_type: '',
-          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : ''
+          paymentMethod: this.paymentMethods.length > 0 ? this.paymentMethods[0].code : '',
+          ...this.paymentDetails
         }
       }
     },
@@ -210,7 +240,7 @@ export const Payment = {
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
-        this.payment = this.paymentDetails
+        this.payment = {...this.payment, ...this.paymentDetails}
       }
     },
     copyShippingToBillingAddress () {
@@ -270,7 +300,7 @@ export const Payment = {
       }
 
       if (!this.sendToBillingAddress && !this.sendToShippingAddress) {
-        this.payment = this.paymentDetails
+        this.payment = {...this.payment, ...this.paymentDetails}
         this.generateInvoice = false
       }
     },
@@ -283,9 +313,9 @@ export const Payment = {
           }
 
           console.log('verifyStoreVATStatus', verification)
-          // if (verification.valid) { // DISABLED FOR TESTING!!!
-          this.VATEnabledStores.push(store_brand_id)
-          // }
+          if (verification.valid) { // DISABLED FOR TESTING!!!
+            this.VATEnabledStores.push(store_brand_id)
+          }
         }
       } catch (e) {
         console.log('verifyStoreVATStatus error', e)
@@ -300,19 +330,25 @@ export const Payment = {
         if (this.customerIsInEU && this.payment.taxId) {
           let VAT_number = this.payment.taxId
           verification = (await this.ProCcApi.validateVATNumber({VAT_number}, this.currentImage.brand)).data.validation
-          // console.log('verifyVATNumber verification', verification)
+          console.log('verifyVATNumber this.payment', this.payment)
+          console.log('verifyVATNumber this.VAT_number', VAT_number)
+          console.log('verifyVATNumber verification', verification)
         }
 
         if (verification && verification.company_name) {
-          // if company name is different than provided, replace it with the received one
-          this.payment.company = verification.company_name
-          if (this.$v && this.$v.payment && this.$v.payment.company) { this.$v.payment.company.$touch() }
+          this.$v.payment.company.$touch()
+          this.$nextTick(()=>{
+            this.payment.company = String(verification.company_name)
+            if (this.$v && this.$v.payment && this.$v.payment.company) {
+                this.$v.payment.company.$touch()
+            }
+          })
           // TODO: maybe also do similar for address if provided in the validation
         }
 
         // SET the VAT amount from the total
         let cart_items1 = await this.getCartItems
-        console.log('test cart_items1', cart_items1[0].deduct_VAT)
+        console.log('verifyVATNumber cart_items1', cart_items1[0].deduct_VAT)
         for (let item of this.getCartItems) {
           // console.log('verifyVATNumber cart Item', item)
           let product = {
@@ -329,20 +365,10 @@ export const Payment = {
           EventBus.$emit('cart-after-itemchanged', { item: product })
         }
         let cart_items2 = await this.getCartItems
-        console.log('test cart_items2', cart_items2[0].deduct_VAT)
+        console.log('verifyVATNumber cart_items2', cart_items2[0].deduct_VAT)
         let sync_res = await this.$store.dispatch('cart/sync', { forceClientState: true })
-        console.log('test sync_res', sync_res)
+        console.log('verifyVATNumber sync_res', sync_res)
         await this.$store.dispatch('cart/syncTotals', { forceServerSync: true })
-
-        // SUCCESS NOTIFICATION
-        if (verification && verification.valid && this.payment.taxId && this.payment.taxId !== this.taxId_prev) {
-          this.taxId_prev = this.payment.taxId
-          await this.$store.dispatch('notification/spawnNotification', {
-            type: 'success',
-            message: this.$t('VAT deducted, please account for VAT according to your local law'),
-            action1: { label: this.$t('OK') }
-          })
-        }
 
         // INVALID VAT NUMBER NOTIFICATION
         if (!(verification && verification.valid) && this.payment.taxId && this.payment.taxId.length > 0) {
@@ -352,13 +378,25 @@ export const Payment = {
             message: this.$t('This is not a valid EU VAT Number'),
             action1: { label: i18n.t('OK') }
           })
+          return false
         }
+
+        // SUCCESS NOTIFICATION
+        if (verification && verification.valid && this.payment.taxId && this.payment.taxId !== this.taxId_prev) {
+          this.taxId_prev = this.payment.taxId
+          await this.$store.dispatch('notification/spawnNotification', {
+            type: 'success',
+            message: this.$t('Account for VAT according to your local law'),
+            action1: { label: this.$t('OK') }
+          })
+        }
+        return true
       } catch (e) {
         // Show failed to verify VAT Number
         console.log('verifyVATNumber ERR: ', e)
         return this.$store.dispatch('notification/spawnNotification', {
           type: 'warning',
-          message: this.$t('Server failed to verify EU VAT Number'),
+          message: this.$t('Failed to verify your EU VAT Number'),
           action1: { label: this.$t('OK') }
         })
       }
