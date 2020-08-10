@@ -69,26 +69,26 @@ const actions: ActionTree<AttributeState, RootState> = {
     const orgFilterValues = filterValues || []
     // console.log('ATTRIBUTES LIST 2')
     await dispatch('loadCachedAttributes', { filterField, filterValues })
-    console.log('ATTRIBUTES LIST 3')
+    // console.log('ATTRIBUTES LIST 3')
 
     if (areAttributesAlreadyLoaded({ filterValues, filterField, blacklist, idsList, codesList })) {
       Logger.info('Skipping attribute load - attributes already loaded', 'attr', { orgFilterValues, filterField })()
       return { items: Object.values(codesList) }
     }
 
-    console.log('ATTRIBUTES LIST 4')
+    // console.log('ATTRIBUTES LIST 4')
     const query = createAttributesListQuery({
       filterValues,
       filterField,
       onlyDefinedByUser: only_user_defined,
       onlyVisible: only_visible
     })
-    console.log('createAttributesListQuery query', query)
+    // console.log('createAttributesListQuery query', query)
     const resp = await quickSearchByQuery({ entityType: 'attribute', query, includeFields, start, size })
     const attributes = resp && orgFilterValues.length > 0 ? resp.items : null
     // console.log('createAttributesListQuery resp', resp)
     // console.log('createAttributesListQuery attributes', attributes)
-    console.log('ATTRIBUTES LIST 5 DISPATCHING')
+    // console.log('ATTRIBUTES LIST 5 DISPATCHING')
     dispatch('updateBlacklist', { filterValues, filterField, attributes })
     await dispatch('updateAttributes', { attributes })
 

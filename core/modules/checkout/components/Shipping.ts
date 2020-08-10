@@ -37,6 +37,8 @@ export const Shipping = {
         region: '',
         city: '',
         street: ['', ''],
+        apartmentNumber: '',
+        streetAddress: '',
         postcode: '',
         telephone: '',
         street_id: '',
@@ -116,7 +118,7 @@ export const Shipping = {
     await this.getShippingCountryList()
     this.checkDefaultShippingAddress()
     this.checkSelectedShippingMethod()
-    this.shipping = {...this.$store.state.checkout.shippingDetails}
+    this.shipping = {...this.myAddressDetails, ...this.$store.state.checkout.shippingDetails}
     this.$nextTick(()=>{
       this.selectCountry()
     })

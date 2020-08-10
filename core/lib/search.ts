@@ -60,8 +60,6 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
     const benchmarkTime = new Date()
 
     cache.getItem(cacheKey, (err, res) => {
-      if(entityType === 'attribute')
-        // console.log('quickSearchByQuery cache.getItem', res)
       if (err) console.log(err)
       if (res !== null) {
         res.cache = true
@@ -89,11 +87,7 @@ export const quickSearchByQuery = async ({ query = {}, start = 0, size = 50, ent
       throw new Error('No entity type registered for ' + Request.type)
     }
 
-    if(entityType === 'attribute')
-      // console.log('quickSearchByQuery before searchAdapter.search Request', Request)
     searchAdapter.search(Request).then((resp) => { // we're always trying to populate cache - when online
-      if(entityType === 'attribute')
-        console.log('quickSearchByQuery after searchAdapter.resp, start, size', resp.hits.hits)
       const res = searchAdapter.entities[Request.type].resultPorcessor(resp, start, size)
 
       if (res) { // otherwise it can be just a offline mode

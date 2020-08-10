@@ -396,6 +396,7 @@ export default {
         mp_transaction: this.mangopay_transaction_id ? this.mangopay_transaction_id : null, // Added by shabbir ProCC
         store_brand: this.currentImage.brand,
         store_code: storeCode,
+        generateInvoice: !!this.payment.taxId,
         // Added by Dan ProCC -> TODO: need to charge 1 shipping fee per brand ordered from and store separate shipping methods for each brand
         shipping_amount: this.$store.state.cart.platformTotalSegments[1].value,
         // Added by Dan ProCC

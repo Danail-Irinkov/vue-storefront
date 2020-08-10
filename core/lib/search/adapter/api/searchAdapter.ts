@@ -73,8 +73,6 @@ export class SearchAdapter {
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
 
-    if(url.indexOf('/attribute') !== -1)
-      // console.log('ES query ULR:', url)
     return fetch(url, { method: config.elasticsearch.queryMethod,
       mode: 'cors',
       headers: {
@@ -93,7 +91,7 @@ export class SearchAdapter {
     if (resp === null) {
       throw new Error('Invalid ES result - null not exepcted')
     }
-    if (resp.hasOwnProperty('hits')) {
+    if (resp && resp.hasOwnProperty('hits')) {
       return {
         items: map(resp.hits.hits, hit => {
           return Object.assign(hit._source, { _score: hit._score, slug: hit._source.slug ? hit._source.slug : ((hit._source.hasOwnProperty('url_key') && config.products.useMagentoUrlKeys) ? hit._source.url_key : (hit._source.hasOwnProperty('name') ? slugify(hit._source.name) + '-' + hit._source.id : '')) }) // TODO: assign slugs server side
@@ -105,7 +103,7 @@ export class SearchAdapter {
         suggestions: resp.suggest
       }
     } else {
-      if (resp.error) {
+      if (resp && resp.error) {
         throw new Error(JSON.stringify(resp.error))
       } else {
         throw new Error('Unknown error with elasticsearch result in resultPorcessor for entity type \'' + type + '\'')

@@ -151,6 +151,7 @@ export const Payment = {
         let VAT_verification = await this.verifyVATNumber()
         console.log('VAT_verification', VAT_verification)
         if(!this.generateInvoice || !!VAT_verification){
+          this.payment.generateInvoice = !!this.generateInvoice
           this.$bus.$emit('checkout-after-paymentDetails', this.payment, this.$v)
           this.placeOrderAtPayment() // modify function for call place order function by shabbir
         }
