@@ -25,7 +25,7 @@
             id="storePersonalInfo"
             v-model="storePersonalInfo"
           >
-            {{ $t("Save my Personal Information in accordance with ProCC's Privacy Policy") }}
+            {{ $t("Save my Address Details") }}
           </base-checkbox>
         </div>
         <div class="col-md-6 hidden">
@@ -323,15 +323,16 @@ export default {
         customer_id: this.lastOrderConfirmation.orders[0].customer_user._id,
         message: this.feedback
       }).then((result) => {
-        this.onSuccess()
+        this.onSuccess(result)
       }).catch((err) => {
-        this.onFailure()
+        this.onFailure(result)
       })
     },
-    onSuccess (message) {
+    onSuccess (result) {
+      console.log('On SUccess res', result)
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message,
+        message: result.data.message,
         action1: { label: this.$t('OK') }
       })
       if (this.mailerElements.sendConfirmation) {
@@ -339,17 +340,17 @@ export default {
           {
             sourceAddress: this.mailerElements,
             targetAddress: this.email,
-            subject: this.$t('Confirmation of receival'),
-            emailText: this.$t(`Dear customer,\n\nWe have received your letter.\nThank you for your feedback!`),
+            subject: this.$t('Feedback received'),
+            emailText: this.$t(`Your input is highly appreciated. We will take it in consideration at our next team-meeting. \nThank you for your feedback!`),
             confirmation: true
           }
         )
       }
     },
-    onFailure (message) {
+    onFailure (result) {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
-        message,
+        message: result.data.message,
         action1: { label: this.$t('OK') }
       })
     }

@@ -302,7 +302,9 @@
 "You will receive another confirmation email at shipping. If you have any questions, see our","You will receive another confirmation email when shipping. If you have any questions, see the",
 "You can check the status of the order using your account's Order History","You can check the status of the order using your account's Order History",
 "Store your order's details in your ProCC Account","Store your order's details in your ProCC Account",
-"Save my Personal Information in accordance with ProCC's Privacy Policy","Save my Personal Information in accordance with ProCC's Privacy Policy",
+"Save my Address Details","Save my Address Details",
 "Save my Payment Information in accordance with ProCC's Privacy Policy","Save my Payment Information in accordance with ProCC's Privacy Policy"
 "Save to Account","Save to Account"
+"feedbackSaved","Thank you"
 "Account for {email} already exists.","Account for {email} already exists."
+
