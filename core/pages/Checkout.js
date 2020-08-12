@@ -443,11 +443,12 @@ export default {
             for (let key2 in this.order.products) {
               brand_ids.push(this.order.products[key2].brand_id)
             }
-            console.log('prepareProCCOrder brand_ids', brand_ids)
+            // console.log('prepareProCCOrder brand_ids', brand_ids)
             console.log('prepareProCCOrder this.order.cartId', this.order.cartId)
-            await ProCcApi().updateShippingMethodsFromProCC({brand_ids, cartId: this.order.cartId})
+            // await ProCcApi().updateShippingMethodsFromProCC({brand_ids, cartId: this.order.cartId})
+            // await this.sleep(500)
             console.log('prepareProCCOrder Updated Shipping Methods', this.$store.state.cart.selectedShippingMethods)
-            await this.sleep(500)
+
             this.order.selected_shipping_methods = this.$store.state.cart.selectedShippingMethods ? {...this.$store.state.cart.selectedShippingMethods} : {}
             console.log('prepareProCCOrder SHIPPING METHODS UPDATED', this.order.selected_shipping_methods)
             break

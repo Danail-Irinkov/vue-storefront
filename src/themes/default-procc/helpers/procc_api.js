@@ -143,16 +143,19 @@ export default (baseURL = '') => {
   }
   const updateShippingMethodsFromProCC = (data) => api.post(`shipping-method/updateShippingMethodsFromProCC`, data)
     .then(async (result) => {
-      // console.log('updateShippingMethodsFromProCC result', result)
+      console.log('updateShippingMethodsFromProCC result', result)
       let default_shipping_methods = {}
       let shipping_methods = {}
       let selected_shipping_methods = store.getters['checkout/getSelectedShippingMethods']
-        console.log('updateShippingMethodsFromProCC result.data.shipping_methods.length', result.data.shipping_methods)
-      console.log('updateShippingMethodsFromProCC selected_shipping_methods.length', selected_shipping_methods.length)
+      console.log('updateShippingMethodsFromProCC result.data.shipping_methods', result.data.shipping_methods)
+      console.log('updateShippingMethodsFromProCC selected_shipping_methods Start', selected_shipping_methods)
 
       for (let brand_id in result.data.shipping_methods) {
+        console.log('updateShippingMethodsFromProCC brand_id', brand_id)
         let store_data = result.data.shipping_methods[brand_id]
+        console.log('updateShippingMethodsFromProCC store_data', store_data)
         shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
+        console.log('updateShippingMethodsFromProCC shipping_methods['+brand_id+']', shipping_methods[brand_id])
         let shipping_method_data = {...find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })}
         // console.log('updateShippingMethodsFromProCC brand_id', brand_id)
         // console.log('updateShippingMethodsFromProCC selected_shipping_methods[brand_id]', selected_shipping_methods[brand_id])
@@ -163,8 +166,7 @@ export default (baseURL = '') => {
         //   shipping_method_data = find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })
         // }
 
-        console.log('updateShippingMethodsFromProCC shipping_method_data.cost', shipping_method_data)
-        console.log('updateShippingMethodsFromProCC shipping_method_data brand_id', brand_id)
+        console.log('updateShippingMethodsFromProCC shipping_method_data', shipping_method_data)
         // console.log('updateShippingMethodsFromProCC (!shipping_method_data.cost || parseFloat(shipping_method_data.cost) == 0 || shipping_method_data.isRapido)', (!shipping_method_data.cost || shipping_method_data.cost == 0 || shipping_method_data.isRapido))
         // console.log('updateShippingMethodsFromProCC shipping_method_data.cost', shipping_method_data.cost)
         // console.log('updateShippingMethodsFromProCC parseFloat(shipping_method_data.cost)', parseFloat(shipping_method_data.cost))
@@ -180,15 +182,15 @@ export default (baseURL = '') => {
         }
       }
       // console.log('store.getters[checkout/getSelectedShippingMethods]', store.getters['checkout/getSelectedShippingMethods'])
-      console.log('selected_shipping_methods', selected_shipping_methods)
-      console.log('default_shipping_methods', default_shipping_methods)
-      if(default_shipping_methods[0])
-      console.log('default_shipping_methods.cost', default_shipping_methods[0].cost)
+      console.log('updateShippingMethodsFromProCC selected_shipping_methods @END1', selected_shipping_methods)
+      console.log('updateShippingMethodsFromProCC default_shipping_methods @END2', default_shipping_methods)
+
       let shippingMethods = shipping_methods
       let selectedShippingMethods = defaults(selected_shipping_methods, default_shipping_methods)
+      console.log('updateShippingMethodsFromProCC selectedShippingMethods @END3', selectedShippingMethods)
       // let selectedShippingMethods = defaults(default_shipping_methods, store.getters['checkout/getSelectedShippingMethods'])
 
-      console.log('selectedShippingMethods', selectedShippingMethods)
+      console.log('updateShippingMethodsFromProCC selectedShippingMethods @END4', selectedShippingMethods)
 
       // console.log('shippingMethods', shippingMethods)
       // console.log('selectedShippingMethods', selectedShippingMethods)
