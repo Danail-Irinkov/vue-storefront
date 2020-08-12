@@ -116,7 +116,7 @@ function _filterChildrenByStockitem (context, stockItems, product, diffLog) {
           context.state.current_options[optionKey] = optionsAvailable
         }
       }
-      // console.log('_filterChildrenByStockitem prod:', product)
+      console.log('_filterChildrenByStockitem prod:', product)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       configureProductAsync(context, { product, configuration: context.state.current_configuration, selectDefaultVariant: true, fallbackToDefaultWhenNoAvailable: true })
       if (totalOptions === 0) {
@@ -408,8 +408,12 @@ function _internalMapOptions (productOption) {
 }
 
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
-  // console.log('populateProductConfigurationAsync product: ', product.size_label)
+  // console.log('populateProductConfigurationAsync product: ', product)
+  // console.log('populateProductConfigurationAsync context.state1: ', context.state.current.current_store_brand)
   // console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant.size_label)
+
+  // product.current_store_brand = getCurrentStoreBrand(context)
+
   if (product.configurable_options) {
     for (let option of product.configurable_options) {
       // console.log('populateProductConfigurationAsync option', option)
@@ -481,7 +485,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         label: selectedOption.label ? selectedOption.label : /* if not set - find by attribute */optionLabel(context.rootState.attribute, { attributeKey: selectedOption.attribute_code, searchBy: 'code', optionId: selectedOption.value })
       }
       console.log('selectedOption: ', selectedOption)
-      console.log('confVal: ', confVal)
+      // console.log('confVal: ', confVal)
       context.state.current_configuration[attribute_code] = confVal
     }
     if (config.cart.setConfigurableProductOptions) {
@@ -492,19 +496,24 @@ export function populateProductConfigurationAsync (context, { product, selectedV
       }
     }
   }
-  console.log('populateProductConfigurationAsync END: ', selectedVariant.size_label)
+  // console.log('populateProductConfigurationAsync END: ', selectedVariant.size_label)
   return selectedVariant
+}
+
+export function getCurrentStoreBrand(state) {
+  return rootStore.getters['procc/getCurrentStoreBrand']._id
 }
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
-  // console.log('findConfigurableChildAsync product1', product)
-  console.log('findConfigurableChildAsync product1')
+  console.log('findConfigurableChildAsync product1', product)
+  // console.log('findConfigurableChildAsync product1')
   if (product === null) product = context.getters.getCurrentProduct // Added by Dan, maybe not needed
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
   const hasConfigurableOptions = (product.configurable_options && product.configurable_options.length > 0) // Added by Dan
-  console.log('!!!!!!!!!!!!!hasConfigurableChildren', hasConfigurableChildren)// Added by Dan
-  console.log('!!!!!!!!!!!!!hasConfigurableOptions', hasConfigurableOptions)// Added by Dan
+  // console.log('!!!!!!!!!!!!!hasConfigurableChildren', hasConfigurableChildren)// Added by Dan
+  // console.log('!!!!!!!!!!!!!hasConfigurableOptions', hasConfigurableOptions)// Added by Dan
+  // console.log('!!!!!!!!!!!!!hasConfigurableOptions product', product)// Added by Dan
 
   if (hasConfigurableChildren || hasConfigurableOptions) { // EDITED  by Dan
     if (hasConfigurableChildren) { // EDITED  by Dan
@@ -552,6 +561,7 @@ export function configureProductAsync (context, { product, configuration, select
       if (fallbackToDefaultWhenNoAvailable) {
         // console.log('!!!!!!!!!!!!!findConfigurableChildAsync 2')
         selectedVariant = findConfigurableChildAsync({ product, selectDefaultChildren: true, availabilityCheck: true }) // return first available child
+        // console.log('!!!!!!!!!!!!!hasConfigurableOptions product2', selectedVariant)// Added by Dan
         desiredProductFound = false
       } else {
         desiredProductFound = false
@@ -564,6 +574,7 @@ export function configureProductAsync (context, { product, configuration, select
       if (!desiredProductFound && selectDefaultVariant /** don't change the state when no selectDefaultVariant is set */) { // update the configuration
         // console.log('populateProductConfigurationAsync configureProductAsync')
         populateProductConfigurationAsync(context, { product: product, selectedVariant: selectedVariant })
+        // console.log('!!!!!!!!!!!!!hasConfigurableOptions product3', product)// Added by Dan
         configuration = context.state.current_configuration
       }
       if (setProductErorrs) {
@@ -585,6 +596,7 @@ export function configureProductAsync (context, { product, configuration, select
       if (!hasImage(selectedVariant)) fieldsToOmit.push('image')
       selectedVariant = omit(selectedVariant, fieldsToOmit) // We need to send the parent SKU to the Magento cart sync but use the child SKU internally in this case
       // use chosen variant for the current product
+      // console.log('!!!!!!!!!!!!!hasConfigurableOptions product4', selectedVariant)// Added by Dan
       if (selectDefaultVariant) {
         context.dispatch('setCurrent', selectedVariant)
       }
@@ -596,6 +608,7 @@ export function configureProductAsync (context, { product, configuration, select
         context.dispatch('setCurrent', product) // without the configuration
       }
     }
+    console.log('configureProductAsync product END: ', selectedVariant)
     return selectedVariant
   } else {
     if (fallbackToDefaultWhenNoAvailable) {

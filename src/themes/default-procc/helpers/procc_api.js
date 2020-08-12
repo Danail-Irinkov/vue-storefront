@@ -143,19 +143,19 @@ export default (baseURL = '') => {
   }
   const updateShippingMethodsFromProCC = (data) => api.post(`shipping-method/updateShippingMethodsFromProCC`, data)
     .then(async (result) => {
-      console.log('updateShippingMethodsFromProCC result', result)
+      // console.log('updateShippingMethodsFromProCC result', result)
       let default_shipping_methods = {}
       let shipping_methods = {}
       let selected_shipping_methods = store.getters['checkout/getSelectedShippingMethods']
-      console.log('updateShippingMethodsFromProCC result.data.shipping_methods', result.data.shipping_methods)
-      console.log('updateShippingMethodsFromProCC selected_shipping_methods Start', selected_shipping_methods)
+      // console.log('updateShippingMethodsFromProCC result.data.shipping_methods', result.data.shipping_methods)
+      // console.log('updateShippingMethodsFromProCC selected_shipping_methods Start', selected_shipping_methods)
 
       for (let brand_id in result.data.shipping_methods) {
-        console.log('updateShippingMethodsFromProCC brand_id', brand_id)
+        // console.log('updateShippingMethodsFromProCC brand_id', brand_id)
         let store_data = result.data.shipping_methods[brand_id]
         console.log('updateShippingMethodsFromProCC store_data', store_data)
         shipping_methods[brand_id] = result.data.shipping_methods[brand_id]['shipping_methods']
-        console.log('updateShippingMethodsFromProCC shipping_methods['+brand_id+']', shipping_methods[brand_id])
+        // console.log('updateShippingMethodsFromProCC shipping_methods['+brand_id+']', shipping_methods[brand_id])
         let shipping_method_data = {...find(result.data.shipping_methods[brand_id]['shipping_methods'], (m) => { return m._id === store_data['default_shipping_method'] })}
         // console.log('updateShippingMethodsFromProCC brand_id', brand_id)
         // console.log('updateShippingMethodsFromProCC selected_shipping_methods[brand_id]', selected_shipping_methods[brand_id])

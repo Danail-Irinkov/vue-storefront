@@ -79,14 +79,14 @@ export default {
   },
   methods: {
     getArrayBrandsOfCartProductsProCC () { // Added by Dan to split items by Brand
-      console.log('his.$store.state.cart.cartItems', this.$store.state.cart.cartItems)
+      // console.log('his.$store.state.cart.cartItems', this.$store.state.cart.cartItems)
       let brands = []
       for (let product of this.$store.state.cart.cartItems) {
         if (brands.indexOf(product.procc_brand_id) === -1) {
           brands.push(product.procc_brand_id)
         }
       }
-      console.log('getArrayBrandsOfCartProductsProCC.brands', brands)
+      // console.log('getArrayBrandsOfCartProductsProCC.brands', brands)
 
       return brands
     },

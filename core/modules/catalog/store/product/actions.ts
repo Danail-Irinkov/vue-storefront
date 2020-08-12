@@ -3,7 +3,8 @@ import { ActionTree } from 'vuex'
 import * as types from './mutation-types'
 import { formatBreadCrumbRoutes, isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView, localizedDispatcherRoute, localizedDispatcherRouteName } from '@vue-storefront/core/lib/multistore'
-import { configureProductAsync,
+import {
+  configureProductAsync,
   doPlatformPricesSync,
   filterOutUnavailableVariants,
   populateProductConfigurationAsync,
@@ -11,7 +12,8 @@ import { configureProductAsync,
   setBundleProductOptionsAsync,
   getMediaGallery,
   configurableChildrenImages,
-  attributeImages } from '../../helpers'
+  attributeImages, getCurrentStoreBrand
+} from '../../helpers'
 import { preConfigureProduct, getOptimizedFields, configureChildren, storeProductToCache, canCache, isGroupedOrBundle } from '@vue-storefront/core/modules/catalog/helpers/search'
 import SearchQuery from '@vue-storefront/core/lib/search/searchQuery'
 import { entityKeyName } from '@vue-storefront/core/lib/store/entities'
@@ -319,7 +321,8 @@ const actions: ActionTree<ProductState, RootState> = {
   },
   preConfigureProduct (context, { product, populateRequestCacheTags, configuration }) {
     let prod = preConfigureProduct({ product, populateRequestCacheTags })
-    // console.log('preConfigureProduct', prod)
+    // console.log('preConfigureProduct product', product)
+    // console.log('preConfigureProduct prod', prod)
     if (configuration) {
       const selectedVariant = configureProductAsync(context, { product: prod, selectDefaultVariant: false, configuration })
       prod = Object.assign({}, prod, omit(selectedVariant, ['visibility']))
@@ -453,6 +456,7 @@ const actions: ActionTree<ProductState, RootState> = {
             let prd = res.items[0]
             const _returnProductNoCacheHelper = (subresults) => {
               EventBus.$emitFilter('product-after-single', { key: key, options: options, product: prd })
+              // console.log('syncProducts product', prd)
               resolve(setupProduct(prd))
             }
             if (setCurrentProduct || selectDefaultVariant) {
@@ -485,6 +489,7 @@ const actions: ActionTree<ProductState, RootState> = {
           if (res !== null) {
             Logger.debug('Product:single - result from localForage (for ' + cacheKey + '),  ms=' + (new Date().getTime() - benchmarkTime.getTime()), 'product')()
             const _returnProductFromCacheHelper = (subresults) => {
+              console.log('getProductFromCache product', res)
               const cachedProduct = setupProduct(res)
               if (config.products.alwaysSyncPlatformPricesOver) {
                 doPlatformPricesSync([cachedProduct]).then((products) => {
@@ -576,9 +581,17 @@ const actions: ActionTree<ProductState, RootState> = {
     if (productVariant && typeof productVariant === 'object') {
       // get original product
       const originalProduct = context.getters.getOriginalProduct
+      console.log('populateProductConfigurationAsync context.context: ', context)
+      console.log('populateProductConfigurationAsync context.rootStore: ', rootStore)
+      console.log('populateProductConfigurationAsync context.state2purchased_from_store_brand: ', context.state.current.purchased_from_store_brand)
+      console.log('populateProductConfigurationAsync context.state0: ', rootStore.getters['product/getCurrentProduct'])
+      console.log('populateProductConfigurationAsync context.state01: ', context.getters.getCurrentProduct)
+      productVariant.purchased_from_store_brand = getCurrentStoreBrand(context) // Added By Dan to record store purchased from
+      // rootStore.dispatch('product/setCurrent', {...context.getters.getCurrentProduct, current_store_brand})
+      console.log('populateProductConfigurationAsync context.productVariant: ', productVariant)
 
       // check if passed variant is the same as original
-      console.log('setCurrent productVariant: ', productVariant.size_label)
+      console.log('setCurrent productVariant: ', productVariant)
       const productUpdated = Object.assign({}, originalProduct, productVariant)
       console.log('populateProductConfigurationAsync setCurrent')
       populateProductConfigurationAsync(context, { product: productUpdated, selectedVariant: productVariant })
@@ -586,6 +599,11 @@ const actions: ActionTree<ProductState, RootState> = {
         context.commit(types.PRODUCT_SET_GALLERY, attributeImages(productVariant))
       }
       context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, productUpdated))
+
+      console.log('populateProductConfigurationAsync context.state1: ', context.getters.getCurrentProduct)
+      console.log('populateProductConfigurationAsync context.state2purchased_from_store_brand: ', context.state.current.purchased_from_store_brand)
+      console.log('populateProductConfigurationAsync context.state3: ', rootStore.getters['product/getCurrentProduct'])
+
       return productUpdated
     } else Logger.debug('Unable to update current product.', 'product')()
   },

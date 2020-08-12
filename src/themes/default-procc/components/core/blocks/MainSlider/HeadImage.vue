@@ -148,7 +148,7 @@ export default {
 }
 .container {
   background-size: cover;
-  background-position: bottom center;
+  background-position: top center;
   background-repeat: no-repeat;
 }
 .row {

@@ -31,6 +31,7 @@ export default {
     async addToCart (product) {
       try {
         product.store_brand = this.currentImage.brand // added for set store brand id in product
+        // console.log('addToCart product', product)
         const diffLog = await this.$store.dispatch('cart/addItem', { productToAdd: product })
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)

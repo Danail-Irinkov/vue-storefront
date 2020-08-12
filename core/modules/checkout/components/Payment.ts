@@ -313,7 +313,7 @@ export const Payment = {
             verification = (await this.ProCcApi.validateVATNumber({brand_id: store_brand_id}, this.currentImage.brand)).data.validation
           }
 
-          console.log('verifyStoreVATStatus', verification)
+          // console.log('verifyStoreVATStatus', verification)
           if (verification.valid) { // DISABLED FOR TESTING!!!
             this.VATEnabledStores.push(store_brand_id)
           }

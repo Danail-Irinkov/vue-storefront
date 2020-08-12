@@ -8,6 +8,7 @@ import ProductState from '../../types/ProductState'
 export const productModule: Module<ProductState, RootState> = {
   namespaced: true,
   state: {
+    purchased_from_store_brand: '', //Added By dan to remember which store should get commission
     // TODO use breadcrumbs from category-next, leave here for backward compatibility
     breadcrumbs: {
       routes: [],

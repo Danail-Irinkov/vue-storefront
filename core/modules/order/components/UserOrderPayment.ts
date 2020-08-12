@@ -84,7 +84,7 @@ export const UserOrderPayment = {
       // call API for update order status after payment successfully done
       return ProCcApi().saveTransactionInOrder(update_data, this.selected_order.customer_brand._id)
         .then((task) => {
-          console.log('preparedOrder!!task.data', task.data)
+          // console.log('preparedOrder!!task.data', task.data)
           this.$store.dispatch('user/getOrdersHistory', { refresh: true, useCache: true })
           this.$bus.$emit('notification-progress-stop');
           this.$forceUpdate()

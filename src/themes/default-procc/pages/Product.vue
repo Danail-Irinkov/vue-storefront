@@ -467,7 +467,7 @@ export default {
         // console.log('getCurrentProduct Variant set1', product.sku)
         // console.log('getCurrentProduct Variant set2', this.ProCCCurrentProductVariant.sku)
         // console.log('getCurrentProduct Variant set3', this.ProCCCurrentProductVariant.size_label)
-        console.log('getCurrentProduct Variant set4', product.size_label)
+        // console.log('getCurrentProduct Variant product', product)
         if (product.size_label && product.sku !== this.ProCCCurrentProductVariant.sku) { this.ProCCCurrentProductVariant = product }
       },
       immediate: true
@@ -564,7 +564,7 @@ export default {
     async getQuantity (variant = null) {
       // Edited By dan 30-12-2019
       let product = {...this.getCurrentProduct}
-      console.log('stock/check getQuantity')
+      // console.log('getQuantity product', product)
       // console.log('stock/check product1', product)
       // console.log('stock/check variant1', variant)
       let selectedVariant = {...product}
@@ -573,7 +573,7 @@ export default {
           selectedVariant.sku = selectedVariant.parentSku + '-' + variant.label // adjusting from parentSKU to size variant sku
         }
         // selectedVariant.qty = 1
-        console.log('getQuantity Variant set', selectedVariant)
+        // console.log('getQuantity Variant set', selectedVariant)
         this.ProCCCurrentProductVariant = selectedVariant
 
         // EventBus.$emit('product-after-priceupdate', product)
@@ -587,13 +587,13 @@ export default {
         if (product && product.configurable_options && product.configurable_options[0] &&
           product.configurable_options[0].values && product.configurable_options[0].values.length > 0 &&
           product.sku === product.parentSku && product.type_id === 'configurable') {
-          console.log('stock/check product2', product)
+          // console.log('stock/check product2', product)
           // AutoSelect first Option ProCC
           if (this.getProductOptions[0] && this.getProductOptions[0].attribute_code) {
             let variant = this.getAvailableFilters[this.getProductOptions[0].attribute_code][0]
-            console.log('stock/check variant', variant)
+            // console.log('stock/check variant', variant)
             if (variant) {
-              console.log('stock/check variant2', variant)
+              // console.log('stock/check variant2', variant)
               this.isStockInfoLoading = false
               return this.changeFilter(variant)
             }

@@ -156,7 +156,7 @@ export const Shipping = {
     },
     saveShippingMethod (brand_id) {
       this.$bus.$emit('modal-hide', 'modal-shipping-method')
-      console.log('saveShippingMethod this.selectedShippingMethods', this.selectedShippingMethods)
+      // console.log('saveShippingMethod this.selectedShippingMethods', this.selectedShippingMethods)
 
       this.$bus.$emit('checkout-after-shippingMethodChanged', { selectedShippingMethods: this.selectedShippingMethods, brand_id_changed: brand_id })
       this.checkSelectedShippingMethod()
@@ -222,8 +222,8 @@ export const Shipping = {
       // this.changeCountry() // DIsabled By Dan To avoid unneccesary calls
     },
     getShippingMethod () {
-      console.log('this.shipping.shippingMethod', this.shipping.shippingMethod)
-      console.log('this.shippingMethods.length', this.shippingMethods.length)
+      // console.log('this.shipping.shippingMethod', this.shipping.shippingMethod)
+      // console.log('this.shippingMethods.length', this.shippingMethods.length)
       for (let i = 0; i < this.shippingMethods.length; i++) {
         console.log('this.shippingMethods[i]._id', this.shippingMethods[i]._id)
         if (this.shippingMethods[i]._id === this.shipping.shippingMethod) {

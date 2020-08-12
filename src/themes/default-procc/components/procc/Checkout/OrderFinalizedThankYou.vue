@@ -329,7 +329,7 @@ export default {
       })
     },
     onSuccess (result) {
-      console.log('On SUccess res', result)
+      // console.log('On SUccess res', result)
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
         message: result.data.message,

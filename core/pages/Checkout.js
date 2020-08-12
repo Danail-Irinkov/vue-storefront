@@ -436,15 +436,17 @@ export default {
       try {
         for (let key in this.order.products) {
           let product = this.order.products[key]
-          console.log('prepareProCCOrder product', product.brand_id)
+          // console.log('prepareProCCOrder product', product)
+          // console.log('prepareProCCOrder this.order.products', this.order.products)
+          // console.log('prepareProCCOrder this.$store.state.cart', this.$store.state.cart.cartItems[0])
           if (!this.order.selected_shipping_methods || !this.order.selected_shipping_methods[product.brand_id]) {
             // Update Shipping methods from ProCC
-            let brand_ids = []
-            for (let key2 in this.order.products) {
-              brand_ids.push(this.order.products[key2].brand_id)
-            }
+            // let brand_ids = []
+            // for (let key2 in this.order.products) {
+            //   brand_ids.push(this.order.products[key2].brand_id)
+            // }
             // console.log('prepareProCCOrder brand_ids', brand_ids)
-            console.log('prepareProCCOrder this.order.cartId', this.order.cartId)
+            // console.log('prepareProCCOrder this.order.cartId', this.order.cartId)
             // await ProCcApi().updateShippingMethodsFromProCC({brand_ids, cartId: this.order.cartId})
             // await this.sleep(500)
             console.log('prepareProCCOrder Updated Shipping Methods', this.$store.state.cart.selectedShippingMethods)

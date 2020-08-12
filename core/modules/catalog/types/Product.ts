@@ -1,4 +1,5 @@
 export default interface Product {
+  purchased_from_store_brand: string, // Added BY Dan
   category: Record<string, any>[],
   category_ids: string[],
   color: string,
