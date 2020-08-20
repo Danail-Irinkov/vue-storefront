@@ -7,6 +7,8 @@ import ProCcApi from 'src/themes/default-procc/helpers/procc_api.js'
 import find from 'lodash-es/find';
 import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 const Countries = require('@vue-storefront/i18n/resource/countries.json')
+import config from 'config'
+import _ from 'lodash'
 
 export const Payment = {
   name: 'Payment',
@@ -43,6 +45,7 @@ export const Payment = {
         street_id:"",
         street_type:"",
         taxId:"",
+        vat_id_is_validated: false,
         zipCode:""
       },
       generateInvoice: false,
@@ -63,6 +66,10 @@ export const Payment = {
       getShippingDetails: 'checkout/getShippingDetails',
       getPersonalDetails: 'checkout/getPersonalDetails'
     }),
+    customerIsInADifferentCountryThanVendor () {
+      // NOT WORKING FUCNTION
+      return this.payment.country != this.currentImage.brand
+    },
     customerIsInEU () {
       let customer_country = this.payment.country
       let EU_countries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus',
@@ -129,6 +136,22 @@ export const Payment = {
     }
   },
   methods: {
+    vendorBrandCountry (order_item) {
+      // console.log('vendorBrandCountry cart Item', order_item)
+      // console.log('vendorBrandCountry config.storeViews', {...config.storeViews})
+      // get vendor storeview.tax.defaultCountry
+      let storeview = { tax: null }
+      _.map({...config.storeViews}, (value) => { // !!! REQUIRED LODASH DUE TO CONFIG OBJECT INFINITE LOOP
+        if (value && value.store_brand_id
+          && String(value.store_brand_id) === String(order_item.procc_brand_id)) {
+          storeview = {...value}
+        }
+      })
+      console.log('vendorBrandCountry defaultCountry', storeview && storeview.tax && storeview.tax.defaultCountry ? storeview.tax.defaultCountry : '')
+      // console.log('vendorBrandCountry storeview', storeview)
+      // console.log('vendorBrandCountry this.payment', this.payment)
+      return storeview && storeview.tax && storeview.tax.defaultCountry ? storeview.tax.defaultCountry : ''
+    },
     async getShippingCountryList () {
       try {
         // console.log('C Countries1:', this.countries )
@@ -328,34 +351,42 @@ export const Payment = {
         console.log('verifyVATNumber Start')
 
         let verification = { valid: false, company_name: null }
-        if (this.customerIsInEU && this.payment.taxId) {
+        if (!this.customerIsInEU) {
+          // DOnt know how to verify it
+        } else if (this.payment.taxId) { // When customer is in the EU we can verify the VAT number
           let VAT_number = this.payment.taxId
           verification = (await this.ProCcApi.validateVATNumber({VAT_number}, this.currentImage.brand)).data.validation
           console.log('verifyVATNumber this.payment', this.payment)
           console.log('verifyVATNumber this.VAT_number', VAT_number)
           console.log('verifyVATNumber verification', verification)
+
+          if (verification && verification.company_name) {
+            this.$v.payment.company.$touch()
+            this.$nextTick(()=>{
+              this.payment.company = String(verification.company_name)
+              if (this.$v && this.$v.payment && this.$v.payment.company) {
+                this.$v.payment.company.$touch()
+              }
+            })
+            // TODO: maybe also do similar for address if provided in the validation
+          }
+          if (verification && verification.valid) {
+            this.payment.vat_id_is_validated = true
+          }
         }
 
-        if (verification && verification.company_name) {
-          this.$v.payment.company.$touch()
-          this.$nextTick(()=>{
-            this.payment.company = String(verification.company_name)
-            if (this.$v && this.$v.payment && this.$v.payment.company) {
-                this.$v.payment.company.$touch()
-            }
-          })
-          // TODO: maybe also do similar for address if provided in the validation
-        }
 
         // SET the VAT amount from the total
         let cart_items1 = await this.getCartItems
+
         console.log('verifyVATNumber cart_items1', cart_items1[0].deduct_VAT)
         for (let item of this.getCartItems) {
-          // console.log('verifyVATNumber cart Item', item)
           let product = {
             ...item
           }
-          if (this.VATEnabledStores.indexOf(item.procc_brand_id) !== -1 && verification && verification.valid) {
+          this.vendorBrandCountry(item)
+          if (this.VATEnabledStores.indexOf(item.procc_brand_id) !== -1
+            && this.payment.country != this.vendorBrandCountry(item)) {
             // deduct VAT from order_item
             product.deduct_VAT = true
           } else {

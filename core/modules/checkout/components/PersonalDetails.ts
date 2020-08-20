@@ -52,10 +52,12 @@ export const PersonalDetails = {
       } else {
         this.personalDetails.createAccount = false
       }
-      if (this.personalDetails.createAccount) { this.register() } else {
-        this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
+      if (this.personalDetails.createAccount) {
+        this.register()
+      } else {
         this.isFilled = true
         this.isValidationError = false
+        this.$bus.$emit('checkout-after-personalDetails', this.personalDetails, this.$v)
       }
     },
     async register () {

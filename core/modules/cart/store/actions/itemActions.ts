@@ -63,7 +63,7 @@ const itemActions = {
     let productIndex = 0
     const diffLog = createDiffLog()
     for (let product of productsToAdd) {
-      console.log('addItems check sproductsToAddku:', productsToAdd, product)
+      // console.log('addItems check sproductsToAddku:', productsToAdd, product)
       console.log('addItems check sku:', product.sku, encodeURIComponent(product.sku))
       const errors = validateProduct(product)
       diffLog.pushNotifications(notifications.createNotifications({ type: 'error', messages: errors }))
@@ -86,12 +86,15 @@ const itemActions = {
           diffLog.pushNotification(notifications.productAddedToCart())
         }
         productIndex++
+      } else {
+        console.log('addItems validateProduct errors', errors)
       }
     }
     if (getters.isCartSyncEnabled && getters.isCartConnected && !forceServerSilence) {
       return dispatch('sync', { forceClientState: true })
     }
 
+    // console.log('addItems diffLog', diffLog)
     return diffLog
   },
   async removeItem ({ commit, dispatch, getters }, payload) {

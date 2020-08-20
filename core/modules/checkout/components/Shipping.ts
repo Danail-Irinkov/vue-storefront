@@ -60,7 +60,7 @@ export const Shipping = {
   },
   computed: {
     ...mapState({
-      currentUser: (state: RootState) => state.user.current
+      currentUser: (state: RootState) => state.user.current,
     }),
     ...mapGetters({
       shippingMethods: 'checkout/getShippingMethods',
@@ -118,7 +118,6 @@ export const Shipping = {
     await this.getShippingCountryList()
     this.checkDefaultShippingAddress()
     this.checkSelectedShippingMethod()
-    this.shipping = {...this.myAddressDetails, ...this.$store.state.checkout.shippingDetails}
     this.$nextTick(()=>{
       this.selectCountry()
     })
@@ -166,6 +165,7 @@ export const Shipping = {
       this.isFilled = true
     },
     onAfterPersonalDetails (receivedData) {
+      console.log('onAfterPersonalDetails receivedData', receivedData)
       if (!this.isFilled) {
         this.$store.dispatch('checkout/updatePropValue', ['firstName', receivedData.firstName])
         this.$store.dispatch('checkout/updatePropValue', ['lastName', receivedData.lastName])
@@ -181,27 +181,24 @@ export const Shipping = {
       }
     },
     hasShippingDetails () {
-      if (this.currentUser) {
-        if (this.currentUser.addresses && this.currentUser.addresses.length > 0) {
-          let addresses = this.currentUser.addresses
-          for (let i = 0; i < addresses.length; i++) {
-            if (addresses[i].set_as_default) {
-              this.myAddressDetails = addresses[i]
-              return true
-            }
-          }
-        }
+      console.log('hasShippingDetails this.currentUser', this.currentUser)
+      if (this.currentUser && this.currentUser.addresses && this.currentUser.addresses.length > 0) {
+        let addresses = this.currentUser.addresses.filter((adr) => adr.address_type === 'shipping')
+        console.log('hasShippingDetails addresses', addresses)
+        this.myAddressDetails = addresses[addresses.length-1]
+        return true
       }
       return false
     },
     useMyAddress () {
-      console.log('useMyAddress Started')
+      console.log('useMyAddress Started this.myAddressDetails', this.myAddressDetails)
+      console.log('useMyAddress Started this.shipping', this.shipping)
       if (this.shipToMyAddress) {
         this.shipping = {
           firstName: this.myAddressDetails.first_name,
           lastName: this.myAddressDetails.last_name,
           country: this.myAddressDetails.country,
-          // state: this.myAddressDetails.region.region ? this.myAddressDetails.region.region : '', // this is not need for now by shabbir
+          state: this.myAddressDetails.state ? this.myAddressDetails.state : this.myAddressDetails.region ? this.myAddressDetails.region : '', // this is not need for now by shabbir
           city: this.myAddressDetails.city,
           streetAddress: this.myAddressDetails.streetName,
           apartmentNumber: this.myAddressDetails.streetNumber,
@@ -216,6 +213,7 @@ export const Shipping = {
           shippingMethod: this.checkoutShippingDetails.shippingMethod,
           shippingCarrier: this.checkoutShippingDetails.shippingCarrier
         }
+        console.log('useMyAddress Started this.shipping2', this.shipping)
       } else {
         this.shipping = this.checkoutShippingDetails
       }
@@ -290,12 +288,12 @@ export const Shipping = {
           this.shipping.country_id = country ? country._id : '';
           this.cities = []
           this.streets = []
-          this.shipping.site_id = ''
-          this.shipping.state = ''
-          this.shipping.city = ''
-          this.shipping.street_id = ''
-          this.shipping.streetAddress = ''
-          this.shipping.zipCode = ''
+          // this.shipping.site_id = ''
+          // this.shipping.state = ''
+          // this.shipping.city = ''
+          // this.shipping.street_id = ''
+          // this.shipping.streetAddress = ''
+          // this.shipping.zipCode = ''
           this.getCitiesList(this.shipping.ISO_code)
           this.$bus.$emit('checkout-before-shippingMethods', this.shipping.country)
           this.$nextTick(async () => {
