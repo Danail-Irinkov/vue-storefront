@@ -118,7 +118,8 @@ export default {
     }
   }
 .head-image {
-  display: none;
+  /*display: none;*/
+  display: inherit; // Edited by Dan
   @media (min-width: 767px) {
     display: inherit;
   }

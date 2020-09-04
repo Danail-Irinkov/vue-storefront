@@ -75,6 +75,11 @@ export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | st
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl);
   if (storeCodeInRoute !== '') {
     let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl;
+    if(urlPath.indexOf('/c/') !== -1) // added by dan to fix something....
+      urlPath = urlPath.replace('c/', '')
+    if(urlPath.indexOf('/p/') !== -1) // added by dan to fix something....
+      urlPath = urlPath.replace('p/', '')
+
     return urlPath.replace(storeCodeInRoute + '/', '')
   } else {
     return matchedRouteOrUrl
