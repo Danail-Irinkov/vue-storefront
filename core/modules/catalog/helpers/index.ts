@@ -408,9 +408,9 @@ function _internalMapOptions (productOption) {
 }
 
 export function populateProductConfigurationAsync (context, { product, selectedVariant }) {
-  // console.log('populateProductConfigurationAsync product: ', product)
+  console.log('populateProductConfigurationAsync product.configurable_options: ', product.configurable_options)
   // console.log('populateProductConfigurationAsync context.state1: ', context.state.current.current_store_brand)
-  // console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant.size_label)
+  console.log('populateProductConfigurationAsync selectedVariant: ', selectedVariant)
 
   // product.current_store_brand = getCurrentStoreBrand(context)
 
@@ -452,7 +452,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
         }
         // Edited by shabbir for try to fix size issue
 
-        if (attribute_code === 'size') {
+        if (attribute_code === 'size' && option.values) {
           // console.log('option.values', option.values)
           // console.log('selectedVariant[attribute_code]', selectedVariant[attribute_code])
           // console.log('selectedVariant[attribute_code] type ', typeof selectedVariant[attribute_code])
@@ -466,6 +466,8 @@ export function populateProductConfigurationAsync (context, { product, selectedV
           } else if (option.values && option.values[0] && option.values[0].label) {
             selectedOption.label = option.values[0].label
           }
+        } else if(!option.values){
+          console.log('option.values Missing option: ', option)
         }
 
         console.log('selectedOption 2222: ', selectedOption)

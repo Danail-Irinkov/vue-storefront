@@ -581,11 +581,10 @@ const actions: ActionTree<ProductState, RootState> = {
     if (productVariant && typeof productVariant === 'object') {
       // get original product
       const originalProduct = context.getters.getOriginalProduct
-      console.log('populateProductConfigurationAsync context.context: ', context)
-      console.log('populateProductConfigurationAsync context.rootStore: ', rootStore)
-      console.log('populateProductConfigurationAsync context.state2purchased_from_store_brand: ', context.state.current.purchased_from_store_brand)
+      // console.log('populateProductConfigurationAsync context.context: ', context)
+      // console.log('populateProductConfigurationAsync context.rootStore: ', rootStore)
       console.log('populateProductConfigurationAsync context.state0: ', rootStore.getters['product/getCurrentProduct'])
-      console.log('populateProductConfigurationAsync context.state01: ', context.getters.getCurrentProduct)
+      // console.log('populateProductConfigurationAsync context.state01: ', context.getters.getCurrentProduct)
       productVariant.purchased_from_store_brand = getCurrentStoreBrand(context) // Added By Dan to record store purchased from
       // rootStore.dispatch('product/setCurrent', {...context.getters.getCurrentProduct, current_store_brand})
       console.log('populateProductConfigurationAsync context.productVariant: ', productVariant)
@@ -601,7 +600,7 @@ const actions: ActionTree<ProductState, RootState> = {
       context.commit(types.PRODUCT_SET_CURRENT, Object.assign({}, productUpdated))
 
       console.log('populateProductConfigurationAsync context.state1: ', context.getters.getCurrentProduct)
-      console.log('populateProductConfigurationAsync context.state2purchased_from_store_brand: ', context.state.current.purchased_from_store_brand)
+      console.log('populateProductConfigurationAsync context.state2 purchased_from_store_brand: ', context.state.current.purchased_from_store_brand)
       console.log('populateProductConfigurationAsync context.state3: ', rootStore.getters['product/getCurrentProduct'])
 
       return productUpdated

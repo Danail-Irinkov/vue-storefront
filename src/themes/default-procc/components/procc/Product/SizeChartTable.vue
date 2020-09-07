@@ -103,20 +103,20 @@
 .no-data{
   line-height: 60px;
 }
-  @media screen and (max-width: 767px) {
-    .size-chart-view thead {display: block;}
-    .size-chart-view thead tr th, .size-chart-view tbody tr th, .size-chart-view tbody tr td {padding: 12px 4px !important;    font-size: 13px;}
-    .size-chart-view thead tr th:nth-child(1), .size-chart-view thead tr th:nth-child(2),
-    .size-chart-view tbody tr th:nth-child(1), .size-chart-view tbody tr th:nth-child(2) {width: 13.16% !important;display: table-cell;
-      float: left;}
-    .size-chart-view thead tr th:nth-child(3), .size-chart-view thead tr th:nth-child(5), .size-chart-view thead tr th:nth-child(4),
-    .size-chart-view tbody tr td:nth-child(3), .size-chart-view tbody tr td:nth-child(5), .size-chart-view tbody tr td:nth-child(4){width: 17.16% !important;display: table-cell;
-      float: left;}
-    .size-chart-view thead tr th:nth-child(6), .size-chart-view tbody tr td:nth-child(6){width: 19.16% !important;display: table-cell;
-      float: left;}
-    .size-chart-view tbody {display: inline;}
-  }
-@media screen and (max-width: 374px) {
-  .el-dialog__wrapper .size-chart-modal {    width: 100% !important;}
-}
+/*  @media screen and (max-width: 767px) {*/
+/*    .size-chart-view thead {display: block;}*/
+/*    .size-chart-view thead tr th, .size-chart-view tbody tr th, .size-chart-view tbody tr td {padding: 12px 4px !important;    font-size: 13px;}*/
+/*    .size-chart-view thead tr th:nth-child(1), .size-chart-view thead tr th:nth-child(2),*/
+/*    .size-chart-view tbody tr th:nth-child(1), .size-chart-view tbody tr th:nth-child(2) {width: 13.16% !important;display: table-cell;*/
+/*      float: left;}*/
+/*    .size-chart-view thead tr th:nth-child(3), .size-chart-view thead tr th:nth-child(5), .size-chart-view thead tr th:nth-child(4),*/
+/*    .size-chart-view tbody tr td:nth-child(3), .size-chart-view tbody tr td:nth-child(5), .size-chart-view tbody tr td:nth-child(4){width: 17.16% !important;display: table-cell;*/
+/*      float: left;}*/
+/*    .size-chart-view thead tr th:nth-child(6), .size-chart-view tbody tr td:nth-child(6){width: 19.16% !important;display: table-cell;*/
+/*      float: left;}*/
+/*    .size-chart-view tbody {display: inline;}*/
+/*  }*/
+/*@media screen and (max-width: 374px) {*/
+/*  .el-dialog__wrapper .size-chart-modal {    width: 100% !important;}*/
+/*}*/
 </style>

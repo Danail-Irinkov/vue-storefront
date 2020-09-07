@@ -134,7 +134,7 @@ $z-index-modal: map-get($z-index, modal);
 
   .modal-container {
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 945px;
@@ -144,7 +144,7 @@ $z-index-modal: map-get($z-index, modal);
     z-index: $z-index-modal+1;
 
     @media (max-width: 600px) {
-      min-height: 100%;
+      /*min-height: 100%;*/
       min-width: 100%;
       margin: 0;
     }

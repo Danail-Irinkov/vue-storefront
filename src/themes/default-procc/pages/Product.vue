@@ -158,15 +158,15 @@
         </section>
       </div>
     </section>
-    <section class="container px15 pt50 pb35 cl-accent details">
+    <section class="container px15 pb35 cl-accent details">
       <tabs :options="{ useUrlFragment: false }">
         <tab name="Product Details">
           <div class="row">
-            <div class="col-xs-11 col-sm-9 col-md-10">
+            <div class="col-12">
               <div class="row">
                 <div class="col-sm-10" style="padding: 0">
                   <h3 class="m0">
-                    Description
+                    {{$t('Description')}}
                   </h3>
                   <p>{{ getCurrentProduct.description }}</p>
                 </div>
@@ -191,7 +191,7 @@
                 </div>
               </div>
               <div class="row" v-if="!isDefaultProductSize">
-                <h3>Size Chart</h3>
+                <h3>{{$t('Size Chart')}}</h3>
               </div>
               <div class="row mb10" v-if="!isDefaultProductSize">
                 <size-chart-view class="align-center" :product="getCurrentProduct" />
@@ -417,6 +417,7 @@ export default {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isDefaultProductSize () { // check if the size option is default
+      console.log('isDefaultProductSize', this.getCurrentProduct)
       const available_filters = getAvailableFiltersByProduct(this.getCurrentProduct)
       return !!((available_filters.size && available_filters.size.length === 1 && available_filters.size[0].label.toLowerCase() === 'default'))
     },
@@ -467,7 +468,7 @@ export default {
         // console.log('getCurrentProduct Variant set1', product.sku)
         // console.log('getCurrentProduct Variant set2', this.ProCCCurrentProductVariant.sku)
         // console.log('getCurrentProduct Variant set3', this.ProCCCurrentProductVariant.size_label)
-        // console.log('getCurrentProduct Variant product', product)
+        console.log('getCurrentProduct Variant selectedVariant', product)
         if (product.size_label && product.sku !== this.ProCCCurrentProductVariant.sku) { this.ProCCCurrentProductVariant = product }
       },
       immediate: true
@@ -573,7 +574,7 @@ export default {
           selectedVariant.sku = selectedVariant.parentSku + '-' + variant.label // adjusting from parentSKU to size variant sku
         }
         // selectedVariant.qty = 1
-        // console.log('getQuantity Variant set', selectedVariant)
+        console.log('getQuantity Variant selectedVariant', selectedVariant)
         this.ProCCCurrentProductVariant = selectedVariant
 
         // EventBus.$emit('product-after-priceupdate', product)
@@ -768,7 +769,7 @@ $bg-secondary: color(secondary, $colors-background);
 
 .details {
   @media (max-width: 767px) {
-    padding: 50px 15px 15px;
+    padding: 0px 15px 15px;
   }
 }
 
@@ -883,6 +884,11 @@ $bg-secondary: color(secondary, $colors-background);
     margin-bottom: 5px;
   }
 
+  @media (max-width: 700px) {
+    .tabs-component-tabs {
+      display: none;
+    }
+  }
   @media (min-width: 700px) {
     .tabs-component-tabs {
       border: 0;
@@ -947,6 +953,11 @@ $bg-secondary: color(secondary, $colors-background);
     padding: 4em 0;
   }
 
+  @media (max-width: 700px) {
+    .tabs-component-panels {
+      padding: 0 2em;
+    }
+  }
   @media (min-width: 700px) {
     .tabs-component-panels {
       border-top-left-radius: 0;
