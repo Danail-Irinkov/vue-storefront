@@ -117,6 +117,7 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
+  console.log('localizedDispatcherRoute routeObj', routeObj) // added by Dan
   const {storeCode: currentStoreCode, appendStoreCode} = currentStoreView();
   if (!storeCode || !config.storeViews[storeCode]) {
     storeCode = currentStoreCode
@@ -135,7 +136,7 @@ export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, sto
 
     if (routeObj.path) { // case of using dispatcher
       const routeCodePrefix = appendStoreCodePrefix ? `/${storeCode}` : '';
-      const qrStr = queryString.stringify(routeObj.params);
+      const qrStr = routeObj.params ? queryString.stringify(routeObj.params) : ''; // check added by Dan
 
       const normalizedPath = routeObj.path[0] !== '/' ? `/${routeObj.path}` : routeObj.path;
       return `${routeCodePrefix}${normalizedPath}${qrStr ? `?${qrStr}` : ''}`
