@@ -5,6 +5,7 @@ ENV VS_ENV prod
 WORKDIR /var/www
 
 COPY package.json ./
+COPY yarn.lock ./
 
 RUN apk update
 RUN apk add --no-cache --virtual .build-deps ca-certificates wget python make g++ \
