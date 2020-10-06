@@ -75,6 +75,7 @@ export class SearchAdapter {
     }
     console.log('searchAdapter httpQuery4', httpQuery) // added by Dan
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
+    // @ts-ignore
     url = url + '?' + queryString.stringify(httpQuery)
 
     return fetch(url, { method: config.elasticsearch.queryMethod,
