@@ -53,6 +53,7 @@ export class SearchAdapter {
       from: Request.from,
       sort: Request.sort
     }
+    console.log('searchAdapter httpQuery1', httpQuery) // added by Dan
 
     if (Request._sourceExclude) {
       httpQuery._source_exclude = Request._sourceExclude.join(',')
@@ -63,13 +64,16 @@ export class SearchAdapter {
     if (Request.q) {
       httpQuery.q = Request.q
     }
+    console.log('searchAdapter httpQuery2', httpQuery) // added by Dan
 
     if (!Request.index || !Request.type) {
       throw new Error('Query.index and Query.type are required arguments for executing ElasticSearch query')
     }
+    console.log('searchAdapter httpQuery3', httpQuery) // added by Dan
     if (config.elasticsearch.queryMethod === 'GET') {
       httpQuery.request = JSON.stringify(ElasticsearchQueryBody)
     }
+    console.log('searchAdapter httpQuery4', httpQuery) // added by Dan
     url = url + '/' + encodeURIComponent(Request.index) + '/' + encodeURIComponent(Request.type) + '/_search'
     url = url + '?' + queryString.stringify(httpQuery)
 
