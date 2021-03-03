@@ -117,8 +117,8 @@ export default {
     height: 735px;
     display: flex;
     flex-direction: column;
-    align-items: start;
-    padding-left: 10%;
+    align-items: center;
+    /*padding-left: 10%;*/
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

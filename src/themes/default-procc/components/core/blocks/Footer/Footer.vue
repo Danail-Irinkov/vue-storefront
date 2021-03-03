@@ -124,9 +124,9 @@
         </div>
         <div class="col-xs col-sm-9 end-xs">
           <ul class="pl0 links" data-testid="bottomLinks">
-            <li class="footer__version-info">
-              {{ getVersionInfo }}
-            </li>
+<!--            <li class="footer__version-info">-->
+<!--              {{ getVersionInfo }}-->
+<!--            </li>-->
             <li class="inline-flex">
               <router-link
                 class="cl-tertiary mr10 underline"
@@ -161,7 +161,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { currentStoreView, localizedRoute } from '@vue-storefront/core/lib/multistore'
+import { localizedRoute } from '@vue-storefront/core/lib/multistore'
 import CurrentPage from 'theme/mixins/currentPage'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import Newsletter from 'theme/components/core/blocks/Footer/Newsletter'

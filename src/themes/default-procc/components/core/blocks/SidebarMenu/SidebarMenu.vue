@@ -7,6 +7,9 @@
       >
         <sub-btn type="back" class="bg-cl-transparent brdr-none" />
       </div>
+      <div class="col-xs col-sm bg-cl-primary" style="padding-top: 1rem; padding-left: 2rem">
+        <language-switcher v-if="multistoreEnabled" />
+      </div>
       <div class="col-xs bg-cl-primary">
         <button
           type="button"
@@ -142,10 +145,13 @@ import SubBtn from 'theme/components/core/blocks/SidebarMenu/SubBtn'
 import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
+import LanguageSwitcher from '../../LanguageSwitcher.vue'
+import config from "config";
 
 export default {
   components: {
     SubCategory,
+    LanguageSwitcher,
     SubBtn
   },
   mixins: [SidebarMenu],
@@ -194,6 +200,9 @@ export default {
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
     }),
+    multistoreEnabled () {
+      return config.storeViews.multistore
+    },
     getSubmenu () {
       return this.submenu
     },

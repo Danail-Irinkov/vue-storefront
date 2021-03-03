@@ -1,91 +1,28 @@
 {
-  "mainBanners": [
-    {
-      "title": "Sweaters Women",
-      "subtitle": "2 products",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/optimized/200113-5e1c9de04185df1b9cbef706.jpg",
-      "link": "/c/sweaters-women-204",
-      "storeCode": "dev",
-      "productCount": 4,
-      "category_id": 204
-    }
-  ],
-  "smallBanners": [
-    {
-      "title": "products 8",
-      "subtitle": "works :)",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00db027abaf93584b98b8c.jpg",
-      "link": "/c/products-8-159",
-      "storeCode": "dev",
-      "productCount": 8,
-      "category_id": 159
-    },
-    {
-      "title": "5 Products 2.6-a",
-      "subtitle": "Nice! :)",
-      "title_color": "#ffffff",
-      "subtitle_color": "#ffffff",
-      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
-      "link": "/c/5-products-26-a-158",
-      "storeCode": "dev",
-      "productCount": 2,
-      "category_id": 158
-    }
-  ],
   "productBanners": [
     {
-      "title": "Stripe Pants",
-      "subtitle": "beige, stretchy, comfortable, cotton and elastane, ",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4d340ac1c960f68fc6f3c.jpg",
-      "link": "/p/DA001/stripe-pants",
+      "title": "Pink Set ",
+      "subtitle": "2 piece, girly, stylish",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/200219-5e4d8b70296ffa439cddd8e1.jpg",
+      "link": "/p/DA0012/pink-set",
       "category": [
         {
-          "category_id": 159,
-          "name": "products 8",
-          "slug": "products-8-159",
-          "path": "products-8-159"
+          "category_id": 234
         },
         {
-          "category_id": 153,
-          "name": "Dev3",
-          "slug": "dev3-153",
-          "path": "dev3-153"
-        }
-      ]
-    },
-    {
-      "title": "Sport  Gray Set",
-      "subtitle": "gym, stretchy, cotton, viscose",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd2993c1be9c0037d8097e.jpg",
-      "link": "/p/DA005/sport-gray-set",
-      "category": [
-        {
-          "category_id": 157,
-          "name": "Get 4K",
-          "slug": "get-4k-157",
-          "path": "get-4k-157"
+          "category_id": 204,
+          "name": "Sweaters Women",
+          "slug": "sweaters-women-204",
+          "path": "sweaters-women-204"
         },
         {
-          "category_id": 159,
-          "name": "products 8",
-          "slug": "products-8-159",
-          "path": "products-8-159"
+          "category_id": 245
         },
         {
-          "category_id": 153,
-          "name": "Dev3",
-          "slug": "dev3-153",
-          "path": "dev3-153"
+          "category_id": 250
         },
         {
-          "category_id": 155,
-          "name": "Dev five",
-          "slug": "dev-five-155",
-          "path": "dev-five-155"
+          "category_id": 249
         }
       ]
     },
@@ -102,37 +39,12 @@
           "path": "get-4k-157"
         },
         {
-          "category_id": 155,
-          "name": "Dev five",
-          "slug": "dev-five-155",
-          "path": "dev-five-155"
-        },
-        {
           "category_id": 156,
           "name": "Category 2.5-3",
           "slug": "category-25-3-156",
           "path": "category-25-3-156"
-        },
-        {
-          "category_id": 159,
-          "name": "products 8",
-          "slug": "products-8-159",
-          "path": "products-8-159"
-        },
-        {
-          "category_id": 158,
-          "name": "5 Products 2.6-a",
-          "slug": "5-products-26-a-158",
-          "path": "5-products-26-a-158"
         }
       ]
-    },
-    {
-      "title": "Jeans 2.6",
-      "subtitle": "Pure Cotton 2020 New",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c7364286f127f422fb07.jpg",
-      "link": "/p/DA009/jeans-2-5-3",
-      "category": []
     },
     {
       "title": "Posh Orange",
@@ -145,28 +57,93 @@
           "name": "5 Products 2.6-a",
           "slug": "5-products-26-a-158",
           "path": "5-products-26-a-158"
-        },
-        {
-          "category_id": 159,
-          "name": "products 8",
-          "slug": "products-8-159",
-          "path": "products-8-159"
         }
       ]
     },
     {
-      "title": "Gray Sweater",
-      "subtitle": "stretchy gray sweater, everyday use, wool and elastane",
-      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd266fc1be9c0037d8096d.jpg",
-      "link": "/p/DA002/gray-sweater",
+      "title": "Pink Hoodie",
+      "subtitle": "cotton and elastane, hoodie, warm, everyday fashion",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191014-5da4c73a4286f127f422fb09.jpg",
+      "link": "/p/DA004/pink-hoodie",
+      "category": [
+        {
+          "category_id": 350,
+          "name": "New Products",
+          "slug": "new-products-350",
+          "path": "new-products-350"
+        }
+      ]
+    },
+    {
+      "title": "Blue Formal Suit",
+      "subtitle": "soft fabric, stylish, blue, fitted",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/191220-5dfd279ec1be9c0037d80974.jpg",
+      "link": "/p/DA003/blue-formal-suit",
       "category": [
         {
           "category_id": 159,
           "name": "products 8",
           "slug": "products-8-159",
           "path": "products-8-159"
+        },
+        {
+          "category_id": 153,
+          "name": "Dev3",
+          "slug": "dev3-153",
+          "path": "dev3-153"
         }
       ]
+    },
+    {
+      "title": "Grey Sweater 2",
+      "subtitle": "Amazing Grey Sweater new style Niki",
+      "image": "https://storage.googleapis.com/procc/vendor/product/optimized/200109-5e16773ce57dd3462864fffb.jpg",
+      "link": "/p/DA006/grey-sweater",
+      "category": [
+        {
+          "category_id": 155,
+          "name": "Dev five",
+          "slug": "dev-five-155",
+          "path": "dev-five-155"
+        }
+      ]
+    }
+  ],
+  "mainBanners": [
+    {
+      "title": "5 Products 2.6-a",
+      "subtitle": "Nice! :)",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191223-5e00d4200203fa4d34344290.jpg",
+      "link": "/c/5-products-26-a-158",
+      "storeCode": "dev",
+      "productCount": 1,
+      "category_id": 158
+    }
+  ],
+  "smallBanners": [
+    {
+      "title": "New Products",
+      "subtitle": "WoW!",
+      "title_color": "#B1ABA2",
+      "subtitle_color": "#B1ABA2",
+      "image": "https://storage.googleapis.com/procc/vendor/category/optimized/191021-5dae16621ce2201e1c298d4a.jpg",
+      "link": "/c/new-products-350",
+      "storeCode": "dev",
+      "productCount": 1,
+      "category_id": 350
+    },
+    {
+      "title": "Sweaters Women",
+      "subtitle": "2 products",
+      "title_color": "#ffffff",
+      "subtitle_color": "#ffffff",
+      "image": "https://storage.googleapis.com/procc/vendor/optimized/200113-5e1c9de04185df1b9cbef706.jpg",
+      "link": "/c/sweaters-women-204",
+      "storeCode": "dev",
+      "productCount": 1,
+      "category_id": 204
     }
   ]
 }
