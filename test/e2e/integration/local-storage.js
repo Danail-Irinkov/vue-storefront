@@ -7,7 +7,7 @@ describe('local-storage', () => {
     cy.get('[data-testid=variantsLabel]').last().contains('S')
     cy.get('[data-testid=addToCart]').click()
     cy.get('[data-testid=notificationMessage]').contains(
-      'Product has been added to the cart!'
+      'The product has been added to Cart!'
     )
     cy.get('[data-testid=openMicrocart]').click({ force: true })
     cy.get('[data-testid=microcart]').should('be.visible')

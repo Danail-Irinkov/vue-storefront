@@ -13,7 +13,7 @@ Add review,Review toevoegen
 Add to cart,In winkelwagen
 Add to compare,Voeg toe aan de vergelijking
 Add to favorite,Voeg toe aan favorieten
-Allow notification about the order,Sta notificaties over uw order toe
+Enable order notification,Sta notificaties over uw order toe
 Apply,Toepassen
 Author,Auteur
 Authorization in progress ...,Bezig met autorizeren...
@@ -146,7 +146,7 @@ Phone Number,Telefoonnummer
 Phone number may be needed by carrier,Telefoonnummer kan nodig zijn voor vervoerder
 Place the order,Plaats bestelling
 Please check if all data are correct,Controleer of alle gegevens correct zijn
-Please confirm order you placed when you was offline,Bevestig uw offline geplaatste order
+Please confirm the order you placed when you were offline,Bevestig uw offline geplaatste order
 Please provide valid e-mail address.,Geef een geldig e-mailadres op.
 Price ,Prijs
 Price,Prijs
@@ -217,7 +217,7 @@ Tax identification number must have at least 3 letters.,BTW nummer moet minimaal
 Tax,BTW
 Terms and conditions,Algemene voorwaarden
 The new account will be created with the purchase. You will receive details on e-mail.,Het nieuwe account wordt aangemaakt tijdens de aankoop. U ontvangt de details per e-mail.
-The product, category or CMS page is not available in Offline mode. Redirecting to Home.,Deze pagina is niet beschikbaar in offline modus. U wordt doorgestuurd naar de homepage.
+The product, category, or CMS page is not available in Offline mode. Redirecting to Home.,Deze pagina is niet beschikbaar in offline modus. U wordt doorgestuurd naar de homepage.
 Track my order,Volg mijn bestelling
 Unfortunately we can't find the page you are looking for.,Helaas kunnen we niet vinden waar u naar op zoek bent
 Update my preferences,Update mijn voorkeuren

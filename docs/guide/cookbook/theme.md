@@ -377,7 +377,7 @@
 
 
 </style>
-In this chapter, we are going to cover : 
+In this chapter, we are going to cover :
 [[toc]]
 
 
@@ -395,21 +395,21 @@ Theme is what customers get first impression from your shop. You will be majorly
 <br />
 
 ## 2. How to upgrade theme one from another
-When you are already running your _Vue Storefront_ shop on production, chances are that you have made at least a few changes for your _theme_ even if you don't have developers resource. Hope you have made such changes to your child theme based on `default` theme so that normal upgrade won't make a huge impact in negative way for your shop. 
+When you are already running your _Vue Storefront_ shop on production, chances are that you have made at least a few changes for your _theme_ even if you don't have developers resource. Hope you have made such changes to your child theme based on `default` theme so that normal upgrade won't make a huge impact in negative way for your shop.
 
-Sometimes, however, an upgrade so huge that you can't make a smooth conversion from one to another may take place. Helping you in such a case keep headaches at bay, we will show you the example where `1.10` to `1.11` upgrade affects how a theme works and fix broken pieces. 
+Sometimes, however, an upgrade so huge that you can't make a smooth conversion from one to another may take place. Helping you in such a case keep headaches at bay, we will show you the example where `1.10` to `1.11` upgrade affects how a theme works and fix broken pieces.
 
-This recipe helps you resolve errors you encounter after the upgrade as short a route as possible. There would be more warnings and small leftovers within your theme. To make a complete overhaul, look for [Migration from 1.10 to 11](/guide/cookbook/migration.html#_1-upgrade-from-1-10-to-1-11) 
+This recipe helps you resolve errors you encounter after the upgrade as short a route as possible. There would be more warnings and small leftovers within your theme. To make a complete overhaul, look for [Migration from 1.10 to 11](/guide/cookbook/migration.html#_1-upgrade-from-1-10-to-1-11)
 
 ### 1. Preparation
  - You have a [Vue Storefront App running](/guide/cookbook/setup.html#_0-introduction) by `docker` or `yarn dev` and watch it in your browser.
- - You have a child theme [running](/guide/cookbook/theme.html#_1-start-building-your-own-theme) on top of _Vue Storefront_ app. 
- - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : [___1b53bd2a___](https://github.com/DivanteLtd/vue-storefront/commit/1b53bd2a829f7cab571dbd3c2a4021ea46857da7)) of `default` theme. This _degi_ theme is an example you might have created for your own. Which means, you can change it to whatever you like. 
- - In other words, suppose you have a _Vue Storefront_ shop running on a child theme `degi` that was branched off from _Vue Storefront_ `default` theme version `1.10` and want to upgrade to `1.11`. 
+ - You have a child theme [running](/guide/cookbook/theme.html#_1-start-building-your-own-theme) on top of _Vue Storefront_ app.
+ - In this recipe, we start with _degi_ child theme based on `1.10` version (git hash : [___1b53bd2a___](https://github.com/DivanteLtd/vue-storefront/commit/1b53bd2a829f7cab571dbd3c2a4021ea46857da7)) of `default` theme. This _degi_ theme is an example you might have created for your own. Which means, you can change it to whatever you like.
+ - In other words, suppose you have a _Vue Storefront_ shop running on a child theme `degi` that was branched off from _Vue Storefront_ `default` theme version `1.10` and want to upgrade to `1.11`.
 
 
 ### 1-1. Contents
-There are many features added/removed/enhanced with `1.11`. This recipe deals with all of them. They are, however, too many to skim in a glance. That's why you might need this _contents_ for them. 
+There are many features added/removed/enhanced with `1.11`. This recipe deals with all of them. They are, however, too many to skim in a glance. That's why you might need this _contents_ for them.
 
 
 - Pages
@@ -476,7 +476,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - Product
 
   - [Breadcrumb](#_10-next-target-is-breadcrumb-now-breadcrumb-supports-the-multistore-feature)
-  - [AddToCart](#_33-start-with-addtocart) 
+  - [AddToCart](#_33-start-with-addtocart)
   - [ColorSelector](#_34-next-is-colorselector)
   - [CookieNotification](#_35-update-cookienotification)
   - [GenericSelector](#_36-time-for-fixing-genericselector)
@@ -497,7 +497,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
   - [SizeSelector](#_51-sizeselector)
   - [SortBy](#_52-sortby)
   - [Spinner](#_53-spinner)
-  
+
 - Theme components
   - [ButtonFull](#_54-buttonfull-in-theme)
   - [ButtonOutline](#_55-buttonoutline-in-theme)
@@ -513,7 +513,7 @@ There are many features added/removed/enhanced with `1.11`. This recipe deals wi
       - [ReviewsList](#_60-reviewslist-in-theme-blocks)
 
 - [Store](#_4-add-new-files-introduced-from-1-11-as-following-path-from-the-default-theme)
-  
+
 - Other Important Files
   - [helpers/index.ts](#_61-helpers)
   - [index.js](#_61-index-js)
@@ -536,14 +536,14 @@ git checkout e4959550 # origin/release/v1.11
 ```
 
 :::warning NOTICE
-`origin/release/v1.11` is still evolving. It might be different with the latest hash at the time of your reading. This `docs` gets updated periodically, anyway you get the idea. 
+`origin/release/v1.11` is still evolving. It might be different with the latest hash at the time of your reading. This `docs` gets updated periodically, anyway you get the idea.
 :::
 
-#### 2. Resulting screen in your browser would somewhat look like this as sad as can be : 
+#### 2. Resulting screen in your browser would somewhat look like this as sad as can be :
 
 ![error_1.11](../images/error_1.11.png)
 
-#### 3. Now we start hunting down the culprits one by one. 
+#### 3. Now we start hunting down the culprits one by one.
 
 :::tip TIP
 By the way, you can also compare the changes made between `1.10` to `1.11` in [github link](https://github.com/DivanteLtd/vue-storefront/commit/a42d480aea56d90f7ab65c5caf6ce3f49b00dfec) with a glance too.
@@ -564,9 +564,9 @@ document.getElementById('d-my-orders').innerHTML = myOrders;
 </script>
 
 
-As you can see `UserOrdersHistory` has been moved to `core/modules` package. 
+As you can see `UserOrdersHistory` has been moved to `core/modules` package.
 
- - Next, go to `./src/themes/degi/pages/Home.vue` and fix it as follows : 
+ - Next, go to `./src/themes/degi/pages/Home.vue` and fix it as follows :
 
 <div id="d-home">
 
@@ -607,7 +607,7 @@ var dHome3 = Diff2Html.getPrettyHtml(
 document.getElementById('d-home-3').innerHTML = dHome3;
 </script>
 
-Because we now use `lazy-hydrate` feature. 
+Because we now use `lazy-hydrate` feature.
 
 Additionally `recently-viewed` module is added to `Home.vue` template from `1.11`.
 
@@ -631,9 +631,9 @@ var dHome4 = Diff2Html.getPrettyHtml(
 document.getElementById('d-home-4').innerHTML = dHome4;
 </script>
 
-Again, new `actions` are used here instead of the old way. 
+Again, new `actions` are used here instead of the old way.
 
-#### 4. Add new files introduced from `1.11` as following path from the `default` theme : 
+#### 4. Add new files introduced from `1.11` as following path from the `default` theme :
 ```bash
 # Assuming you are at the root directory
 cd src
@@ -647,12 +647,12 @@ cp themes/default/index.js themes/degi/index.js
 
 ![success_home_with_1.11_borderline](../images/success_1.11_home.png)
 
-#### 6. Now you are OK with _Home_ page, but there are still subtle changes made to each corner of the app. Let's find them out. 
-Click the _Microcart_ icon then you will see the page like below : 
+#### 6. Now you are OK with _Home_ page, but there are still subtle changes made to each corner of the app. Let's find them out.
+Click the _Microcart_ icon then you will see the page like below :
 
 ![microcart_nan_borderline](../images/microcart_nan.png)
 
-Multiple spots need attention to be fixed. We upgraded _Microcart_ to enable _Edit Mode_ on the fly. Let's fix it. 
+Multiple spots need attention to be fixed. We upgraded _Microcart_ to enable _Edit Mode_ on the fly. Let's fix it.
 
 #### 7. Copy newly added files from the `default` theme to `degi` theme :
 ```bash
@@ -662,9 +662,9 @@ cp themes/default/components/core/blocks/Microcart/EditButton.vue themes/degi/co
 cp themes/default/components/core/blocks/Microcart/EditMode.vue themes/degi/components/core/blocks/Microcart/
 ```
 
-#### 8. Then fix files that you might have modified before upgrade. 
+#### 8. Then fix files that you might have modified before upgrade.
 
- - Go to `./src/themes/degi/components/core/blocks/Microcart/Microcart.vue` and fix it as follows at `3` : 
+ - Go to `./src/themes/degi/components/core/blocks/Microcart/Microcart.vue` and fix it as follows at `3` :
 
 <div id="d-micro">
 
@@ -677,9 +677,9 @@ var dMicro = Diff2Html.getPrettyHtml(
 document.getElementById('d-micro').innerHTML = dMicro;
 </script>
 
-This transition allows _EditMode_ overlay and also works as a toggle button. 
+This transition allows _EditMode_ overlay and also works as a toggle button.
 
- - Replace `48` with below : 
+ - Replace `48` with below :
 
 <div id="d-micro-2">
 
@@ -690,7 +690,7 @@ var dMicro2 = Diff2Html.getPrettyHtml(
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-micro-2').innerHTML = dMicro2;
-</script> 
+</script>
 
 Now, `product.checksum` can be used as a key
 
@@ -705,13 +705,13 @@ var dMicro3 = Diff2Html.getPrettyHtml(
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-micro-3').innerHTML = dMicro3;
-</script> 
+</script>
 
 
 
 Importing new features while removing deprecated ones.
 
- - Change `mixins` at `148` : 
+ - Change `mixins` at `148` :
 
 <div id="d-micro-4">
 
@@ -722,7 +722,7 @@ var dMicro4 = Diff2Html.getPrettyHtml(
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-micro-4').innerHTML = dMicro4;
-</script> 
+</script>
 
  - Add _functions_ and fix _methods_ at around `166` :
 
@@ -735,13 +735,13 @@ var dMicro5 = Diff2Html.getPrettyHtml(
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-micro-5').innerHTML = dMicro5;
-</script> 
+</script>
 
 Here, you can see `InstantCheckoutModule` is registered at `beforeCreate`.
 
 `mapGetters` helper is used for getting `vuex` `actions`. [more info](https://stackoverflow.com/questions/49696542/differences-b-n-mapstate-mapgetters-mapactions-mapmutations-in-vuex) on `vuex` _helpers_
 
- - Last but not least for the file, add some styles inside _\<style\>\</style\>_ tag at around `311` : 
+ - Last but not least for the file, add some styles inside _\<style\>\</style\>_ tag at around `311` :
 
 <div id="d-micro-6">
 
@@ -752,9 +752,9 @@ var dMicro6 = Diff2Html.getPrettyHtml(
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-micro-6').innerHTML = dMicro6;
-</script> 
+</script>
 
- - Another big change has been made to `./src/themes/degi/components/core/blocks/Microcart/Product.vue`. 
+ - Another big change has been made to `./src/themes/degi/components/core/blocks/Microcart/Product.vue`.
 
 Start with replacing _template_ at `2` as follows :
 
@@ -766,11 +766,11 @@ var dMicroProd1 = Diff2Html.getPrettyHtml('--- a/src/themes/degi/components/core
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-micro-prod-1').innerHTML = dMicroProd1;
-</script> 
+</script>
 
 Here we replaced template.
 
- - Now fix script as follows at `135` : 
+ - Now fix script as follows at `135` :
 
 <div id="d-micro-prod-2">
 
@@ -781,13 +781,13 @@ var dMicroProd2 = Diff2Html.getPrettyHtml(
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-micro-prod-2').innerHTML = dMicroProd2;
-</script> 
+</script>
 
 
-As you can see here, we added `EditMode` in _Microcart_. Many things were considered in doing so, e.g. `color`, `size`, `option`, _multistores_ and so on. 
+As you can see here, we added `EditMode` in _Microcart_. Many things were considered in doing so, e.g. `color`, `size`, `option`, _multistores_ and so on.
 
 
- - Time to fix _styles_ : 
+ - Time to fix _styles_ :
 
 
 <div id="d-micro-prod-3">
@@ -799,10 +799,10 @@ var dMicroProd3 = Diff2Html.getPrettyHtml(
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-micro-prod-3').innerHTML = dMicroProd3;
-</script> 
+</script>
 
 
- - Move on to next file `./src/themes/degi/components/core/blocks/Microcart/RemoveButton.vue` and fix it at `2` as follows : 
+ - Move on to next file `./src/themes/degi/components/core/blocks/Microcart/RemoveButton.vue` and fix it at `2` as follows :
 
 
 <div id="d-micro-remove">
@@ -819,16 +819,16 @@ document.getElementById('d-micro-remove').innerHTML = dMicroRemove;
 
 Here we added _Vue_ click event.
 
-#### 9. Let's confirm if we got it right so far on your browser. Open it then _Voila !_ : 
+#### 9. Let's confirm if we got it right so far on your browser. Open it then _Voila !_ :
 
 ![editmode_in_mc_borderline](../images/editmodeInMC.png)
 
 Now you can edit options for your products in _Microcart_.
 
 
-#### 10. Next target is _Breadcrumb_. Now _Breadcrumb_ supports the multistore feature. 
+#### 10. Next target is _Breadcrumb_. Now _Breadcrumb_ supports the multistore feature.
 
- - Open `./src/themes/degi/components/core/Breadcrumbs.vue` and fix them as follows : 
+ - Open `./src/themes/degi/components/core/Breadcrumbs.vue` and fix them as follows :
 
 
 
@@ -847,7 +847,7 @@ document.getElementById('d-bread').innerHTML = dBread;
 
 #### 11. The next big chunk to take care of is _Category_ from _pages_.
 
- - Go to `./src/themes/degi/pages/Category.vue` and overhaul it as follows : 
+ - Go to `./src/themes/degi/pages/Category.vue` and overhaul it as follows :
 
 
 <div id="d-cate">
@@ -861,13 +861,13 @@ var dCategory = Diff2Html.getPrettyHtml(
 document.getElementById('d-cate').innerHTML = dCategory;
 </script>
 
- _Lazy Hydrate_ is implemented in _Category_ page too. 
- 
+ _Lazy Hydrate_ is implemented in _Category_ page too.
+
 Many _getters_ to fetch values from _store_ are _computed_ using `mapGetters`
 
 #### 12. Now look into _Checkout_ from _pages_
 
- - Go to `./src/themes/degi/pages/Checkout.vue` and fix it as follows : 
+ - Go to `./src/themes/degi/pages/Checkout.vue` and fix it as follows :
 
 
 <div id="d-checkout">
@@ -882,14 +882,14 @@ document.getElementById('d-checkout').innerHTML = dCheckout;
 </script>
 
 
- _Checkout_ page imports _Order_ module and register it at _beforeCreate_ hook. 
+ _Checkout_ page imports _Order_ module and register it at _beforeCreate_ hook.
 
- It also fix a small typo. 
+ It also fix a small typo.
 
 
 #### 13. Next is _Compare_ in _pages_
 
- - Go to `./src/themes/degi/pages/Compare.vue` and fix it as follows : 
+ - Go to `./src/themes/degi/pages/Compare.vue` and fix it as follows :
 
 
 <div id="d-compare">
@@ -906,10 +906,10 @@ document.getElementById('d-compare').innerHTML = dCompare;
  _RemoveButton_  was _removed!_
 
 
-#### 14. Here comes _MyAccount_ in _pages_. 
+#### 14. Here comes _MyAccount_ in _pages_.
 
 
- - Go to `./src/themes/degi/pages/MyAccount.vue` and fix it as follows : 
+ - Go to `./src/themes/degi/pages/MyAccount.vue` and fix it as follows :
 
 
 <div id="d-my-account">
@@ -923,12 +923,12 @@ var dMyAccount = Diff2Html.getPrettyHtml(
 document.getElementById('d-my-account').innerHTML = dMyAccount;
 </script>
 
- _RecentlyViewed_ module is imported and registered at _beforeCreate_ hook. 
+ _RecentlyViewed_ module is imported and registered at _beforeCreate_ hook.
 
-#### 15. Another page _PageNotFound_ in _pages_. 
+#### 15. Another page _PageNotFound_ in _pages_.
 
 
- - Go to `./src/themes/degi/pages/PageNotFound.vue` and fix it as follows : 
+ - Go to `./src/themes/degi/pages/PageNotFound.vue` and fix it as follows :
 
 
 <div id="d-page-not">
@@ -946,10 +946,10 @@ document.getElementById('d-page-not').innerHTML = dPageNotFound;
 
 
 
-#### 16. Another big update for _Product_ in _pages_. 
+#### 16. Another big update for _Product_ in _pages_.
 
 
- - Go to `./src/themes/degi/pages/Product.vue` and fix it as follows : 
+ - Go to `./src/themes/degi/pages/Product.vue` and fix it as follows :
 
 
 <div id="d-page-prod">
@@ -963,14 +963,14 @@ var dProductPage = Diff2Html.getPrettyHtml(
 document.getElementById('d-page-prod').innerHTML = dProductPage;
 </script>
 
- Here, _template_ part is overhauled. 
+ Here, _template_ part is overhauled.
 
- Data is filled up by `vuex` _getters_. 
+ Data is filled up by `vuex` _getters_.
 
  _Reviews_ are also _lazy hydrated_.
 
 
- - Continue with it for the _script_ part. 
+ - Continue with it for the _script_ part.
 
 <div id="d-page-prod-2">
 
@@ -983,10 +983,10 @@ var dProductPage2 = Diff2Html.getPrettyHtml(
 document.getElementById('d-page-prod-2').innerHTML = dProductPage2;
 </script>
 
-Here once again _vuex_ _getters_ are widely used to _compute_ data. 
+Here once again _vuex_ _getters_ are widely used to _compute_ data.
 
 
-#### 17. Now, _Static_ in _pages_. 
+#### 17. Now, _Static_ in _pages_.
 
 - Go to `./src/themes/degi/pages/Static.vue` and fix it as follows :
 
@@ -1001,7 +1001,7 @@ var dStaticPage = Diff2Html.getPrettyHtml(
 document.getElementById('d-page-static').innerHTML = dStaticPage;
 </script>
 
- _Routing_ has been updated to support the _multistore_ feature. 
+ _Routing_ has been updated to support the _multistore_ feature.
 
 
 #### 18. Time to work on _Auth_ part
@@ -1063,7 +1063,7 @@ var dCateSidebar = Diff2Html.getPrettyHtml(
 document.getElementById('d-cate-sidebar').innerHTML = dCateSidebar;
 </script>
 
- _Events_ are added. 
+ _Events_ are added.
 
  `methods` and `computed` are also added for _filters_
 
@@ -1078,7 +1078,7 @@ document.getElementById('d-cate-sidebar').innerHTML = dCateSidebar;
 </div>
 <script>
 var dCheckoutOrderConfirm = Diff2Html.getPrettyHtml(
-  '--- a/src/themes/degi/components/core/blocks/Checkout/OrderConfirmation.vue\n+++ b/src/themes/degi/components/core/blocks/Checkout/OrderConfirmation.vue\n@@ -6,7 +6,7 @@\n     <div slot=\"content\">\n       <p>{\{ $t(\'Please confirm order you placed when you was offline\') }\}</p>\n       <div class=\"mb40\" v-for=\"(order, key) in ordersData\" :key=\"key\">\n-        <h3>{\{ $t(\'Order #\') }\}{\{ key + 1 }\}</h3>\n+        <h3>{\{ $t(\'Order #{id}\', { id: key + 1}) }\}</h3>\n         <h4>{\{ $t(\'Items ordered\') }\}</h4>\n         <table class=\"brdr-1 brdr-cl-bg-secondary\">\n           <thead>\n@@ -34,13 +34,13 @@\n                 </span>\n               </td>\n               <td class=\"fs-medium lh25\" :data-th=\"$t(\'Price\')\">\n-                {\{ product.priceInclTax | price }\}\n+                {\{ product.price_incl_tax | price }\}\n               </td>\n               <td class=\"fs-medium lh25 align-right\" :data-th=\"$t(\'Qty\')\">\n                 {\{ product.qty }\}\n               </td>\n               <td class=\"fs-medium lh25\" :data-th=\"$t(\'Subtotal\')\">\n-                {\{ product.priceInclTax * product.qty | price }\}\n+                {\{ product.price_incl_tax * product.qty | price }\}\n               </td>\n             </tr>\n           </tbody>',
+  '--- a/src/themes/degi/components/core/blocks/Checkout/OrderConfirmation.vue\n+++ b/src/themes/degi/components/core/blocks/Checkout/OrderConfirmation.vue\n@@ -6,7 +6,7 @@\n     <div slot=\"content\">\n       <p>{\{ $t(\'Please confirm the order you placed when you were offline\') }\}</p>\n       <div class=\"mb40\" v-for=\"(order, key) in ordersData\" :key=\"key\">\n-        <h3>{\{ $t(\'Order #\') }\}{\{ key + 1 }\}</h3>\n+        <h3>{\{ $t(\'Order #{id}\', { id: key + 1}) }\}</h3>\n         <h4>{\{ $t(\'Items ordered\') }\}</h4>\n         <table class=\"brdr-1 brdr-cl-bg-secondary\">\n           <thead>\n@@ -34,13 +34,13 @@\n                 </span>\n               </td>\n               <td class=\"fs-medium lh25\" :data-th=\"$t(\'Price\')\">\n-                {\{ product.priceInclTax | price }\}\n+                {\{ product.price_incl_tax | price }\}\n               </td>\n               <td class=\"fs-medium lh25 align-right\" :data-th=\"$t(\'Qty\')\">\n                 {\{ product.qty }\}\n               </td>\n               <td class=\"fs-medium lh25\" :data-th=\"$t(\'Subtotal\')\">\n-                {\{ product.priceInclTax * product.qty | price }\}\n+                {\{ product.price_incl_tax * product.qty | price }\}\n               </td>\n             </tr>\n           </tbody>',
   {inputFormat: 'diff', showFiles: false, matching: 'none', outputFormat: 'line-by-line'}
 );
 document.getElementById('d-checkout-order-confirm').innerHTML = dCheckoutOrderConfirm;
@@ -1098,7 +1098,7 @@ var dCheckoutOrderReview = Diff2Html.getPrettyHtml(
 document.getElementById('d-checkout-order-review').innerHTML = dCheckoutOrderReview ;
 </script>
 
- _Order_ module is imported for registration. 
+ _Order_ module is imported for registration.
 
 
 - Go to `./src/themes/degi/components/core/blocks/Checkout/Payment.vue` and fix it as follows :
@@ -1157,7 +1157,7 @@ var dCheckoutThanks = Diff2Html.getPrettyHtml(
 document.getElementById('d-checkout-thanks').innerHTML = dCheckoutThanks ;
 </script>
 
- _Mailer_ module is registered and a message for offline order fulfillment is added. 
+ _Mailer_ module is registered and a message for offline order fulfillment is added.
 
 
 #### 21. Move on to _CMS/Block_
@@ -1175,12 +1175,12 @@ var dCmsBlock = Diff2Html.getPrettyHtml(
 document.getElementById('d-cms-block').innerHTML = dCmsBlock;
 </script>
 
- The names of _getters_ are changed to follow the convention throughout the whole update. 
+ The names of _getters_ are changed to follow the convention throughout the whole update.
 
 
 #### 22. Copy _AddToCompare_
 
- - Add new files introduced at `1.11` 
+ - Add new files introduced at `1.11`
 
 ```bash
 cd src
@@ -1204,7 +1204,7 @@ var dFooter = Diff2Html.getPrettyHtml(
 document.getElementById('d-footer').innerHTML = dFooter;
 </script>
 
- Wrap _multistore_ feature for composing _static_ page path. 
+ Wrap _multistore_ feature for composing _static_ page path.
 
 
 - Go to `./src/themes/degi/components/core/blocks/Footer/MinimalFooter.vue` and fix it as follows :
@@ -1252,12 +1252,12 @@ var dFormNumber = Diff2Html.getPrettyHtml(
 document.getElementById('d-form-number').innerHTML = dFormNumber;
 </script>
 
- `max` and `disabled` _properties_ are added. 
+ `max` and `disabled` _properties_ are added.
 
- Some styles were updated. 
+ Some styles were updated.
 
 
-#### 25. _Header_ needs fix too. 
+#### 25. _Header_ needs fix too.
 
 - Go to `./src/themes/degi/components/core/blocks/Header/CompareIcon.vue` and fix it as follows :
 
@@ -1286,7 +1286,7 @@ var dHeaderHeader = Diff2Html.getPrettyHtml(
 document.getElementById('d-header-header').innerHTML = dHeaderHeader;
 </script>
 
- A few code styling has been put into place. 
+ A few code styling has been put into place.
 
 
 - Go to `./src/themes/degi/components/core/blocks/Header/MicrocartIcon.vue` and fix it as follows :
@@ -1318,7 +1318,7 @@ var dHeaderMinimal = Diff2Html.getPrettyHtml(
 document.getElementById('d-header-minimal').innerHTML = dHeaderMinimal;
 </script>
 
- _Multistore_ feature and some styling are updated. 
+ _Multistore_ feature and some styling are updated.
 
 
 - Go to `./src/themes/degi/components/core/blocks/Header/WishListIcon.vue` and fix it as follows :
@@ -1334,11 +1334,11 @@ var dHeaderWish = Diff2Html.getPrettyHtml(
 document.getElementById('d-header-wish').innerHTML = dHeaderWish;
 </script>
 
- _Wishlist_ _count_ is added. 
+ _Wishlist_ _count_ is added.
 
 
 
-#### 26. _MyAccount_ turn is now. 
+#### 26. _MyAccount_ turn is now.
 
 - Go to `./src/themes/degi/components/core/blocks/MyAccount/MyNewsLetter.vue` and fix it as follows :
 
@@ -1369,9 +1369,9 @@ var dMyOrder = Diff2Html.getPrettyHtml(
 document.getElementById('d-mya-order').innerHTML = dMyOrder;
 </script>
 
- A few styles have been put into place. 
+ A few styles have been put into place.
 
- Product thumbnail has been added. 
+ Product thumbnail has been added.
 
 
 - Go to `./src/themes/degi/components/core/blocks/MyAccount/MyOrders.vue` and fix it as follows :
@@ -1387,7 +1387,7 @@ var dMyOrders = Diff2Html.getPrettyHtml(
 document.getElementById('d-mya-orders').innerHTML = dMyOrders;
 </script>
 
- `UserOrdersHistory` module has been moved to core module. 
+ `UserOrdersHistory` module has been moved to core module.
 
 - Go to `./src/themes/degi/components/core/blocks/MyAccount/MyProfile.vue` and fix it as follows :
 
@@ -1401,8 +1401,8 @@ var dMyProfile = Diff2Html.getPrettyHtml(
 );
 document.getElementById('d-mya-profile').innerHTML = dMyProfile;
 </script>
- 
- Code styling update and _validation_ added. 
+
+ Code styling update and _validation_ added.
 
 
 - Go to `./src/themes/degi/components/core/blocks/MyAccount/MyShippingDetails.vue` and fix it as follows :
@@ -1418,10 +1418,10 @@ var dMyShipping = Diff2Html.getPrettyHtml(
 document.getElementById('d-mya-shipping').innerHTML = dMyShipping;
 </script>
 
- Code styling update and _validation_ added. 
+ Code styling update and _validation_ added.
 
 
-#### 27. _Product_ _Related_ is ready to transform. 
+#### 27. _Product_ _Related_ is ready to transform.
 
 - Go to `./src/themes/degi/components/core/blocks/Product/Related.vue` and fix it as follows :
 
@@ -1436,9 +1436,9 @@ var dProdRelated = Diff2Html.getPrettyHtml(
 document.getElementById('d-prod-related').innerHTML = dProdRelated;
 </script>
 
- Now you are familiar with `vuex` `mapGetters` implemented in the update. 
+ Now you are familiar with `vuex` `mapGetters` implemented in the update.
 
- `async`-`await` implementation also takes place. 
+ `async`-`await` implementation also takes place.
 
 
 
@@ -1457,11 +1457,11 @@ var dReviewsReviews = Diff2Html.getPrettyHtml(
 document.getElementById('d-reviews-reviews').innerHTML = dReviewsReviews;
 </script>
 
- `i18n` support is added. 
+ `i18n` support is added.
 
- `async`-`await` implementation also takes place. 
+ `async`-`await` implementation also takes place.
 
- Notification for _Review_ submission has been added. 
+ Notification for _Review_ submission has been added.
 
 
 #### 29. _SearchPanel_ has parts to update
@@ -1512,7 +1512,7 @@ var dSideSidebar = Diff2Html.getPrettyHtml(
 document.getElementById('d-side-sidebar').innerHTML = dSideSidebar;
 </script>
 
- _CategoryLink_ gets help from `helper` for formatting. 
+ _CategoryLink_ gets help from `helper` for formatting.
 
  _Disabling Scroll_ feature is added to _SidebarMenu_ too.
 
@@ -1529,9 +1529,9 @@ var dSideSubcate = Diff2Html.getPrettyHtml(
 document.getElementById('d-side-subcate').innerHTML = dSideSubcate;
 </script>
 
- `async`-`await` implementation also takes place. 
- 
- _CategoryLink_ gets help from `helper` for formatting. 
+ `async`-`await` implementation also takes place.
+
+ _CategoryLink_ gets help from `helper` for formatting.
 
 
 #### 31. It's _Switcher_ _Language_ turn
@@ -1549,7 +1549,7 @@ var dSwitchLang = Diff2Html.getPrettyHtml(
 document.getElementById('d-switch-lang').innerHTML = dSwitchLang;
 </script>
 
- _Validation_ for _storeCode_ is added. 
+ _Validation_ for _storeCode_ is added.
 
 
 #### 32. Let's look into _Wishlist_ and make a wish
@@ -1567,7 +1567,7 @@ var dWishAddTo = Diff2Html.getPrettyHtml(
 document.getElementById('d-wish-add-to').innerHTML = dWishAddTo;
 </script>
 
- `i18n` support is added. 
+ `i18n` support is added.
 
  `methods` for adding / removing _product_ to _Wishlist_ are added including notification for them.
 
@@ -1828,7 +1828,7 @@ document.getElementById('d-prod-img').innerHTML = dProdImg;
 </script>
 
 
-#### 48. _ProductLinks_ 
+#### 48. _ProductLinks_
 
 - Go to `./src/themes/degi/components/core/ProductLinks.vue` and fix it as follows :
 
@@ -1844,7 +1844,7 @@ document.getElementById('d-prod-link').innerHTML = dProdLink;
 </script>
 
 
-#### 49. _ProductQuantity_ 
+#### 49. _ProductQuantity_
 
 - Go to `./src/themes/degi/components/core/ProductQuantity.vue` and create it as follows :
 
@@ -1860,7 +1860,7 @@ document.getElementById('d-prod-qty').innerHTML = dProdQty;
 </script>
 
 
-#### 50. _ProductTile_ 
+#### 50. _ProductTile_
 
 - Go to `./src/themes/degi/components/core/ProductTile.vue` and fix it as follows :
 
@@ -1876,7 +1876,7 @@ document.getElementById('d-prod-tile').innerHTML = dProdTile;
 </script>
 
 
-#### 51. _SizeSelector_ 
+#### 51. _SizeSelector_
 
 - Go to `./src/themes/degi/components/core/SizeSelector.vue` and fix it as follows :
 
@@ -1892,7 +1892,7 @@ document.getElementById('d-size-sel').innerHTML = dSizeSel;
 </script>
 
 
-#### 52. _SortBy_ 
+#### 52. _SortBy_
 
 - Go to `./src/themes/degi/components/core/SortBy.vue` and fix it as follows :
 
@@ -1908,7 +1908,7 @@ document.getElementById('d-sort-by').innerHTML = dSortBy;
 </script>
 
 
-#### 53. _Spinner_ 
+#### 53. _Spinner_
 
 - Go to `./src/themes/degi/components/core/Spinner.vue` and fix it as follows :
 
@@ -1926,7 +1926,7 @@ document.getElementById('d-spin').innerHTML = dSpin;
 
 
 
-Now, you are done with `core` component part. Move on to `theme` part. 
+Now, you are done with `core` component part. Move on to `theme` part.
 
 
 #### 54. _ButtonFull_ in `theme`
@@ -2042,7 +2042,7 @@ document.getElementById('d-reviews-reviewslist').innerHTML = dReviewsList;
 
 
 
-Everything specifically related to `theme` has been covered so far, now time to work on other files. 
+Everything specifically related to `theme` has been covered so far, now time to work on other files.
 
 
 
@@ -2109,7 +2109,7 @@ var dRouterIndex = Diff2Html.getPrettyHtml(
 document.getElementById('d-router-index').innerHTML = dRouterIndex;
 </script>
 
-Finally we are done with it but `i18n`, that is, however, about copying `csv` files. 
+Finally we are done with it but `i18n`, that is, however, about copying `csv` files.
 
 
 #### 64. _resource/i18n_
@@ -2119,19 +2119,19 @@ Finally we are done with it but `i18n`, that is, however, about copying `csv` fi
 cp -r themes/default/resource/i18n/* themes/degi/resource/i18n/
 ```
 
-Keep it mind that if you added/modified/removed `i18n` files aside default ones and used them from a theme, you should also work on it. 
+Keep it mind that if you added/modified/removed `i18n` files aside default ones and used them from a theme, you should also work on it.
 
 ### 3. Peep into the kitchen (what happens internally)
 
 We have been through a thorough scrutiny on what's been changed to `1.11`.
 
-This upgrade recipe deals with _theme_ part only since _modules_ and _core_ part of the upgrade should be dealt diffrently. It won't be easy just to copy/paste updated parts and pray for smooth upgrade when it comes to custom _modules_ for it's next to impossible to guess the true intention of _module_ developer and bend it to work compatibly with the updates unless you are the one who created it. ([here](module.html) for how to upgrade custom modules) _Core_ parts, however, should be working fine with copy/paste upgrade because they were supposed to be untouched in the first place. Once the _core_ parts have been upgraded without a hiccup, it's time to upgrade _theme_ part and this recipe is all about how to just do it. 
+This upgrade recipe deals with _theme_ part only since _modules_ and _core_ part of the upgrade should be dealt diffrently. It won't be easy just to copy/paste updated parts and pray for smooth upgrade when it comes to custom _modules_ for it's next to impossible to guess the true intention of _module_ developer and bend it to work compatibly with the updates unless you are the one who created it. ([here](module.html) for how to upgrade custom modules) _Core_ parts, however, should be working fine with copy/paste upgrade because they were supposed to be untouched in the first place. Once the _core_ parts have been upgraded without a hiccup, it's time to upgrade _theme_ part and this recipe is all about how to just do it.
 
-In `1.11` upgrade, one notable change is about how it works with data throughout the app. It takes advantage of `vuex` _store_ for data container, and it can be seen in upgrading various blocks as using `mapGetters`. 
+In `1.11` upgrade, one notable change is about how it works with data throughout the app. It takes advantage of `vuex` _store_ for data container, and it can be seen in upgrading various blocks as using `mapGetters`.
 
-_Lazy Hydrate_ has been also applied to product listing and other features and improvement has been placed for better readability and efficiency. 
+_Lazy Hydrate_ has been also applied to product listing and other features and improvement has been placed for better readability and efficiency.
 
-There are many patches in _theme_ for _core_ and _module_ upgrade to be compatible with new concepts introduced to `1.11`. 
+There are many patches in _theme_ for _core_ and _module_ upgrade to be compatible with new concepts introduced to `1.11`.
 
 In general, the theme upgrade might be a tedious process for you but it's worth it for your service!
 
@@ -2150,9 +2150,9 @@ _Theme_ is the face of your store. Face is what makes people recognize you as yo
 
 Online stores should demand many features in common and they deal with similar types of requests from their customers to fulfill their desire : _Purchase_. They are divided and placed under the `core` folder to be dealt with.
 
-We already got our hands dirty to place all the core business logic in place and created the `default` theme as the best practice to show how they are intertwined behind the scene and make it work seamlessly out of the box. 
+We already got our hands dirty to place all the core business logic in place and created the `default` theme as the best practice to show how they are intertwined behind the scene and make it work seamlessly out of the box.
 
-In this recipe, we will walk through how `default` theme works in cooperation with other core parts of the `app` such as `modules`, `filters`, `stores` and so on. 
+In this recipe, we will walk through how `default` theme works in cooperation with other core parts of the `app` such as `modules`, `filters`, `stores` and so on.
 <br />
 Among methodologies for this recipe, we will use the one inspired by [_Chaos Monkey_](https://en.wikipedia.org/wiki/Chaos_engineering); One that creates various errors on purpose, and ___see___ why it was needed to prevent such errors in the first place.
 
@@ -2163,22 +2163,22 @@ _He who sees things grow from their beginning will have the best view of them_
 
 ___- Aristotle___
 :::
-You are not the core developers who built the ___Vue Storefront___ from its beginning so you don't know the _why_ and _how_ and the history of what happened to each corner of the code base. (even if you are core developers, I bet you really don't know _every_ detail ;)) Yet, that's fine until you just take advantage of the platform and things work as `docs` dictates. It becomes, however, problems when things get in unexpected ways. 
+You are not the core developers who built the ___Vue Storefront___ from its beginning so you don't know the _why_ and _how_ and the history of what happened to each corner of the code base. (even if you are core developers, I bet you really don't know _every_ detail ;)) Yet, that's fine until you just take advantage of the platform and things work as `docs` dictates. It becomes, however, problems when things get in unexpected ways.
 <br/>
-In attempts to reduce such frustration, one might need to simulate _How things grew from the beginning_. Creating problems on purpose and an attempt to solve them may help you understand why things were there in the first place. Think of it as _Hadron Collider_ of ___Vue Storefront___. Now time's up, Let's turn on the _particle accelerator_. 
+In attempts to reduce such frustration, one might need to simulate _How things grew from the beginning_. Creating problems on purpose and an attempt to solve them may help you understand why things were there in the first place. Think of it as _Hadron Collider_ of ___Vue Storefront___. Now time's up, Let's turn on the _particle accelerator_.
 
 ### 1. Preparation
-- You need [Vue Storefront](https://github.com/DivanteLtd/vue-storefront) app [working](/guide/cookbook/setup.html). 
+- You need [Vue Storefront](https://github.com/DivanteLtd/vue-storefront) app [working](/guide/cookbook/setup.html).
 
 ### 2. Recipe
 1. Open your editor and go to `./src/themes/default/index.js`
- 
+
 
 
 ### 3. Peep into the kitchen (what happens internally)
 ### 4. Chef's secret (protip)
 #### Secret 1. What is `amp` here and there?
-#### Secret 2. 
+#### Secret 2.
 
 <br />
 <br />

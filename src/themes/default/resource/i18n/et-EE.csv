@@ -1,8 +1,8 @@
 "My Account","Minu konto"
 "Field is required",Kohustuslik
 "Confirm your order","Kinnitage oma tellimus"
-"Please confirm order you placed when you was offline","Palun kinnitage oma tellimuse, mille ilma interneti ühenduseta varasemalt tegite"
-"Allow notification about the order","Luba tellimusge seotud teadete edastamine"
+"Please confirm the order you placed when you were offline","Palun kinnitage oma tellimuse, mille ilma interneti ühenduseta varasemalt tegite"
+"Enable order notification","Luba tellimusge seotud teadete edastamine"
 "Extension developers would like to thank you for placing an order!","Mooduli loojad tänavad tellimuse tegemise eest!"
 "Compare products","Võrdle tooteid"
 login,"logi sisse"

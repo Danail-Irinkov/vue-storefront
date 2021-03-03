@@ -6,7 +6,7 @@ const validateProduct = (product: CartItem): string[] => {
   const errors = []
 
   if (config.useZeroPriceProduct ? product.price_incl_tax < 0 : product.price_incl_tax <= 0) {
-    errors.push(i18n.t('Product price is unknown, product cannot be added to the cart!'))
+    errors.push(i18n.t('The product price is unknown and cannot be added to Cart!'))
   }
 
   if (product.errors !== null && typeof product.errors !== 'undefined') {

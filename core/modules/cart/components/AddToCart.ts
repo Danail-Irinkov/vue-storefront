@@ -34,7 +34,7 @@ export const AddToCart = {
         } else {
           this.notifyUser({
             type: 'success',
-            message: this.$t('Product has been added to the cart!'),
+            message: this.$t('The product has been added to Cart!'),
             action1: { label: this.$t('OK') },
             action2: null
           })

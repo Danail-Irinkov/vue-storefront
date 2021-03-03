@@ -12,7 +12,7 @@ When you're working with a plain JS module, you can simply use the translation h
 import i18n from '@vue-storefront/i18n';
 EventBus.$emit('notification', {
   type: 'success',
-  message: i18n.t('Product has been added to the cart!'),
+  message: i18n.t('The product has been added to Cart!'),
   action1: { label: i18n.t('OK'), action: 'close' },
 });
 ```

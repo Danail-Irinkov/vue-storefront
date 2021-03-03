@@ -11,14 +11,14 @@ const checkoutAction = () => !config.externalCheckout ? proceedToCheckoutAction(
 
 const productAddedToCart = () => ({
   type: 'success',
-  message: i18n.t('Product has been added to the cart!'),
+  message: i18n.t('The product has been added to Cart!'),
   action1: { label: i18n.t('OK') },
   action2: checkoutAction()
 })
 
 const productQuantityUpdated = () => ({
   type: 'success',
-  message: i18n.t('Product quantity has been updated!'),
+  message: i18n.t('The product quantity has been updated!'),
   action1: { label: i18n.t('OK') },
   action2: checkoutAction()
 })
@@ -26,14 +26,14 @@ const productQuantityUpdated = () => ({
 const unsafeQuantity = () => ({
   type: 'warning',
   message: i18n.t(
-    'The system is not sure about the stock quantity (volatile). Product has been added to the cart for pre-reservation.'
+    'The system is not sure about the stock quantity (volatile). Product has been added to Cart for pre-reservation.'
   ),
   action1: { label: i18n.t('OK') }
 })
 
 const outOfStock = () => ({
   type: 'error',
-  message: i18n.t('The product is out of stock and cannot be added to the cart!'),
+  message: i18n.t('The product is out of stock and cannot be added to Cart!'),
   action1: { label: i18n.t('OK') }
 })
 

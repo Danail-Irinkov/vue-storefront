@@ -121,7 +121,7 @@ export default {
       if (!(typeof navigator !== 'undefined' && navigator.onLine)) {
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: this.$t('Reset password feature does not work while offline!'),
+          message: this.$t('The reset password feature does not work while offline!'),
           action1: { label: this.$t('OK') }
         })
       } else {

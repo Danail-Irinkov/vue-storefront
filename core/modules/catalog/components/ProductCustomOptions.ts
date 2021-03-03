@@ -78,7 +78,7 @@ export const ProductCustomOptions = {
           const validationResult = validator(this['inputValues'][fieldName])
           this.validation.results[fieldName] = validationResult
           if (validationResult.error) {
-            this.product.errors['custom_options_' + fieldName] = i18n.t('Please configure product custom options and fix the validation errors')
+            this.product.errors['custom_options_' + fieldName] = i18n.t('Please configure custom product options and fix the validation errors')
           } else {
             this.product.errors['custom_options_' + fieldName] = null
           }

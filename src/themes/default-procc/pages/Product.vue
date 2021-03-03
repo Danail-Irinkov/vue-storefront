@@ -525,7 +525,7 @@ export default {
       this.$store.dispatch('notification/spawnNotification', {
         type: 'error',
         message: this.$t(
-          'The product is out of stock and cannot be added to the cart!'
+          'The product is out of stock and cannot be added to Cart!'
         ),
         action1: { label: this.$t('OK') }
       })

@@ -236,7 +236,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       if (!res || (res.noresults)) {
         rootStore.dispatch('notification/spawnNotification', {
           type: 'warning',
-          message: i18n.t('No products synchronized for this category. Please come back while online!'),
+          message: i18n.t('No products synced for this category. Please come back while online!'),
           action1: { label: i18n.t('OK') }
         })
         if (!append) rootStore.dispatch('product/reset')
@@ -321,7 +321,7 @@ const actions: ActionTree<CategoryState, RootState> = {
       Logger.error(err)()
       rootStore.dispatch('notification/spawnNotification', {
         type: 'warning',
-        message: i18n.t('No products synchronized for this category. Please come back while online!'),
+        message: i18n.t('No products synced for this category. Please come back while online!'),
         action1: { label: i18n.t('OK') }
       })
     })

@@ -61,7 +61,7 @@ export const OrderModule: StorefrontModule = function ({store}) {
                       if (jsonResponse.code === 400) {
                         rootStore.dispatch('notification/spawnNotification', {
                           type: 'error',
-                          message: i18n.t('Address provided in checkout contains invalid data. Please check if all required fields are filled in and also contact us on {email} to resolve this issue for future. Your order has been canceled.', { email: config.mailer.contactAddress }),
+                          message: i18n.t('The address provided in checkout contains invalid data. Please check if all required fields are filled in and also contact us on {email} to resolve this issue for future. Your order has been canceled.', { email: config.mailer.contactAddress }),
                           action1: { label: i18n.t('OK') }
                         })
                       } else if (jsonResponse.code === 500 && jsonResponse.result === i18n.t('Error: Error while adding products')) {

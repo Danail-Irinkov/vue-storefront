@@ -118,7 +118,7 @@ export default {
       this.$bus.$emit('notification-progress-stop'); // Added by Dan
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
-        message: this.$t('Stock check in progress, please wait while available stock quantities are checked'),
+        message: this.$t('Please wait while we check for available stock quantities'),
         action1: { label: this.$t('OK') }
       })
     },
@@ -126,7 +126,7 @@ export default {
       this.$bus.$emit('notification-progress-stop'); // Added by Dan
       this.$store.dispatch('notification/spawnNotification', {
         type: 'warning',
-        message: this.$t('There is no Internet connection. You can still place your order. We will notify you if any of ordered products is not available because we cannot check it right now.'),
+        message: this.$t('We are sorry, there is no Internet connection. You can still place your order. We will notify you when we are back online if any of your ordered products are out of stock.'),
         action1: { label: this.$t('OK') }
       })
     }

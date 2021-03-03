@@ -11,7 +11,7 @@ describe('Cart validateProduct', () => {
       errors: {}
     } as any as CartItem
 
-    expect(validateProduct(product)).toEqual(['Product price is unknown, product cannot be added to the cart!'])
+    expect(validateProduct(product)).toEqual(['The product price is unknown and cannot be added to Cart!'])
   });
 
   it('returns product errors', () => {

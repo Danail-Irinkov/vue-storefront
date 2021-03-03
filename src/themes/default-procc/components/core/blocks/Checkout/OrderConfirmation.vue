@@ -4,7 +4,7 @@
       {{ $t('Confirm your order') }}
     </p>
     <div slot="content">
-      <p>{{ $t('Please confirm order you placed when you was offline') }}</p>
+      <p>{{ $t('Please confirm the order you placed when you were offline') }}</p>
       <div class="mb40" v-for="(order, key) in ordersData" :key="key">
         <h3>{{ $t('Order #{id}', { id: key + 1}) }}</h3>
         <h4>{{ $t('Items ordered') }}</h4>

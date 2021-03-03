@@ -326,7 +326,7 @@ const actions: ActionTree<UserState, RootState> = {
     if (!onlineHelper.isOnline) {
       dispatch('notification/spawnNotification', {
         type: 'error',
-        message: i18n.t('Reset password feature does not work while offline!'),
+        message: i18n.t('The reset password feature does not work while offline!'),
         action1: { label: i18n.t('OK') }
       }, { root: true })
 

@@ -37,7 +37,7 @@ export default {
       this.addToCompare(product)
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: i18n.t('Product {productName} has been added to the compare!', { productName: htmlDecode(product.name) }),
+        message: i18n.t('Product {productName} has been added to Compare!', { productName: htmlDecode(product.name) }),
         action1: { label: i18n.t('OK') }
       }, { root: true })
     },
@@ -45,7 +45,7 @@ export default {
       this.removeFromCompare(product)
       this.$store.dispatch('notification/spawnNotification', {
         type: 'success',
-        message: i18n.t('Product {productName} has been removed from compare!', { productName: htmlDecode(product.name) }),
+        message: i18n.t('Product {productName} has been removed from Compare!', { productName: htmlDecode(product.name) }),
         action1: { label: i18n.t('OK') }
       }, { root: true })
     }
