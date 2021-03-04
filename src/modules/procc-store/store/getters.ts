@@ -2,8 +2,8 @@ import { GetterTree } from 'vuex'
 import RootState from '@vue-storefront/core/types/RootState'
 import StoreDataState from '../types/StoreDataState'
 import _ from 'lodash'
-import {currentStoreView} from '../../../../core/lib/multistore';
-import actions from './actions'
+// import {currentStoreView} from '../../../../core/lib/multistore';
+// import actions from './actions'
 
 const getters: GetterTree<StoreDataState, RootState> = {
   getStoreBanners: state => {
