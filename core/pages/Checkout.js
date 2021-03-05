@@ -565,7 +565,7 @@ export default {
         this.$bus.$emit('notification-progress-stop');
         this.$store.dispatch('notification/spawnNotification', {
           type: 'error',
-          message: this.$t('Something goes Wrong :(  payment fail, please retry'),
+          message: this.$t('Something went wrong :( the payment failed, please retry'),
           action1: { label: this.$t('OK') }
         })
       })

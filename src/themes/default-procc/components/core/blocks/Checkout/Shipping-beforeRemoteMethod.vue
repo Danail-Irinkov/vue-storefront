@@ -117,7 +117,7 @@
               },
               {
                 condition: $v.shipping.city.$error && $v.shipping.city.required,
-                text: $t('Please provide valid city name')
+                text: $t('Please provide a valid city name')
               }
             ]"
           />

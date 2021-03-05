@@ -202,7 +202,7 @@
             },
             {
               condition: $v.userCompany.city.$error && $v.userCompany.city.required,
-              text: $t('Please provide valid city name')
+              text: $t('Please provide a valid city name')
             }
           ]"
         />

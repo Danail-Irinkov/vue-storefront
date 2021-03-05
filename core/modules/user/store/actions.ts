@@ -286,7 +286,7 @@ const actions: ActionTree<UserState, RootState> = {
     console.log('email---------', email)
     dispatch('notification/spawnNotification', {
       type: 'warning',
-      message: i18n.t('Account for {email} already exists.', { email: email }),
+      message: i18n.t('An account for {email} already exists.', { email: email }),
       action2: { label: i18n.t('Reset Password'),
         action: () => {
           console.log('Reset Password ')

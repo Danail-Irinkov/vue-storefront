@@ -9,7 +9,7 @@
 "We are sorry, there is no Internet connection. You can still place your order. We will notify you when we are back online if any of your ordered products are out of stock.","Interneti ühendus puudub. Saad sellegi poolest tellimuse luua. Kontrollime interneti ühenduse taastudes tellitud toodete laoseisu üle. Anname märku, kui mõni tellitud toodetest vahepeal otsa on saanud. "
 "No such configuration for the product. Please do choose another combination of attributes.","Sellise kombinatsiooniga toodet ei saa tellida."
 "The system is not sure about the stock quantity (volatile). Product has been added to Cart for pre-reservation.","Antud toodet ostetakse väga palju ja me ei ole laoseisu osas kindlad. Toode on ostukorvi lisatud ja Teie jaoks broneeritud."
-"This feature is not implemented yet! Please take a look at https://github.com/DivanteLtd/vue-storefront/issues for our Roadmap!","Sellist funktsionaalsust ei ole veel lisatud. Saad meie arendusplaanidega tutvuda https://github.com/DivanteLtd/vue-storefront/issues."
+"This feature is not implemented yet!","Sellist funktsionaalsust ei ole veel lisatud."
 "The product is out of stock and cannot be added to Cart!","Toode on kahjuks laost otsa saanud."
 "The product has been added to Cart!","Toode lisati ostukorvi."
 "The product quantity has been updated!","Toote laoseis on uuendatud."
@@ -57,8 +57,6 @@ password,Parool
 "You are to pay for this order upon delivery.","Saate makse teostada tellimuse kätte saamisel."
 "Enable order notification","Luba tellimusge seotud teadete edastamine"
 "Extension developers would like to thank you for placing an order!","Mooduli loojad tänavad tellimuse tegemise eest!"
-"most you may purchase","maksimum ostu kogus"
-"have as many","osta kuni"
 "Compare products","Võrdle tooteid"
 Reviews,Kommentaarid
 Review,Kommentaar
