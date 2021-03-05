@@ -81,7 +81,7 @@
               },
               {
                 condition: !$v.personalDetails.emailAddress.email && $v.personalDetails.emailAddress.$error,
-                text: $t('Please provide valid e-mail address.')
+                text: $t('Please provide a valid e-mail address.')
               }
             ]"
           />
@@ -107,7 +107,7 @@
               autocomplete="new-password"
               :validations="[{
                 condition: $v.password.$error && !$v.password.required,
-                text: $t('Field is required.')
+                text: $t('The field is required.')
               }]"
             />
             <!--Commented by shabbir for not need -->
@@ -121,7 +121,7 @@
               :validations="[
                 {
                   condition: $v.rPassword.$error && !$v.rPassword.required,
-                  text: $t('Field is required.')
+                  text: $t('The field is required.')
                 },
                 {
                   condition:!$v.rPassword.sameAsPassword,

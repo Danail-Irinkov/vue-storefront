@@ -19,11 +19,11 @@
             :validations="[
               {
                 condition: $v.email.$error && !$v.email.required,
-                text: $t('Field is required.')
+                text: $t('The field is required.')
               },
               {
                 condition: !$v.email.email && $v.email.$error,
-                text: $t('Please provide valid e-mail address.')
+                text: $t('Please provide a valid e-mail address.')
               }
             ]"
           />

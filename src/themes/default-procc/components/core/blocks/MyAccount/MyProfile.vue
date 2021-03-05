@@ -69,7 +69,7 @@
           },
           {
             condition: !$v.currentUser.email.email,
-            text: $t('Please provide valid e-mail address.')
+            text: $t('Please provide a valid e-mail address.')
           }
         ]"
       />

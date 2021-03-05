@@ -25,11 +25,11 @@
           :validations="[
             {
               condition: !$v.email.required && $v.email.$error,
-              text: $t('Field is required.')
+              text: $t('The field is required.')
             },
             {
               condition: !$v.email.email && $v.email.$error,
-              text: $t('Please provide valid e-mail address.')
+              text: $t('Please provide a valid e-mail address.')
             }
           ]"
         />
@@ -45,7 +45,7 @@
             :validations="[
               {
                 condition: !$v.firstName.required && $v.firstName.$error,
-                text: $t('Field is required.')
+                text: $t('The field is required.')
               },
               {
                 condition: !$v.firstName.minLength,
@@ -63,7 +63,7 @@
             :placeholder="$t('Last name *')"
             :validations="[{
               condition: !$v.lastName.required && $v.lastName.$error,
-              text: $t('Field is required.')
+              text: $t('The field is required.')
             }]"
           />
         </div>
@@ -79,7 +79,7 @@
           :validations="[
             {
               condition: !$v.password.required && $v.password.$error,
-              text: $t('Field is required.')
+              text: $t('The field is required.')
             },
             {
               condition: !$v.password.minLength && $v.password.$error,
@@ -98,7 +98,7 @@
           :validations="[
             {
               condition: !$v.rPassword.required && $v.rPassword.$error,
-              text: $t('Field is required.')
+              text: $t('The field is required.')
             },
             {
               condition: !$v.rPassword.sameAsPassword && $v.rPassword.$error,

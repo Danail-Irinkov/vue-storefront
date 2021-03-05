@@ -4,7 +4,7 @@
     class="relative bg-cl-transparent brdr-none inline-flex"
     @click="openMicrocart"
     data-testid="openMicrocart"
-    :aria-label="$t('Open microcart')"
+    :aria-label="$t('Open micro cart')"
   >
     <i class="material-icons">shopping_cart</i>
     <span

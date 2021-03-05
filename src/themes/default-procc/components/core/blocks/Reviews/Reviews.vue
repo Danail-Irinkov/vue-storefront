@@ -48,7 +48,7 @@
                   },
                   {
                     condition: !$v.formData.email.email && $v.formData.email.$error,
-                    text: $t('Please provide valid e-mail address.')
+                    text: $t('Please provide a valid e-mail address.')
                   }
                 ]"
               />

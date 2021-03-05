@@ -41,7 +41,7 @@ export const ProductCustomOptions = {
       validationRule: 'required', // You may add your own custom fields validators elsewhere in the theme
       validatorFunction: (value) => {
         const error = Array.isArray(value) ? !value.length : !value
-        const message = i18n.t('Field is required.')
+        const message = i18n.t('The field is required.')
         return { error, message }
       }
     })

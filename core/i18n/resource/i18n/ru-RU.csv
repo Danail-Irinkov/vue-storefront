@@ -7,7 +7,7 @@
 "Compare Products","Сравнить товары"
 "Error with response - bad content-type!","Ошибка в ответе - плохой content-type!"
 "Field is required","Обязательное поле"
-"Field is required.","Обязательное поле."
+"The field is required.","Обязательное поле."
 "Grand total","Общий итог"
 "Home Page","Главная страница"
 "Internal validation error. Please check if all required fields are filled in. Please contact us on {email}","Внутренняя валидационная ошибка. Пожалуйста проверьте заполненность всех обязательных полей. Пожалуйста свяжитесь с нами по {email}"

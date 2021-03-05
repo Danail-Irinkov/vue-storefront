@@ -123,7 +123,7 @@ Sale,Allahindlus
 "My product reviews","Minu kommentaarid"
 Wishlist,Soovikorv
 "Clear wishlist","Tühjenda soovikorv"
-"Your wishlist is empty.","Teie Sooviskord on tühi"
+"Your Wishlist is empty.","Teie Sooviskord on tühi"
 "Add to cart",Osta
 "Select color ","Vali värv"
 "See details",Rohkem
@@ -161,7 +161,7 @@ Help,Abi
 "I want to create an account'","Tahan kontot luua'"
 "My billing address is the same","Kopeeri aadress tarneaadressi väljadelt"
 "Tax identification number must have at least 3 letters.","Käibemaksukood peab olema vähemalt 3 tähte."
-"Please provide valid e-mail address.","Kontrolli e-maili aadressi"
+"Please provide a valid e-mail address.","Kontrolli e-maili aadressi"
 "Use my company's address details","Kasuta ettevõtte aadressi"
 "Passwords must be identical","Paroolid ei ole samad"
 "E-mail address *","E-mail *"
@@ -198,10 +198,10 @@ Zip-code,Sihtnumber
 "Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!","Kahjuks ei leidnud me Teie otsingule vasteid."
 "Erin recommends",Sooviab
 "Open my account","Minu konto"
-"Open microcart",Ostukorv
+"Open micro cart",Ostukorv
 "Open wishlist",Soovikorv
 "Open search panel",Otsing
-"Open menu",Menüü
+"Open Menu",Menüü
 "Show subcategories",Alamkategooriad
 Back,Tagasi
 Close,Sulge

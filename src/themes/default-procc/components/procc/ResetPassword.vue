@@ -12,7 +12,7 @@
             :placeholder="$t('New Password *')"
             :validations="[{
               condition: !$v.newPassword.required && $v.newPassword.$error,
-              text: $t('Field is required.')
+              text: $t('The field is required.')
             }]"
           />
           <button-full class="col-xs-12 col-md-4 mb10" type="submit">

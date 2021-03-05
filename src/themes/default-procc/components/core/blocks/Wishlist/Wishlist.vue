@@ -12,7 +12,7 @@
       <clear-wishlist-button v-if="productsInWishlist.length" @click="clearWishlist" class="col-xs-12 col-sm mt35 mb35 end-sm" />
     </div>
     <h4 v-if="!productsInWishlist.length" class="cl-accent ml30">
-      {{ $t('Your wishlist is empty.') }}
+      {{ $t('Your Wishlist is empty.') }}
     </h4>
     <div v-if="!productsInWishlist.length" class="ml30">
       {{ $t("Don't hesitate and") }}

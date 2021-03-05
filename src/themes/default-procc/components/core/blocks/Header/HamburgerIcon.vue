@@ -3,7 +3,7 @@
     type="button"
     class="bg-cl-transparent brdr-none inline-flex"
     @click="openSidebarMenu"
-    :aria-label="$t('Open menu')"
+    :aria-label="$t('Open Menu')"
     data-testid="menuButton"
   >
     <i class="material-icons">dehaze</i>
