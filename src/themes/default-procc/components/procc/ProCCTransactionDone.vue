@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 3rem;text-align: center; font-family: Helvetica;font-size: larger;opacity: 0.7;color: rgba(0,0,0,0.68);">
-    <p>{{ $t('Transaction is being processed') }}</p>
+    <p>{{ $t('The transaction is being processed') }}</p>
     <p>{{ $t('Please Wait...') }}</p>
   </div>
 </template>
