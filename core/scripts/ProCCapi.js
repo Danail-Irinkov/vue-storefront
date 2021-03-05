@@ -540,7 +540,7 @@ function exec (cmd, args, opts, enableLogging = false, limit_output = false) {
 // Need this kebabcase, because lodash.kebabCase is doing it in a different way (numbers == words)
 function kebabForLink (string) {
   string = string.replace(/&/g, 'And')
-  let split_pattern = /[A-Z]*[a-z0-9:;)?!'".]*/g;
+  let split_pattern = /[A-ZА-Я]*[a-zа-я0-9:;)?!'".]*/g;
   function split (text) {
     let words = text.match(split_pattern) || [];
 
@@ -586,7 +586,7 @@ function kebabForLink (string) {
     for (let i = 0, n = words.length; i < n; i++) {
       if (words[i]) {
         words[i] = words[i].replace(':', '').replace('?', '').replace('!', '').replace(')', '')
-          .replace('(', '').replace('.', '').replace('"', '').replace("'", '')
+          .replace('(', '').replace('.', '').replace('"', '').replace("'", '').replace( /[А-Я]*[а-я]*/g, '') // CYRILIC WORKAROUND!!!!!
         ret += (i > 0 ? '-' : '') + String(words[i]).toLowerCase();
       }
     }
@@ -614,8 +614,8 @@ function kebabForLink (string) {
 
 function testKebab () {
   console.time('testKebab took');
-  let array = ['Sets&OO &P & A', 'Ирра Спорт', 'Women\'s', 'RRrr', 'GG 533', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5 mega', 'GG-5 :)', 'GG 5 my love <3', 'GG5 :)', 'GG5 66.5-7'];
-  let expected = ['sets-and-oo-and-p-and-a', '--', 'womens', 'rrrr', 'gg-533', 'gg-5-', 'gg-5-5-3', 'gg-55-mega', 'gg-5-', 'gg-5-my-love-3', 'gg5-', 'gg5-665-7'];
+  let array = ['Desigual Неща 358', 'Sets&OO &P & A', 'Ирра Спорт', 'Women\'s', 'RRrr', 'GG 533', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5 mega', 'GG-5 :)', 'GG 5 my love <3', 'GG5 :)', 'GG5 66.5-7'];
+  let expected = ['desigual--358', 'sets-and-oo-and-p-and-a', '--', 'womens', 'rrrr', 'gg-533', 'gg-5-', 'gg-5-5-3', 'gg-55-mega', 'gg-5-', 'gg-5-my-love-3', 'gg5-', 'gg5-665-7'];
   let result = [];
   for (let key in array) {
     let word1 = array[key];
