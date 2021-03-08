@@ -466,7 +466,7 @@ export function populateProductConfigurationAsync (context, { product, selectedV
           } else if (option.values && option.values[0] && option.values[0].label) {
             selectedOption.label = option.values[0].label
           }
-        } else if(!option.values){
+        } else if (!option.values) {
           console.log('option.values Missing option: ', option)
         }
 
@@ -502,13 +502,13 @@ export function populateProductConfigurationAsync (context, { product, selectedV
   return selectedVariant
 }
 
-export function getCurrentStoreBrand(state) {
+export function getCurrentStoreBrand (state) {
   return rootStore.getters['procc/getCurrentStoreBrand']._id
 }
 
 export function configureProductAsync (context, { product, configuration, selectDefaultVariant = true, fallbackToDefaultWhenNoAvailable = true, setProductErorrs = false }) {
   // use current product if product wasn't passed
-  console.log('findConfigurableChildAsync product1', product)
+  // console.log('findConfigurableChildAsync product1', product)
   // console.log('findConfigurableChildAsync product1')
   if (product === null) product = context.getters.getCurrentProduct // Added by Dan, maybe not needed
   const hasConfigurableChildren = (product.configurable_children && product.configurable_children.length > 0)
@@ -610,7 +610,7 @@ export function configureProductAsync (context, { product, configuration, select
         context.dispatch('setCurrent', product) // without the configuration
       }
     }
-    console.log('configureProductAsync product END: ', selectedVariant)
+    // console.log('configureProductAsync product END: ', selectedVariant)
     return selectedVariant
   } else {
     if (fallbackToDefaultWhenNoAvailable) {

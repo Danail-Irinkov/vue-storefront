@@ -324,8 +324,8 @@ export default {
         message: this.feedback
       }).then((result) => {
         this.onSuccess(result)
-      }).catch((err) => {
-        this.onFailure(result)
+      }).catch((e) => {
+        this.onFailure(e)
       })
     },
     onSuccess (result) {

@@ -13,7 +13,29 @@ export default {
   components: {
 
   },
-  props: ['inputValue', 'enable', 'dottedMode', 'textAreaMode', 'className', 'fieldId', 'fieldStyle', 'inputStyle', 'selectOptions', 'databaseDropdown'],
+  props: {
+    inputValue: {
+      type: [String, Number]
+    },
+    enable: {
+      type: Boolean
+    },
+    dottedMode: {
+      type: Boolean
+    },
+    textAreaMode: {
+      type: Boolean
+    },
+    className: {
+      type: String
+    },
+    fieldId: {
+      type: String
+    },
+    fieldStyle: {
+      type: String
+    }
+  },
   data () {
     return {
       newValue: null,

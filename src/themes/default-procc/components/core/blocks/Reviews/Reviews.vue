@@ -53,21 +53,21 @@
                 ]"
               />
             </div>
-<!--            // DIsabled by Dan ProCC-->
-<!--            <div class="mb10">-->
-<!--              <base-input-->
-<!--                type="text"-->
-<!--                :placeholder="$t('Summary') + ' *'"-->
-<!--                v-model="formData.summary"-->
-<!--                @blur="$v.formData.summary.$touch()"-->
-<!--                :validations="[-->
-<!--                  {-->
-<!--                    condition: $v.formData.summary.$error && !$v.formData.summary.required,-->
-<!--                    text: $t('Field is required')-->
-<!--                  }-->
-<!--                ]"-->
-<!--              />-->
-<!--            </div>-->
+            <!--            // DIsabled by Dan ProCC-->
+            <!--            <div class="mb10">-->
+            <!--              <base-input-->
+            <!--                type="text"-->
+            <!--                :placeholder="$t('Summary') + ' *'"-->
+            <!--                v-model="formData.summary"-->
+            <!--                @blur="$v.formData.summary.$touch()"-->
+            <!--                :validations="[-->
+            <!--                  {-->
+            <!--                    condition: $v.formData.summary.$error && !$v.formData.summary.required,-->
+            <!--                    text: $t('Field is required')-->
+            <!--                  }-->
+            <!--                ]"-->
+            <!--              />-->
+            <!--            </div>-->
             <div class="mb25">
               <base-textarea
                 type="text"

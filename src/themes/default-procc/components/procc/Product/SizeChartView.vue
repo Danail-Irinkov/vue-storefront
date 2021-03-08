@@ -1,7 +1,8 @@
 <template>
-  <div  class="pt-1 pb-1 w-100 h-100 justify-content-center" style="z-index: 999"
-        @click.stop.prevent="">
-    <div class="w-100 h-auto" >
+  <div class="pt-1 pb-1 w-100 h-100 justify-content-center" style="z-index: 999"
+       @click.stop.prevent=""
+  >
+    <div class="w-100 h-auto">
       <div v-if="size_chart_loading" style="min-height: 10rem">
         <label class="margin-auto mt-4"
                style="padding-top: 15%!important;"
@@ -15,65 +16,65 @@
         <size-chart-table class="table grey-table table-striped text-align-center size-chart-view"
                           :size_chart="size_chart"
                           :product_data="product_data"
-                          v-if="size_chart && size_chart.columns">
-        </size-chart-table>
+                          v-if="size_chart && size_chart.columns"
+        />
         <div v-else class="text-center no-data">
-          <strong>{{$t("noData")}}</strong>
+          <strong>{{ $t("noData") }}</strong>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import SizeChartTable from './SizeChartTable.vue'
-  import _ from 'lodash'
+import SizeChartTable from './SizeChartTable.vue'
+import _ from 'lodash'
 
-  export default {
-    name: 'size-chart-view',
-    components: {
-      SizeChartTable
+export default {
+  name: 'SizeChartView',
+  components: {
+    SizeChartTable
+  },
+  props: {
+    product: [String, Number, Array, Object]
+  },
+  data () {
+    return {
+      product_data: {},
+      size_chart: {},
+      size_chart_loading: true
+    }
+  },
+  created () {
+    this.getSizeChart();
+  },
+  methods: {
+    getSizeQuantity (size_name) {
+      return this.product_data && this.product_data.available_quantity && this.product_data.available_quantity[size_name] ? this.product_data.available_quantity[size_name] : 0
     },
-    props: {
-      product: [String, Number,  Array, Object],
-    },
-    data(){
-      return{
-        product_data: {},
-        size_chart: {},
-        size_chart_loading: true,
-      }
-    },
-    created(){
-      this.getSizeChart();
-    },
-    methods: {
-      getSizeQuantity (size_name){
-        return this.product_data && this.product_data.available_quantity && this.product_data.available_quantity[size_name] ? this.product_data.available_quantity[size_name] : 0
-      },
-      async getSizeChart (){
-        try {
+    async getSizeChart () {
+      try {
         this.size_chart_loading = true
         console.log('this.product', this.product)
-        if(this.product && this.product.product){
+        if (this.product && this.product.product) {
           this.product_data = _.cloneDeep(this.product)
-          if (this.product.product && _.isObject(this.product.product)){
-            if(this.product.product._id){
+          if (this.product.product && _.isObject(this.product.product)) {
+            if (this.product.product._id) {
               this.product_data._id = this.product.product._id
             }
-            if(this.product.product.vendor_images && this.product.product.vendor_images[0] && this.product.product.vendor_images[0].thumb){
+            if (this.product.product.vendor_images && this.product.product.vendor_images[0] && this.product.product.vendor_images[0].thumb) {
               this.product_data.vendor_images = this.product.product.vendor_images
             }
             if (this.product.product.available_quantity) {
               this.product_data.available_quantity = this.product.product.available_quantity
             }
-            if(this.product.product && this.product.product.size_chart){
+            if (this.product.product && this.product.product.size_chart) {
               this.product_data.size_chart = this.product.product.size_chart
             }
-          }else{
+          } else {
             this.product_data._id = this.product.product
           }
-        }else{
-          this.product_data =  _.cloneDeep(this.product)
+        } else {
+          this.product_data = _.cloneDeep(this.product)
         }
 
         let result = await this.ProCcAPI.getVSFSizeChartById(this.product_data.size_chart_id, this.product_data.procc_brand_id) // product id

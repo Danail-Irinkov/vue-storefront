@@ -166,7 +166,7 @@
               <div class="row">
                 <div class="col-sm-10" style="padding: 0">
                   <h3 class="m0">
-                    {{$t('Description')}}
+                    {{ $t('Description') }}
                   </h3>
                   <p>{{ getCurrentProduct.description }}</p>
                 </div>
@@ -191,7 +191,7 @@
                 </div>
               </div>
               <div class="row" v-if="!isDefaultProductSize">
-                <h3>{{$t('Size Chart')}}</h3>
+                <h3>{{ $t('Size Chart') }}</h3>
               </div>
               <div class="row mb10" v-if="!isDefaultProductSize">
                 <size-chart-view class="align-center" :product="getCurrentProduct" />

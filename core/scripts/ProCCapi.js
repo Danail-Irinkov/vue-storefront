@@ -320,7 +320,7 @@ function setCategoryBanner (config, storeData) {
   console.log('storefrontConfig path', path.resolve(config.themeDir + `/resource/banners/${storeCode}_store_banners.json`));
   // console.log('storeData.store_categories', storeData.store_categories)
   // start set store categories main Banner and samll Banners
-  let top3Categories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'updatedAt', 'desc'), 3);
+  let top3Categories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'position', 'desc'), 3);
   let countCategories = top3Categories.length;
   let mainBanners = [];
   let smallBanners = [];

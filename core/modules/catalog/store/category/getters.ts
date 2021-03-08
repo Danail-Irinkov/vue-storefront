@@ -9,7 +9,10 @@ const getters: GetterTree<CategoryState, RootState> = {
   getActiveCategoryFilters: state => state.filters.chosen,
   getAvailableCategoryFilters: state => state.filters.available,
   getCurrentCategoryProductQuery: state => state.current_product_query,
-  getCategories: state => state.list,
+  getCategories: state => {
+    // Added by Dan to order the categories in the desired order
+    if (state.list && state.list[0] && state.list[0].position >= 0) { return state.list.sort((a, b) => { return a.position - b.position }) } else { return state.list }
+  },
   getCategoryBreadcrumbs: state => state.breadcrumbs,
   /**
    * @deprecated use getCurrentCategory instead
