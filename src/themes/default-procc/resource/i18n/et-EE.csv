@@ -52,7 +52,7 @@ Returns,Tagastamine
 "Terms and conditions",Kasutustingimused
 "Place the order",Telli
 "Edit payment","Muuda makseviisi"
-"We will send you the invoice to given e-mail address","Saadame sisestatud e-mailile tellimuse kinnituse ja arve"
+"We will send you the invoice to the given email address","Saadame sisestatud e-mailile tellimuse kinnituse ja arve"
 "Payment method",Makseviis
 "Go review the order","Kontrolli tellimust"
 "Phone number may be needed by carrier","Vajame toodete kohale toimetamiseks teie mobiilinumbrit"
@@ -136,14 +136,14 @@ Quantity,Kogus
 "You have no items to compare.","Võrdlus on tühi"
 "New Luma Yoga Collection","Uus Luma yoga kollektsioon"
 "We can't find the page","Me ei leia soovitud lehekülge"
-"Unfortunately we can't find the page you are looking for.","Kahjuks me ei leia otsitavat lehekülge."
+"Unfortunately, we can't find the page you are looking for.","Kahjuks me ei leia otsitavat lehekülge."
 "If you need an assistance you can drop us a line on","Anna meile märku, kui vajad abi."
 "a chat","kirjuta sõnum"
 "or write to us through","või kirjuta meile"
 "a contact page","sõnumi vorm"
 "You can also use","või kasuta"
 search,otsi
-"to find product you were looking for.",",et leida otsitav toode."
+"to find the product you were looking for.",",et leida otsitav toode."
 "See our bestsellers","Vaata meie enim müüdud tooteid"
 "You are offline. Some features might not be available.","Teil puudub internetiühendus. Mõned funktsionaalsused võivad seetõttu mitte töötada."
 Search,Otsi
@@ -238,7 +238,7 @@ Discount,Allahindlus
 "Billing address",Makseaadress
 "Order confirmation","Tellimuse kinnitus"
 "Your purchase","Teie tellimus"
-"You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.","Tellimus vormistamine õnnestus. Saadame teile tellimuse kinnituse e-mailile. "
+"You have successfully placed the order. You can check the status of your order by using our <b>delivery status</b> feature. You will receive a confirmation e-mail with details of your order and a link to track its progress.","Tellimus vormistamine õnnestus. Saadame teile tellimuse kinnituse e-mailile. "
 "E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions on how we could improve products or shopping experience","Ootame Teie poolset tagasisidet oma teenuse täiendamiseks."
 "Your Account",Konto
 "What can we improve?","Mida võiksime paremini teha?"

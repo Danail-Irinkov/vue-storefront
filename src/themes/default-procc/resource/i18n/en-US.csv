@@ -219,7 +219,7 @@
 "Terms and conditions","Terms and conditions"
 "The OrderNumber is {id}","The Order Number is {id}"
 "A new account will be created with the purchase. You will receive details by e-mail.","A new account will be created with the purchase. You will receive details by e-mail."
-"The order can not be transfered because of server error. Order has been queued","The order can not be transfered because of server error. Order has been queued"
+"The order can not be transferred because of a server error. The order has been queued","The order can not be transferred because of a server error. The order has been queued"
 "The server order id has been set to ","The server order id has been set to "
 "This product is out of stock.","This product is out of stock."
 "To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items","To finish the order just come back to our store while online. Your order will be sent to the server as soon as you come back here while online and then confirmed regarding the stock quantities of selected items"
@@ -227,13 +227,12 @@
 "Track my order","Track my order"
 "Type your opinion","Type your opinion"
 "Type","Type"
-"Unfortunately we can't find the page you are looking for.","Unfortunately we can't find the page you are looking for."
+"Unfortunately, we can't find the page you are looking for.","Unfortunately, we can't find the page you are looking for."
 "United States","United States"
 "Update my preferences","Update my preferences"
 "Update my profile","Update my profile"
 "Update my shipping details","Update my shipping details"
 "Use my billing data","Use my billing data"
-"Use my company's address details","Use my company's address details"
 "Use my company's address details","Use my company's address details"
 "Value","Value"
 "View all","View all"
@@ -243,7 +242,7 @@
 "We found other products you might like","We found other products you might like"
 "We use cookies to give you the best shopping experience.","We use cookies to give you the best shopping experience."
 "We will send you details regarding the order","We will send you details regarding the order"
-"We will send you the invoice to given e-mail address","We will send you the invoice to given e-mail address"
+"We will send you the invoice to the given email address","We will send you the invoice to the given email address"
 "We've noticed Internal Server Error while rendering this request.","We've noticed Internal Server Error while rendering this request."
 "We've sent password reset instructions to your email. Check your inbox and follow the link.","We've sent password reset instructions to your email. Check your inbox and follow the link."
 "What can we improve?","What can we improve?"
@@ -258,7 +257,7 @@
 "You have been successfully subscribed to our newsletter!","You have been successfully subscribed to our newsletter!"
 "You have been successfully unsubscribed from our newsletter!","You have been successfully unsubscribed from our newsletter!"
 "You have no items to compare.","You have no items to compare."
-"You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.","You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress."
+"You have successfully placed the order. You can check the status of your order by using our <b>delivery status</b> feature. You will receive a confirmation e-mail with details of your order and a link to track its progress.","You have successfully placed the order. You can check the status of your order by using our <b>delivery status</b> feature. You will receive a confirmation e-mail with details of your order and a link to track its progress."
 "You must accept the terms and conditions.","You must accept the terms and conditions."
 "You will receive Push notification after coming back online. You can confirm the order by clicking on it","You will receive Push notification after coming back online. You can confirm the order by clicking on it"
 "You've entered an incorrect coupon code. Please try again.","You've entered an incorrect coupon code. Please try again."
@@ -286,18 +285,15 @@
 "search","search"
 "size","size"
 "size_filter","Size"
-"to find product you were looking for.","to find product you were looking for."
+"to find the product you were looking for.","to find the product you were looking for."
 "to find something beautiful for You!","to find something beautiful for You!"
 "{count} items","{count} items",
 "Thank you for your purchase","Thank you for your purchase",
-"Order number,","Order number:",
-"What are the next steps?a","What are the next steps?",
+"What are the next steps?","What are the next steps?",
 "You will receive an email at","You will receive an email at",
 "confirming your order.","confirming your order.",
-"confirming your order.","confirming your order.",
-"You will receive another confirmation email at shipping. If you have any questions, see our","You will receive another confirmation email when shipping. If you have any questions, see the",
-"You can check the status of the order using your account's Order History","You can check the status of the order using your account's Order History",
-"Store your order's details in your ProCC Account","Store your order's details in your ProCC Account",
+"You can check the status of the order using your account Order History","You can check the status of the order using your account Order History",
+"Store your order details in your ProCC Account","Store your order details in your ProCC Account",
 "Save my Address Details","Save my Address Details",
 "Save my Payment Information in accordance with ProCC's Privacy Policy","Save my Payment Information in accordance with ProCC's Privacy Policy"
 "Save to Account","Save to Account"

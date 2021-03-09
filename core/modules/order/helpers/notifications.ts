@@ -9,7 +9,7 @@ const internalValidationError = () => ({
 
 const orderCannotTransfered = () => ({
   type: 'error',
-  message: i18n.t('The order can not be transfered because of server error. Order has been queued'),
+  message: i18n.t('The order can not be transferred because of a server error. The order has been queued'),
   action1: { label: i18n.t('OK') }
 })
 

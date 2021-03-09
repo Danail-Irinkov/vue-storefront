@@ -11,7 +11,7 @@
       <div class="container">
         <div class="lh16 h5 weight-400">
           <p>
-            {{ $t("Unfortunately we can't find the page you are looking for.") }}
+            {{ $t("Unfortunately, we can't find the page you are looking for.") }}
           </p>
           <p>
             {{ $t('If you need an assistance you can drop us a line on') }}
@@ -28,7 +28,7 @@
             <a href="#" class="cl-secondary no-underline" @click="toggleSearchpanel">
               {{ $t('search') }}
             </a>
-            {{ $t('to find product you were looking for.') }}
+            {{ $t('to find the product you were looking for.') }}
           </p>
         </div>
         <section class="container">

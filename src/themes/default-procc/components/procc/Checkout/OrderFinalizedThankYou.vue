@@ -17,7 +17,7 @@
     <div class="container" v-if="lastOrderConfirmation.orders && lastOrderConfirmation.orders[0]">
       <div class="row mb20" v-if="userInfoIsNotStored">
         <h4 class="bg-cl-secondary" style="width: 100%; text-align: center; margin: 0 8px 1rem 18px!important;padding: 20px 0 20px 0">
-          {{ $t("Store your order's details in your ProCC Account") }}
+          {{ $t("Store your order details in your ProCC Account") }}
         </h4>
         <div class="col-md-12">
           <base-checkbox
@@ -95,7 +95,7 @@
           </li>
           <li>{{ $t('You will receive another confirmation email at shipping. If you have any questions, see our') }} <a href="https://work.procc.co/faq" target="_blank">{{ $t("FAQ") }}</a> </li>
         </ol>
-        <p>{{ $t("You can check the status of the order using your account's Order History") }}</p>
+        <p>{{ $t("You can check the status of the order using your account Order History") }}</p>
       </div>
       <div class="mb20 bg-cl-secondary thank-you-improvment">
         <h4>
@@ -139,7 +139,7 @@
             <h3 v-if="OnlineOnly">
               {{ $t('Your purchase') }}
             </h3>
-            <p v-if="OnlineOnly" v-html="this.$t('You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.')" />
+            <p v-if="OnlineOnly" v-html="this.$t('You have successfully placed the order. You can check the status of your order by using our <b>delivery status</b> feature. You will receive a confirmation e-mail with details of your order and a link to track its progress.')" />
             <div v-if="OnlineOnly && lastOrderConfirmation.orders">
               <p v-for="order in lastOrderConfirmation.orders" :key="order._id">
                 <strong>{{ order.brand.name }}</strong> brand's order number is {{ order.order_no }}.

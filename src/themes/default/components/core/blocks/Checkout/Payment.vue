@@ -234,7 +234,7 @@
 
             <div class="col-xs-12 mb25">
               <label class="fs16">
-                {{ $t('We will send you the invoice to given e-mail address') }}
+                {{ $t('We will send you the invoice to the given email address') }}
               </label>
             </div>
           </template>
