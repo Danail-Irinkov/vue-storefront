@@ -108,7 +108,7 @@
     </div>
     <div class="row fs16 mb35">
       <div class="col-xs-12 h4">
-        <h4>{{ $t('Order informations') }}</h4>
+        <h4>{{ $t('Order information') }}</h4>
         <div class="row">
           <div class="col-sm-6 col-md-3">
             <h5>{{ $t('Shipping address') }}</h5>

@@ -65,7 +65,7 @@
             <h4 data-testid="noProductsInfo">
               {{ $t('No products found!') }}
             </h4>
-            <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!') }}</p>
+            <p>{{ $t('Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our best sellers!') }}</p>
           </div>
           <lazy-hydrate :trigger-hydration="!loading" v-if="isLazyHydrateEnabled">
             <product-listing :columns="defaultColumn" :products="getCategoryProducts" />

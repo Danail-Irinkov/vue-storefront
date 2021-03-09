@@ -23,7 +23,7 @@
         v-model="user.isSubscribed"
         @click="edit()"
       >
-        {{ $t('I want to receive a newsletter, and agree to its terms') }}
+        {{ $t('I want to receive a newsletter and agree to its terms') }}
       </base-checkbox>
 
       <div class="col-xs-12 col-sm-6">

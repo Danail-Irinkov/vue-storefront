@@ -16,7 +16,7 @@
         <form @submit.prevent="sendEmail" novalidate>
           <div class="mb20">
             <p class="mb45">
-              {{ $t('Enter your email to receive instructions on how to reset your password.') }}
+              {{ $t('Enter your email to get a manual on how to reset your password.') }}
             </p>
             <base-input
               type="email"

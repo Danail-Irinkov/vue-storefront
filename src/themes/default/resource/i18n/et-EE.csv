@@ -20,7 +20,7 @@ login,"logi sisse"
 Filters,Filtreeri
 "My account","Minu konto"
 Logout,"Logi välja"
-"Enter your email to receive instructions on how to reset your password.","Sisesta e-mail ja saadame sulle parooli muutmise juhendi."
+"Enter your email to get a manual on how to reset your password.","Sisesta e-mail ja saadame sulle parooli muutmise juhendi."
 "Reset password","Muuda parool"
 or,või
 "return to log in","tagasi sisse logima"
@@ -60,7 +60,7 @@ Returns,Tagastamine
 "Edit personal details","Muuda kliendi infot"
 "Continue to shipping",Edasi
 "We will send you details regarding the order","Saadame Teile tellimuse kohta informatsiooni"
-"The new account will be created with the purchase. You will receive details on e-mail.","Konto luuakse koos tellimuse vormistamisega. Saadame Teile konto loomise kohta e-maili."
+"A new account will be created with the purchase. You will receive details by e-mail.","Konto luuakse koos tellimuse vormistamisega. Saadame Teile konto loomise kohta e-maili."
 Qty,Kogus
 "Edit shipping","Muuda tarneviisi"
 "Ship to my default address","Saada kaup mu vaikimisi aadressile"
@@ -115,7 +115,7 @@ Country,Riik
 "Similar products","Sarnased tooted"
 "We found other products you might like","Leidsime veel tooteid, mis Teile võiks meeldida"
 "No results were found.","Vasteid ei leitud."
-"Searched term should consist of at least 3 characters.","Otsingu sõna peab sisaldama vähemalt kolme tähte."
+"The searched term should consist of at least 3 characters.","Otsingu sõna peab sisaldama vähemalt kolme tähte."
 Magazine,Kataloog
 Sale,Allahindlus
 "My orders","Minu tellimused"
@@ -160,7 +160,7 @@ Help,Abi
 "Zip-code must have at least 3 letters.","Sihtnumber peab sisaldama vähemalt viite numbrit"
 "I want to create an account'","Tahan kontot luua'"
 "Copy address data from shipping","Kopeeri aadress tarneaadressi väljadelt"
-"Tax identification number must have at least 3 letters.","Käibemaksukood peab olema vähemalt 3 tähte."
+"The tax identification number must have at least 3 letters.","Käibemaksukood peab olema vähemalt 3 tähte."
 "Please provide valid e-mail address.","Kontrolli e-maili aadressi"
 "Use my company's address details","Kasuta ettevõtte aadressi"
 "Passwords must be identical","Paroolid ei ole samad"
@@ -195,7 +195,7 @@ Zip-code,Sihtnumber
 "I want to create an account","Soovin kontot luua"
 "Tax identification number *","Käibemaksu number *"
 "No products found!","Tooteid ei leitud!"
-"Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our bestsellers!","Kahjuks ei leidnud me Teie otsingule vasteid."
+"Please change Your search criteria and try again. If still not finding anything relevant, please visit the Home page and try out some of our best sellers!","Kahjuks ei leidnud me Teie otsingule vasteid."
 "Erin recommends",Sooviab
 "Open my account","Minu konto"
 "Open microcart",Ostukorv
@@ -208,7 +208,7 @@ Close,Sulge
 "View all","Vaata kõiki"
 "Create a new account","Loo konto"
 "I accept terms and conditions","Nõustun kasutustingimustega"
-"I want to receive a newsletter, and agree to its terms","Soovin uudiskirja ja nõstund tingimustega"
+"I want to receive a newsletter and agree to its terms","Soovin uudiskirja ja nõstund tingimustega"
 "Tax ID must have at least 3 letters.","Käibemaksukood peab olema vähemalt 3 tähte."
 "Country *","Riik *"
 "Toggle password visibility","Vaata parooli"
@@ -233,13 +233,13 @@ SKU,Kood
 Subtotal,Kokku
 Tax,Käibemaks
 Discount,Allahindlus
-"Order informations","Tellimuse informatsioon"
+"Order information","Tellimuse informatsioon"
 "Shipping address",Tarneaadress
 "Billing address",Makseaadress
 "Order confirmation","Tellimuse kinnitus"
 "Your purchase","Teie tellimus"
 "You have successfuly placed the order. You can check status of your order by using our <b>delivery status</b> feature. You will receive an order confirmation e-mail with details of your order and a link to track its progress.","Tellimus vormistamine õnnestus. Saadame teile tellimuse kinnituse e-mailile. "
-"E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions how we could improve products or shopping experience","Ootame Teie poolset tagasisidet oma teenuse täiendamiseks."
+"E-mail us at <b>demo@vuestorefront.io</b> with any questions, suggestions on how we could improve products or shopping experience","Ootame Teie poolset tagasisidet oma teenuse täiendamiseks."
 "Your Account",Konto
 "What we can improve?","Mida võiksime paremini teha?"
 "Your feedback is important for us. Let us know what we could improve.","Teie tagasiside on meile tähtis. Palun kirjutage meile, mida võiksime veelgi paremaks muuta."

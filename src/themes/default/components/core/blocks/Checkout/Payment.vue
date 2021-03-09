@@ -227,7 +227,7 @@
                 },
                 {
                   condition: !$v.payment.taxId.minLength,
-                  text: $t('Tax identification number must have at least 3 letters.')
+                  text: $t('The tax identification number must have at least 3 letters.')
                 }
               ]"
             />

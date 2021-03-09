@@ -217,7 +217,7 @@
                 {{ $t('Create a new account') }}
               </base-checkbox>
               <p class="h5 cl-tertiary">
-                {{ $t('The new account will be created with the purchase. You will receive details on e-mail.') }}
+                {{ $t('A new account will be created with the purchase. You will receive details by e-mail.') }}
               </p>
             </template>
           </div>
