@@ -289,7 +289,7 @@ const actions: ActionTree<UserState, RootState> = {
       message: i18n.t('An account for {email} already exists.', { email: email }),
       action2: { label: i18n.t('Reset Password'),
         action: () => {
-          console.log('Reset Password ')
+          console.log('Reset Password')
           dispatch('forgotPassword', { email: email }).then((result) => {
             console.log('forgotPassword result ', result)
             dispatch('notification/spawnNotification', {

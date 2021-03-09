@@ -60,7 +60,7 @@ export const Shipping = {
   },
   computed: {
     ...mapState({
-      currentUser: (state: RootState) => state.user.current,
+      currentUser: (state: RootState) => state.user.current
     }),
     ...mapGetters({
       shippingMethods: 'checkout/getShippingMethods',
@@ -118,7 +118,7 @@ export const Shipping = {
     await this.getShippingCountryList()
     this.checkDefaultShippingAddress()
     this.checkSelectedShippingMethod()
-    this.$nextTick(()=>{
+    this.$nextTick(() => {
       this.selectCountry()
     })
   },
@@ -185,7 +185,7 @@ export const Shipping = {
       if (this.currentUser && this.currentUser.addresses && this.currentUser.addresses.length > 0) {
         let addresses = this.currentUser.addresses.filter((adr) => adr.address_type === 'shipping')
         console.log('hasShippingDetails addresses', addresses)
-        this.myAddressDetails = addresses[addresses.length-1]
+        this.myAddressDetails = addresses[addresses.length - 1]
         return true
       }
       return false
@@ -399,9 +399,9 @@ export const Shipping = {
           } else {
             this.shipping.streetAddress = this.shipping.street_id
           }
-          this.no_streets_available=!this.no_streets_available
+          this.no_streets_available = !this.no_streets_available
           this.shipping.street_type = street.street_type
-          this.no_streets_available=!this.no_streets_available
+          this.no_streets_available = !this.no_streets_available
         } else { // if manual input of street
           this.shipping.street_id = this.shipping.streetAddress
         }

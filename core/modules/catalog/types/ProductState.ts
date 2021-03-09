@@ -8,7 +8,7 @@ export interface PagedProductList {
 }
 
 export default interface ProductState {
-  purchased_from_store_brand: string,  // Added BY Dan
+  purchased_from_store_brand: string, // Added BY Dan
   breadcrumbs: {
     routes: any[],
     name: string

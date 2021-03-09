@@ -75,10 +75,9 @@ export function removeStoreCodeFromRoute (matchedRouteOrUrl: LocalizedRoute | st
   const storeCodeInRoute = storeCodeFromRoute(matchedRouteOrUrl);
   if (storeCodeInRoute !== '') {
     let urlPath = typeof matchedRouteOrUrl === 'object' ? matchedRouteOrUrl.path : matchedRouteOrUrl;
-    if(urlPath.indexOf('/c/') !== -1) // added by dan to fix something....
-      urlPath = urlPath.replace('c/', '')
-    if(urlPath.indexOf('/p/') !== -1) // added by dan to fix something....
-      urlPath = urlPath.replace('p/', '')
+    // added by dan to fix something....
+    if (urlPath.indexOf('/c/') !== -1) { urlPath = urlPath.replace('c/', '') }
+    if (urlPath.indexOf('/p/') !== -1) { urlPath = urlPath.replace('p/', '') }
 
     return urlPath.replace(storeCodeInRoute + '/', '')
   } else {
@@ -117,7 +116,7 @@ export function adjustMultistoreApiUrl (url: string): string {
 }
 
 export function localizedDispatcherRoute (routeObj: LocalizedRoute | string, storeCode: string): LocalizedRoute | string {
-  console.log('localizedDispatcherRoute routeObj', routeObj) // added by Dan
+  // console.log('localizedDispatcherRoute routeObj', routeObj) // added by Dan
   const {storeCode: currentStoreCode, appendStoreCode} = currentStoreView();
   if (!storeCode || !config.storeViews[storeCode]) {
     storeCode = currentStoreCode

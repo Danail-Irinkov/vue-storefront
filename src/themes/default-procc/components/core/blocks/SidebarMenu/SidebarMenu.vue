@@ -146,7 +146,7 @@ import SubCategory from 'theme/components/core/blocks/SidebarMenu/SubCategory'
 import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
-import config from "config";
+import config from 'config';
 
 export default {
   components: {

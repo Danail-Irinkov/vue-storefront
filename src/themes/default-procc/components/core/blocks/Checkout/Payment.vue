@@ -243,7 +243,7 @@
             v-model="generateInvoice"
           >
             {{ $t('I want an invoice for my company') }}
-            {{ this.VATEnabledStores.length === 0 ? '(' + $t('VAT free') + ')' : ''}}
+            {{ VATEnabledStores.length === 0 ? '(' + $t('VAT free') + ')' : '' }}
           </base-checkbox>
 
           <template>

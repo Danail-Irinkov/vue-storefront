@@ -1,3 +1,4 @@
+const {kebabForLink} = require('./KebabForLink');
 const path = require('path');
 const bodyParser = require('body-parser');
 const apiStatus = require('./utils/api-status');
@@ -319,7 +320,7 @@ function setCategoryBanner (config, storeData) {
   console.log('storefrontConfig path', path.resolve(config.themeDir + `/resource/banners/${storeCode}_store_banners.json`));
   // console.log('storeData.store_categories', storeData.store_categories)
   // start set store categories main Banner and samll Banners
-  let top3Categories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'updatedAt', 'desc'), 3);
+  let top3Categories = _.take(_.orderBy(_.filter(storeData.store_categories, {'isCategoryCreatedInMagento': true}), 'position', 'desc'), 3);
   let countCategories = top3Categories.length;
   let mainBanners = [];
   let smallBanners = [];
@@ -537,85 +538,10 @@ function exec (cmd, args, opts, enableLogging = false, limit_output = false) {
   })
 }
 
-// Need this kebabcase, because lodash.kebabCase is doing it in a different way (numbers == words)
-function kebabForLink (string) {
-  string = string.replace(/&/g, 'And')
-  let split_pattern = /[A-Z]*[a-z0-9:;)?!'".]*/g;
-  function split (text) {
-    let words = text.match(split_pattern) || [];
-
-    if (words.length === 1 && words[0].length === text.length) {
-      if (/[a-z]/.test(text)) {
-        words = splitCamelCase(text);
-      }
-    }
-
-    return words;
-  }
-
-  function splitCamelCase (text) {
-    let foundFirstUpperCase = /[A-Z]*/.exec(text);
-    if (!foundFirstUpperCase) {
-      return [text];
-    }
-
-    // PascalCase
-    if (foundFirstUpperCase.index === 0) {
-      return text.match(split_pattern);
-    }
-
-    // camelCase
-    let words = text.slice(foundFirstUpperCase.index).match(split_pattern);
-    words.unshift(text.slice(0, foundFirstUpperCase.index));
-    return words;
-  }
-
-  function kebabCase (text) {
-    return join(split(text));
-  }
-
-  function join (words) {
-    // console.log('join words 3', words)
-    if (!words.length) {
-      return '-';
-    }
-
-    // let ret = String(words[0]).toLowerCase();
-    let ret = '';
-
-    for (let i = 0, n = words.length; i < n; i++) {
-      if (words[i]) {
-        words[i] = words[i].replace(':', '').replace('?', '').replace('!', '').replace(')', '')
-          .replace('(', '').replace('.', '').replace('"', '').replace("'", '')
-        ret += (i > 0 ? '-' : '') + String(words[i]).toLowerCase();
-      }
-    }
-    if (!ret) {
-      return '-';
-    }
-    return ret;
-  }
-
-  Object.defineProperties(kebabCase, {
-    split: {
-      enumerable: true,
-      value: split
-    },
-    join: {
-      enumerable: true,
-      value: join
-    }
-  });
-  // TODO: KEBABCASE FOR ROUTES AND CATEGORY LINKS FIXES
-  console.log('TODO: ALLOW KEBABCASE TO WORK WITH CYRILLIC CHARACTES')
-  // console.log('TODO: Find how to use the same kebabcase function also in the VSF\'s core, which creates the Routes')
-  return kebabCase(string)
-}
-
 function testKebab () {
   console.time('testKebab took');
-  let array = ['Sets&OO &P & A', 'Ирра Спорт', 'Women\'s', 'RRrr', 'GG 533', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5 mega', 'GG-5 :)', 'GG 5 my love <3', 'GG5 :)', 'GG5 66.5-7'];
-  let expected = ['sets-and-oo-and-p-and-a', '--', 'womens', 'rrrr', 'gg-533', 'gg-5-', 'gg-5-5-3', 'gg-55-mega', 'gg-5-', 'gg-5-my-love-3', 'gg5-', 'gg5-665-7'];
+  let array = ['Desigual Неща 358', 'Sets&OO &P & A', 'Ирра Спорт', 'Women\'s', 'RRrr', 'GG 533', 'GG-5 !', 'GG 5-5 <3', 'GG 5.5 mega', 'GG-5 :)', 'GG 5 my love <3', 'GG5 :)', 'GG5 66.5-7'];
+  let expected = ['desigual--358', 'sets-and-oo-and-p-and-a', '--', 'womens', 'rrrr', 'gg-533', 'gg-5-', 'gg-5-5-3', 'gg-55-mega', 'gg-5-', 'gg-5-my-love-3', 'gg5-', 'gg5-665-7'];
   let result = [];
   for (let key in array) {
     let word1 = array[key];
