@@ -21,7 +21,8 @@ once('__VUE_EXTEND_I18N__', () => {
   Vue.use(VueI18n)
 })
 
-const loadedLanguages = ['en-US', 'de-DE', 'bg-BG', 'fr-FR', 'es-ES', 'nl-NL', 'ja-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ']
+// const loadedLanguages = ['en-US', 'de-DE', 'bg-BG', 'fr-FR', 'es-ES', 'nl-NL', 'ja-JP', 'ru-RU', 'it-IT', 'pt-BR', 'pl-PL', 'cs-CZ']
+const loadedLanguages = ['en-US']
 // VueI18n.MissingHandler
 const ProCCMissingTranslationHandler = (locale: string, missingText: string): void => {
   console.log('Translation Missing for ', locale, missingText)
@@ -45,6 +46,7 @@ const i18n = new VueI18n({
 })
 
 function setI18nLanguage (lang: string): string {
+  console.log('setI18nLanguage lang:', lang)
   i18n.locale = lang
   return lang
 }
@@ -70,6 +72,7 @@ const loadDateLocales = async (lang: string = 'en'): Promise<void> => {
 }
 
 export async function loadLanguageAsync (lang: string): Promise<string> {
+  console.log('loadLanguageAsync lang:', lang)
   await loadDateLocales(lang)
   if (!config.i18n.bundleAllStoreviewLanguages) {
     if (i18n.locale !== lang) {

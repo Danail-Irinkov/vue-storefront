@@ -459,7 +459,8 @@ function stringifyTags (tags_obj) {
   return tags_string
 }
 function getDefaultStoreData (config, storeData) {
-  return {
+  console.log('getDefaultStoreData', storeData)
+  let template = {
     store_brand_id: storeData.brand._id,
     store_brand_name: storeData.brand.name,
     store_brand_tags: stringifyTags(storeData.brand.tags),
@@ -492,7 +493,10 @@ function getDefaultStoreData (config, storeData) {
       currencySign: '€',
       dateFormat: 'HH:mm D-M-YYYY'
     }
-  };
+  }
+  if (storeData && storeData.storefront_setting && storeData.storefront_setting.language)
+    template.i18n = {...template.i18n, ...storeData.storefront_setting.language}
+  return template
 }
 
 const spawn = require('child_process').spawn;

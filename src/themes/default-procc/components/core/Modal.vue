@@ -133,10 +133,8 @@ $z-index-modal: map-get($z-index, modal);
   z-index: $z-index-modal;
 
   .modal-container {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    top: 15%;
     width: 945px;
     margin: 0 auto;
     max-width: 100%;
