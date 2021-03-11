@@ -61,8 +61,8 @@ export default {
   components: {
   },
   props: {
-    sizeChart: [String, Number, Array, Object],
-    productData: [String, Number, Array, Object]
+    size_chart: [String, Number, Array, Object],
+    product_data: [String, Number, Array, Object]
   },
   data () {
     return {

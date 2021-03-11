@@ -2,7 +2,7 @@
   <router-link class="brdr-none no-underline bg-cl-transparent p0 middle-xs inline-flex cl-secondary weight-400 h4 sans-serif fs-medium"
                :to="redirectionLink"
   >
-    <span class="clearcart-btn cl-accent">
+    <span class="clearcart-btn cl-accent align-center">
       {{ $t('Go to checkout') }}
       <i class="material-icons cl-accent" style="width: 18px;margin-left: 7px">
         shopping_cart

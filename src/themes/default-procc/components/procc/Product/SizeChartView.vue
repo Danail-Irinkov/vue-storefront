@@ -54,7 +54,7 @@ export default {
     async getSizeChart () {
       try {
         this.size_chart_loading = true
-        console.log('this.product', this.product)
+        // console.log('this.product', this.product)
         if (this.product && this.product.product) {
           this.product_data = _.cloneDeep(this.product)
           if (this.product.product && _.isObject(this.product.product)) {

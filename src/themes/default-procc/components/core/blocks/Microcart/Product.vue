@@ -108,8 +108,17 @@
             </span>
           </div>
           <div class="prices" v-else>
-            <span class="h4 serif price-regular in-use">
-              {{ (product.regular_price || product.price_incl_tax || product.price) * product.qty | price }}
+<!--            <span class="h4 serif price-regular in-use">-->
+<!--              {{ (product.regular_price || product.price_incl_tax || product.price) * product.qty | price }}-->
+<!--            </span>-->
+            <span class="h4 serif cl-error price-special discount" v-if="product.special_price">
+              {{ product.price_incl_tax * product.qty | price }}
+            </span>
+            <span class="h6 serif price-original" v-if="product.special_price">
+              {{ product.original_price_incl_tax * product.qty | price }}
+            </span>
+            <span class="h4 serif price-regular" v-else data-testid="productPrice">
+              {{ (product.original_price_incl_tax ? product.original_price_incl_tax : product.price_incl_tax) * product.qty | price }}
             </span>
           </div>
         </div>
@@ -182,6 +191,7 @@ import last from 'lodash-es/last'
 import isEmpty from 'lodash-es/isEmpty'
 
 export default {
+  name: 'microcart-product',
   data () {
     return {
       maxQuantity: 0,

@@ -6,16 +6,17 @@ import PaymentMethod from '@vue-storefront/core/modules/cart/types/PaymentMethod
 import CartItem from '@vue-storefront/core/modules/cart/types/CartItem'
 
 const calculateTotals = (shippingMethod: ShippingMethod, paymentMethod: PaymentMethod, cartItems: CartItem[]) => {
-  console.log('calculateTotals STARTED')
+  console.log('calculateTotals STARTED cartItems', cartItems)
   const totalByShippingMethod = shippingMethod ? getShippingCostByBrand(shippingMethod, cartItems) : []
   const shippingTax = shippingMethod ? sumBy(totalByShippingMethod, (s) => { return s.cost }) : 0
-  const subTotal = sumBy(cartItems, (p) => {
+  let subTotal = 0
+  for (let p of cartItems) {
     if (p.deduct_VAT) { // VAT adjustment VAT calculation
-      return p.qty * p.price_incl_tax * 0.82 // TODO NEED TO ACTUALLY CALCULATE THE ACTUAL COST
+      subTotal += p.qty * p.price_incl_tax * 0.82 // TODO NEED TO ACTUALLY CALCULATE THE ACTUAL VAT-less COST
     } else {
-      return p.qty * p.price_incl_tax
+      subTotal += p.qty * p.price_incl_tax
     }
-  })
+  }
 
   const totalsArray = [
     {
