@@ -83,6 +83,8 @@ export default {
           }
         }
       }
+      // TODO: transport the brand rating value to store objects so we can sort more elaborately :)
+      store_views = _.orderBy(store_views, ['storeId'], 'desc')
       return store_views
     }
   }

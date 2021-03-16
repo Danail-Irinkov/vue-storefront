@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     async openLink (link) {
-      console.log('openLink', link)
+      // console.log('openLink', link)
       window.location.href = link
     },
     async getStoreImages () {
