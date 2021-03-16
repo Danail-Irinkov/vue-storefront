@@ -28,11 +28,12 @@ export default {
   },
   methods: {
     addProductToWhishlist (product) {
-      this.$store.dispatch('notification/spawnNotification', {
-        type: 'success',
-        message: i18n.t('Product {productName} has been added to Wishlist!', { productName: htmlDecode(product.name) }),
-        action1: { label: i18n.t('OK') }
-      }, { root: true })
+      //Disabled by Dan
+      // this.$store.dispatch('notification/spawnNotification', {
+      //   type: 'success',
+      //   message: i18n.t('Product {productName} has been added to Wishlist!', { productName: htmlDecode(product.name) }),
+      //   action1: { label: i18n.t('OK') }
+      // }, { root: true })
       this.addToWishlist(product)
     },
     removeProductFromWhishList (product) {

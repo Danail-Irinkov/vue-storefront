@@ -10,15 +10,15 @@
           <i class="material-icons">{{ favoriteIcon }}</i>
         </div>
       </AddToWishlist>
-      <AddToCompare :product="product">
-        <div
-          class="product__icon"
-          :class="{'product__icon--active':isOnCompare } "
-          :title="isOnCompare ? $t('Remove from compare') : $t('Add to compare')"
-        >
-          <i class="material-icons">compare</i>
-        </div>
-      </AddToCompare>
+<!--      <AddToCompare :product="product">-->
+<!--        <div-->
+<!--          class="product__icon"-->
+<!--          :class="{'product__icon&#45;&#45;active':isOnCompare } "-->
+<!--          :title="isOnCompare ? $t('Remove from compare') : $t('Add to compare')"-->
+<!--        >-->
+<!--          <i class="material-icons">compare</i>-->
+<!--        </div>-->
+<!--      </AddToCompare>-->
     </div>
     <router-link
       class="block no-underline product-link"
@@ -182,19 +182,18 @@ $color-white: color(white);
     padding-top: 10px;
   }
   &__icon {
+    color: #eb5757;
     padding-top: 10px;
-    opacity: 0;
+    opacity: 0.7;
     z-index: 2;
     transition: 0.3s opacity $motion-main;
-    @media (max-width: 767px) {
-      opacity: 1;
-    }
+    /*@media (max-width: 767px) {*/
+    /*  opacity: 1;*/
+    /*}*/
     &--active {
       opacity: 1;
     }
-  }
-  &:hover {
-    .product__icon {
+    &:hover {
       opacity: 1;
     }
   }
@@ -223,7 +222,7 @@ $color-white: color(white);
   overflow: hidden;
   width:100%;
   height: 100%;
-  max-height: 300px;
+  max-height: 500px;
 
   & > .card{
     padding: 0!important; // Added By Dan to maximise photos
