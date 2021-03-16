@@ -1,6 +1,6 @@
 <template>
-  <div class="card store-card animated fadeIn">
-    <div class="card-image">
+  <div class="card store-card animated fadeIn" @click="openLink(storeUrl)">
+    <div class="card-image" >
         <div class="store-card-cover-image"
              v-lazy:background-image="storeImage.image"
              :alt="$t('noImage')">
@@ -23,7 +23,7 @@
           <div class="category-row">
             <div v-for="category in storeCategories"
                  class="category-image-wrapper"
-                 :href="'/'+storeCode+category.link">
+                 @click.stop="openLink('/'+storeCode+category.link)">
               <div class="category-image"
                    v-lazy:background-image="category.image">
               </div>
@@ -41,6 +41,10 @@ export default {
     this.getStoreImages()
   },
   methods: {
+    async openLink (link) {
+      console.log('openLink', link)
+      window.location.href = link
+    },
     async getStoreImages () {
       const storeImages = await import(/* webpackChunkName: "vsf-head-img-[request]" */ `theme/resource/banners/${this.storeCode}_main-image.json`)
       const storeBanners = await import(/* webpackChunkName: "vsf-head-img-[request]" */ `theme/resource/banners/${this.storeCode}_store_banners.json`)
@@ -55,6 +59,10 @@ export default {
     }
   },
   props: {
+    storeUrl: {
+      type: [String],
+      required: true
+    },
     storeCode: {
       type: [String],
       required: true
@@ -68,7 +76,9 @@ export default {
 </script>
 <style lang="scss" scoped>
   .store-card{
+    cursor: pointer;
     border-radius: 10px;
+    width: 100%;
     height: calc(10vw + 230px);
     .card-image{
       width: 100%;
@@ -171,6 +181,7 @@ export default {
           bottom: -2px;
 
           .category-image-wrapper {
+            z-index: 99;
             display: inline-block;
             width: 14vw;
             max-width: 120px;
@@ -180,6 +191,8 @@ export default {
             border-radius: 10px;
             border: 2px solid #EEEEEE;
             overflow: hidden;
+            cursor: pointer;
+            background-color: #ffffff;
 
             .category-image {
               display: block;
@@ -189,6 +202,10 @@ export default {
               background-position: center;
               background-size: cover;
               transform: scale(1.25);
+
+              &:hover {
+                opacity: 0.85!important;
+              }
             }
           }
         }

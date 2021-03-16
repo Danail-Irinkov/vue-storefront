@@ -30,10 +30,10 @@
 <!--      </div>-->
 <!--      <div class="col-12 justify-content-center">-->
 <!--        <div class="row">-->
-          <a class="col-12 no-underline" :href="storeView.url"
+          <a class="col-12 no-underline"
              v-if="!storeView.disabled && typeof storeView === 'object' && storeView.i18n"
              v-for="(storeView, storeCode) in storeViews" :key="storeCode" >
-              <store-card :store-code="storeView.storeCode" :store-name="storeView.name.replace(' Store', '')" />
+              <store-card :store-code="storeView.storeCode" :store-name="storeView.name.replace(' Store', '')"  :storeUrl="storeView.url"/>
           </a>
 <!--        </div>-->
 <!--      </div>-->
