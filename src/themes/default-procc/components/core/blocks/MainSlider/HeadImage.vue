@@ -28,20 +28,20 @@
         <h1 :style="{ color: defaultStore.title_color }" class="title text-shadow"
             data-testid="mainSliderTitle"
         >
-          {{ defaultStore.title }}
+<!--          {{ defaultStore.title }}-->
         </h1>
         <p
           :style="{color: defaultStore.subtitle_color }"
           data-testid="mainSliderSubtitle"
           class="subtitle mb0 serif h3 procc-title-style text-shadow"
         >
-          {{ defaultStore.subtitle }}
+          {{ $t(defaultStore.subtitle) }}
         </p>
         <div class="default-store-btn-class align-center inline-flex"
              v-if="isDefaultStore"
         >
           <button-outline :link="defaultStore.link" color="light">
-            {{ defaultStore.button_text }}
+            {{ $t(defaultStore.button_text) }}
           </button-outline>
         </div>
       </div>
@@ -68,9 +68,9 @@ export default {
       defaultStore: {
         image: 'https://cloudinary.hbscdn.org/image/upload/s--9_mD60iD--/q_auto,c_fill,h_1296,w_2800,/v20071006/D9F534C9985893BE25AA7782CEDA7CEE.jpg',
         title: 'ProCC',
-        title_color: '#f4def2',
-        subtitle: 'Can you make better product photos? Register as a CC?',
-        subtitle_color: '#f4def2',
+        title_color: '#ffffff',
+        subtitle: 'Can you make amazing photos? Sign up as a CC!',
+        subtitle_color: '#ffffff',
         link: 'https://work.procc.co/signup/cc',
         button_text: 'Sign Up'
       },
@@ -95,7 +95,7 @@ export default {
     line-height: 30px !important;
   }
   .text-shadow{
-    text-shadow: 1px 1px 0px rgba(244, 222, 242, 0.48), 1px 1px 1px rgba(255, 255, 255, 0.73) !important;
+    text-shadow: 1px 1px 0px rgba(244, 222, 242, 0.08), 1px 1px 1px rgba(80, 80, 80, 0.55) !important;
   }
 
   .default-store-class {
@@ -133,6 +133,7 @@ export default {
     .title {
       font-size: 2.4rem;
       margin-bottom: 0;
+      font-family: 'Roboto', sans-serif;
     }
 
     .subtitle {
