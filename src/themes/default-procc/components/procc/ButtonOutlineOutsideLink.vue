@@ -76,9 +76,9 @@ $black: color(black);
     color: $black;
     background: $white;
     border-color: $white;
-    animation: Pulsate 0.3s ease-in-out;
+    animation: FadeIn 0.3s ease-in-out;
   }
-  @keyframes Pulsate {
+  @keyframes FadeIn {
     from { opacity: 0; }
     50% { opacity: 0.5; }
     to { opacity: 1; }

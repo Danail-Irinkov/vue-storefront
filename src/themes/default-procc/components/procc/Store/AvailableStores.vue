@@ -1,42 +1,30 @@
 <template>
-  <div class="container pt30 pb30">
+  <div class="container pt5 pb30">
     <div class="row">
-<!--      <div class="col-md-3 start-xs category-filters">-->
-<!--        <div class="sidebar">-->
-<!--          <h4 class="sidebar__header">-->
-<!--            <span> {{ $t('Filter') }} </span>-->
-<!--            <button-->
-<!--              class="no-outline brdr-none py15 px40 bg-cl-mine-shaft :bg-cl-th-secondary ripple h5 cl-white sans-serif" @click="clearFilter()" v-if="isActive != false"-->
-<!--            >-->
-<!--              {{ $t('Clear') }}-->
-<!--            </button>-->
-<!--          </h4>-->
-<!--          <div>-->
-<!--            <h5>Store Name</h5>-->
-<!--            <div class="button-div">-->
-<!--              <button-->
-<!--                class="bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary name-selector" :class="{'active': isActive == 'asc'}" @click="sortStore('asc')"-->
-<!--              >-->
-<!--                Ascending-->
-<!--              </button>-->
-<!--              <button-->
-<!--                class="pt2 bg-cl-primary brdr-1 brdr-cl-primary brdr-square h5 cl-tertiary name-selector" :class="{'active': isActive == 'desc'}" @click="sortStore('desc')"-->
-<!--              >-->
-<!--                Descending-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="col-12 justify-content-center">-->
-<!--        <div class="row">-->
-          <a class="col-xl-6 no-underline"
-             v-if="!storeView.disabled && typeof storeView === 'object' && storeView.i18n"
-             v-for="(storeView, storeCode) in storeViews" :key="storeCode">
-              <store-card :store-code="storeView.storeCode" :store-name="storeView.name.replace(' Store', '')" :storeUrl="storeView.url"/>
-          </a>
-<!--        </div>-->
-<!--      </div>-->
+      <div class="col-12">
+        <label for="search" class="visually-hidden">
+          {{ $t('Search') }}
+        </label>
+        <div class="search-input-group" style="border-bottom: 0">
+          <i class="material-icons search-icon">search</i>
+          <input
+            ref="search"
+            id="search"
+            v-model="search"
+            class="search-panel-input"
+            :placeholder="$t('What are you looking for?')"
+            type="search"
+            :autofocus="true"
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <a class="col-xl-6 no-underline"
+         v-if="storeView && storeView.storeCode"
+         v-for="(storeView, storeKey) in storeViews" :key="storeKey">
+          <store-card :store-code="storeView.storeCode" :store-name="storeView.name.replace(' Store', '')" :storeUrl="storeView.url"/>
+      </a>
     </div>
   </div>
 </template>
@@ -50,22 +38,27 @@ export default {
     StoreCard
   },
   methods: {
-    sortStore (sort) {
-      this.isActive = sort
-      this.stores = _.orderBy(this.storeViews, ['storeCode'], sort.toString())
-      store.state.config.storeViews = this.stores
+    isStoreFiltered (storeView) {
+      let bool = true
+      let search = this.search.toLowerCase()
+      if (search && storeView
+        && !(storeView.storeCode.toLowerCase().indexOf(search) !== -1
+          || (storeView.name && storeView.name.toLowerCase().indexOf(search) !== -1)
+          || (storeView.storeName && storeView.storeName.toLowerCase().indexOf(search) !== -1)
+          || (storeView.store_brand_name && storeView.store_brand_name.toLowerCase().indexOf(search) !== -1)
+          || (storeView.store_brand_tags && storeView.store_brand_tags.indexOf(search) !== -1)
+        )){
+        bool = false
+      }
+      return bool
     },
-    clearFilter () {
-      this.isActive = false
-      store.state.config.storeViews = this.defaultStoreViews
-      this.stores = this.defaultStoreViews
-    }
   },
   mounted () {
     this.defaultStoreViews = store.state.config.storeViews
   },
   data () {
     return {
+      search: '',
       defaultStoreViews: '',
       isActive: false,
       stores: store.state.config.storeViews
@@ -76,10 +69,9 @@ export default {
       let store_views = {};
       for (let key in store.state.config.storeViews) {
         if (store.state.config.storeViews.hasOwnProperty(key)) {
-          if (store.state.config.storeViews[key] && store.state.config.storeViews[key].is_test) {
-            // continue
-          } else {
-            store_views[key] = store.state.config.storeViews[key]
+          const storeView = store.state.config.storeViews[key]
+          if (storeView && storeView.storeCode && !storeView.is_test && !storeView.disabled && this.isStoreFiltered(storeView)) {
+            store_views[key] = storeView
           }
         }
       }
@@ -90,7 +82,11 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+  @import "~theme/css/animations/transitions";
+  @import "~theme/css/variables/grid";
+  @import "~theme/css/variables/typography";
+
   .justify-content-center {
     justify-content: center;
   }
@@ -117,5 +113,32 @@ export default {
   }
   .button-div button {
     width: 90px
+  }
+  .search-input-group {
+    display: flex;
+    border-bottom: 1px solid #bdbdbd;
+  }
+
+  .search-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-panel-input {
+    width: 100%;
+    height: 60px;
+    padding-bottom: 0;
+    padding-top: 0;
+    border: none;
+    outline: 0;
+    font-size: 18px;
+    font-family: map-get($font-families, secondary);
+
+    @media #{$media-xs} {
+      font-size: 16px;
+    }
   }
 </style>

@@ -27,7 +27,7 @@
               @input="makeSearch"
               @blur="$v.search.$touch()"
               class="search-panel-input"
-              :placeholder="$t('Type what you are looking for...')"
+              :placeholder="$t('What are you looking for?')"
               type="search"
               autofocus="true"
             >

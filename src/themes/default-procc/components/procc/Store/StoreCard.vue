@@ -1,5 +1,5 @@
 <template>
-  <div class="card store-card animated fadeIn" @click="openLink(storeUrl)">
+  <div v-if="isCardReady" class="card store-card animated fadeIn" @click="openLink(storeUrl)">
     <div class="card-image" >
         <div class="store-card-cover-image"
              v-lazy:background-image="storeImage.image"
@@ -40,20 +40,29 @@ export default {
   mounted () {
     this.getStoreImages()
   },
+  watch: {
+    storeCode () {
+      this.isCardReady = false
+      this.getStoreImages()
+    }
+  },
   methods: {
-    async openLink (link) {
+    openLink (link) {
       // console.log('openLink', link)
       window.location.href = link
     },
     async getStoreImages () {
+      console.log('getStoreImages', this.storeCode)
       const storeImages = await import(/* webpackChunkName: "vsf-head-img-[request]" */ `theme/resource/banners/${this.storeCode}_main-image.json`)
       const storeBanners = await import(/* webpackChunkName: "vsf-head-img-[request]" */ `theme/resource/banners/${this.storeCode}_store_banners.json`)
       this.storeImage = storeImages.image
       this.storeCategories = [...storeBanners.mainBanners, ...storeBanners.smallBanners]
+      this.isCardReady = true
     }
   },
   data () {
     return {
+      isCardReady: false,
       storeImage: {},
       storeCategories: [],
     }
