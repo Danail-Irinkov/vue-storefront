@@ -33,9 +33,16 @@
         <p
           :style="{color: defaultStore.subtitle_color }"
           data-testid="mainSliderSubtitle"
-          class="subtitle mb0 serif h3 procc-title-style text-shadow"
+          class="subtitle mb0 mt0 serif h2 procc-title-style text-shadow"
         >
           {{ $t(defaultStore.subtitle) }}
+        </p>
+        <p
+          :style="{color: defaultStore.subtitle_color }"
+          data-testid="mainSliderSubtitle"
+          class="subtitle mb0 mt0 serif h2 procc-title-style text-shadow"
+        >
+          {{ $t(defaultStore.subtitle2) }}
         </p>
         <div class="default-store-btn-class align-center inline-flex"
              v-if="isDefaultStore"
@@ -69,7 +76,8 @@ export default {
         image: 'https://cloudinary.hbscdn.org/image/upload/s--9_mD60iD--/q_auto,c_fill,h_1296,w_2800,/v20071006/D9F534C9985893BE25AA7782CEDA7CEE.jpg',
         title: 'ProCC',
         title_color: '#ffffff',
-        subtitle: 'Can you make amazing photos? Sign up as a CC!',
+        subtitle: 'Can you make amazing photos?',
+        subtitle2: 'Sign up as a CC!',
         subtitle_color: '#ffffff',
         link: 'https://work.procc.co/signup/cc',
         button_text: 'Sign Up'
@@ -99,13 +107,13 @@ export default {
   }
 
   .default-store-class {
-    margin-left: 10rem !important;
+    /*margin-left: 10rem !important;*/
   }
 
   .default-store-btn-class {
-    width: 123px;
+    /*width: 123px;*/
     height: 60px;
-    margin: 1rem 0 0 6rem;
+    margin: 1rem 0 0 4%;
 
     & > a {
       width: 100%;
@@ -114,6 +122,7 @@ export default {
 
     & > button {
       width: 100%;
+      min-width: 150px;
       height: 100%;
     }
   }

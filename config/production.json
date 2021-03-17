@@ -1,0 +1,548 @@
+{
+  "elasticsearch": {
+    "httpAuth": "",
+    "host": "https://store.procc.co/api/catalog",
+    "host_backend": "http://vue-storefront-api:8080",
+    "index": "vue_storefront_catalog",
+    "min_score": 0.02,
+    "csrTimeout": 5000,
+    "ssrTimeout": 1000,
+    "queryMethod": "GET",
+    "disableLocalStorageQueriesCache": true,
+    "searchScoring": {
+      "attributes": {
+        "attribute_code": {
+          "scoreValues": {
+            "attribute_value": {
+              "weight": 1
+            }
+          }
+        }
+      },
+      "fuzziness": 2,
+      "cutoff_frequency": 0.01,
+      "max_expansions": 3,
+      "minimum_should_match": "75%",
+      "prefix_length": 2,
+      "boost_mode": "multiply",
+      "score_mode": "multiply",
+      "max_boost": 100,
+      "function_min_score": 1
+    },
+    "searchableAttributes": {
+      "name": {
+        "boost": 4
+      },
+      "sku": {
+        "boost": 2
+      },
+      "category.name": {
+        "boost": 1
+      }
+    }
+  },
+  "storeViews": {
+    "multistore": true,
+    "commonCache": true,
+    "dev": {
+      "store_brand_id": "5dfd22ae43f1670037a23fac",
+      "store_brand_tags": "undefined",
+      "storeCode": "dev",
+      "disabled": false,
+      "storeId": 72,
+      "name": "Dev Acc Store",
+      "url": "/dev",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_dev"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "alina": {
+      "store_brand_id": "5e207aec4af97200369e834c",
+      "storeCode": "alina",
+      "storeName": "Alina Volkanova Store",
+      "disabled": false,
+      "storeId": 88,
+      "name": "Alina Volkanova Store",
+      "url": "/alina",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_alina"
+      },
+      "tax": {
+        "defaultCountry": "BG",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "volk": {
+      "store_brand_id": "5e8258c47336ee5c6443b0ef",
+      "storeCode": "volk",
+      "storeName": "Volkky Store",
+      "disabled": false,
+      "storeId": 93,
+      "name": "Volkky Store",
+      "url": "/volk",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_volk"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "dashing": {
+      "store_brand_id": "5e7fb99ee3aafa00361950f3",
+      "store_brand_name": "Dashing",
+      "store_brand_tags": "undefined",
+      "is_test": true,
+      "storeCode": "dashing",
+      "storeName": "Dashing",
+      "disabled": false,
+      "storeId": 99,
+      "name": "Dashing Store",
+      "url": "/dashing",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_dashing"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "test": {
+      "store_brand_id": "5d8dcbf5781ec61454fc7873",
+      "storeCode": "test",
+      "storeName": "Pro Cc Store",
+      "disabled": false,
+      "storeId": 103,
+      "name": "Pro Cc Store",
+      "url": "/test",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_test"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "vpp": {
+      "store_brand_id": "5ea6b144ab81e8004abd2dfa",
+      "store_brand_name": "Victoria Parashkevanova",
+      "store_brand_tags": "undefined",
+      "is_test": false,
+      "storeCode": "vpp",
+      "storeName": "Victoria Parashkevanova",
+      "disabled": false,
+      "storeId": 105,
+      "name": "Victoria Parashkevanova Store",
+      "url": "/vpp",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_vpp"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "ali": {
+      "store_brand_id": "5e7faa78e3aafa00361950a3",
+      "store_brand_name": "Alina Irinkova",
+      "store_brand_tags": "female contentcreator influencer model",
+      "is_test": true,
+      "storeCode": "ali",
+      "storeName": "Alina Irinkova",
+      "disabled": false,
+      "storeId": 109,
+      "name": "Alina Irinkova Store",
+      "url": "/ali",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_ali"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "gia": {
+      "store_brand_id": "5f209ac1bf50263410c5f162",
+      "store_brand_name": "Gia ",
+      "store_brand_tags": "female",
+      "is_test": true,
+      "storeCode": "gia",
+      "storeName": "Gia ",
+      "disabled": false,
+      "storeId": 111,
+      "name": "Gia Store",
+      "url": "/gia",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_gia"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "jane": {
+      "store_brand_id": "5f1ca79a18b9b83d9c3a8f5b",
+      "store_brand_name": "Jane Eyar",
+      "store_brand_tags": "female elegant pure",
+      "is_test": true,
+      "storeCode": "jane",
+      "storeName": "Jane Eyar",
+      "disabled": false,
+      "storeId": 112,
+      "name": "Jane Eyar Store",
+      "url": "/jane",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_jane"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "pat": {
+      "store_brand_id": "5f32ffa8c77a943508c291c7",
+      "store_brand_name": "Patrick",
+      "store_brand_tags": "male sportswear boxin",
+      "is_test": true,
+      "storeCode": "pat",
+      "storeName": "Patrick",
+      "disabled": false,
+      "storeId": 113,
+      "name": "Patrick Store",
+      "url": "/pat",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_pat"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "aa": {
+      "store_brand_id": "5d9f85fbcbba1c35a4bd58ee",
+      "store_brand_name": "Desigual",
+      "store_brand_tags": "male",
+      "is_test": true,
+      "storeCode": "aa",
+      "storeName": "Desigual",
+      "disabled": false,
+      "storeId": 68,
+      "name": "Mashup Store",
+      "url": "/aa",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_aa"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "bianca": {
+      "store_brand_id": "5e63c7201948b402aaa98897",
+      "store_brand_name": "Bianca Feruccio",
+      "store_brand_tags": "undefined",
+      "is_test": true,
+      "storeCode": "bianca",
+      "storeName": "Bianca Feruccio",
+      "disabled": false,
+      "storeId": 115,
+      "name": "Bianca Feruccio Store",
+      "url": "/bianca",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_bianca"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "jjstore": {
+      "store_brand_id": "5f1ca7483ffafa005ed02518",
+      "store_brand_name": "JJ",
+      "store_brand_tags": "female fashion",
+      "is_test": true,
+      "storeCode": "jjstore",
+      "storeName": "JJ",
+      "disabled": false,
+      "storeId": 116,
+      "name": "Jj Store",
+      "url": "/jjstore",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_jjstore"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "vary": {
+      "store_brand_id": "5f7b20c0118215006d55987f",
+      "store_brand_name": "Ivan Dimitrov",
+      "store_brand_tags": "undefined",
+      "is_test": true,
+      "storeCode": "vary",
+      "storeName": "Ivan Dimitrov",
+      "disabled": false,
+      "storeId": 117,
+      "name": "Ivan Dimitrov Store",
+      "url": "/vary",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_vary"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    },
+    "mapStoreUrlsFor": [
+      "dev",
+      "alina",
+      "volk",
+      "dashing",
+      "test",
+      "vpp",
+      "ali",
+      "gia",
+      "jane",
+      "pat",
+      "aa",
+      "bianca",
+      "jjstore",
+      "vary",
+      "miljena"
+    ],
+    "miljena": {
+      "store_brand_id": "5ecd178f043bb60067495bad",
+      "store_brand_name": "Miljena Stodic",
+      "store_brand_tags": "undefined",
+      "is_test": true,
+      "storeCode": "miljena",
+      "storeName": "Miljena Stodic",
+      "disabled": false,
+      "storeId": 121,
+      "name": "Miljena Stodic Store",
+      "url": "/miljena",
+      "appendStoreCode": true,
+      "elasticsearch": {
+        "host": "https://store.procc.co/api/catalog",
+        "index": "vue_storefront_catalog_miljena"
+      },
+      "tax": {
+        "defaultCountry": "Bulgaria",
+        "defaultRegion": "",
+        "calculateServerSide": true,
+        "sourcePriceIncludesTax": false
+      },
+      "i18n": {
+        "fullCountryName": "Bulgaria",
+        "fullLanguageName": "Bulgarian",
+        "defaultCountry": "BG",
+        "defaultLanguage": "EN",
+        "defaultLocale": "en-US",
+        "currencyCode": "EUR",
+        "currencySign": "€",
+        "dateFormat": "HH:mm D-M-YYYY"
+      }
+    }
+  }
+}

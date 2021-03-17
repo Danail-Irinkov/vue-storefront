@@ -76,6 +76,12 @@ $black: color(black);
     color: $black;
     background: $white;
     border-color: $white;
+    animation: Pulsate 0.3s ease-in-out;
+  }
+  @keyframes Pulsate {
+    from { opacity: 0; }
+    50% { opacity: 0.5; }
+    to { opacity: 1; }
   }
 }
 </style>

@@ -79,7 +79,7 @@ export default {
     cursor: pointer;
     border-radius: 10px;
     width: 100%;
-    height: calc(10vw + 230px);
+    height: calc(15vw + 230px);
     .card-image{
       width: 100%;
       overflow: hidden;
@@ -120,7 +120,7 @@ export default {
       top: 0;
       width: 100%;
       /*height: 100%;*/
-      height: calc(10vw + 230px);
+      height: calc(15vw + 230px);
       border-radius: 10px;
       padding-left: 10px!important;
       padding-top: 0!important;
@@ -177,7 +177,7 @@ export default {
 
         .category-row{
           position: absolute;
-          right: 46px;
+          right: 43px;
           bottom: -2px;
 
           .category-image-wrapper {
