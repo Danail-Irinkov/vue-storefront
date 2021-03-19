@@ -126,7 +126,7 @@ export default {
   data () {
     return {
       mobileFilters: false,
-      defaultColumn: 3,
+      defaultColumn: 2,
       loadingProducts: false,
       loading: true
     }
@@ -269,7 +269,7 @@ export default {
 
   @media (max-width: 64em) {
     .products-list {
-      max-width: 530px;
+      /*max-width: 530px;*/
     }
   }
 

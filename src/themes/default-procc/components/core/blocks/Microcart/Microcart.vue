@@ -176,6 +176,7 @@ import MicrocartSummary from './MicrocartSummary'
 import { InstantCheckoutModule } from 'src/modules/instant-checkout'
 import Microcart from '@vue-storefront/core/compatibility/components/blocks/Microcart/Microcart'
 export default {
+  name: 'microcart',
   components: {
     // Product,
     ClearCartButton,

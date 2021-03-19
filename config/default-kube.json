@@ -286,6 +286,7 @@
         "special_from_date",
         "name",
         "price",
+        "discount",
         "price_incl_tax",
         "original_price_incl_tax",
         "original_price",
@@ -694,7 +695,7 @@
     "dateFormat": "HH:mm D/M/YYYY",
     "fullCountryName": "United States",
     "fullLanguageName": "English",
-    "bundleAllStoreviewLanguages": true
+    "bundleAllStoreviewLanguages": false
   },
   "expireHeaders": {
     "default": "30d",

@@ -28,12 +28,25 @@
             @click="closeMenu"
             class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary"
           >
+            <a
+              class="block px25 py20 cl-accent no-underline"
+             href="/"
+              @click.stop.prevent="openLink('/')"
+            >
+              {{ $t('All Stores') }}
+            </a>
+          </li>
+          <li v-if="!isDefaultStore"
+            @click="closeMenu"
+            class="brdr-bottom-1 brdr-cl-bg-secondary bg-cl-primary"
+          >
             <router-link
               class="block px25 py20 cl-accent no-underline"
               :to="localizedRoute('/')"
               exact
             >
-              {{ $t('Home') }}
+              {{ currentStoreView.store_brand_name }}
+<!--              {{ $t('Home') }}-->
             </router-link>
           </li>
           <li
@@ -147,6 +160,7 @@ import { formatCategoryLink } from '@vue-storefront/core/modules/url/helpers'
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
 import LanguageSwitcher from '../../LanguageSwitcher.vue'
 import config from 'config';
+import {currentStoreView} from "@vue-storefront/core/lib/multistore";
 
 export default {
   components: {
@@ -193,14 +207,21 @@ export default {
     }
   },
   computed: {
-    mainListStyles () {
-      return this.submenu.depth ? `transform: translateX(${this.submenu.depth * 100}%)` : false
-    },
     ...mapState({
       submenu: state => state.ui.submenu,
       currentUser: state => state.user.current
     }),
-    multistoreEnabled () {
+    mainListStyles() {
+      return this.submenu.depth ? `transform: translateX(${this.submenu.depth * 100}%)` : false
+    },
+    currentStoreView() {
+      return currentStoreView();
+    },
+    isDefaultStore () {
+      const storeView = currentStoreView();
+      return storeView.storeCode === ''
+    },
+    multistoreEnabled() {
       return config.storeViews.multistore
     },
     getSubmenu () {
@@ -236,7 +257,11 @@ export default {
     },
     categoryLink (category) {
       return formatCategoryLink(category)
-    }
+    },
+    openLink (link) {
+      // console.log('openLink', link)
+      window.location.href = link
+    },
   }
 }
 </script>

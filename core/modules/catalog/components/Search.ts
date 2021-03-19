@@ -13,7 +13,7 @@ export const Search = {
       search: '',
       size: 18,
       start: 0,
-      placeholder: i18n.t('Type what you are looking for...'),
+      placeholder: i18n.t('What are you looking for?'),
       emptyResults: false,
       readMore: true,
       componentLoaded: false

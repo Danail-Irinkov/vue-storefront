@@ -45,20 +45,20 @@
                   v-if="getCurrentProduct.special_price && getCurrentProduct.price_incl_tax && getCurrentProduct.original_price_incl_tax"
                 >
                   <span
-                    class="h2 cl-mine-shaft weight-700"
-                  >{{ getCurrentProduct.price_incl_tax * getCurrentProduct.qty | price }}</span>&nbsp;
-                  <span
-                    class="price-original h3"
+                    class="price-original h2"
                   >{{ getCurrentProduct.original_price_incl_tax * getCurrentProduct.qty | price }}</span>
+                  <span
+                    class="h2 cl-mine-shaft weight-700 discount"
+                  >{{ getCurrentProduct.price_incl_tax * getCurrentProduct.qty | price }}</span>&nbsp;
                 </div>
-                <div
+                <span
                   class="h2 cl-mine-shaft weight-700"
                   v-if="!getCurrentProduct.special_price && getCurrentProduct.price_incl_tax"
                 >
                   {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
-                </div>
+                </span>
               </div>
-              <div class="cl-primary variants" v-if="getCurrentProduct.type_id =='configurable'">
+              <div class="cl-primary variants" v-if="getCurrentProduct.type_id === 'configurable'">
                 <div
                   class="error"
                   v-if="getCurrentProduct.errors && Object.keys(getCurrentProduct.errors).length > 0"
@@ -417,7 +417,7 @@ export default {
       return getSelectedFiltersByProduct(this.getCurrentProduct, this.getCurrentProductConfiguration)
     },
     isDefaultProductSize () { // check if the size option is default
-      console.log('isDefaultProductSize', this.getCurrentProduct)
+      // console.log('isDefaultProductSize product', this.getCurrentProduct)
       const available_filters = getAvailableFiltersByProduct(this.getCurrentProduct)
       return !!((available_filters.size && available_filters.size.length === 1 && available_filters.size[0].label.toLowerCase() === 'default'))
     },

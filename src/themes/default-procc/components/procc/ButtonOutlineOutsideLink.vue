@@ -76,6 +76,12 @@ $black: color(black);
     color: $black;
     background: $white;
     border-color: $white;
+    animation: FadeIn 0.3s ease-in-out;
+  }
+  @keyframes FadeIn {
+    from { opacity: 0; }
+    50% { opacity: 0.5; }
+    to { opacity: 1; }
   }
 }
 </style>

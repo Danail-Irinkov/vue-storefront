@@ -24,7 +24,9 @@ export const ProductTile = {
     thumbnail () {
       // todo: play with the image based on category page filters - eg. when 'red' color is chosen, the image is going to be 'red'
       let thumbnail = productThumbnailPath(this.product)
-      return this.getThumbnail(thumbnail, config.products.thumbnails.width, config.products.thumbnails.height)
+      // Modified by Dan for larger images
+      return this.getThumbnail(thumbnail, config.products.gallery.width, config.products.gallery.height)
+      // return this.getThumbnail(thumbnail, config.products.thumbnails.width, config.products.thumbnails.height)
     },
     thumbnailObj () {
       return {

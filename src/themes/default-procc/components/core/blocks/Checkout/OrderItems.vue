@@ -18,37 +18,6 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 -5 73 70" fill="none" stroke="#202020" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="round" data-darkreader-inline-fill="" data-darkreader-inline-stroke="" style="--darkreader-inline-fill:none; --darkreader-inline-stroke:#d4d1cc;"><g stroke-linecap="round"><path d="M17 15h26c2.3 0 2.1 1.6 1.7 3.1S41 33 41 33h10.1l4-2 3.9 2v8c0 1.3-.5 2-2 2h-8M9 43h6.6m9.4 0h14.6" /><path d="M43.6 23H49l6.1 8M31 23H9m18 8H5" /></g><path d="M24.8 44a6.9 6.9 0 0 1-6.2 5c-2.7 0-4.2-2.2-3.4-5a6.9 6.9 0 0 1 6.2-5c2.6 0 4.2 2.2 3.4 5zm24 0a6.9 6.9 0 0 1-6.2 5c-2.7 0-4.2-2.2-3.4-5a6.9 6.9 0 0 1 6.2-5c2.6 0 4.2 2.2 3.4 5z" /></svg>
         </div>
       </div>
-      <!--<div class="row p10 between-xs order-item" v-for="product in productsInCartByBrandProCC(brand_id)" :key="product.sku">
-        <div class="blend col-md-2">
-          <product-image :image="getProductImage(product)"/>
-        </div>
-        <div class="col-md-6">
-          <div class="h4 weight-400 cl-accent serif">
-            {{ product.name | htmlDecode }}
-          </div>
-          <div class="h6 cl-tertiary pt5">
-            {{ product.sku }}
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div v-for="opt in product.options" :key="opt.label">
-            <span class="opn">{{ opt.label }}: </span>
-            <span class="opv" v-html="opt.value" />
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div v-if="isOnline && product.totals">
-            <span class="h4 cl-error" v-if="product.totals.discount_amount">{{ product.totals.row_total - product.totals.discount_amount + product.totals.tax_amount | price }} </span>
-            <span class="price-original h5" v-if="product.totals.discount_amount">{{ product.totals.row_total_incl_tax | price }}</span>
-            <span v-if="!product.totals.discount_amount" class="h4">{{ product.totals.row_total_incl_tax | price }}</span>
-          </div>
-          <div v-else>
-            <span class="h4 cl-error" v-if="product.special_price">{{ product.price_incl_tax * product.qty | price }} </span>
-            <span class="price-original h5" v-if="product.special_price">{{ product.original_price_incl_tax * product.qty | price }}</span>
-            <span v-if="!product.special_price" class="h4">{{ product.price_incl_tax * product.qty | price }}</span>
-          </div>
-        </div>
-      </div>-->
       <ul class="thank-you-order-items">
         <microcart-product v-for="product in orderItems" :key="product.checksum || product.sku" :product="getProductData(product)" :is-disabled-inputs="isDisabledInputs" />
       </ul>
@@ -63,6 +32,7 @@ import { CartSummary } from '@vue-storefront/core/modules/checkout/components/Ca
 import Spinner from 'theme/components/core/Spinner' // Added By Dan
 
 export default {
+  name: 'order-items',
   components: {
     MicrocartProduct,
     Spinner

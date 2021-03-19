@@ -71,11 +71,11 @@ export default {
   },
   methods: {
     changeLanguage (country) {
-      // console.log('Changing Lang to: ', country)
+      console.log('Changing Lang to: ', country)
       // i18n.locale = country.language
       loadLanguageAsync(country.language)
         .then((res) => {
-          // console.log('changeLanguage RES:', res)
+          this.close()
         })
         .catch((e) => {
           console.log('changeLanguage Error:', e)

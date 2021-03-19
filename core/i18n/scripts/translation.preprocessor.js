@@ -56,7 +56,8 @@ module.exports = function (csvDirectories, config = null) {
     fs.writeFileSync(path.join(__dirname, '../resource/i18n', `multistoreLanguages.json`), JSON.stringify(bundledLanguages))
   } else {
     currentLocales.forEach((language) => {
-      if (language !== fallbackLocale) return // it's already loaded
+      // if (language !== fallbackLocale) return // it's already loaded
+      if (language === fallbackLocale) return // EDITED BY DAN - DUNNO HOW IT HAS WORKED BEFORE
       const filePath = path.join(__dirname, '../resource/i18n', `${language}.json`)
       console.debug(`Writing JSON file: ${language}.json`)
       fs.writeFileSync(filePath, JSON.stringify(messages[language]))
