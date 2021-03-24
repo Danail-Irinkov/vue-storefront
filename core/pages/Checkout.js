@@ -537,6 +537,7 @@ export default {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
           let newWin = window.open(response.data.payIn_result.RedirectURL, 'popUpWindow', 'height=700,width=800,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
           if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+            this.$bus.$emit('notification-progress-stop');
             this.$store.dispatch('notification/spawnNotification', {
               type: 'error',
               message: this.$t('Please allow to open popup window'),
