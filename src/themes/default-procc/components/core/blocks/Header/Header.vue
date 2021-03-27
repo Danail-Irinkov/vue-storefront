@@ -59,25 +59,29 @@
           </div>
         </div>
       </div>
+      <free-shipping-banner/>
     </header>
     <div class="header-placeholder" />
+<!--    // Added By Dan to show free shipping-->
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import CurrentPage from 'theme/mixins/currentPage'
-import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
-import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
-import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
-import Logo from 'theme/components/core/Logo'
-import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
-import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
-import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
+  import {mapState} from 'vuex'
+  import CurrentPage from 'theme/mixins/currentPage'
+  import AccountIcon from 'theme/components/core/blocks/Header/AccountIcon'
+  import CompareIcon from 'theme/components/core/blocks/Header/CompareIcon'
+  import HamburgerIcon from 'theme/components/core/blocks/Header/HamburgerIcon'
+  import Logo from 'theme/components/core/Logo'
+  import MicrocartIcon from 'theme/components/core/blocks/Header/MicrocartIcon'
+  import SearchIcon from 'theme/components/core/blocks/Header/SearchIcon'
+  import WishlistIcon from 'theme/components/core/blocks/Header/WishlistIcon'
+  import FreeShippingBanner from "./FreeShippingBanner";
 
-export default {
+  export default {
   name: 'Header',
   components: {
+    FreeShippingBanner,
     AccountIcon,
     CompareIcon,
     HamburgerIcon,

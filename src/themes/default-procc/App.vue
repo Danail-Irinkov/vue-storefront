@@ -57,7 +57,7 @@ export default {
   }
   #footer-links.grey,
   #app.grey{
-    background-color: #f4f4f4 !important;
+    background-color: #f8f8f8 !important;
   }
   #footer-links.blue,
   #app.blue{

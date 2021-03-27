@@ -44,6 +44,18 @@ Vue.prototype.sleep = function (ms) {
     setTimeout(resolve, ms)
   })
 }
+Vue.prototype.getBrandStore = function (brand_id) {
+  let storeV
+
+  for (let key in store.state.config.storeViews) {
+    const storeView = store.state.config.storeViews[key]
+    if (storeView && storeView.store_brand_id && String(storeView.store_brand_id) === String(brand_id)) {
+      storeV = storeView
+    }
+  }
+
+  return storeV
+}
 
 const createApp = async (ssrContext, config, storeCode = null): Promise<{app: Vue, router: VueRouter, store: Store<RootState>, initialState: RootState}> => {
   router = createRouter()

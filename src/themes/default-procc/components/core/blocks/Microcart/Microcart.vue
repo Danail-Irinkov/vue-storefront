@@ -56,7 +56,10 @@
       {{ $t('to find something beautiful for You!') }}
     </div>
     <div v-for="brand in getBrandsDetails" :key="brand._id" v-if="productsInCart.length && productsInCartByBrandProCC(brand._id).length > 0">
-      <order-items :brand="brand" :order-items="productsInCartByBrandProCC(brand._id)" :shipping-method="getSelectedShippingMethods[brand._id]" class-name="bg-cl-secondary mb20" :is-disabled-inputs="false" />
+      <order-items :order-items="productsInCartByBrandProCC(brand._id)"
+                   :shipping-method="getSelectedShippingMethods[brand._id]"
+                   :brand="brand" :is-disabled-inputs="false"
+                   class-name="bg-cl-secondary mb20"/>
     </div>
     <!--<div v-if="productsInCart.length" class="summary px40 cl-accent serif">
       <h3 class="m0 pt40 mb30 weight-400 summary-heading">

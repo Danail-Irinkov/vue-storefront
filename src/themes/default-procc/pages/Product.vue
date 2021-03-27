@@ -15,7 +15,7 @@
             <breadcrumbs
               class="pt40 pb20 hidden-xs"
             />
-            <h1
+            <h4
               class="mb20 mt0 cl-mine-shaft product-name"
               data-testid="productName"
               itemprop="name"
@@ -26,20 +26,21 @@
                 text="Check this product!"
                 class="web-share"
               />
-            </h1>
+            </h4>
             <div
               class="mb20 uppercase cl-secondary"
               itemprop="sku"
+              style="font-size: 15px;"
               :content="getCurrentProduct.sku"
             >
-              {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku }) }}
+              {{ $t('SKU: {sku}', { sku: getCurrentProduct.sku.replace('-default', '').replace('-Default', '') }) }}
             </div>
             <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
               <meta itemprop="priceCurrency" :content="$store.state.storeView.i18n.currencyCode">
               <meta itemprop="price" :content="parseFloat(getCurrentProduct.price_incl_tax).toFixed(2)">
               <meta itemprop="availability" :content="structuredData.availability">
               <meta itemprop="url" :content="getCurrentProduct.url_path">
-              <div class="mb40 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
+              <div class="mb30 price serif" v-if="getCurrentProduct.type_id !== 'grouped'">
                 <div
                   class="h3 cl-secondary"
                   v-if="getCurrentProduct.special_price && getCurrentProduct.price_incl_tax && getCurrentProduct.original_price_incl_tax"
@@ -58,7 +59,7 @@
                   {{ getCurrentProduct.qty > 0 ? getCurrentProduct.price_incl_tax * getCurrentProduct.qty : getCurrentProduct.price_incl_tax | price }}
                 </span>
               </div>
-              <div class="cl-primary variants" v-if="getCurrentProduct.type_id === 'configurable'">
+              <div class="cl-primary variants" v-if="getCurrentProduct.type_id === 'configurable' && !isDefaultProductSize">
                 <div
                   class="error"
                   v-if="getCurrentProduct.errors && Object.keys(getCurrentProduct.errors).length > 0"
@@ -160,7 +161,7 @@
     </section>
     <section class="container px15 pb35 cl-accent details">
       <tabs :options="{ useUrlFragment: false }">
-        <tab name="Product Details">
+        <tab :name="$t('Product Details')">
           <div class="row">
             <div class="col-12">
               <div class="row">
@@ -712,12 +713,6 @@ $bg-secondary: color(secondary, $colors-background);
 .image {
   @media (max-width: 1023px) {
     margin-bottom: 20px;
-  }
-}
-
-.product-name {
-  @media (max-width: 767px) {
-    font-size: 36px;
   }
 }
 

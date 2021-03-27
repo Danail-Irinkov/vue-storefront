@@ -72,9 +72,9 @@ $color-info: color(accent);
 $color-action: color(black);
 
 .notifications {
-  top: 100px;
+  top: 60px;
   right: 5%;
-  width: 320px;
+  width: 360px;
   z-index: $z-index-notification;
 
   @media (max-width: 64em) {

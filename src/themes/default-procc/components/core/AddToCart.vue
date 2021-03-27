@@ -36,6 +36,24 @@ export default {
         diffLog.clientNotifications.forEach(notificationData => {
           this.notifyUser(notificationData)
         })
+        // Added by Dan
+        let default_shipping_method
+        if (this.getDefaultShippingMethods) {
+          for (let method of this.getDefaultShippingMethods){
+            if (String(method.brand_id) === String(product.procc_brand_id)){
+              default_shipping_method = {...method.default_shipping_method}
+            }
+          }
+
+          console.log('result.default_shipping_method', default_shipping_method)
+          if (default_shipping_method && default_shipping_method.offer_free_shipping) {
+            this.$bus.$emit('toggleFreeShippingBanner', {
+              brand_name: this.getBrandStore(product.procc_brand_id).store_brand_name,
+              free_shipping_amount: default_shipping_method.free_shipping_amount
+            })
+          }
+
+        }
       } catch (message) {
         this.notifyUser(notifications.createNotification({ type: 'error', message }))
       }
@@ -47,6 +65,7 @@ export default {
   computed: {
     ...mapGetters({
       isAddingToCart: 'cart/getIsAdding',
+      getDefaultShippingMethods: 'checkout/getDefaultShippingMethods', // by ProCC
       currentImage: 'procc/getHeadImage' // by ProCC
     }),
     isProductDisabled () {

@@ -161,7 +161,7 @@
         </button-full>
       </div>
       <div class="w-100 flex middle-xs actions" v-if="!editMode">
-        <edit-button class="mx5" @click="openEditMode" v-if="productsAreReconfigurable && !editMode" />
+<!--        <edit-button class="mx5" @click="openEditMode" v-if="productsAreReconfigurable && !editMode" />-->
         <remove-button class="mx5" @click="removeItem" v-if="!isDisabledInputs" />
       </div>
     </div>
