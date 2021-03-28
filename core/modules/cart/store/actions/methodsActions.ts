@@ -134,7 +134,7 @@ const methodsActions = {
 
       // console.log('TRIGGER updateShippingMethodsFromProCC address: ', address)
       if (getters.getCartItemsByBrand && !isEmpty(getters.getCartItemsByBrand)) {
-        const brand_ids = keys(getters.getCartItemsByBrand);
+        const brand_ids = keys(getters.getCartItemsByBrand)
         const cartId = rootGetters['cart/getCartToken']
         // added code for get shipping methods and set shipping methods and selected shipping method in vuex by shabbir
         await ProCcApi().updateShippingMethodsFromProCC({brand_ids, cartId})

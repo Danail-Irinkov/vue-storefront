@@ -21,7 +21,7 @@
       name: 'free-shipping-banner',
       data() {
           return {
-            showFreeShipmentBanner: true,
+            showFreeShipmentBanner: false,
             shipmentBannerData: {
               brand_name: '',
               free_shipping_amount: 50,
@@ -30,6 +30,8 @@
       },
       created(){
         this.$bus.$on('toggleFreeShippingBanner', this.toggleFreeShippingBanner)
+
+        this.$store.dispatch('pullMethods', { forceServerSync: true })
       },
       beforeDestroy() {
         this.$bus.$off('toggleFreeShippingBanner')
