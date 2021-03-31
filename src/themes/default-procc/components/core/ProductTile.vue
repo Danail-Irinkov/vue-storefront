@@ -252,9 +252,6 @@ $color-white: color(white);
         opacity: 0.8;
       }
     }
-    @media (min-width: 1200px) {
-      padding-bottom: calc(33% / (276 / 100)); // Edited by Dan, product tiles were way too big
-    }
   }
 
   &.sale {

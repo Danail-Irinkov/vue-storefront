@@ -56,12 +56,24 @@ export default {
   },
   data () {
     return {
+      windowWidth: 1920, // Added By Dan
+      windowHeight: 1080, // Added By Dan
       lowerQualityImage: false,
       lowerQualityImageError: false,
       highQualityImage: false,
       highQualityImageError: false,
       basic: true
     }
+  },
+  mounted() {// Added By Dan
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+      this.windowWidth = window.innerWidth
+      this.windowHeight = window.innerHeight
+    })
+  },
+  beforeDestroy() {// Added By Dan
+    window.removeEventListener('resize', this.onResize);
   },
   watch: {
     lowerQualityImage (state) {
@@ -82,7 +94,18 @@ export default {
     },
     imageRatio () {
       const {width, height} = this.$store.state.config.products.gallery
-      return `${height / (width / 100)}%`
+      let coef = 1 // Added by Dan to Dynamicly resize the images across resolutions -> kind of a weird hack....
+      if (this.windowWidth > 500) {
+        coef = 1 - (this.windowWidth/1920)
+        if (coef < 0.63)
+          coef = 1.26 - coef
+        if (coef > 1)
+          coef = 1.9 - coef
+      }
+      let ratio = coef * height / (width / 100)
+      // if (ratio > 120)
+      //   ratio = 120
+      return `${ratio}%`
     },
     style () {
       return this.calcRatio ? {paddingBottom: this.imageRatio} : {}
@@ -95,6 +118,10 @@ export default {
     imageLoaded (type, success = true) {
       this[`${type}QualityImage`] = success
       this[`${type}QualityImageError`] = !success
+    },
+    onResize() { // Added By Dan
+      this.windowWidth = window.innerWidth
+      this.windowHeight = window.innerHeight
     }
   }
 }

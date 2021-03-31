@@ -15,6 +15,7 @@
     </h4>
     <div
       v-for="(filter, filterIndex) in availableFilters"
+      v-if="filter.length > 1"
       :key="filterIndex"
     >
       <h5>
@@ -38,6 +39,7 @@
           code="size"
           class="size-select mr10 mb10"
           v-for="(size, index) in sortById(filter)"
+          v-if="size.label !== 'Default'"
           :key="index"
           :variant="size"
           :selected-filters="getCurrentFilters"
