@@ -523,23 +523,6 @@ export default {
         })
       }
     },
-    async getBrowserIp (){
-      let ip = await fetch(`https://api.ipify.org?format=json`).then((res)=>res.data.ip).catch((e)=>console.log('api.ipify.org err:', e))
-      // console.log('ip1', ip)
-      if (!ip){
-        ip = await fetch(`https://www.cloudflare.com/cdn-cgi/trace`)
-          .then((res)=>{
-            let data =  res.data.trim().split('\n').reduce(function(obj, pair) {
-              pair = pair.split('=');
-              return obj[pair[0]] = pair[1], obj;
-            }, {});
-            return data.ip
-          }).catch((e)=>console.log('cloudflare ip err:', e))
-
-      }
-      // console.log('ip2', ip)
-      return ip
-    },
     getBrowserInfo (){
       return {
         JavaEnabled: navigator.javaEnabled(),
@@ -564,8 +547,7 @@ export default {
       let data = {
         total_amount: amount,
         order_ids,
-        BrowserInfo: this.getBrowserInfo(),
-        IpAddress: await this.getBrowserIp(),
+        BrowserInfo: this.getBrowserInfo()
       }
       this.ProCcAPI.VSFOrderPayment(data, this.currentImage.brand).then(async (response) => {
         if (response.data.payIn_result && response.data.payIn_result.RedirectURL) {
