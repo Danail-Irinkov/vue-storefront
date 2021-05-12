@@ -523,7 +523,7 @@ export default {
         })
       }
     },
-    getBrowserInfo (){
+    getBrowserInfo () {
       return {
         JavaEnabled: navigator.javaEnabled(),
         Language: navigator.language || navigator.userLanguage,
