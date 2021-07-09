@@ -152,7 +152,7 @@ export default {
       .product-image__thumb {
         // Edited by Dan to maximise photo size
         width: auto;
-        max-width: 150%;
+        max-width: 100%;
         min-height: 100%;
       }
     }
