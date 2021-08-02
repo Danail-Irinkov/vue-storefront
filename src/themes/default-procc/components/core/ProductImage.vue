@@ -94,14 +94,14 @@ export default {
     },
     imageRatio () {
       const {width, height} = this.$store.state.config.products.gallery
-      let coef = 1 // Added by Dan to Dynamicly resize the images across resolutions -> kind of a weird hack....
-      if (this.windowWidth > 500) {
-        coef = 1 - (this.windowWidth/1920)
-        if (coef < 0.63)
-          coef = 1.26 - coef
-        if (coef > 1)
-          coef = 1.9 - coef
-      }
+      let coef = 0.9 // Added by Dan to dynamically resize the images across resolutions -> kind of a weird hack....
+      // if (this.windowWidth > 500) {
+      //   coef = 1 - (this.windowWidth/1920)
+      //   if (coef < 0.63)
+      //     coef = 1.26 - coef
+      //   if (coef > 1)
+      //     coef = 1.9 - coef
+      // }
       let ratio = coef * height / (width / 100)
       // if (ratio > 120)
       //   ratio = 120
